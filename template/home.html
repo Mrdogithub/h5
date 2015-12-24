@@ -1,0 +1,30 @@
+<div  ng-controller="AppCtrl" class="mainContent" id='popupContainer'>
+<!-- top bar -->
+<!-- fill up the space between left and right area -->
+<md-toolbar   style="background-color:#00649d;" layout="row" layout-fill style="height:50px;">
+    <div class="md-toolbar-tools" style="height:50px;" flex="10">
+      <span style="width:200px;margin:0 auto;margin-left:20px;"><img src="./images/logo.png"/></span>
+    </div>
+    <edittool1></edittool1>
+</md-toolbar>
+   
+
+<div  layout="row" layout-fill style="margin-top:10px;">
+   <div flex="20" style="border:1px solid #eeeeee;height:400px;">
+  </div>
+  <div flex style="border:1px solid #eeeeee;" id="editModulePosition">
+    <div layout="column" layout-fill layout-align="center center" class="md-whiteframe-z2" style="width:290px; height:540px; margin:0 auto;">
+          <div class="swiper-container">
+              <div class="swiper-wrapper" id="editPage" >
+                <div class="swiper-slide ui-widget-content"> </div>
+              </div>
+              <div class="swiper-pagination" ></div>
+          </div>
+    </div>
+</div>
+
+<div layout="column" layout-nowrap>
+<toolbar1></toolbar1>
+</div>
+
+</div>
