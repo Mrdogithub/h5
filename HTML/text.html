@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/main.css">
+		<link rel="stylesheet" href="css/ibm_fonts.css" />
+		
+
+	</head>
+	<body>
+	  <nav class="navbar navbar-blue">        
+          <div class="navbar-text navbar-left" id="ibm-home"><a class="ibm-logo">&nbsp;</a></div>
+          <p class="navbar-text navbar-left"><a href="">DashBoard</a></p>
+          <div class="navbar-img">
+          	<a class="imgbut" id="text" href="#"><img src="image/text.svg"></a>
+            <a class="imgbut" id="img" href="#"><img src="image/img.svg"></a>
+            <a class="imgbut" id="graph" href="#"><img src="image/graph.svg"></a>
+            <a class="imgbut" id="form" href="#"><img src="image/form.svg"></a>
+          </div>
+          <p class="navbar-text navbar-right">欢迎 XXX</p> 
+          
+          <div class="popbox" id="graphpop">
+          	<ul class="buttons">
+          	  <li><img src="image/graph/add.svg"></li>
+          	  <li><img src="image/graph/delete.svg"></li>
+          	  <li><img src="image/graph/no.svg"></li>
+          	  <li><img src="image/graph/six.svg"></li>
+          	  <li></li>
+          	</ul>
+          	<div class="pickup"><span></span></div>
+          </div>
+          
+          <div class="popbox" id="formpop">
+          	<ul class="buttons">
+          	  <li class="inputicon"><img src="image/form/input.png"></li>
+          	  <li class="textareaicon"><img src="image/form/textarea.png"></li>
+          	  <li class="checkboxicon"><img src="image/form/checkbox.png"></li>
+          	  <li class="radioicon"><img src="image/form/radiobox.png"></li>
+          	  <li class="buttonicon"><img src="image/form/button.png"></li>
+          	</ul>
+          	<div class="pickup"><span></span></div>
+          </div>
+      </nav>
+      <div class="mainbox">
+      	<div class="col-left" >
+      		
+      	
+		  <div class="box">
+		    <div class="page">
+		      <img src="image/img1.jpg" />
+		      <div class="pop-icon"><div class="mark"></div><a class="glyphicon glyphicon-file"></a><a class="glyphicon glyphicon-trash"></a></div>
+		    </div>
+		    <div class="pagenum"><a class="glyphicon glyphicon-menu-up"></a><span>1</span><a class="glyphicon glyphicon-menu-down"></a></div>		  	
+		  </div>
+		  <div class="box">
+		    <div class="page">
+		      <img src="image/img1.jpg" />
+		      <div class="pop-icon"><div class="mark"></div><a class="glyphicon glyphicon-file"></a><a class="glyphicon glyphicon-trash"></a></div>
+		    </div>
+		    <div class="pagenum"><a class="glyphicon glyphicon-menu-up"></a><span>1</span><a class="glyphicon glyphicon-menu-down"></a></div>		  	
+		  </div>
+		  <div class="box">
+		    <div class="page">
+		      <img src="image/img1.jpg" />
+		      <div class="pop-icon"><div class="mark"></div><a class="glyphicon glyphicon-file"></a><a class="glyphicon glyphicon-trash"></a></div>
+		    </div>
+		    <div class="pagenum"><a class="glyphicon glyphicon-menu-up"></a><span>1</span><a class="glyphicon glyphicon-menu-down"></a></div>		  	
+		  </div>
+		  <div class="box">
+		    <div class="page">
+		      <img src="image/img1.jpg" />
+		      <div class="pop-icon"><div class="mark"></div><a class="glyphicon glyphicon-file"></a><a class="glyphicon glyphicon-trash"></a></div>
+		    </div>
+		    <div class="pagenum"><a class="glyphicon glyphicon-menu-up"></a><span>1</span><a class="glyphicon glyphicon-menu-down"></a></div>		  	
+		  </div>
+		  <div class="new-button">New</div>
+
+      	</div>
+      	
+      	
+      	<div class="col-center">
+          <div class="edit-area grid phone"><img src="image/phone.png"></div>
+          <div class="edit-icon">
+          	<a id="grid" href="#"><img src="image/grid.svg"></a>
+          	<a href="#"><img src="image/undo.svg"></a>
+          	<a href="#"><img src="image/eye.svg"></a>
+          	<a href="#"><img src="image/ok.svg"></a>
+          </div>
+      	</div>
+      	<!--bg  Properties start-->
+      	<div class="col-right" id="bg-properties">
+		  <div class="title"><div class="active">Background</div></div>		  		  		  
+		  	  
+		  <div class="btn module module-half select-color blue">BG Color</div>
+		  <div class="Separation"></div>		  
+		  
+		  <div class="btn-group module module-full">
+		    <button type="button" class="btn btn-default module-select-full">Action</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+
+      	</div>
+      <!--bg  Properties end-->
+      	<!--text-properties start-->
+      	<div class="col-right" id="text-properties">
+		  <div class="title"><div class="active">text</div></div>		  
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">Font Family</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">Font Size</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">Line Height</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="btn module module-half select-color blue">Font Color</div>		  
+		  <div class="Separation"></div>		  
+		  	<div class="btn B-but module">B</div>
+		  	<div class="btn B-I moduleNoleft">I</div>
+		  	<div class="btn B-U moduleNoleft">U</div>
+		  	<div class="btn module glyphicon glyphicon-align-left"></div>
+		  	<div class="btn module glyphicon glyphicon-align-center"></div>
+		  	<div class="btn module glyphicon glyphicon-align-right"></div>			
+		  <div class="Separation"></div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Radius</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Outline</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  
+		  <div class="btn module module-half select-color">BG Color</div>
+		  <div class="btn module module-half select-color blue">Border Color</div>		  
+		  <div class="Separation"></div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Transparent</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Rotate</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  
+		  <div class="btn-group module module-full">
+		    <button type="button" class="btn btn-default module-select-full">Transformers</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="Separation"></div>		  
+		  <div class="btn-group module module-full">
+		    <button type="button" class="btn btn-default module-select-full">Action</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="Separation"></div>		  
+		  <input class="module fullText btn " placeholder="Input URL" />
+      	</div>
+      	<!--text properties end-->
+      	<!--img  Properties start-->
+      	<div class="col-right" id="img-properties">
+		  <div class="title"><div class="active">Image</div></div>		  		  		  
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">BorderWidth</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="btn module module-half select-color blue">Border Color</div>
+		  <div class="Separation"></div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Radius</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Transparent</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  		  		  
+		  <div class="Separation"></div>		  
+		  <div class="btn-group module module-full">
+		    <button type="button" class="btn btn-default module-select-full">Action</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="Separation"></div>		  
+		  <input class="module fullText btn " placeholder="Input URL" />
+      	</div>
+      <!--img  Properties end-->
+      <!--graph properties start-->
+      	<div class="col-right" id="graph-properties">
+		  <div class="title"><div class="active">Graph</div></div>		  		  
+		  <div class="btn module module-half select-color blue">BG Color</div>		  
+		  <div class="Separation"></div>		  
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">BorderWidth</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="btn module module-half select-color blue">Border Color</div>		  
+		  <div class="Separation"></div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Transparent</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Rotate</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  		  		  
+		  <div class="Separation"></div>		  
+		  <div class="btn-group module module-full">
+		    <button type="button" class="btn btn-default module-select-full">Action</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="Separation"></div>		  
+		  <input class="module fullText btn " placeholder="Input URL" />
+     	</div>
+      	<!--graph properties end-->
+      	<!--form-properties start-->
+      	<div class="col-right" id="form-properties">
+		  <div class="title"><div class="active">Form</div></div>		  		  
+		  <div class="btn module module-half select-color blue">BG Color</div>		  
+		  <div class="Separation"></div>		  
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">BorderWidth</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="btn module module-half select-color blue">Border Color</div>		  
+		  <div class="Separation"></div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Transparent</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Rotate</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  		  		  
+		  <div class="Separation"></div>	  
+		  <div class="btn-group module module-full">
+		    <button type="button" class="btn btn-default module-select-full">Action</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  		 
+      	</div>
+      	<!--form-properties end-->
+      	<!--form-text-proterties start-->
+      	<div class="col-right" id="form-text-proterties">
+		  <div class="title"><div class="active">Form input</div></div>		  		  
+		  <div class="btn module module-half select-color blue">BG Color</div>
+		  <div class="btn module module-half select-color blue">Font Color</div>	
+		  <div class="Separation"></div>		  
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">BorderWidth</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">BorderStyle</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>	
+		  <div class="btn module module-half select-color blue">Border Color</div>		  
+		  <div class="Separation"></div>	
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">Validation</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">none</a></li>
+		      <li><a href="#">mail</a></li>
+		      <li><a href="#">phone</a></li>
+		    </ul>
+		  </div>	
+		  <div class="Separation"></div>
+		  <div class="module">
+		  	<div class="silderTitle">Transparent</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Rotate</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  		 		  
+		  <div class="Separation"></div>		  
+		  <div class="btn-group module module-full">
+		    <button type="button" class="btn btn-default module-select-full">Action</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  		 
+      	</div>
+      	<!--form-text-proterties end-->
+      	<!--form-textarea properties start-->
+      	<div class="col-right" id="form-textarea-properties">
+		  <div class="title"><div class="active">Form textarea</div></div>		  		  
+		  <div class="btn module module-half select-color blue">BG Color</div>		  
+		  <div class="Separation"></div>		  
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">BorderWidth</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="btn module module-half select-color blue">Border Color</div>		  		  		 
+      	</div>
+      	<!--form-textarea-properties end-->
+      	<!--form-checkbox properties start-->
+      	<div class="col-right" id="form-checkbox-properties">
+		  <div class="title"><div class="active">Form Checkbox</div></div>		  		  
+		  <div class="btn module module-half select-color blue">Font Color</div>		  		    		  		 
+      	</div>
+      	<!--form-checkbox-properties end-->
+      	<!--form-radiobox properties start-->
+      	<div class="col-right" id="form-radiobox-properties">
+		  <div class="title"><div class="active">Form Radio</div></div>		  		  
+		  <div class="btn module module-half select-color blue">Font Color</div> 
+      	</div>
+      	<!--form-radiobox-properties end-->
+      	<!--form-button properties start-->
+      	<div class="col-right" id="form-button-properties">
+		  <div class="title"><div class="active">Form button</div></div>		  		  
+		  <div class="btn module module-half select-color blue">Font Color</div>
+		  <div class="btn module module-half select-color blue">BG Color</div>
+		  <div class="Separation"></div>		  
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">BorderWidth</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">BorderStyle</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>	
+		  <div class="btn module module-half select-color blue">Border Color</div>	
+		  <div class="Separation"></div>		  
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">type</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">submit</a></li>
+		      <li><a href="#">submit</a></li>
+		    </ul>
+		  </div>
+      	</div>
+      	<!--form-button-properties end-->
+      	
+      	<div class="piclaber row" id="imgpop">
+      	  <div class="col-md-2 leftTab">
+      		<ul>
+      		  <li class="active">My Pics</li>
+      		</ul>
+      	  </div>
+      	  <div class="col-md-10 rightTab">
+      	  	<ul>
+      	  	  <li class="myImg"><a href="#"><img src="image/img1.png"></a></li>
+      	  	  <li class="myImg"><a href="#"><img src="image/img1.png"></a></li>
+      	  	  <li class="myImg"><a href="#"><img src="image/img1.png"></a></li>
+      	  	  <li class="myImg"><a href="#"><img src="image/img1.png"></a></li>
+      	  	  <li class="myImg"><a href="#"><img src="image/img1.png"></a></li>
+      	  	</ul>
+      	  </div>
+      	  <div class="opeation"><button class="btn module module-half select-color blue">Set background</button><button class="btn module module-half select-color blue">Add image</button></div>
+      	  <span class="glyphicon glyphicon-remove close"></span>
+      	</div>
+      </div>
+      
+	</body>
+	<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/main.js"></script>
+</html>

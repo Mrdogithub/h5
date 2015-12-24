@@ -1,0 +1,120 @@
+body{background: #f2f2f2;}
+BODY {scrollbar-face-color: white;
+scrollbar-highlight-color: white;
+scrollbar-shadow-color: hotpink;
+scrollbar-3dlight-color: white;
+scrollbar-arrow-color: hotpink;
+scrollbar-track-color: white;
+scrollbar-darkshadow-color: white}
+.navbar{margin-bottom: 0px; position: relative;}
+.navbar-blue{background: #00649d; border-radius: 0; color: #fff;}
+.navbar-right{margin-right:15px;}
+#ibm-home{ width: 80px; padding: 0; margin: 0; height: 50px;}
+#ibm-home .ibm-logo{margin: 0; padding: 0; font-size: 0em; position: relative; color: #00649d;}
+#ibm-home .ibm-logo::before{top:0px; left: 15px; font-size: 6rem; position: absolute;}
+.navbar-blue a{color: #fff; }
+.navbar-blue li a{padding: 0; margin: 0;}
+.navbar-text-img{margin-left: 400px; width: 600px; }
+.imgbut{ float: left; margin-left: 20px;}
+a.imgbut{height: 50px; padding-top: 10px; display: inline-block;}
+a.imgbut:hover{ background: #3383b1; }
+.imgbut img{width: 2.5pc;}
+.navbar-img{margin-left: 45rem;}
+
+.navbar .popbox{position: absolute; width:50%; background: #FFF; left: 20%; top: 50px; text-align: center; display: none;}
+.navbar .popbox .buttons{margin-top: 10px;}
+.navbar .popbox .buttons li{ display: inline-block; list-style: none;}
+.navbar .popbox .buttons li img{height: 25px;}
+.navbar .popbox .buttons li.inputicon{}
+.navbar .popbox .buttons li.textareaicon{background-position: 0 -40px;}
+.navbar .popbox .buttons li.checkboxicon{background-position:0 -75px;}
+.navbar .popbox .buttons li.radioicon{background-position:0 -115px;}
+.navbar .popbox .buttons li.buttonicon{background-position:0 -160px;}
+.navbar .popbox .pickup{  width: 100%;}
+.navbar .popbox .pickup span{border-bottom:8px solid #aaa; border-left: 8px solid #fff; border-right: 8px solid #fff; display: inline-block; width:16px }
+
+
+.col-left{width: 200px; background: #e2e2e2; margin: 0; padding-top: 1px; padding-bottom: 60px; float: left; text-align: center; position: relative; overflow-y: auto;}
+.col-left .box{float: left; margin: 20px 20px 0 20px; }
+.col-left .page{ width:100px; height: 150px;  box-shadow: 0 0 2px 2px #ccc; float: left; position: relative;}
+.col-left .page img{ width: 100px; height: 150px;}
+.col-left .pagenum{ width: 20px; display: inline-block; margin-bottom: 20px; float: left; margin: 20px 0 0 20px; color: #aaa;}
+.col-left .pagenum span{font-size: 2em; display: block; }
+.col-left  a{color: #ccc;}
+.col-left  a:hover{color: #aaa; text-decoration: none;}
+.col-left .box .pop-icon{width: 100%; height: 25px; bottom: 0; position: absolute; padding: 0.2em;}
+.col-left .box .mark { width: 100%; height: 25px; opacity: .7; position: absolute; background:#fff ; top: 0; left: 0;}
+.col-left .box .pop-icon a{ margin: 0 5px; color: #aaa;}
+.col-left .box .pop-icon a:hover{color: #999;}
+.col-left .new-button{ float:left; color: #fff; background: #4178be; width: 180px; line-height: 40px; height: 40px; font-size: 1.2em; position: fixed; bottom: 0;}
+/*.col-left .flex{width: 9px; height: 100px; background: #ccc; position: absolute; right: -9px;}*/
+
+.col-center{display: inline-block; padding-left: 18em;}
+.col-center .edit-area{margin-top: 40px; }
+.col-center .grid{background: url(../image/line.png);}
+.col-center .phone img{height: 100%;}
+.col-center .edit-icon{margin-top: 10px; text-align: center;}
+.col-center .edit-icon a{ margin-left: 10px; }
+.col-center .edit-icon img{ width: 2pc;}
+
+#text-properties{display: none;}
+#img-properties{display: none;}
+#graph-properties{display: none;}
+#form-properties{display: none;}
+#form-text-proterties{display: none;}
+#form-textarea-properties{display: none;}
+#form-checkbox-properties{display: none;}
+#form-radiobox-properties{display: none;}
+#form-button-properties{display: none;}
+
+.col-right{float: right; width: 290px; background: #e2e2e2; text-align: center; padding-bottom: 10px; overflow-y:auto}
+.col-right .title{ height: 40px; background: #f2f2f2; line-height: 40px; text-align: center;}
+.col-right .title .active{width:50%; background: #e2e2e2;}
+.col-right .module{ margin-left: 10px; margin-top: 10px; float: left;}
+.col-right .moduleNoleft{margin-top: 10px; float: left;}
+.col-right .module-half{width: 120px;}
+.col-right .module .module-select-half{width: 95px;}
+.col-right .module .module-select-full{width: 225px;}
+.col-right .Separation{width: 250px;  border-bottom: 1px solid #c3c3c3; height: 10px; float: left;margin-left: 10px; margin-right: 10px;}
+.col-right .B-but{font-weight: bold;}
+.col-right .B-I{font-style: italic;}
+.col-right .B-U{text-decoration: underline;}
+.col-right .silderTitle{ width: 80px; float:left; text-align: left; line-height: 30px;}
+.col-right .silder{float: left; width: 120px; height: 30px; margin-right: 10px; position: relative;}
+.col-right .silder .line{border-bottom: 1px solid #999; margin-top: 15px;}
+.col-right .silder .circle{ position: absolute;width: 13px; height: 13px; border: 1px solid #999; top:9px; border-radius: 50%; background: #fff;}
+.col-right .silderText{ height: 30px; width: 40px; float: left;}
+.col-right .fullText{ width: 250px;}
+.col-right .module-full .dropdown-menu{min-width: 250px;}
+.col-right .icon{width:15px}
+.select-color{border-color: #ccc ;}
+.blue{background: #00649d; color: #FFF;}
+
+
+.piclaber{width: 50%; min-height: 450px; position: absolute; background: #f2f2f2; top:100px; left: 20%; box-shadow: 0 0 5px 5px #ccc; display: none; }
+.piclaber .leftTab {padding: 0;}
+.piclaber .leftTab ul{margin: 0; padding: 0 ; text-align: center;}
+.piclaber .leftTab ul li{height: 50px; line-height: 50px; display: block;}
+.piclaber .leftTab ul li.active{background: #FFF;}
+
+.piclaber .rightTab{padding: 20px 0  ; background: #FFF; height: 400px; overflow-y: auto;}
+.piclaber .rightTab .myImg{ width: 100px; height: 100px; border: 1px solid #ccc; box-sizing: border-box;}
+.piclaber .rightTab ul{margin: 0; padding: 0;}
+.piclaber .rightTab ul li{margin: 20px 0 0 20px; list-style: none; display: table; float:left;}
+.piclaber .rightTab ul li a{display: table-cell; vertical-align: middle;text-align: center; }
+.piclaber .opeation{float: left; width: 100%; text-align: right; padding: 10px;}
+.close{position: absolute; top: 0; right: 0;}
+@media (min-width: 768px) { 
+.navbar-img{margin-left: 17em;}
+.col-center{padding-left: 2em;}
+}
+
+@media (min-width: 992px) {
+.navbar-img{margin-left: 25em;}
+.col-center{padding-left: 11em;}
+}
+
+@media (min-width: 1200px) {
+.navbar-img{margin-left: 33em;}
+.col-center{padding-left: 18em;}
+}
