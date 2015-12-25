@@ -1,3 +1,116 @@
+	<!--text-properties start-->
+      	<div class="col-right" id="text-properties">
+		  <div class="title"><div class="active">text</div></div>		  
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half" id="fontFamily">Font Family</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu" >
+		      <li  ng-click="setFontFamily(m.fontFamily)" ng-repeat="m in fontFamily"><a href="#">{{m.fontFamily}}</a></li>
+		    </ul>
+		    		
+		  </div>		  
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half" id="fontSize">Font Size</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    
+		    <ul class="dropdown-menu">
+		      <li  ng-click="getFontSize(m.px)"  ng-repeat=" m in fontSize"><a href="#">{{m.px}}</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="btn-group module">
+		    <button type="button" class="btn btn-default module-select-half">Line Height</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		 
+		  <div type="button" id="fontColor" class="btn module module-half select-color blue" style="padding: 0;" data-toggle="button" aria-pressed="false" autocomplete="off">
+<input id="colorpicker" type="color"  ng-model="setFontColor" />
+</div>
+
+		  <div class="Separation"></div>		  
+		  	<div class="btn B-but module bold-active"  ng-click="setFontBold()">B</div>
+		  	<div class="btn B-I moduleNoleft italic-active" ng-click="setFontItalic()">I</div>
+		  	<div class="btn B-U moduleNoleft textDecoration-active" ng-click="setTextDecoration()">U</div>
+		  	<div class="btn module glyphicon glyphicon-align-left textleft-active" ng-click="setTextAlign('left')"></div>
+		  	<div class="btn module glyphicon glyphicon-align-center textcenter-active" ng-click="setTextAlign('center')"></div>
+		  	<div class="btn module glyphicon glyphicon-align-right textright-active" ng-click="setTextAlign('right')"></div>			
+		  <div class="Separation"></div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Radius</div>
+		  	<div class="silder"><md-slider flex ng-model="radius.size" ng-change="setRadiusSize()" min="0" max="100" aria-label="blue" id="blue-slider" class="md-primary">
+</md-slider></div>
+		  	<input class="silderText btn" />
+		  </div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Outline</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  
+		  <div class="btn module module-half select-color">BG Color</div>
+		  <div class="btn module module-half select-color blue">Border Color</div>		  
+		  <div class="Separation"></div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Transparent</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  
+		  <div class="module">
+		  	<div class="silderTitle">Rotate</div>
+		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
+		  	<input class="silderText btn" />
+		  </div>		  
+		  <div class="btn-group module module-full">
+		    <button type="button" class="btn btn-default module-select-full">Transformers</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="Separation"></div>		  
+		  <div class="btn-group module module-full">
+		    <button type="button" class="btn btn-default module-select-full">Action</button>
+		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		      <span class="caret"></span>
+		      <span class="sr-only">Toggle Dropdown</span>
+		    </button>
+		    <ul class="dropdown-menu">
+		      <li><a href="#">Action</a></li>
+		    </ul>
+		  </div>		  
+		  <div class="Separation"></div>		  
+		  <input class="module fullText btn " placeholder="Input URL" />
+      	</div>
+      	<!--text properties end-->
+
+<script>
+$(document).ready(function(){
+$('#colorpicker').kendoColorPicker({
+  toolIcon: "k-foreColor",
+  palette: "websafe",
+    opacity: true
+});
+//
+
+});
+	
+</script>
+
+<!--
+
+
 <div class="editModuleWrap" style="	width:270px;
 	min-height: 300px;
 	background-color:#dddddd; position:absolute;" layout-padding layout="column">
@@ -199,4 +312,4 @@
 	<span flex><input kendo-color-picker k-palette="'websafe'" ng-model="setBorderColor" /></span>
 </div>
 
-</div>
+</div>-->

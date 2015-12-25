@@ -8,7 +8,7 @@ editText.directive('edittool1',function($mdToast,$document){
 		scope:{},
 		link:function($scope){
 			$scope.newText = function(){
-            
+            console.log('works...');
                createNewText();
 
 				$mdToast.show({
@@ -17,16 +17,18 @@ editText.directive('edittool1',function($mdToast,$document){
 			      	//init FontSize
 			      	$scope.fontSize = [{"px":"6px"},{"px":"7px"},{"px":"8px"},{"px":"10px"},{"px":"12px"},{"px":"14px"},{"px":"16px"},{"px":"18px"},{"px":"20px"},{"px":"24px"}];
 			      	//set  FonttSize
-			      	$scope.getFontSize = function(){
-						console.log($scope.selected.px+">>>>")
-    					$('#textSelected').css('fontSize',$scope.selected.px);
+			      	$scope.getFontSize = function(fontSize){
+					
+    					$('#textSelected').css('fontSize',fontSize);
+    					$('#fontSize').html(fontSize); 
     				}
 
     				//init FontFamily
     				$scope.fontFamily = [{"fontFamily":"黑体"},{"fontFamily":"微软雅黑"},{"fontFamily":"宋体"}];
     				//set FontFamily
-    				$scope.setFontFamily = function(){
-    					$('#textSelected').css('fontFamily',$scope.selected.fontFamily);
+    				$scope.setFontFamily = function(newFont){
+    					$('#textSelected').css('fontFamily','"'+newFont+'"');
+    					$('#fontFamily').html(newFont);
     				}
 
     				//set FontColor
@@ -239,9 +241,8 @@ editText.directive('edittool1',function($mdToast,$document){
 				      parent : $document[0].querySelector('#editModulePosition'),
 				       hideDelay: false
 				      // position: $scope.getToastPosition()
-			    	});
-
-				}};
+			    		});
+			   }};
 
 		}
 	}
@@ -277,9 +278,10 @@ function createNewForm(){
 
 	//edit the selected item
 	$(".form-group >input").on('click',function(){
+		console.log('click works'+$('#selectedFormItem').length );
 		if($('#selectedFormItem').length >0){
-			$('#selectedFormItem').attr('id','');
-			$('#selectedFormItem').attr('style','');
+			$('#selectedFormItem').removeAttr('style');
+			$('#selectedFormItem').removeAttr('id');
 		}
 		$(this).parent().attr('id','selectedFormItem');
 		$(this).parent().css({'border':'#dedede 3px dashed','overflow':'hidden'});

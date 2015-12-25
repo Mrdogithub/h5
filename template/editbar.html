@@ -1,7 +1,43 @@
-<section style="margin-left:470px; width:700px;">
+	  <nav class="navbar navbar-blue">        
+          <div class="navbar-text navbar-left" id="ibm-home"><a class="ibm-logo">&nbsp;</a></div>
+          <p class="navbar-text navbar-left"><a href="">DashBoard</a></p>
+          <div class="navbar-img">
+          	<a class="imgbut" id="text" href="#" ng-click="newText()"><img src="images/text.svg"></a>
+            <a class="imgbut" id="img" href="#"  ng-click="newimages()"><img src="images/img.svg"></a>
+            <a class="imgbut" id="graph" href="#" ng-click="newGraph()"><img src="images/graph.svg"></a>
+            <a class="imgbut" id="form" href="#"  ng-click="newForm()"><img src="images/form.svg"></a>
+          </div>
+          <p class="navbar-text navbar-right">欢迎 XXX</p> 
+          
+          <div class="popbox" id="graphpop">
+          	<ul class="buttons">
+          	  <li><img src="images/graph/add.svg"></li>
+          	  <li><img src="images/graph/delete.svg"></li>
+          	  <li><img src="images/graph/no.svg"></li>
+          	  <li><img src="images/graph/six.svg"></li>
+          	  <li></li>
+          	</ul>
+          	<div class="pickup"><span></span></div>
+          </div>
+          
+          <div class="popbox" id="formpop">
+          	<ul class="buttons">
+          	  <li class="inputicon"><img src="images/form/input.png"></li>
+          	  <li class="textareaicon"><img src="images/form/textarea.png"></li>
+          	  <li class="checkboxicon"><img src="images/form/checkbox.png"></li>
+          	  <li class="radioicon"><img src="images/form/radiobox.png"></li>
+          	  <li class="buttonicon"><img src="images/form/button.png"></li>
+          	</ul>
+          	<div class="pickup"><span></span></div>
+          </div>
+      </nav>
+
+
+
+<!--<section style="margin-left:470px; width:700px;">
 <md-button ng-click="newText()" class="md-raised md-warn">New Text</md-button>
 <md-button ng-click="newPage()" class="md-raised md-warn">New Page</md-button>
-<md-button ng-click="newImage()" class="md-raised md-warn">Insert Image</md-button>
+<md-button ng-click="newimages()" class="md-raised md-warn">Insert images</md-button>
 <md-button ng-click="newGraph()" class="md-raised md-warn">Add Graph</md-button>
 <md-button ng-click="newForm()" class="md-raised md-warn">Create Form</md-button>
-</section>
+</section>-->
