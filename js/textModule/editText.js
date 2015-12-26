@@ -113,6 +113,23 @@ editText.directive('edittool1',function($mdToast,$document){
 		    		$scope.setBorderStyle = function(){
 		    			$('#textSelected').css('borderStyle',$scope.selected.borderStyle);	
 		    		};
+		    		
+		    		//set font link
+		    		$scope.$watch("setFontLink",function(newValue,oldValue){
+            console.log(newValue+"///newValue");
+//		    			var linkText = $("#textSelected").html();
+//		    			newLink.appendTo($("#textSelected"));
+//				if(newValue !='undefined){
+					$("#textSelected").attr("data-link",newValue);
+//				} 
+//               if($("#textSelected").parent().length>1){
+//               	$("#textSelected").parent().remove();
+//               	
+//               }else{
+//               	
+//               }
+		    			
+		    		})
 
 		    		//set border color
 		    		$scope.$watch("setBorderColor",function(newValue,oldColor){
@@ -184,7 +201,7 @@ editText.directive('edittool1',function($mdToast,$document){
 				  $scope.selectImage = function(target){
 				    console.log(target);
 				    $('#imageSelected').attr('id','')
-				    var oImage = $('<div data-type="image"  id="imageSelected" style="position: absolute; top: 50%; left: 50%;  margin-left: -80px; margin-top: -120px; resize:both; overflow:hidden; min-width:300px; min-height:200px;"><img src="./images/'+target+'" style="width:100%;height:100%"><div>')
+				    var oImage = $('<div data-type="image" data-link=""  id="imageSelected" style="position: absolute; top: 50%; left: 50%;  margin-left: -80px; margin-top: -120px; resize:both; overflow:hidden; min-width:300px; min-height:200px;"><img src="./images/'+target+'" style="width:100%;height:100%"><div>')
 
 				    var currentPage = $('.swiper-slide-active');
 				    oImage.appendTo(currentPage);
@@ -251,7 +268,7 @@ editText.directive('edittool1',function($mdToast,$document){
 //Create new text
 
 function createNewText(){
-	var textDiv = $("<div  id='textSelected' data-type='text'  contentEditable='true' style=' position: absolute; top: 50%; left: 50%;  margin-left: -80px; margin-top: -120px; resize:both; overflow:hidden; min-width:100px; padding:5px;border:1px solid #000; min-height:40px;'></div>");
+	var textDiv = $("<div  id='textSelected' data-link='' data-type='text'  contentEditable='true' style=' position: absolute; top: 50%; left: 50%;  margin-left: -80px; margin-top: -120px; resize:both; overflow:hidden; min-width:100px; padding:5px;border:1px solid #000; min-height:40px;'></div>");
       var currentPage = $('.swiper-slide-active');
       textDiv.appendTo(currentPage);
       $('#textSelected').draggable({'position':'absolute'});
