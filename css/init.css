@@ -58,7 +58,7 @@ a.imgbut:hover{ background: #3383b1; }
 .col-center .edit-icon img{ width: 2pc;}
 .col-center .phoneTemplate{width:400px; border: darksalmon solid 1px; height: 600px;  background-image: url(../images/phone.png); margin-top: 40px;}
 /*#text-properties{display: none;}*/
-#img-properties{display: none;}
+/*#img-properties{display: none;}*/
 #graph-properties{display: none;}
 #form-properties{display: none;}
 #form-text-proterties{display: none;}
@@ -91,14 +91,14 @@ a.imgbut:hover{ background: #3383b1; }
 .blue{background: #00649d; color: #FFF;}
 
 
-.piclaber{width: 50%; min-height: 450px; position: absolute; background: #f2f2f2; top:100px; left: 20%; box-shadow: 0 0 5px 5px #ccc; display: none; }
+.piclaber{width: 50%; min-height: 450px; position: absolute; background: #f2f2f2; top:100px; left: 20%; box-shadow: 0 0 5px 5px #ccc;/* display: none; */}
 .piclaber .leftTab {padding: 0;}
 .piclaber .leftTab ul{margin: 0; padding: 0 ; text-align: center;}
 .piclaber .leftTab ul li{height: 50px; line-height: 50px; display: block;}
 .piclaber .leftTab ul li.active{background: #FFF;}
 
 .piclaber .rightTab{padding: 20px 0  ; background: #FFF; height: 400px; overflow-y: auto;}
-.piclaber .rightTab .myImg{ width: 100px; height: 100px; border: 1px solid #ccc; box-sizing: border-box;}
+.piclaber .rightTab .myImg img{ width: 100px; height: 100px; border: 1px solid #ccc; box-sizing: border-box;}
 .piclaber .rightTab ul{margin: 0; padding: 0;}
 .piclaber .rightTab ul li{margin: 20px 0 0 20px; list-style: none; display: table; float:left;}
 .piclaber .rightTab ul li a{display: table-cell; vertical-align: middle;text-align: center; }

@@ -13,6 +13,10 @@ $(function(){
 	
 	$(document).on("click",".close",function(){
 		$(this).parent().hide()
+		$('.md-dialog-backdrop').remove();
+		$('.md-scroll-mask').remove();
+		$('.md-scroll-mask-bar').remove();
+		$('.md-dialog-container').remove();
 	})
 	
 	$(document).on("click","#text",function(){

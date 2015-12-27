@@ -162,34 +162,88 @@ editText.directive('edittool1',function($mdToast,$document){
 			    });
 			};
 
-			$scope.newImage = function(){
+			$scope.newImages = function(){
+				console.log('works');
 				$mdToast.show({
 			      controller: function($scope,$mdDialog){
-
+ 						
 			      //Add image
-			      $scope.showAddImage = function(ev) {
-			      	console.log('works');
+//			      $scope.showAddImage = function(ev) {
+//			      	console.log('works');
 				    $mdDialog.show({
-				      controller: DialogController,
+				      controller: function($scope){
+					  console.log('image workssssss');
+					  var selectedImage = [];
+					   $scope.selectImage = function(target){
+						   	console.log('image works'+target);
+						   	selectedImage = [];
+						   	selectedImage.push(target);
+					    }
+//					   $('.myImg').on('click',function(){
+//					   	alert('hiii');
+//					   		$('.imageActive').removeClass('imageActive');
+//					   		$(this).attr('class','imageActive');
+//					   })
+//					   
+					   $scope.addImage = function(){
+							  $('#imageSelected').attr('id','')
+						      var oImage = $('<div data-type="image" data-link=""  id="imageSelected" style="position: absolute; top: 50%; left: 50%;  margin-left: -80px; margin-top: -120px; resize:both; overflow:hidden; min-width:300px; min-height:200px;"><img src="'+selectedImage[0]+'" style="width:100%;height:100%"><div>')
+						      var currentPage = $('.swiper-slide-active');
+						      oImage.appendTo(currentPage);
+						 	  $('#imageSelected').draggable();
+						      $('div.swiper-slide-active div').on('click',function(event){
+						            event.stopPropagation();
+						            $(this).focus();
+						            $('div.swiper-slide-active div').attr('id','');
+						            $(this).data('type') == 'image' ? $(this).attr('id','imageSelected'):'';
+						            $(this).css('border','#dedede 1px dashed');
+						      });
+						      
+						      $("#imgpop").animate({left:"-99999px"},200);
+						      	$('.md-dialog-backdrop').remove();
+								$('.md-scroll-mask').remove();
+								$('.md-scroll-mask-bar').remove();
+								$('.md-dialog-container').remove();
+					   }
+				      	
+				      	
+				      },
 				      templateUrl: './template/addImage.tmpl.html',
-				      parent: angular.element(document.body),
-				      targetEvent: ev,
-				      clickOutsideToClose:true
-				    }).then(function(answer) {
-				          $scope.status = 'You said the information was "' + answer + '".';
-				        }, function() {
-				          $scope.status = 'You cancelled the dialog.';
-				        });
-				  };
+			          parent: $document[0].querySelector('#main')
+//				      targetEvent: ev,
+//				      clickOutsideToClose:true
+			    });
+//			    .then(function(answer) {
+//				          $scope.status = 'You said the information was "' + answer + '".';
+//				        }, function() {
+//				          $scope.status = 'You cancelled the dialog.';
+//				        });
+//				  };
 
 				 //roate Image 
 				 	$scope.setImageTransform = function(){
     					$('#textSelected').css('transform','rotate('+$scope.transform.numberValue+'deg)');
-    				}
-
+    				    }
+				//set image animate
+				   $scope.setImageAnimate = function(){
+				   	  	 function testAnimation(x){
+						    $('#imageSelected').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+						      // $(this).removeClass();
+						    });
+						  }
+						  $('#js--imageAnimations').change(function(){
+						    var anim = $(this).val()
+						    testAnimation(anim);
+						  }); 
+				   }
+				   
+				   //set image opacity
+				     $scope.getImageOpacity = function(){
+					      $('#imageSelected').css('opacity',$scope.opacity.numberValue);
+					  }
 
 			      },
-			      templateUrl: './template/ImagePropertyPanel.html',
+			      templateUrl: './template/imagePropertyPanel.html',
 			      parent : $document[0].querySelector('#editModulePosition'),
 			       hideDelay: false
 			      // position: $scope.getToastPosition()
@@ -198,24 +252,7 @@ editText.directive('edittool1',function($mdToast,$document){
 
 
 			    function DialogController($scope, $mdDialog) {
-				  $scope.selectImage = function(target){
-				    console.log(target);
-				    $('#imageSelected').attr('id','')
-				    var oImage = $('<div data-type="image" data-link=""  id="imageSelected" style="position: absolute; top: 50%; left: 50%;  margin-left: -80px; margin-top: -120px; resize:both; overflow:hidden; min-width:300px; min-height:200px;"><img src="./images/'+target+'" style="width:100%;height:100%"><div>')
-
-				    var currentPage = $('.swiper-slide-active');
-				    oImage.appendTo(currentPage);
-				 $('#imageSelected').draggable();
-				      $('div.swiper-slide-active div').on('click',function(event){
-				            event.stopPropagation();
-				            $(this).focus();
-				            $('div.swiper-slide-active div').attr('id','');
-				            $(this).data('type') == 'image' ? $(this).attr('id','imageSelected'):'';
-				            $(this).css('border','#dedede 1px dashed');
-
-
-				      });
-				  }
+				
 				  $scope.hide = function() {
 				    $mdDialog.hide();
 				  };
