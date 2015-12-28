@@ -556,18 +556,25 @@ function initFormDraggable(){
  //      // helper: "clone",
  //      revert: "invalid"
  //    });
+ 
+   $(function() {
+    $( "#formContent" ).sortable({
+      revert: true
+    });
 
-       $('#formContent').sortable().disableSelection();
+  });
 
-       $('#selectedFormItem').draggable({
-       	 accpet:"#formContent > #selectedFormItem",
-       	 hoverClass:"ui-state-hover",
-       	 drop:function(event,ui){
-       	 	ui.draggable.hide('slow',function(){
-       	 		$(this).appendTo($("#formContent")).show('slow');
-       	 	});
-       	 }
-       });
+//     $('#formContent').sortable().disableSelection();
+
+//     $('#selectedFormItem').draggable({
+//     	 accpet:"#formContent > #selectedFormItem",
+//     	 hoverClass:"ui-state-hover",
+//     	 drop:function(event,ui){
+//     	 	ui.draggable.hide('slow',function(){
+//     	 		$(this).appendTo($("#formContent")).show('slow');
+//     	 	});
+//     	 }
+//     });
 	});
   
     // $( "ul, li" ).disableSelection();
