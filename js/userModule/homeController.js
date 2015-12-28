@@ -240,9 +240,6 @@ $scope.addLink = function(ev) {
     };
   }).controller('rightImgTabCtrl', function ($scope, $timeout, $mdSidenav, $log,$mdDialog) {
     
-  $scope.getImageOpacity = function(){
-      $('#imageSelected').css('opacity',$scope.opacity.numberValue);
-  }
 
 
  $scope.status = '  ';

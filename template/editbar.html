@@ -4,7 +4,7 @@
           <div class="navbar-img">
           	<a class="imgbut" id="text" href="#" ng-click="newText()"><img src="images/text.svg"></a>
             <a class="imgbut" id="img" href="#"  ng-click="newImages()"><img src="images/img.svg"></a>
-            <a class="imgbut" id="graph" href="#" ng-click="newGraph()"><img src="images/graph.svg"></a>
+ <!--            <a class="imgbut" id="graph" href="#" ng-click="newGraph()"><img src="images/graph.svg"></a> -->
             <a class="imgbut" id="form" href="#"  ng-click="newForm()"><img src="images/form.svg"></a>
           </div>
           <p class="navbar-text navbar-right">欢迎 XXX</p> 
@@ -22,11 +22,11 @@
           
           <div class="popbox" id="formpop">
           	<ul class="buttons">
-          	  <li class="inputicon"><img src="images/form/input.png"></li>
-          	  <li class="textareaicon"><img src="images/form/textarea.png"></li>
-          	  <li class="checkboxicon"><img src="images/form/checkbox.png"></li>
-          	  <li class="radioicon"><img src="images/form/radiobox.png"></li>
-          	  <li class="buttonicon"><img src="images/form/button.png"></li>
+          	  <li class="inputicon" ng-click="newInput()"><img src="images/form/input.png"></li>
+          	  <li class="textareaicon" ng-click="newTextarea()">><img src="images/form/textarea.png"></li>
+          	  <li class="checkboxicon" ng-click="newCheckbox()"><img src="images/form/checkbox.png"></li>
+          	  <li class="radioicon" ng-click="newRadiobox()"><img src="images/form/radiobox.png"></li>
+          	  <li class="buttonicon" ng-click="newButton()"><img src="images/form/button.png"></li>
           	</ul>
           	<div class="pickup"><span></span></div>
           </div>

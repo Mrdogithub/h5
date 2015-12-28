@@ -14,19 +14,29 @@
 		  <div class="Separation"></div>		  
 		  <div class="module">
 		  	<div class="silderTitle">Radius</div>
-		  	<div class="silder"><div class="line"></div><div class="circle"></div></div>
-		  	<input class="silderText btn" />
+        <div class="silder">
+          <md-slider flex ng-model="imageRadius.size"  max='100' min = '1' step='1' ng-change="setImageRadiusSize()" aria-label="blue" id="blue-slider" class="md-primary">
+          </md-slider>
+        </div>
 		  </div>		  
 		  <div class="module">
 		  	<div class="silderTitle">Transparent</div>
 		  	<div class="silder">
 		  		<md-slider flex ng-model="opacity.numberValue"  max='1' min = '0' step='0.1' ng-change="getImageOpacity()" aria-label="blue" id="blue-slider" class="md-primary">
-          </md-slider></div>
-		  	<input class="silderText btn" />
-		  </div>		  		  		  
+          </md-slider>
+        </div>
+		  </div>
+      <div class="module">
+        <div class="silderTitle">transform</div>
+        <div class="silder">
+          <md-slider flex ng-model="transform.numberValue"  max='360' min = '1' step='1' ng-change="setImageTransform()" aria-label="blue" id="blue-slider" class="md-primary">
+          </md-slider>
+        </div>
+      </div>		  		  		  
 		  <div class="Separation"></div>		  
 		  <div class="btn-group module module-full">
 		<select class="input input--dropdown form-control" id="js--imageAnimations" ng-change="setImageAnimate()" ng-model="selected" >
+    <option value="">Animate</option>
          <optgroup label="Attention Seekers">
           <option value="bounce">bounce</option>
           <option value="flash">flash</option>

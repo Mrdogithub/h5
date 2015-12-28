@@ -7,10 +7,11 @@ editText.directive('edittool1',function($mdToast,$document){
 		templateUrl:'./template/editbar.html',
 		scope:{},
 		link:function($scope){
-			$scope.newText = function(){
-            console.log('works...');
-               createNewText();
 
+			$scope.newText = function(){
+                
+                createNewText();
+				
 				$mdToast.show({
 			      controller: function($scope){ 
 
@@ -116,19 +117,7 @@ editText.directive('edittool1',function($mdToast,$document){
 		    		
 		    		//set font link
 		    		$scope.$watch("setFontLink",function(newValue,oldValue){
-            console.log(newValue+"///newValue");
-//		    			var linkText = $("#textSelected").html();
-//		    			newLink.appendTo($("#textSelected"));
-//				if(newValue !='undefined){
-					$("#textSelected").attr("data-link",newValue);
-//				} 
-//               if($("#textSelected").parent().length>1){
-//               	$("#textSelected").parent().remove();
-//               	
-//               }else{
-//               	
-//               }
-		    			
+						$("#textSelected").attr("data-link",newValue);		    			
 		    		})
 
 		    		//set border color
@@ -167,9 +156,7 @@ editText.directive('edittool1',function($mdToast,$document){
 				$mdToast.show({
 			      controller: function($scope,$mdDialog){
  						
-			      //Add image
-//			      $scope.showAddImage = function(ev) {
-//			      	console.log('works');
+
 				    $mdDialog.show({
 				      controller: function($scope){
 					  console.log('image workssssss');
@@ -179,12 +166,7 @@ editText.directive('edittool1',function($mdToast,$document){
 						   	selectedImage = [];
 						   	selectedImage.push(target);
 					    }
-//					   $('.myImg').on('click',function(){
-//					   	alert('hiii');
-//					   		$('.imageActive').removeClass('imageActive');
-//					   		$(this).attr('class','imageActive');
-//					   })
-//					   
+
 					   $scope.addImage = function(){
 							  $('#imageSelected').attr('id','')
 						      var oImage = $('<div data-type="image" data-link=""  id="imageSelected" style="position: absolute; top: 50%; left: 50%;  margin-left: -80px; margin-top: -120px; resize:both; overflow:hidden; min-width:300px; min-height:200px;"><img src="'+selectedImage[0]+'" style="width:100%;height:100%"><div>')
@@ -210,24 +192,31 @@ editText.directive('edittool1',function($mdToast,$document){
 				      },
 				      templateUrl: './template/addImage.tmpl.html',
 			          parent: $document[0].querySelector('#main')
-//				      targetEvent: ev,
-//				      clickOutsideToClose:true
 			    });
-//			    .then(function(answer) {
-//				          $scope.status = 'You said the information was "' + answer + '".';
-//				        }, function() {
-//				          $scope.status = 'You cancelled the dialog.';
-//				        });
-//				  };
 
 				 //roate Image 
 				 	$scope.setImageTransform = function(){
     					$('#textSelected').css('transform','rotate('+$scope.transform.numberValue+'deg)');
-    				    }
+    				}
+    		    //roate Image 
+				 	$scope.setImageTransform = function(){
+				 		console.log('image transform works');
+    					$('#imageSelected').css('transform','rotate('+$scope.transform.numberValue+'deg)');
+    				}
+    			  $scope.getImageOpacity = function(){
+      					$('#imageSelected').css('opacity',$scope.opacity.numberValue);
+  					}
+
+				
+				//set image Radius 
+    				$scope.setImageRadiusSize   = function(){
+    					console.log('image radius size works');
+    					$("#imageSelected").css("borderRadius",$scope.imageRadius.size+"px");
+    				}
 				//set image animate
 				   $scope.setImageAnimate = function(){
 				   	  	 function testAnimation(x){
-						    $('#imageSelected').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+						    $('#imageSelected > img').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 						      // $(this).removeClass();
 						    });
 						  }
@@ -276,13 +265,144 @@ editText.directive('edittool1',function($mdToast,$document){
 			      // position: $scope.getToastPosition()
 			    });
 			};
-			
+
+
+
+			$scope.newInput = function(){
+				$mdToast.show({
+			      controller:function(){
+			      	createInput();
+			      },
+			      templateUrl: './template/form.input.tmpl.html',
+			      parent : $document[0].querySelector('#editModulePosition'),
+			       hideDelay: false
+			      // position: $scope.getToastPosition()
+			    });	
+			}
+
+
+
+			$scope.newTextarea = function(){
+				$mdToast.show({
+			      controller:function(){
+			      	createTextarea();
+			      },
+			      templateUrl: './template/form.textarea.tmpl.html',
+			      parent : $document[0].querySelector('#editModulePosition'),
+			       hideDelay: false
+			      // position: $scope.getToastPosition()
+			    });	
+				
+			}
+
+
+
+			$scope.newCheckbox = function(){
+				$mdToast.show({
+			      controller:function(){
+			      	createCheckBox();
+			      },
+			      templateUrl: './template/form.checkbox.tmpl.html',
+			      parent : $document[0].querySelector('#editModulePosition'),
+			       hideDelay: false
+			      // position: $scope.getToastPosition()
+			    });	
+			}
+
+
+
+			$scope.newRadiobox = function(){
+				$mdToast.show({
+			      controller:function(){
+			      	createRadioBox();
+			      },
+			      templateUrl: './template/form.radiobox.tmpl.html',
+			      parent : $document[0].querySelector('#editModulePosition'),
+			       hideDelay: false
+			      // position: $scope.getToastPosition()
+			    });					
+			}
+
+
+
+			$scope.newButton = function(){
+
+				$mdToast.show({
+			      controller:function(){
+			      	createButton();
+			      },
+			      templateUrl: './template/form.button.tmpl.html',
+			      parent : $document[0].querySelector('#editModulePosition'),
+			       hideDelay: false
+			      // position: $scope.getToastPosition()
+			    });		
+			}
+
+
+
+
 			$scope.newForm = function(){
 				console.log($('#formContent').is(":empty")+"/////");
 				if($('#formContent').length == 0){
 					createNewForm();
 					$mdToast.show({
-					      controller: function($scope){},
+					      controller: function($scope){
+
+					      		//common function
+					      		initFormDraggable();
+							
+
+						  		$scope.$watch("setFormBackgroundColor",function(newValue,oldColor){
+									$('#myForm').css('backgroundColor',newValue);	
+								});
+
+		    					//set form Radius 
+			    				$scope.setFormRadiusSize   = function(){
+			    					console.log('image radius size works');
+			    					$("#myForm").css("borderRadius",$scope.formRadius.size+"px");
+			    				}
+
+
+
+			    				//set form border
+			    				$scope.setFormBorderWidthSize = function(){
+    								$('#myForm').css('borderWidth',$scope.formBorderWidth.size+"px");
+    							}
+
+
+    							//set form border style
+    							$scope.formBorderStyle = [{"formBorderStyle":"none"},{"formBorderStyle":"solid"},{"formBorderStyle":"dotted"},{"formBorderStyle":"double"},{"formBorderStyle":"dashed"}];
+			    				//set FontFamily
+			    				$scope.setFormBorderStyle = function(newStyle){
+			    					console.log('set form style works'+newStyle);
+			    					// $('#myForm').css('border','"1px red '+newStyle+'"');
+			    					$('#myForm').css('border','1px #eeeeee '+newStyle);
+			    					$('#formBorderStyle').html(newStyle);
+			    				}
+
+
+
+			    				//set form border color
+			    				$scope.$watch("setFormBorderColor",function(newColor,oldColor){
+			    					$('#myForm').css('borderColor',newColor);
+			    				});
+
+    							
+
+    							//set form animate
+			    				$scope.formAnimate = function(){
+			    					console.log('form works');
+			    					function testAnimation(x){
+									    $('#myForm').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+									      // $(this).removeClass();
+									    });
+									  }
+									  $('#js--formAnimations').change(function(){
+									    var anim = $(this).val()
+									    testAnimation(anim);
+									  }); 
+			    				}
+					      },
 					      templateUrl: './template/formPropertyPanel.html',
 					      parent : $document[0].querySelector('#editModulePosition'),
 					       hideDelay: false
@@ -290,7 +410,61 @@ editText.directive('edittool1',function($mdToast,$document){
 			    	});
 				}else{
 					$mdToast.show({
-				      controller: function($scope){},
+				      controller: function($scope){
+
+				      			initFormDraggable();
+				      			$scope.$watch("setFormBackgroundColor",function(newValue,oldColor){
+		    						$('#myForm').css('backgroundColor',newValue);	
+		    					});
+
+
+		    					//set form Radius 
+			    				$scope.setFormRadiusSize   = function(){
+			    					console.log('image radius size works');
+			    					$("#myForm").css("borderRadius",$scope.formRadius.size+"px");
+			    				}
+
+
+
+			    				//set form border
+			    				$scope.setFormBorderWidthSize = function(){
+    								$('#myForm').css('borderWidth',$scope.formBorderWidth.size+"px");
+    							}
+
+
+    							//set form border style
+    							$scope.formBorderStyle = [{"formBorderStyle":"none"},{"formBorderStyle":"solid"},{"formBorderStyle":"dotted"},{"formBorderStyle":"double"},{"formBorderStyle":"dashed"}];
+			    				//set FontFamily
+			    				$scope.setFormBorderStyle = function(newStyle){
+			    					console.log('set form style works'+newStyle);
+			    					// $('#myForm').css('border','"1px red '+newStyle+'"');
+			    					$('#myForm').css('border','1px #eeeeee '+newStyle);
+			    					$('#formBorderStyle').html(newStyle);
+			    				}
+
+
+
+			    				//set form border color
+			    				$scope.$watch("setFormBorderColor",function(newColor,oldColor){
+			    					$('#myForm').css('borderColor',newColor);
+			    				});
+
+    							
+
+    							//set form animate
+			    				$scope.formAnimate = function(){
+			    					console.log('form works');
+			    					function testAnimation(x){
+									    $('#myForm').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+									      // $(this).removeClass();
+									    });
+									  }
+									  $('#js--formAnimations').change(function(){
+									    var anim = $(this).val()
+									    testAnimation(anim);
+									  }); 
+			    				}
+				      },
 				      templateUrl: './template/formPropertyPanel.html',
 				      parent : $document[0].querySelector('#editModulePosition'),
 				       hideDelay: false
@@ -322,15 +496,47 @@ function createNewText(){
 
 
 function createNewForm(){
-	var formDiv = $('<form id="formContent"><div class="form-group"><input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"></div><div class="form-group"><input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"></div><div class="checkbox"><label><input type="checkbox"> Check me out</label></div><button type="submit" class="btn btn-default">Submit</button></form>');
+	var formDiv = $('<form id="formContent"></form>');
+	//var formDefaultContent = $('<div class="form-group"><input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"></div><div class="form-group"><input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"></div><div class="checkbox"><label><input type="checkbox"> Check me out</label></div>');
 	var oDiv = $("<div id='myForm'></div>");
+	//formDefaultContent.appendTo(formDiv)
 	formDiv.appendTo(oDiv);
 	var currentPage = $('.swiper-slide-active');
 	oDiv.appendTo(currentPage);
-	$('#myForm').draggable({'position':'absolute'});
-	$("#myForm").css({'border':'#dedede 1px dashed','resize':'both','overflow':'hidden','width':'80%','min-height':'350px','padding':'2%'});
+	initFormDraggable();
+}
 
-	//edit the selected item
+
+function createInput(){
+	var formInput=$('<div class="form-group ui-state-default"><input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"></div>');
+	formInput.appendTo($('#formContent'));
+	initFormDraggable();
+}
+
+function createTextarea(){
+	var formTextarea=$('<div class="form-group ui-state-default"><textarea class="form-control" rows="3"></textarea></div>');
+	formTextarea.appendTo($('#formContent'));
+}
+
+function createCheckBox(){
+	var formCheckbox=$(' <div class="checkbox ui-state-default"><label><input type="checkbox"> Remember me</label></div>');
+	formCheckbox.appendTo($('#formContent'));
+}
+
+function createRadioBox(){
+	var formRadioBox = $('<div class="radio ui-state-default"><label><input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked><span>text placeholder</span></label></div>');
+	formRadioBox.appendTo($('#formContent'));
+}
+
+function createButton(){
+	var formButton = $('<div class="form-group ui-state-default"><button type="button" class="btn btn-info"><span>text placeholder</span></button></div>');
+	formButton.appendTo($('#formContent'));
+}
+//Text property
+
+//
+
+function initFormDraggable(){
 	$(".form-group >input").on('click',function(){
 		console.log('click works'+$('#selectedFormItem').length );
 		if($('#selectedFormItem').length >0){
@@ -339,9 +545,42 @@ function createNewForm(){
 		}
 		$(this).parent().attr('id','selectedFormItem');
 		$(this).parent().css({'border':'#dedede 3px dashed','overflow':'hidden'});
+
+	// 	 $('#formContent').sortable({
+	//     	revert: true,
+	//     	 placeholder: "ui-state-highlight"
+	// 		});
+
+	// $( "#selectedFormItem" ).draggable({
+ //      connectToSortable: "#formContent",
+ //      // helper: "clone",
+ //      revert: "invalid"
+ //    });
+
+       $('#formContent').sortable().disableSelection();
+
+       $('#selectedFormItem').draggable({
+       	 accpet:"#formContent > #selectedFormItem",
+       	 hoverClass:"ui-state-hover",
+       	 drop:function(event,ui){
+       	 	ui.draggable.hide('slow',function(){
+       	 		$(this).appendTo($("#formContent")).show('slow');
+       	 	});
+       	 }
+       });
 	});
+  
+    // $( "ul, li" ).disableSelection();
+
+
+	 
+		// $('#myForm').draggable({'position':'absolute'});
+		$("#myForm").css({'resize':'both','overflow':'hidden','width':'80%','min-height':'350px','padding':'2%'});
+	    $('#myForm').on("mouseover",function(){
+	    	$(this).css('opacity','0.5');
+	    })
+	    $('#myForm').on("mouseout",function(){
+	    	$(this).css('opacity','1');
+	    })
+
 }
-
-//Text property
-
-//

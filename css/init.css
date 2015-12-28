@@ -60,14 +60,14 @@ a.imgbut:hover{ background: #3383b1; }
 /*#text-properties{display: none;}*/
 /*#img-properties{display: none;}*/
 #graph-properties{display: none;}
-#form-properties{display: none;}
-#form-text-proterties{display: none;}
-#form-textarea-properties{display: none;}
+/*#form-properties{display: none;}*/
+/*#form-text-proterties{display: none;}*/
+/*#form-textarea-properties{display: none;}
 #form-checkbox-properties{display: none;}
 #form-radiobox-properties{display: none;}
-#form-button-properties{display: none;}
+#form-button-properties{display: none;}*/
 
-.col-right{position: absolute; width: 290px; background: #e2e2e2; text-align: center; padding-bottom: 10px; overflow-y:auto;right:5% ;}
+.col-right{position: absolute; width: 290px; background: #e2e2e2; text-align: center; padding-bottom: 10px;/* overflow-y:auto;*/right:5% ;}
 .col-right .title{ height: 40px; background: #f2f2f2; line-height: 40px; text-align: center;}
 .col-right .title .active{width:50%; background: #e2e2e2;}
 .col-right .module{ margin-left: 10px; margin-top: 10px; float: left;}
