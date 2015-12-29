@@ -59,17 +59,7 @@ function DialogController($scope, $mdDialog) {
 
 
 
-  $scope.createNewPage = function(){
-    //$('.swiper-slide').removeClass('swiper-slide-active');
-    var newSlide = $('<div class="swiper-slide"></div>');
-    newSlide.appendTo($('.swiper-wrapper'));
-    var swiper = new Swiper('.swiper-container', {
-        pagination: '.swiper-pagination',
-        paginationClickable: true,
-        direction: 'vertical',
-        effect:'fade'
-    });
-  }
+
 
   $scope.remove = function(){
     $('#textSelected').remove();
@@ -84,7 +74,7 @@ function clearTextSelectedStatus (){
   $scope.createText = function(){
       clearTextSelectedStatus();
       var textDiv = $("<div  id='textSelected' data-type='text'  contentEditable='true' style=' position: absolute; top: 50%; left: 50%;  margin-left: -80px; margin-top: -120px; resize:both; overflow:hidden; min-width:100px; padding:5px;border:1px solid #000; min-height:40px;'></div>");
-      var currentPage = $('.swiper-slide-active');
+      var currentPage = $('.slide-active');
       textDiv.appendTo(currentPage);
       $('#textSelected').draggable({'position':'absolute'});
       $('.swiper-wrapper').attr('style','');

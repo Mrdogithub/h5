@@ -1,5 +1,47 @@
 var editText = angular.module('editText',[]);
 
+editText.directive('pageleft',function($mdToast,$document){
+	return{
+		restrict:"AE",
+		templateUrl:"./template/page.left.tmpl.html",
+		scope:{},
+		link:function($scope){
+            
+  // var swiper = new Swiper('.swiper-container', {
+  //       pagination: '.swiper-pagination',
+  //       scrollbarDraggable:true,
+  //       direction: 'vertical',
+  //       effect:'fade'
+  //   });
+            var indexArray=10;
+			$scope.createNewPage = function(){
+				console.log(' create page works');
+			    console.log($('.swiper-slide').hasClass('swiper-slide-active')+"/////");
+			    $('.swiper-slide').hasClass('swiper-slide-active')?$('.swiper-slide').removeClass('swiper-slide-active'):'';
+				var newSlide = $('<div class="swiper-slide swiper-slide-active"></div>');
+				newSlide.css("z-index",indexArray++)
+                newSlide.prependTo($('#pagesList'));
+             
+			   // $('.swiper-slide-active').css('opacity','0')
+			      // var swiper = new Swiper('.swiper-container', {
+			        // pagination: '.swiper-pagination',
+			        // paginationClickable: true,
+			        // direction: 'vertical',
+			        // slideActiveClass:'swiper-slide-current',
+			        // effect:'fade'
+			    // });
+
+			     // swiper.prependSlide('<div class="swiper-slide">Slide 10"</div>');
+			    // var newSlide = $('<div class="swiper-slide"></div>');
+			    // newSlide.appendTo($('.swiper-wrapper'));
+			 
+			   //$('.swiper-slide-active').css('opacity','1')
+			}
+		}
+	}
+});
+
+
 //init edit bar
 editText.directive('edittool1',function($mdToast,$document){
 	return {
@@ -483,7 +525,7 @@ function createNewText(){
       var currentPage = $('.swiper-slide-active');
       textDiv.appendTo(currentPage);
       $('#textSelected').draggable({'position':'absolute'});
-      $('.swiper-wrapper').attr('style','');
+      // $('.swiper-wrapper').attr('style','');
       $('div.swiper-slide-active div').on('click',function(event){
             console.log('text click');
             event.stopPropagation();
