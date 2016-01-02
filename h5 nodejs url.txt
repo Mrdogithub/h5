@@ -1,0 +1,59 @@
+﻿add\update project:
+return: {status:1, project: project对象}
+
+copy project:
+http://9.115.24.168:3000/copyProject?pid=projectId
+return: {status:1, project: project对象}
+
+delete project:
+http://9.115.24.168:3000/delProject?pid=projectId
+return: {status:1} 
+
+find project list by user:
+http://9.115.24.168:3000/findProjectByUser
+return: projectlist数组
+
+find project by id:
+http://9.115.24.168:3000/findProjectById?pid=projectId
+return: project对象
+
+
+uploadImage:
+post
+http://9.112.70.107:3000/uploadImage
+return： {status:1, url: 图片url}
+
+deleteImage:
+http://9.112.70.107:3000/delImage?id=imageId
+return: {status:1}
+
+imageList:
+http://9.112.70.107:3000/findImageByUser
+return: image数组
+
+下载report：
+http://9.112.70.107:3000/download?pid=projectId
+
+下载QRCode：
+http://9.112.70.107:3000/downloadQRCode?url=http：//.....
+
+
+project对象：
+projectname : String,
+owner : String,
+createtime : {type: Date, default: Date.now()},
+lastmodify : {type: Date, default: Date.now()},
+code : [String],
+url : String,
+qrcode : String,
+cover: String,
+form: [Schema.Types.Mixed]
+
+image对象：
+name : String,
+size : String,
+url : String,
+owner : String,
+date : {type: Date, default: Date.now()}
+
+
