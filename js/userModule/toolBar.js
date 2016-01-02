@@ -1,58 +1,74 @@
 var toolBar = angular.module('toolBar',['ngMaterial']);
-toolBar.directive('toolbar1',function($mdToast,$document){
+toolBar.directive('toolbar1',function($mdToast,$document,$rootScope){
 	return {
 		restrict:"AE",
 		templateUrl:"./template/toolBar.html",
 		scope:{},
 		link:function($scope,$mdDialog){
 			$scope.savePage = function(){
-				var pageObj;
-				console.log('save page works');
-               $mdToast.show({
-			      controller: function($scope,$mdDialog){
- 					$scope.savePageContent = function(){
- 						var projectName = $("#projectName").val();
- 						console.log(projectName+"projectName");
- 						var pages=[];
- 						for(var i=0;i<$('#pagesList').children().length;i++){
- 							pages.push($('#pagesList').children()[i]);
- 						}
- 						var owner="peter";
+				if(!$rootScope.userStatus){
+					 $mdToast.show({
+				      controller: function($scope,$mdDialog){
 
- 						pageObj = {"projectName":projectName,"pages":pages,"owner":owner};
+	 					$scope.loginBtn = function(){
+	 					console.log($scope.user.firstName+"//"+$scope.user.passWord);	
+	 					}
+				      },
+				      templateUrl:'./template/user.login.tmpl.html',
+				      parent : $document[0].querySelector('#editModulePosition'),
+				      hideDelay: false
+				      // position: $scope.getToastPosition()
+				    });
+			    }else{
 
- 							var aj = $.ajax( {  
-						 	     url:'http://9.112.70.107:3000/saveProject',// 跳转到 action  
-						 	     data:pageObj,
-							     type:'post',  
-							     cache:false,  
-							     dataType:'json',  
-							     success:function(data) {  
-							     	console.log('success'+data.projectId);
-							         if(data.msg =="true" ){  
-							             // view("修改成功！");  
-							             alert("修改成功！");  
-							             window.location.reload();  
-							         }else{  
-							             view(data.msg);  
-							         }  
-							      },  
-							      error : function() {  
-							      	console.log("error");
-							           // view("异常！");  
-							           alert("异常！");  
-							      }  
-							 });
+			    }
+				// var pageObj;
+				// console.log('save page works');
+    //            $mdToast.show({
+			 //      controller: function($scope,$mdDialog){
+ 			// 		$scope.savePageContent = function(){
+ 			// 			var projectName = $("#projectName").val();
+ 			// 			console.log(projectName+"projectName");
+ 			// 			var pages=[];
+ 			// 			for(var i=0;i<$('#pagesList').children().length;i++){
+ 			// 				pages.push($('#pagesList').html());
+ 			// 			}
+ 			// 			var owner="peter";
+
+ 			// 			pageObj = {"projectName":projectName,"pages":pages,"owner":owner};
+
+ 			// 				var aj = $.ajax( {  
+				// 		 	     url:'http://9.112.70.107:3000/saveProject',// 跳转到 action  
+				// 		 	     data:pageObj,
+				// 			     type:'post',  
+				// 			     cache:false,  
+				// 			     dataType:'json',  
+				// 			     success:function(data) {  
+				// 			     	console.log('success'+data.projectId);
+				// 			         if(data.msg =="true" ){  
+				// 			             // view("修改成功！");  
+				// 			             alert("修改成功！");  
+				// 			             window.location.reload();  
+				// 			         }else{  
+				// 			             view(data.msg);  
+				// 			         }  
+				// 			      },  
+				// 			      error : function() {  
+				// 			      	console.log("error");
+				// 			           // view("异常！");  
+				// 			           alert("异常！");  
+				// 			      }  
+				// 			 });
 
  							
- 					}
+ 			// 		}
 
-			      },
-			      templateUrl:'./template/page.save.tmpl.html',
-			      parent : $document[0].querySelector('#editModulePosition'),
-			       hideDelay: false
-			      // position: $scope.getToastPosition()
-			    });
+			 //      },
+			 //      templateUrl:'./template/page.save.tmpl.html',
+			 //      parent : $document[0].querySelector('#editModulePosition'),
+			 //       hideDelay: false
+			 //      // position: $scope.getToastPosition()
+			 //    });
 
 
 
