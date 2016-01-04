@@ -11,7 +11,30 @@ toolBar.directive('toolbar1',function($mdToast,$document,$rootScope){
 				      controller: function($scope,$mdDialog){
 
 	 					$scope.loginBtn = function(){
-	 					console.log($scope.user.firstName+"//"+$scope.user.passWord);	
+//	 					console.log($scope.user.firstName+"//"+$scope.user.passWord);	
+//	 					var userInfo = {"userName":$scope.user.firstName,"passWord":$scope.user.passWord}
+// 			  			var aj = $.ajax( {  
+//					 	     url:'http://9.115.24.168:3000/login',// 跳转到 action
+//					  	     data:userInfo,
+//					 		 type:'post',  
+//						     cache:false,  
+//					 	     dataType:'json',  
+//					 		 success:function(data) {  
+//			      			console.log('success'+data.projectId);
+//				 	         if(data.msg =="true" ){  
+//				 			             // view("修改成功！");  
+//			 	            		 alert("修改成功！");  
+//					 	         window.location.reload();  
+//		 	         		 }else{  
+//					 			             view(data.msg);  
+//					 		      }  
+//				 		      },  
+//				 		      error : function() {  
+//					 		      	console.log("error");
+//				 			           // view("异常！");  
+//					 		           alert("异常！");  
+//				 	      		}  
+//				 		 	});
 	 					}
 				      },
 				      templateUrl:'./template/user.login.tmpl.html',

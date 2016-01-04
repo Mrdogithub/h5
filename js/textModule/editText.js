@@ -1,5 +1,25 @@
 var editText = angular.module('editText',[]);
 
+
+//
+
+$('div.swiper-slide-active div').on('click',function(event){
+            console.log('text click');
+            event.stopPropagation();
+            $(this).focus();
+            $('div.swiper-slide-active div').attr('id','');
+            $('div.swiper-slide-active div').css({'border':'','resize':'','overflow':''});
+            $(this).data('type') == 'text' ?$(this).attr('id','textSelected').css({'border':'#dedede 1px dashed','resize':'both','overflow':'hidden'}):'';
+            
+            if($(this).data('type')== 'text'){
+            	console.log('text selected');
+            	$(this).attr('id','textSelected').css({'border':'#dedede 1px dashed','resize':'both','overflow':'hidden'});
+           		 	showTextEditPanel($mdToast,$document);
+            }
+     });
+     
+     
+     
 editText.directive('pageleft',function($mdToast,$document){
 	return{
 		restrict:"AE",
@@ -52,145 +72,8 @@ editText.directive('edittool1',function($mdToast,$document){
 
 			$scope.newText = function(){
                 
-                createNewText();
-				
-				$mdToast.show({
-			      controller: function($scope){ 
-
-			      	//init FontSize
-			      	$scope.fontSize = [{"px":"6px"},{"px":"7px"},{"px":"8px"},{"px":"10px"},{"px":"12px"},{"px":"14px"},{"px":"16px"},{"px":"18px"},{"px":"20px"},{"px":"24px"}];
-			      	//set  FonttSize
-			      	$scope.getFontSize = function(fontSize){
-					
-    					$('#textSelected').css('fontSize',fontSize);
-    					$('#fontSize').html(fontSize); 
-    				}
-
-    				//init FontFamily
-    				$scope.fontFamily = [{"fontFamily":"黑体"},{"fontFamily":"微软雅黑"},{"fontFamily":"宋体"}];
-    				//set FontFamily
-    				$scope.setFontFamily = function(newFont){
-    					$('#textSelected').css('fontFamily','"'+newFont+'"');
-    					$('#fontFamily').html(newFont);
-    				}
-
-    				//set FontColor
-    				$scope.$watch("setFontColor",function(newColor,oldColor){
-    					$('#textSelected').css('color',newColor);
-    				});
-
-    				//init line height
-    				$scope.lineHeight = [{"lineHeight":"1"},{"lineHeight":"1.15"},{"lineHeight":"1.5"},{"lineHeight":"2"},{"lineHeight":"2.5"},{"lineHeight":"3"}];
-    				//set line height
-    				$scope.setLineHeight = function(){
-    					$('#textSelected').css('lineHeight',$scope.selected.lineHeight*100+"%");
-    				}
-
-    				//setFontBold
-    				$scope.setFontBold = function(){
-    					if($("#textSelected").css("fontWeight") != "bold"){
-    						$("#textSelected").css("fontWeight","bold");
-    						$(".bold-active").css("background","#eeeeee");
-    					}else if($("#textSelected").css("fontWeight") == "bold"){
-    						$("#textSelected").css("fontWeight","");
-    						$(".bold-active").css("background","");
-    					}
-    				};
-
-    				//set Italic
-    				$scope.setFontItalic = function(){
-    					if($("#textSelected").css("fontStyle") != "italic"){
-    						$("#textSelected").css("fontStyle","italic");
-    						$(".italic-active").css("background","#eeeeee");
-    					}else if($("#textSelected").css("fontStyle") == "italic"){
-    						$("#textSelected").css("fontStyle","");
-    						$(".italic-active").css("background","");
-    					}
-    				}
-    				
-    				//set Text Decoration
-    				$scope.setTextDecoration = function(){
-    					if($("#textSelected").css("textDecoration") != "underline"){
-    						$("#textSelected").css("textDecoration","underline");
-    						$(".textDecoration-active").css("background","#eeeeee");
-    					}else if($("#textSelected").css("textDecoration") == "underline"){
-    						$("#textSelected").css("textDecoration","");
-    						$(".textDecoration-active").css("background","");
-    					}
-    				}
-
-    				//set TextAlignLeft
-    				$scope.setTextAlign = function(textPos){
-    					if($("#textSelected").css("textAlign") != textPos){
-    						$("#textSelected").css("textAlign",textPos);
-    						$(".text"+textPos+"-active").css("background","#eeeeee");
-    					}else if($("#textSelected").css("textAlign") == textPos){
-    						$("#textSelected").css("textAlign","");
-    						$(".text"+textPos+"-active").css("background","");
-    					}
-    				}
-
-    				//set Radius 
-    				$scope.setRadiusSize   = function(){
-    					$("#textSelected").css("borderRadius",$scope.radius.size+"px");
-    				}
-
-    				//set FontBackgroundColor
-    				$scope.$watch("setFontBackgroundColor",function(newValue,oldValue){
-    					$("#textSelected").css("backgroundColor",newValue);
-    				});
-
-    				//set FontOpacity
-    				$scope.setFontOpacity  = function(){
-    					$("#textSelected").css("opacity",$scope.opacity.numberValue);
-    				};
-
-    				//set setFontTransform
-    				$scope.setFontTransform = function(){
-    					$('#textSelected').css('transform','rotate('+$scope.transform.numberValue+'deg)');
-    				}
-
-    				//init border style
-		    		$scope.borderStyle = [{"borderStyle":"none"},{"borderStyle":"dotted"},{"borderStyle":"dashed"},{"borderStyle":"solid"},{"borderStyle":"double"},{"borderStyle":"groove"},{"borderStyle":"ridge"},{"borderStyle":"inset"},{"borderStyle":"outset"},{"borderStyle":"inherit"}]
-		    		//set  border style
-		    		$scope.setBorderStyle = function(){
-		    			$('#textSelected').css('borderStyle',$scope.selected.borderStyle);	
-		    		};
-		    		
-		    		//set font link
-		    		$scope.$watch("setFontLink",function(newValue,oldValue){
-						$("#textSelected").attr("data-link",newValue);		    			
-		    		})
-
-		    		//set border color
-		    		$scope.$watch("setBorderColor",function(newValue,oldColor){
-		    			$('#textSelected').css('borderColor',newValue);	
-		    		});
-
-		    		//text animate
-		    		$scope.textAnimate = function(){
-		    			console.log('xxx');
-		    			var anim = $('#js--animations').val()
-					    testAnimation(anim);
-		    		 function testAnimation(x){
-					    $('#textSelected').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-					      // $(this).removeClass();
-					    });
-					  }
-		    		}
-		    		
-		    		//text link
-		    		$scope.setTextLink = function(){
-		    			if($("#linkValue").val() !=''){
-		    				
-		    			}
-		    		}
-    			},
-			      templateUrl: './template/fontPropertyPanel.html',
-			      parent : $document[0].querySelector('#editModulePosition'),
-			      hideDelay: false
-			      // position: $scope.getToastPosition()
-			    });
+                createNewText($mdToast,$document);
+				showTextEditPanel($mdToast,$document);
 			};
 
 			$scope.newImages = function(){
@@ -520,7 +403,7 @@ editText.directive('edittool1',function($mdToast,$document){
 
 //Create new text
 
-function createNewText(){
+function createNewText($mdToast,$document){
 	var textDiv = $("<div  id='textSelected' data-link='' data-type='text'  contentEditable='true' style=' position: absolute; top: 50%; left: 50%;  margin-left: -80px; margin-top: -120px; resize:both; overflow:hidden; min-width:100px; padding:5px;border:1px solid #000; min-height:40px;'></div>");
       var currentPage = $('.swiper-slide-active');
       textDiv.appendTo(currentPage);
@@ -533,6 +416,12 @@ function createNewText(){
             $('div.swiper-slide-active div').attr('id','');
             $('div.swiper-slide-active div').css({'border':'','resize':'','overflow':''});
             $(this).data('type') == 'text' ?$(this).attr('id','textSelected').css({'border':'#dedede 1px dashed','resize':'both','overflow':'hidden'}):'';
+            
+            if($(this).data('type')== 'text'){
+            	console.log('text selected');
+            	$(this).attr('id','textSelected').css({'border':'#dedede 1px dashed','resize':'both','overflow':'hidden'});
+           		 	showTextEditPanel($mdToast,$document);
+            }
      });
 }
 
@@ -577,6 +466,151 @@ function createButton(){
 //Text property
 
 //
+
+
+
+var showTextEditPanel = function($mdToast,$document)	{
+				$mdToast.show({
+			      controller: function($scope){ 
+
+			      	//init FontSize
+			      	$scope.fontSize = [{"px":"6px"},{"px":"7px"},{"px":"8px"},{"px":"10px"},{"px":"12px"},{"px":"14px"},{"px":"16px"},{"px":"18px"},{"px":"20px"},{"px":"24px"}];
+			      	//set  FonttSize
+			      	$scope.getFontSize = function(fontSize){
+					
+    					$('#textSelected').css('fontSize',fontSize);
+    					$('#fontSize').html(fontSize); 
+    				}
+
+    				//init FontFamily
+    				$scope.fontFamily = [{"fontFamily":"黑体"},{"fontFamily":"微软雅黑"},{"fontFamily":"宋体"}];
+    				//set FontFamily
+    				$scope.setFontFamily = function(newFont){
+    					$('#textSelected').css('fontFamily','"'+newFont+'"');
+    					$('#fontFamily').html(newFont);
+    				}
+
+    				//set FontColor
+    				$scope.$watch("setFontColor",function(newColor,oldColor){
+    					$('#textSelected').css('color',newColor);
+    				});
+
+    				//init line height
+    				$scope.lineHeight = [{"lineHeight":"1"},{"lineHeight":"1.15"},{"lineHeight":"1.5"},{"lineHeight":"2"},{"lineHeight":"2.5"},{"lineHeight":"3"}];
+    				//set line height
+    				$scope.setLineHeight = function(){
+    					$('#textSelected').css('lineHeight',$scope.selected.lineHeight*100+"%");
+    				}
+
+    				//setFontBold
+    				$scope.setFontBold = function(){
+    					if($("#textSelected").css("fontWeight") != "bold"){
+    						$("#textSelected").css("fontWeight","bold");
+    						$(".bold-active").css("background","#eeeeee");
+    					}else if($("#textSelected").css("fontWeight") == "bold"){
+    						$("#textSelected").css("fontWeight","");
+    						$(".bold-active").css("background","");
+    					}
+    				};
+
+    				//set Italic
+    				$scope.setFontItalic = function(){
+    					if($("#textSelected").css("fontStyle") != "italic"){
+    						$("#textSelected").css("fontStyle","italic");
+    						$(".italic-active").css("background","#eeeeee");
+    					}else if($("#textSelected").css("fontStyle") == "italic"){
+    						$("#textSelected").css("fontStyle","");
+    						$(".italic-active").css("background","");
+    					}
+    				}
+    				
+    				//set Text Decoration
+    				$scope.setTextDecoration = function(){
+    					if($("#textSelected").css("textDecoration") != "underline"){
+    						$("#textSelected").css("textDecoration","underline");
+    						$(".textDecoration-active").css("background","#eeeeee");
+    					}else if($("#textSelected").css("textDecoration") == "underline"){
+    						$("#textSelected").css("textDecoration","");
+    						$(".textDecoration-active").css("background","");
+    					}
+    				}
+
+    				//set TextAlignLeft
+    				$scope.setTextAlign = function(textPos){
+    					if($("#textSelected").css("textAlign") != textPos){
+    						$("#textSelected").css("textAlign",textPos);
+    						$(".text"+textPos+"-active").css("background","#eeeeee");
+    					}else if($("#textSelected").css("textAlign") == textPos){
+    						$("#textSelected").css("textAlign","");
+    						$(".text"+textPos+"-active").css("background","");
+    					}
+    				}
+
+    				//set Radius 
+    				$scope.setRadiusSize   = function(){
+    					$("#textSelected").css("borderRadius",$scope.radius.size+"px");
+    				}
+
+    				//set FontBackgroundColor
+    				$scope.$watch("setFontBackgroundColor",function(newValue,oldValue){
+    					$("#textSelected").css("backgroundColor",newValue);
+    				});
+
+    				//set FontOpacity
+    				$scope.setFontOpacity  = function(){
+    					$("#textSelected").css("opacity",$scope.opacity.numberValue);
+    				};
+
+    				//set setFontTransform
+    				$scope.setFontTransform = function(){
+    					$('#textSelected').css('transform','rotate('+$scope.transform.numberValue+'deg)');
+    				}
+
+    				//init border style
+		    		$scope.borderStyle = [{"borderStyle":"none"},{"borderStyle":"dotted"},{"borderStyle":"dashed"},{"borderStyle":"solid"},{"borderStyle":"double"},{"borderStyle":"groove"},{"borderStyle":"ridge"},{"borderStyle":"inset"},{"borderStyle":"outset"},{"borderStyle":"inherit"}]
+		    		//set  border style
+		    		$scope.setBorderStyle = function(){
+		    			$('#textSelected').css('borderStyle',$scope.selected.borderStyle);	
+		    		};
+		    		
+		    		//set font link
+		    		$scope.$watch("setFontLink",function(newValue,oldValue){
+						$("#textSelected").attr("data-link",newValue);		    			
+		    		})
+
+		    		//set border color
+		    		$scope.$watch("setBorderColor",function(newValue,oldColor){
+		    			$('#textSelected').css('borderColor',newValue);	
+		    		});
+
+		    		//text animate
+		    		$scope.textAnimate = function(){
+		    			console.log('xxx');
+		    			var anim = $('#js--animations').val()
+					    testAnimation(anim);
+		    		 function testAnimation(x){
+					    $('#textSelected').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+					      // $(this).removeClass();
+					    });
+					  }
+		    		}
+		    		
+		    		//text link
+		    		$scope.setTextLink = function(){
+		    			if($("#linkValue").val() !=''){
+		    				
+		    			}
+		    		}
+    			},
+			      templateUrl: './template/fontPropertyPanel.html',
+			      parent : $document[0].querySelector('#editModulePosition'),
+			      hideDelay: false
+			      // position: $scope.getToastPosition()
+			    });
+			}//end of showTextEditPanel function
+
+
+
 
 function initFormDraggable(){
 	$(".form-group >input").on('click',function(){
