@@ -1,6 +1,6 @@
-var dashboardController = angular.module('dashboardController', ['ngMaterial','dashBoardService']);
+var dashboardController = angular.module('dashboardController', ['ngMaterial','dashBoardService','toolBar']);
 
-dashboardController.controller('dashboardController',function ($scope, $timeout,$mdToast,$document,getMyProjectsList,$document,$mdDialog,dashBoardFunctionCollection){
+dashboardController.controller('dashboardController',function ($scope,$rootScope, $timeout,$mdToast,$document,getMyProjectsList,$document,$mdDialog,dashBoardFunctionCollection){
 	$scope.projectList = getMyProjectsList.data;
 	$scope.showBack = function(target){
 		console.log('show back works');
@@ -10,12 +10,10 @@ dashboardController.controller('dashboardController',function ($scope, $timeout,
 
 	$scope.previewPage = function(ev,url,qrcode){	
 	$mdDialog.show({
-      controller: function( $scope){
+      controller: function($scope){
 
-       $scope.previewUrl = './data/index.html';    
-       // $scope.qrcode = qrcode;
-       $scope.qrcode = 'http://9.115.24.168:3000/public/qr/qr1.png'; 	
-       console.log('qrcode'+qrcode)
+       $scope.previewUrl ='./data/index.html';
+       $scope.qrcode = qrcode; 	
        $scope.close = function(){
        	$mdDialog.cancel();
        }
@@ -51,11 +49,15 @@ dashboardController.controller('dashboardController',function ($scope, $timeout,
 
 
 	$scope.copyProject = function(ev,projectId,projectName){	
-			console.log('copy')
+	   var pId = projectId;
+	   var pName = projectName;
+	   console.log(pName+"///")
 	$mdDialog.show({
       controller: function( $scope){
-      	$scope.copyProjectInProgress = function(projectName,projectId){
-      	dashBoardFunctionCollection.copyProject(projectName,projectId);
+      	$scope.copyProjectInProgress = function(){
+      	console.log(pId+"//"+pName)
+      	var newProject = dashBoardFunctionCollection.copyProject(pName,pId);
+      	console.log(newProject._id+"///// new project id")
 
 var newProject= $('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="{{item.id}}"><div class="thumbnail"  style="height: 334px;" ><div class="projectInfo-projectName" style="position:absolute;width:98%;opacity:1;"><img  style="width:100%;height:325px;"  src="{{item.cover}}"><div style="width:100%;position:absolute;bottom:0px;text-align:center;height:40px;background:#fff;padding:10px 0px 10px 0px;"><p>{{item.projectname}} new project new project</p></div></div><div class="dask" style="position:absolute;width:98%;opacity:0;"><p class="showMoreIcons"><span ng-click="deletePage($event,item.id)" class="projectInfoShowMoreIcons-remove" style="width:0px;opacity:0;"></span><span ng-click="copyProject($event,item.id,item.projectname)" class="projectInfoShowMoreIcons-copy" style="width:0px;opacity:0;"></span><span href="javascript:;" class="projectInfoShowMoreIcons"></span></p><img src="{{item.qrcode}}" style="width:100%;"><p class="projectInfoDownloadQRCode">DownLoad QR Code</p><p class="showMoreIconsBottom"><a ng-click="previewPage($event,item.url,item.qrcode)" class="projectInfoShowMoreIcons-preview"></a><a href="javascript:;" class="projectInfoShowMoreIcons-edit"></a><a href="javascript:;" class="projectInfoShowMoreIcons-report"></a></p></div></div></div></div></div>');
 		newProject.prependTo($('.row'));

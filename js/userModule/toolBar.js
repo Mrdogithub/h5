@@ -40,7 +40,7 @@ toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope){
 	 					$scope.loginBtn = function(){
 	 					var userInfo = {"username":$scope.user.firstName,"password":$scope.user.passWord}
 			  			var aj = $.ajax( {  
-					 	     url:'http://9.112.85.40:3000/login',// 跳转到 action
+					 	     url:'http://9.112.71.102:3000/login',// 跳转到 action
 					  	     data:userInfo,
 					 		 type:'post',  
 						     cache:false,  
@@ -53,6 +53,8 @@ toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope){
 				 	         $("#userLogin").remove();
 
 				 	         $rootScope.userStatus = true;
+				 	         $rootScope.userName = data.userName;
+				 	         $rootScope.userPhoto = data.userPhoto;
 				 	         console.log("$rootScope.userStatus = true;"+$rootScope.userStatus);
 				 		      },  
 				 		      error : function() {  
@@ -81,7 +83,7 @@ toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope){
  						pageObj = {"projectId":$rootScope.projectId,"pages":pages};	
 
  							var aj = $.ajax( {  
-						 	     url:'http://9.112.85.40:3000/saveProject',// 跳转到 action  
+						 	     url:'http://9.112.71.102:3000/saveProject',// 跳转到 action  
 						 	     data:pageObj,
 							     type:'post',  
 							     cache:false,  
@@ -117,7 +119,7 @@ toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope){
  						pageObj = {"projectName":projectName,"pages":pages,"owner":owner};
 
  							var aj = $.ajax( {  
-						 	     url:'http://9.112.85.40:3000/saveProject',// 跳转到 action  
+						 	     url:'http://9.112.71.102:3000/saveProject',// 跳转到 action  
 						 	     data:pageObj,
 							     type:'post',  
 							     cache:false,  

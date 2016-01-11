@@ -38,7 +38,7 @@ a.imgbut:hover{ background: #3383b1; }
 .col-left .box{float: left; margin: 20px 20px 0 20px; }
 .col-left .page{ width:100px; height: 150px;  box-shadow: 0 0 2px 2px #ccc; float: left; position: relative;}
 .col-left .page img{ width: 100px; height: 150px;}
-.col-left .pagenum{ width: 20px; display: inline-block; margin-bottom: 20px; float: left; margin: 20px 0 0 20px; color: #aaa;}
+.col-left .pagenum{ /*width: 20px;*/ display: inline-block; margin-bottom: 20px; float: left; margin: 20px 0 0 20px; color: #aaa;}
 .col-left .pagenum span{font-size: 2em; display: block; }
 .col-left  a{color: #ccc;}
 .col-left  a:hover{color: #aaa; text-decoration: none;}
