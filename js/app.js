@@ -1,22 +1,24 @@
-var rmtModule = angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial','loginController','homeController',"kendo.directives",'dragDirective']);
+var rmtModule = angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial','loginController','homeController',"kendo.directives",'dragDirective','dashboardController','dashBoardService']);
 rmtModule.config(function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider.otherwise('/');
-	$stateProvider.state('loginPage',{
+	$stateProvider.state('homePage',{
 		url:'/',
-		views:{
-			'':{templateUrl:'./template/login.html',
-		        controller:'loginController'}
-		}
-	}).state('home',{
-		url:'/home',
 		views:{
 			'':{templateUrl:'./template/home.html',
 		 		controller:'homeController'}
 		}
-	}).state('project',{
-		url:'/project',
+	}).state('homePage.dashboard',{
+		url:'/dashboard',
 		views:{
-			'':{templateUrl:'./template/project.html'}
+			'editPanel':{templateUrl:'./template/page.dashboard.tmpl.html',
+						 controller:'dashboardController',
+						 resolve:{
+						 		getMyProjectsList:function(dashBoardFunctionCollection){
+						 			return dashBoardFunctionCollection.getProjectList();
+						 		}
+						 	}
+						}
+
 		}
 	})
 });

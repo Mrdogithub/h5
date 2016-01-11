@@ -1,7 +1,7 @@
 	<div class="col-right" id="img-properties" >
 		  <div class="title"><div class="active">Image</div></div>
 		  <div class="btn-group module">
-		    <button type="button" class="btn btn-default module-select-half">BorderWidth</button>
+<!-- 		    <button type="button" class="btn btn-default module-select-half">BorderWidth</button>
 		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		      <span class="caret"></span>
 		      <span class="sr-only">Toggle Dropdown</span>
@@ -11,7 +11,14 @@
 		    </ul>
 		  </div>		  
 		  <div class="btn module module-half select-color blue">Border Color</div>
-		  <div class="Separation"></div>		  
+		  <div class="Separation"></div>	 -->
+      <div class="module">
+        <div class="silderTitle">Size</div>
+        <div class="silder">
+          <md-slider flex ng-model="imageWidth.size"  max='1000' min = '1' step='1' ng-change="setImageWidthSize()" aria-label="blue" id="blue-slider" class="md-primary">
+          </md-slider>
+        </div>
+      </div>	  
 		  <div class="module">
 		  	<div class="silderTitle">Radius</div>
         <div class="silder">

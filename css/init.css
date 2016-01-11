@@ -91,7 +91,7 @@ a.imgbut:hover{ background: #3383b1; }
 .blue{background: #00649d; color: #FFF;}
 
 
-.piclaber{width: 50%; min-height: 450px; position: absolute; background: #f2f2f2; top:100px; left: 20%; box-shadow: 0 0 5px 5px #ccc;/* display: none; */}
+.piclaber{width: 100%; min-height: 450px; background: #f2f2f2; /* display: none; */}
 .piclaber .leftTab {padding: 0;}
 .piclaber .leftTab ul{margin: 0; padding: 0 ; text-align: center;}
 .piclaber .leftTab ul li{height: 50px; line-height: 50px; display: block;}
@@ -117,4 +117,19 @@ a.imgbut:hover{ background: #3383b1; }
 @media (min-width: 1200px) {
 .navbar-img{margin-left: 33em;}
 .col-center{padding-left: 18em;}
+}
+
+
+#uImage{
+	width: 35px;
+    border-radius: 100px;
+    margin-right: 10px;
+}
+#uName{
+	height:50px;display:inline-block;vertical-align:middle;
+	padding: 15px;
+}
+#uName:hover{
+	cursor: pointer;
+	background: rgba(0,0,0,.5);
 }

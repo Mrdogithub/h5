@@ -1,64 +1,13 @@
-<div  ng-controller="AppCtrl" class="mainContent" id='popupContainer'>
-<!-- top bar -->
-<!-- fill up the space between left and right area -->
-<!--<md-toolbar   style="background-color:#00649d;" layout="row" layout-fill style="height:50px;">
-    <div class="md-toolbar-tools" style="height:50px;" flex="10">
-      <span style="width:200px;margin:0 auto;margin-left:20px;"><img src="./images/logo.png"/></span>
+<div  class="mainContent" id='popupContainer'>
+<div ui-view="editPanel">
+    <edittool1></edittool1>
+    <div class="mainbox">
+      <pageleft></pageleft>
+        <div class="col-center" id="editModulePosition">
+                <div id="pagesList">
+                <div class="swiper-slide  isEdit" data-type="page"> </div>
+                </div>
+        <toolbar1></toolbar1>
+      </div>
     </div>
-
-</md-toolbar>-->
-   	  <!--<nav class="navbar navbar-blue">        
-          <div class="navbar-text navbar-left" id="ibm-home"><a class="ibm-logo">&nbsp;</a></div>
-          <p class="navbar-text navbar-left"><a href="">DashBoard</a></p>
-          <div class="navbar-img">
-          	<a class="imgbut" id="text" href="#"><img src="images/text.svg"></a>
-            <a class="imgbut" id="img" href="#"><img src="images/img.svg"></a>
-            <a class="imgbut" id="graph" href="#"><img src="images/graph.svg"></a>
-            <a class="imgbut" id="form" href="#"><img src="images/form.svg"></a>
-          </div>
-          <p class="navbar-text navbar-right">欢迎</p> 
-          
-          <div class="popbox" id="graphpop">
-          	<ul class="buttons">
-          	  <li><img src="images/graph/add.svg"></li>
-          	  <li><img src="images/graph/delete.svg"></li>
-          	  <li><img src="images/graph/no.svg"></li>
-          	  <li><img src="images/graph/six.svg"></li>
-          	  <li></li>
-          	</ul>
-          	<div class="pickup"><span></span></div>
-          </div>
-          
-          <div class="popbox" id="formpop">
-          	<ul class="buttons">
-          	  <li class="inputicon"><img src="images/form/input.png"></li>
-          	  <li class="textareaicon"><img src="images/form/textarea.png"></li>
-          	  <li class="checkboxicon"><img src="images/form/checkbox.png"></li>
-          	  <li class="radioicon"><img src="images/form/radiobox.png"></li>
-          	  <li class="buttonicon"><img src="images/form/button.png"></li>
-          	</ul>
-          	<div class="pickup"><span></span></div>
-          </div>
-      </nav>-->
-<edittool1></edittool1>
-<div class="mainbox">
-        <pageleft></pageleft>
-       	<div class="col-center" id="editModulePosition">
-        <!--<img src="images/phone.png">-->
-	   <!--       <div class="swiper-container phoneTemplate">
-	              <div class="swiper-wrapper" id="editPage" > -->
-	                <div id="pagesList">
-                  <div class="swiper-slide swiper-slide-active"> </div>
-                  </div>
-	         <!--      </div> -->
-<!--	              <div class="swiper-pagination" ></div>-->
-	        <!--   </div> -->
-          	
-   <!--       </div>-->
-          <toolbar1></toolbar1>
-      
-      	</div>
-
-
-
-</div>
+  </div>

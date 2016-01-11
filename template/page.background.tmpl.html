@@ -1,7 +1,9 @@
    	<!--bg  Properties start-->
       	<div class="col-right" id="bg-properties">
 		  <div class="title"><div class="active">Background</div></div>		  		  		  	  
-		  <div class="btn module module-half select-color blue">BG Color</div>
+		 <div type="button" class="btn module module-half select-color blue" style="padding: 0;">
+<input id="pageBackgroundColor" type="color"  ng-model="setPageBackgroundColor" />
+</div>
 		  <div class="Separation"></div>		  
 		  <div class="btn-group module module-full">
 		    <button type="button" class="btn btn-default module-select-full">Action</button>
@@ -14,4 +16,17 @@
 		    </ul>
 		  </div>		  
       	</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+$("#pageBackgroundColor").kendoColorPicker({
+  	toolIcon: "k-i-minimize",
+  	palette: "websafe",
+    opacity: true
+});
+
+});
+
+
+</script>
 <!--bg  Properties end-->

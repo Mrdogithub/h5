@@ -1,14 +1,14 @@
 	  <nav class="navbar navbar-blue">        
           <div class="navbar-text navbar-left" id="ibm-home"><a class="ibm-logo">&nbsp;</a></div>
-          <p class="navbar-text navbar-left"><a href="">DashBoard</a></p>
+          <p class="navbar-text navbar-left"><a href="#" ui-sref=".dashboard">DashBoard</a></p>
           <div class="navbar-img">
           	<a class="imgbut" id="text"  ng-click="newText()"><img src="images/text.svg"></a>
             <a class="imgbut" id="img"   ng-click="newImages()"><img src="images/img.svg"></a>
  <!--            <a class="imgbut" id="graph" href="#" ng-click="newGraph()"><img src="images/graph.svg"></a> -->
             <a class="imgbut" id="form"  ng-click="newForm()"><img src="images/form.svg"></a>
           </div>
-          <p class="navbar-text navbar-right">欢迎 XXX</p> 
-          
+          <p class="navbar-text navbar-right" id="userProfile" style="margin: 0px 10px 0px 0px;">
+          <span class="userName" id="uName" ng-click="userLogin()">Welcome,Sign In</span></p> 
           <div class="popbox" id="graphpop">
           	<ul class="buttons">
           	  <li><img src="images/graph/add.svg"></li>
@@ -31,13 +31,3 @@
           	<div class="pickup"><span></span></div>
           </div>
       </nav>
-
-
-
-<!--<section style="margin-left:470px; width:700px;">
-<md-button ng-click="newText()" class="md-raised md-warn">New Text</md-button>
-<md-button ng-click="newPage()" class="md-raised md-warn">New Page</md-button>
-<md-button ng-click="newimages()" class="md-raised md-warn">Insert images</md-button>
-<md-button ng-click="newGraph()" class="md-raised md-warn">Add Graph</md-button>
-<md-button ng-click="newForm()" class="md-raised md-warn">Create Form</md-button>
-</section>-->

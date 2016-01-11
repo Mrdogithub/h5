@@ -10,7 +10,8 @@
 	<link rel="stylesheet" type="text/css" href="css/swiper.min.css"/>
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome-ie7.min.css">
-    	<link rel="stylesheet" type="text/css" href="css/init.css"/>
+    <link rel="stylesheet" type="text/css" href="css/init.css"/>
+    <link rel="stylesheet" type="text/css" href="css/h5_dash.css"/>
    	<link rel="stylesheet" type="text/css" href="css/ibm_fonts.css"/>
 	<link rel="stylesheet" type="text/css" href="css/lanrenzhijia.css"/>
 	<script type="text/javascript" src="js/lib/jquery.js"></script>
@@ -213,17 +214,81 @@ ul.h-images-list li img{
 	    border-color: #ceced2;
 }
 
-
+#pagesList{
+	border: 1px #eeeeee solid;
+}
 .swiper-slide{
-	margin-top: 40px;
 	width: 450px;
 	height: 600px;
-	border: 1px #eeeeee solid;
-	position: absolute;
-	opacity: 0;
+	
+/*	position: absolute;*/
+/*	opacity: 0;*/
 }
 .swiper-slide-active{
+	/*opacity: 1;*/
+}
+.thumbnail{
+	width: 100%;
+	position:relative;
+	height: 334px;
+}
+.thumbnail-hover{
+	display:none;
+	position: relative;
+}
+.dask{
 	opacity: 1;
+	position: absolute;
+	width: 100%;
+	background: #fff;
+    height: 325px;
+
+}
+.imgClass{
+
+}
+
+.thumbnail .projectInfo{
+	
+}
+
+.flip {
+	-webkit-backface-visibility: hidden;
+	-webkit-transform: translateX(0); /* Needed to work around an iOS 3.1 bug that causes listview thumbs to disappear when -webkit-visibility:hidden is used. */
+	backface-visibility: hidden;
+	transform: translateX(0);
+}
+.flip.out {
+	-webkit-transform: rotateY(-90deg) scale(.9);
+	-webkit-animation-name: flipouttoleft;
+	-webkit-animation-duration: 175ms;
+	transform: rotateY(-90deg) scale(.9);
+	animation-name: flipouttoleft;
+	animation-duration: 175ms;
+}
+.flip.in {
+	-webkit-animation-name: flipintoright;
+	-webkit-animation-duration: 225ms;
+	animation-name: flipintoright;
+	animation-duration: 225ms;
+}
+
+@-webkit-keyframes flipouttoleft {
+    from { -webkit-transform: rotateY(0); }
+    to { -webkit-transform: rotateY(-90deg) scale(.9); }
+}
+@keyframes flipouttoleft {
+    from { transform: rotateY(0); }
+    to { transform: rotateY(-90deg) scale(.9); }
+}
+
+@-webkit-keyframes flipintoright {
+    from { -webkit-transform: rotateY(90deg) scale(.9); }
+    to { -webkit-transform: rotateY(0); }
+}
+@keyframes flipintoright {
+    from { transform: rotateY(90deg) scale(.9); }
+    to { transform: rotateY(0); }
 }
 </style>
 
@@ -231,15 +296,17 @@ ul.h-images-list li img{
 </head>
 
 <body id="main">
-<div ui-view></div>	
+<div ui-view=""></div>	
 </body>
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/userModule/loginController.js"></script>
 <script type="text/javascript" src="js/userModule/homeController.js"></script>
+<script type="text/javascript" src="js/userModule/dashboardController.js"></script>
 <script type="text/javascript" src="js/userModule/dragDirective.js"></script>
 <script type="text/javascript" src="js/textModule/editText.js"></script>
 <script type="text/javascript" src="js/textModule/editImage.js"></script>
 <script type="text/javascript" src="js/userModule/previewDirective.js"></script>
 <script type="text/javascript" src="js/userModule/toolBar.js"></script>
+<script type="text/javascript" src="js/userModule/dashBoardService.js"></script>
 
 </html>
