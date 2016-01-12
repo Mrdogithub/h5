@@ -73,7 +73,8 @@ editText.directive('edittool1',function($mdToast,$document,$rootScope){
 			$scope.newText = function(){
                 createNewText($mdToast,$document);
 				showTextEditPanel($mdToast,$document);
-				initText($mdToast,$document);
+				var editPanelIsShow = true;
+				initText($mdToast,$document,editPanelIsShow);
 			};
 
 			$scope.newImages = function(){
@@ -310,32 +311,26 @@ editText.directive('edittool1',function($mdToast,$document,$rootScope){
 
 //Create new text
 function createNewText($mdToast,$document){
-	var textDiv = $("<div  id='textSelected' data-link='' data-type='text'  contentEditable='true' style=' position: absolute; top: 50%; left: 50%;  margin-left: -80px; margin-top: -120px;overflow:hidden; min-width:100px; padding:5px;min-height:40px;'>Text Placeholder</div>");
+	var textDiv = $("<div  id='textSelected' data-cssJson='' data-link='' data-type='text'  contentEditable='true' style=' position: absolute; top: 50%; left: 50%;  margin-left: -80px; margin-top: -120px;overflow:hidden; min-width:100px; padding:5px;min-height:40px;'>Text Placeholder</div>");
     var currentPage = $('.isEdit');
     textDiv.appendTo(currentPage);
 }
 
 //initText
-function initText($mdToast,$document){
+function initText($mdToast,$document,editPanelIsShow){
 	  $('div.isEdit div').on('click',function(event){
             event.stopPropagation();            
             $('#textSelected').attr('id','');
             if($(this).data('type') == 'text'){
             	$(".isEdit").css("border","");
             	$("#imageSelected").css("border","");
+            	$('div.isEdit div').css({'border':'','resize':'','overflow':''});
+            	$(this).attr('id','textSelected').css({'border':'#dedede 2px dashed','resize':'','overflow':'hidden'});
             	$(this).focus();
-            	$(this).focus(function(){
-            		$('div.isEdit div').css({'border':'','resize':'','overflow':''});
-            		$(this).attr('id','textSelected').css({'border':'#dedede 2px dashed','resize':'','overflow':'hidden'});
-            		$('#textSelected').draggable({'position':'absolute'});
-            		showTextEditPanel($mdToast,$document);
-            	});
-
-            	$(this).blur(function(){
-            		$(this).attr('id','textSelected').css({'border':'','resize':'','overflow':''});
-            	}); 
+            	$('#textSelected').draggable({'position':'absolute'});
+            	editPanelIsShow? "" :showTextEditPanel($mdToast,$document);
             }else if($(this).data('type') =='image'){
-            	initImage($mdToast,$document);
+            	//initImage($mdToast,$document);
             }
      });
 }
@@ -345,13 +340,16 @@ function initText($mdToast,$document){
 //initImage
 function initImage($mdToast,$document){
 	  $('div.isEdit div').on('click',function(event){
+	  	console.log('image works ----------------------')
             event.stopPropagation();            
            if($(this).data("type") == "image"){
-           	    $("#textSelected").css("border","");
-           	    $(".isEdit").css("border","");
-           	    $('#imageSelected').attr('id','');
-        		$('div.isEdit div').css({'border':'','resize':'','overflow':''});
-        		$(this).attr('id','imageSelected').css({'border':'#dedede 2px dashed','resize':'none','overflow':'hidden'});
+           		$(".isEdit").css("border","");
+           	    $("#textSelected").css("border","");   
+           	    $('#imageSelected').css("border","");
+        		$('div.isEdit div').css('border','');
+        		
+        		$('#imageSelected').attr('id','');
+        		$(this).find('img').attr('id','imageSelected').css('border','#dedede 2px dashed');
         		$('#imageSelected').draggable({'position':'absolute'});
         		showImageEditPanelOnly($mdToast,$document);
            }
@@ -407,14 +405,19 @@ function createButton($rootScope){
 var showTextEditPanel = function($mdToast,$document)	{
 				$mdToast.show({
 			      controller: function($scope){ 
-
+			      	setFontSize();
 			      	//init FontSize
 			      	$scope.fontSize = [{"px":"6px"},{"px":"7px"},{"px":"8px"},{"px":"10px"},{"px":"12px"},{"px":"14px"},{"px":"16px"},{"px":"18px"},{"px":"20px"},{"px":"24px"}];
-			      	//set  FonttSize
+			      	//get  FonttSize
 			      	$scope.getFontSize = function(fontSize){
-					
     					$('#textSelected').css('fontSize',fontSize);
     					$('#fontSize').html(fontSize); 
+    				}
+    				function setFontSize(){
+    					
+            		$('#fontSize').html($("#textSelected").css('fontSize'));
+						    				
+
     				}
 
     				//init FontFamily
@@ -542,6 +545,12 @@ var showTextEditPanel = function($mdToast,$document)	{
 			    });
 			}//end of showTextEditPanel function
 
+
+function initSelectedStyleToJson(jsonObj,propertyName,propertyValue){
+	for(var i in jsonObj){
+		console.log(i+"////////////");
+	}		
+}
 
 
 
@@ -807,13 +816,7 @@ function showImageEditPanel($mdToast,$document){
 						      var currentPage = $('.isEdit');
 						      oImage.appendTo(currentPage);
 						 	  $('#imageSelected').draggable();
-						      $('div.isEdit div').on('click',function(event){
-						            event.stopPropagation();
-						            $(this).focus();
-						            $('div.isEdit div').attr('id','');
-						            $(this).data('type') == 'image' ? $(this).attr('id','imageSelected'):'';
-						            $(this).css('border','#dedede 1px dashed');
-						      });
+						      initImage($mdToast,$document);
 						      
 						      $("#imgpop").animate({left:"-99999px"},200);
 						      	$('.md-dialog-backdrop').remove();
