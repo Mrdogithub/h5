@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="js/lib/jquery.js"></script>
+</head>
+<body>
+	<form class="form-horizontal ui-selected mForm" id="formContent" style="font-size:10px;"><div class="form-group formElement"><label for="inputEmail3" class="col-sm-2 control-label">Name</label><div class="col-sm-10"><input type="text" class="form-control" id="m1111" placeholder="" name="name"></div></div><div class="form-group formElement"><label for="inputEmail3" class="col-sm-2 control-label">Email</label><div class="col-sm-10"><input type="email" class="form-control" id="m2222" placeholder="" name="email"></div></div><div class="form-group formElement"><label for="inputEmail3" class="col-sm-2 control-label">Address</label><div class="col-sm-10"> <input type="text" class="form-control" id="m3333" placeholder=""></div></div><div class="form-group formElement"><label for="inputEmail3" class="col-sm-2 control-label">Other</label><div class="col-sm-10"><textarea class="form-control formElement" id="m444" name="comments" rows="3"></textarea></div></div><div class="form-group formElement"><div class="col-sm-offset-2 col-sm-10"><div class="checkbox formElement"><label><input type="checkbox" id="m555" name="call me"> Remember me</label></div></div></div><div class="form-group formElement"><div class="col-sm-offset-2 col-sm-10"><button  id="formSubmit" class="btn btn-default">Submit</button></div></div></form>
+
+	<script type="text/javascript">
+
+
+	var frm = $('#formContent');
+    frm.submit(function (ev) {
+    var formObj = {"projectId":"569df4a048f658615eb3b4fc","formContent":[{'m1111':$('#m1111').val()},{'m2222':$('#m2222').val()},{'m3333':$('#m3333').val()},{'m444':$('#m444').val()},{'m555':$('#m555').val()}]};
+        $.ajax({
+            type: 'POST',
+            url: 'http://9.112.71.55:3000/submitForm',
+            data: formObj,
+            success: function (data) {
+                alert('ok');
+            }
+        });
+
+        ev.preventDefault();
+    });
+
+
+	 $(document).on("click","#formSubmit",function(){
+	 	console.log( $("#formContent").serialize()+"..............")
+        $.ajax({
+            url: "http://9.112.71.55:3000/submitForm" ,
+            type: "POST",
+            data: $("#formContent").serialize(), 
+
+            success : function(data){
+                // Show success message
+                console.log(data+"success");
+            }
+        });
+    });
+</script>
+</body>
+</html>

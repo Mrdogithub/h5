@@ -1,32 +1,15 @@
    	<!--bg  Properties start-->
       	<div class="col-right" id="bg-properties">
-		  <div class="title"><div class="active">Background</div></div>		  		  		  	  
-		 <div type="button" class="btn module module-half select-color blue" style="padding: 0;">
-<input id="pageBackgroundColor" type="color"  ng-model="setPageBackgroundColor" />
-</div>
-		  <div class="Separation"></div>		  
-		  <div class="btn-group module module-full">
-		    <button type="button" class="btn btn-default module-select-full">Action</button>
-		    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		      <span class="caret"></span>
-		      <span class="sr-only">Toggle Dropdown</span>
-		    </button>
-		    <ul class="dropdown-menu">
-		      <li><a href="#">Action</a></li>
-		    </ul>
-		  </div>		  
+		  <div class="title"><div class="active">页面背景设置</div></div>		  		  		  	  
+
+
+	<div class="form-group" style="text-align:left; margin:10px 0px 0px 10px;">
+    <label for="exampleInputName2">背景颜色</label>
+   <input id="pageBackgroundColor" type="color"  ng-model="setPageBackgroundColor" />
+  </div>
       	</div>
 
 <script type="text/javascript">
-$(document).ready(function(){
-$("#pageBackgroundColor").kendoColorPicker({
-  	toolIcon: "k-i-minimize",
-  	palette: "websafe",
-    opacity: true
-});
-
-});
-
-
+$(document).ready(function(){$("#pageBackgroundColor").kendoColorPicker({});});
 </script>
 <!--bg  Properties end-->

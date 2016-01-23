@@ -10,7 +10,16 @@
 
     <div class="edit-icon">
  <!--          	<a id="grid" ng-click="exchange()"><img src="images/grid.svg"></a> -->
- 			<a  ng-click="remove()"><img src="images/delete.svg"></a>
-          	<a  ng-click="previewPage()"><img src="images/eye.svg"></a>
-          	<a ng-click="savePage()"><img src="images/ok.svg"></a>
+ 		    <a  ng-click="remove()" id="#example"  data-toggle="tooltip" data-placement="top" title="Tooltip on top"><i class='icon-trash icon-2x'></i></a>
+ 		    <a  ng-click="previewPage()"><i class=" icon-eye-open icon-2x"></i></a>
+          	<a ng-click="savePage()"><i class=" icon-save icon-2x"></i></a>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#example').tooltip();
+		$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+	});
+</script>

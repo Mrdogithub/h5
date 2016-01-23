@@ -32,29 +32,28 @@ editText.directive('edittool1',function($mdToast,$document,$rootScope){
 				$mdToast.show({
 				      controller: function($scope,$mdDialog,$rootScope){
 				      	$scope.loginBtn = function(){
-				    
+				    		
 				      		var userInfo = {"username":$scope.user.firstName,"password":$scope.user.passWord}
+			  				console.log(userInfo.username+"||"+userInfo.password)
 			  				var aj = $.ajax( {  
-					 	     url:'http://9.112.71.102:3000/login',// 跳转到 action
+					 	     url:'http://9.115.24.168:3000/login',// 跳转到 action
 					  	     data:userInfo,
 					 		 type:'post',  
 						     cache:false,  
 					 	     dataType:'json',  
 					 		 success:function(data) {  
-			      		     
 			      			 $("#uName").html(data.userName);
 			      			 $("<span class='userImage'><img id='uImage' src='"+data.userPhoto+"'/></span>").prependTo($("#userProfile"));
 				 	         $("#userLogin").remove();
 				 	         $("#pagesList").css('display','block');
-
-
 				 	         console.log("$rootScope.userStatus = true;"+$rootScope.userStatus);
+				 	         for(var i in data){
+				 	         	console.log(i+":"+data[i]);
+				 	         }
 				 	         $rootScope.userStatus = true;
 				 		      },  
 				 		      error : function() {  
-					 		      	console.log("error");
-				 			           // view("异常！");  
-					 		           alert("异常！");  
+					 		        $scope.error = "用户名或密码错误";
 				 	      		}  
 				 		 	});
 				 		 }
@@ -62,26 +61,25 @@ editText.directive('edittool1',function($mdToast,$document,$rootScope){
 				      templateUrl:'./template/user.login.tmpl.html',
 				      parent : $document[0].querySelector('#editModulePosition'),
 				      hideDelay: false
-				      // position: $scope.getToastPosition()
 				    });
-
-
-
-
-	 			
 			}
+
+
+
 			$scope.newText = function(){
                 createNewText($mdToast,$document);
-				showTextEditPanel($mdToast,$document);
-				var editPanelIsShow = true;
-				initText($mdToast,$document,editPanelIsShow);
+				// showTextEditPanel($mdToast,$document);
+				//var editPanelIsShow = true;
+				initElement('.mText','text',$mdToast,$document);
+				//initText($mdToast,$document,editPanelIsShow);
 			};
 
 			$scope.newImages = function(){
-				console.log('works');
+				 console.log('works');
 				 console.log(+"loadingImagesFromServer()");
-				showImageEditPanel($mdToast,$document);
-				initImage($mdToast,$document);
+				 var newImage = true;
+				 showEditPanel($mdToast,$document,'image',newImage);
+				//initElement('.mImage','imageWithOverlay',$mdToast,$document);
 			};
 
 			$scope.newGraph = function(){
@@ -97,16 +95,9 @@ editText.directive('edittool1',function($mdToast,$document,$rootScope){
 
 
 			$scope.newInput = function(){
-				$mdToast.show({
-			      controller:function($mdToast,$document){
-			      	createInput($mdToast,$document);
-			      		 
-			      },
-			      templateUrl: './template/form.input.tmpl.html',
-			      parent : $document[0].querySelector('#editModulePosition'),
-			       hideDelay: false
-			      // position: $scope.getToastPosition()
-			    });	
+                showInputEditPanel($mdToast,$document);
+				initElement('.formElement','input',$mdToast,$document);
+				
 			}
 
 
@@ -114,7 +105,7 @@ editText.directive('edittool1',function($mdToast,$document,$rootScope){
 			$scope.newTextarea = function(){
 				$mdToast.show({
 			      controller:function($mdToast,$document){
-			      	createTextarea($mdToast,$document);
+			      	// createTextarea($mdToast,$document);
 			      },
 			      templateUrl: './template/form.textarea.tmpl.html',
 			      parent : $document[0].querySelector('#editModulePosition'),
@@ -129,7 +120,7 @@ editText.directive('edittool1',function($mdToast,$document,$rootScope){
 			$scope.newCheckbox = function(){
 				$mdToast.show({
 			      controller:function($mdToast,$document){
-			      	createCheckBox($mdToast,$document);
+			      	// createCheckBox($mdToast,$document);
 			      },
 			      templateUrl: './template/form.checkbox.tmpl.html',
 			      parent : $document[0].querySelector('#editModulePosition'),
@@ -143,7 +134,7 @@ editText.directive('edittool1',function($mdToast,$document,$rootScope){
 			$scope.newRadiobox = function(){
 				$mdToast.show({
 			      controller:function($mdToast,$document){
-			      	createRadioBox($mdToast,$document);
+			      	// createRadioBox($mdToast,$document);
 			      },
 			      templateUrl: './template/form.radiobox.tmpl.html',
 			      parent : $document[0].querySelector('#editModulePosition'),
@@ -158,7 +149,7 @@ editText.directive('edittool1',function($mdToast,$document,$rootScope){
 
 				$mdToast.show({
 			      controller:function($mdToast,$document,$rootScope){
-			      	createButton($mdToast,$document,$rootScope);
+			      	// createButton($mdToast,$document,$rootScope);
 			      },
 			      templateUrl: './template/form.button.tmpl.html',
 			      parent : $document[0].querySelector('#editModulePosition'),
@@ -171,206 +162,111 @@ editText.directive('edittool1',function($mdToast,$document,$rootScope){
 
 
 			$scope.newForm = function(){
-				console.log($('#formContent').is(":empty")+"/////");
 				if($('#formContent').length == 0){
 					createNewForm($mdToast,$document);
-					$mdToast.show({
-					      controller: function($scope){
-
-					      		//common function
-					      		initFormDraggable($mdToast,$document);
-							
-
-						  		$scope.$watch("setFormBackgroundColor",function(newValue,oldColor){
-									$('#myForm').css('backgroundColor',newValue);	
-								});
-
-		    					//set form Radius 
-			    				$scope.setFormRadiusSize   = function(){
-			    					console.log('image radius size works');
-			    					$("#myForm").css("borderRadius",$scope.formRadius.size+"px");
-			    				}
-
-
-
-			    				//set form border
-			    				$scope.setFormBorderWidthSize = function(){
-    								$('#myForm').css('borderWidth',$scope.formBorderWidth.size+"px");
-    							}
-
-
-    							//set form border style
-    							$scope.formBorderStyle = [{"formBorderStyle":"none"},{"formBorderStyle":"solid"},{"formBorderStyle":"dotted"},{"formBorderStyle":"double"},{"formBorderStyle":"dashed"}];
-			    				//set FontFamily
-			    				$scope.setFormBorderStyle = function(newStyle){
-			    					console.log('set form style works'+newStyle);
-			    					// $('#myForm').css('border','"1px red '+newStyle+'"');
-			    					$('#myForm').css('border','1px #eeeeee '+newStyle);
-			    					$('#formBorderStyle').html(newStyle);
-			    				}
-
-
-
-			    				//set form border color
-			    				$scope.$watch("setFormBorderColor",function(newColor,oldColor){
-			    					$('#myForm').css('borderColor',newColor);
-			    				});
-
-    							
-
-    							//set form animate
-			    				$scope.formAnimate = function(){
-			    					console.log('form works');
-			    					function testAnimation(x){
-									    $('#myForm').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-									      // $(this).removeClass();
-									    });
-									  }
-									  $('#js--formAnimations').change(function(){
-									    var anim = $(this).val()
-									    testAnimation(anim);
-									  }); 
-			    				}
-					      },
-					      templateUrl: './template/formPropertyPanel.html',
-					      parent : $document[0].querySelector('#editModulePosition'),
-					       hideDelay: false
-					      // position: $scope.getToastPosition()
-			    	});
+					initElement('.mForm','form',$mdToast,$document);
+			    
 				}else{
-					$mdToast.show({
-				      controller: function($scope){
-
-				      			initFormDraggable($mdToast,$document);
-				      			$scope.$watch("setFormBackgroundColor",function(newValue,oldColor){
-		    						$('#myForm').css('backgroundColor',newValue);	
-		    					});
-
-
-		    					//set form Radius 
-			    				$scope.setFormRadiusSize   = function(){
-			    					console.log('image radius size works');
-			    					$("#myForm").css("borderRadius",$scope.formRadius.size+"px");
-			    				}
-
-
-
-			    				//set form border
-			    				$scope.setFormBorderWidthSize = function(){
-    								$('#myForm').css('borderWidth',$scope.formBorderWidth.size+"px");
-    							}
-
-
-    							//set form border style
-    							$scope.formBorderStyle = [{"formBorderStyle":"none"},{"formBorderStyle":"solid"},{"formBorderStyle":"dotted"},{"formBorderStyle":"double"},{"formBorderStyle":"dashed"}];
-			    				//set FontFamily
-			    				$scope.setFormBorderStyle = function(newStyle){
-			    					console.log('set form style works'+newStyle);
-			    					// $('#myForm').css('border','"1px red '+newStyle+'"');
-			    					$('#myForm').css('border','1px #eeeeee '+newStyle);
-			    					$('#formBorderStyle').html(newStyle);
-			    				}
-
-
-
-			    				//set form border color
-			    				$scope.$watch("setFormBorderColor",function(newColor,oldColor){
-			    					$('#myForm').css('borderColor',newColor);
-			    				});
-
-    							
-
-    							//set form animate
-			    				$scope.formAnimate = function(){
-			    					console.log('form works');
-			    					function testAnimation(x){
-									    $('#myForm').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-									      // $(this).removeClass();
-									    });
-									  }
-									  $('#js--formAnimations').change(function(){
-									    var anim = $(this).val()
-									    testAnimation(anim);
-									  }); 
-			    				}
-				      },
-				      templateUrl: './template/formPropertyPanel.html',
-				      parent : $document[0].querySelector('#editModulePosition'),
-				       hideDelay: false
-				      // position: $scope.getToastPosition()
-			    		});
-			   }};
+					initElement('.mForm','form',$mdToast,$document);
+			   }
+			};
 
 		}
 	}
 })
 
 
+function showFormEditPanel($mdToast,$document){
+console.log('showFormEditPanel....................');
+	$mdToast.show({
+			      controller: function($scope){
 
+			      		//common function
+			      		// initFormDraggable($mdToast,$document);
+					
+
+				  		$scope.$watch("setFormBackgroundColor",function(newValue,oldColor){
+							$('#myForm').css('backgroundColor',newValue);	
+						});
+
+    					//set form Radius 
+	    				$scope.setFormRadiusSize   = function(){
+	    					console.log('image radius size works');
+	    					$("#myForm").css("borderRadius",$scope.formRadius.size+"px");
+	    				}
+
+
+
+	    				//set form border
+	    				$scope.setFormBorderWidthSize = function(){
+							$('#myForm').css('borderWidth',$scope.formBorderWidth.size+"px");
+						}
+
+
+						//set form border style
+						$scope.formBorderStyle = [{"formBorderStyle":"none"},{"formBorderStyle":"solid"},{"formBorderStyle":"dotted"},{"formBorderStyle":"double"},{"formBorderStyle":"dashed"}];
+	    				//set FontFamily
+	    				$scope.setFormBorderStyle = function(newStyle){
+	    					console.log('set form style works'+newStyle);
+	    					// $('#myForm').css('border','"1px red '+newStyle+'"');
+	    					$('#myForm').css('border','1px #eeeeee '+newStyle);
+	    					$('#formBorderStyle').html(newStyle);
+	    				}
+
+
+
+	    				//set form border color
+	    				$scope.$watch("setFormBorderColor",function(newColor,oldColor){
+	    					$('#myForm').css('borderColor',newColor);
+	    				});
+
+						
+
+						//set form animate
+	    				$scope.formAnimate = function(){
+	    					console.log('form works');
+	    					function testAnimation(x){
+							    $('#myForm').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+							      // $(this).removeClass();
+							    });
+							  }
+							  $('#js--formAnimations').change(function(){
+							    var anim = $(this).val()
+							    testAnimation(anim);
+							  }); 
+	    				}
+			      },
+			      templateUrl: './template/formPropertyPanel.html',
+			      parent : $document[0].querySelector('#editModulePosition'),
+			       hideDelay: false
+			      // position: $scope.getToastPosition()
+		});
+}
 
 
 //Create new text
 function createNewText($mdToast,$document){
-	var textDiv = $("<div  id='textSelected' data-cssJson='' data-link='' data-type='text'  contentEditable='true' style=' position: absolute; top: 50%; left: 50%;  margin-left: -80px; margin-top: -120px;overflow:hidden; min-width:100px; padding:5px;min-height:40px;'>Text Placeholder</div>");
+	$('.ui-selected').removeClass('ui-selected');
+	$('.rotate-rightTop').css('display','none');
+	var iText = $('<div class="ui-selected" data-type="text" style="width:200px;height:60px;position:absolute;"><div class="rotate-location rotate-rightTop" style="display:block;"><i class="icon-undo"></i></div><div class="mText" contentEditable="true" style="overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;">text placeholder</div></div>');
     var currentPage = $('.isEdit');
-    textDiv.appendTo(currentPage);
+
+    iText.appendTo(currentPage);
+
 }
 
-//initText
-function initText($mdToast,$document,editPanelIsShow){
-	  $('div.isEdit div').on('click',function(event){
-            event.stopPropagation();            
-            $('#textSelected').attr('id','');
-            if($(this).data('type') == 'text'){
-            	$(".isEdit").css("border","");
-            	$("#imageSelected").css("border","");
-            	$('div.isEdit div').css({'border':'','resize':'','overflow':''});
-            	$(this).attr('id','textSelected').css({'border':'#dedede 2px dashed','resize':'','overflow':'hidden'});
-            	$(this).focus();
-            	$('#textSelected').draggable({'position':'absolute'});
-            	editPanelIsShow? "" :showTextEditPanel($mdToast,$document);
-            }else if($(this).data('type') =='image'){
-            	//initImage($mdToast,$document);
-            }
-     });
-}
-
-
-
-//initImage
-function initImage($mdToast,$document){
-	  $('div.isEdit div').on('click',function(event){
-	  	console.log('image works ----------------------')
-            event.stopPropagation();            
-           if($(this).data("type") == "image"){
-           		$(".isEdit").css("border","");
-           	    $("#textSelected").css("border","");   
-           	    $('#imageSelected').css("border","");
-        		$('div.isEdit div').css('border','');
-        		
-        		$('#imageSelected').attr('id','');
-        		$(this).find('img').attr('id','imageSelected').css('border','#dedede 2px dashed');
-        		$('#imageSelected').draggable({'position':'absolute'});
-        		showImageEditPanelOnly($mdToast,$document);
-           }
-           
-         
-     });
-}
 
 function createNewForm($mdToast,$document){
-	var formDiv = $('<form id="formContent"></form>');
-	//var formDefaultContent = $('<div class="form-group"><input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email"></div><div class="form-group"><input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"></div><div class="checkbox"><label><input type="checkbox"> Check me out</label></div>');
-	var oDiv = $("<div id='myForm'></div>");
-	//formDefaultContent.appendTo(formDiv)
+	//text link
+	var formDiv = $('<form class="form-horizontal ui-selected mForm" id="formContent" style="font-size:10px;"><div class="form-group formElement"><label for="inputEmail3" class="col-sm-2 control-label">Name</label><div class="col-sm-10"><input type="text" class="form-control" id="m1111" placeholder="" name="name"></div></div><div class="form-group formElement"><label for="inputEmail3" class="col-sm-2 control-label">Email</label><div class="col-sm-10"><input type="email" class="form-control" id="m2222" placeholder="" name="email"></div></div><div class="form-group formElement"><label for="inputEmail3" class="col-sm-2 control-label">Address</label><div class="col-sm-10"> <input type="text" class="form-control" id="m3333" placeholder=""></div></div><div class="form-group formElement"><label for="inputEmail3" class="col-sm-2 control-label">Other</label><div class="col-sm-10"><textarea class="form-control formElement" id="m444" name="comments" rows="3"></textarea></div></div><div class="form-group formElement"><div class="col-sm-offset-2 col-sm-10"><div class="checkbox formElement"><label><input type="checkbox" id="m555" name="call me"> Remember me</label></div></div></div><div class="form-group formElement"><div class="col-sm-offset-2 col-sm-10"><button  id="formSubmit" class="btn btn-default">Submit</button></div></div></form>');
+	var oDiv = $("<div id='myForm' style='width:90%;'></div>");
 	formDiv.appendTo(oDiv);
 	oDiv.appendTo($('.isEdit'));
-	initFormDraggable($mdToast,$document);
+	// initFormDraggable($mdToast,$document);
 }
 
 
 function createInput($mdToast,$document){
-	// var inputName = 
 	var formInput=$('<div class="form-group ui-state-default" data-type="input"><input type="text"  name="text1" class="form-control"  placeholder="textPlaceholder"></div>');
 	formInput.appendTo($('#formContent'));
 	initFormDraggable($mdToast,$document);
@@ -396,136 +292,134 @@ function createButton($rootScope){
 	var formButton = $('<div class="form-group ui-state-default" data-type="input"><input id="projectId" type="hidden"  name="projectId" value="'+projectIdForMyForm+'" class="form-control"  placeholder="textPlaceholder"></div>'+'<div class="form-group ui-state-default"  data-type="button"><button type="button" class="btn btn-info" id="formSubmit"><span>text placeholder</span></button></div>');
 	formButton.appendTo($('#formContent'));
 }
-//Text property
 
-//
-
-
-
-var showTextEditPanel = function($mdToast,$document)	{
+function showTextEditPanel($mdToast,$document)	{
 				$mdToast.show({
-			      controller: function($scope){ 
+			      controller: function($scope,$mdDialog){ 
 			      	setFontSize();
-			      	//init FontSize
-			      	$scope.fontSize = [{"px":"6px"},{"px":"7px"},{"px":"8px"},{"px":"10px"},{"px":"12px"},{"px":"14px"},{"px":"16px"},{"px":"18px"},{"px":"20px"},{"px":"24px"}];
+			      	
 			      	//get  FonttSize
 			      	$scope.getFontSize = function(fontSize){
-    					$('#textSelected').css('fontSize',fontSize);
+    					$('.ui-selected > .mText').css('fontSize',$scope.fontSize.size);
     					$('#fontSize').html(fontSize); 
     				}
     				function setFontSize(){
-    					
-            		$('#fontSize').html($("#textSelected").css('fontSize'));
-						    				
+            		$('#fontSize').html($(".ui-selected > .mText").css('fontSize'));
+    				}
 
+    				 	//get  FonttSize
+			      	$scope.getLineHeight = function(fontSize){
+    					$('.ui-selected > .mText').css('lineHeight',$scope.lineHeight.size);
     				}
 
     				//init FontFamily
-    				$scope.fontFamily = [{"fontFamily":"黑体"},{"fontFamily":"微软雅黑"},{"fontFamily":"宋体"}];
+    				$scope.fontFamily = [{"name":"Helvetica","value":"Helvetica"},{"name":"Arial","value":"Arial"},{"name":"Verdana","value":"Verdana"},{"name":"Tahoma","value":"Tahoma"},{"name":"Georgia","value":"Georgia"},{"name":"sans-serif","value":"sans-serif"},{"name":"monospace","value":"monospace"},{"name":"fantasy","value":"fantasy"},{"name":"cuisive","value":"cuisive"},{"name":"Helvetica, sans-serif","value":"Helvetica, sans-serif"},{"name":"Arial, sans-serif","value":"Arial, sans-serif"},{"name":"Lucida Grande', sans-serif","value":"Lucida Grande', sans-serif"},{"name":"Verdana,sans-serif","value":"Verdana,sans-serif"},{"name":" Tahoma, sans-serif","value":" Tahoma, sans-serif"},{"name":"'Trebuchet MS', sans-serif","value":"'Trebuchet MS', sans-serif"},{"name":"Georgia, serif","value":"Georgia, serif"},{"name":"Times, serif","value":"Times, serif"},{"name":"微软雅黑","value":"Microsoft YaHei"},{"name":"华文细黑","value":"STHeiti"},{"name":"黑体","value":"SimHei"},{"name":"楷体_GB2312","value":"KaiTi_GB2312"}];
+    				// $scope.fontFamily = [{"name":"Helvetica","value":"Helvetica"},{"name":"Arial":"value":"Arial"},{"name":"Verdana":"value":"Verdana"},{"name":"Tahoma":"value":"Tahoma"},{"name":"Georgia":"value":"Georgia"},{"name":"sans-serif":"value":"sans-serif"},{"name":"微软雅黑","value":"Microsoft YaHei"},{"name":"楷体_GB2312","value":"KaiTi_GB2312"},{"name":"仿宋_GB2312","value":"FangSong_GB2312"},{"name":"楷体","value":"KaiTi"},{"name":"仿宋","value":"FangSong"},{"name":"新宋体","value":"NSimSun"},{"name":"宋体","value":"SimSun"},{"name":"黑体","value":"SimHei"},{"name":"华文仿宋","value":"STFangsong "},{"name":"华文宋体","value":"STSong"},{"name":"华文楷体","value":"STKaiti"},{"name":"华文黑体","value":"STHeiti"},{"name":"华文细黑","value":"STHeiti Light"}];
     				//set FontFamily
-    				$scope.setFontFamily = function(newFont){
-    					$('#textSelected').css('fontFamily','"'+newFont+'"');
-    					$('#fontFamily').html(newFont);
+    				$scope.setFontFamily = function(){
+    					
+    					$('.ui-selected > .mText').css('fontFamily','"'+$scope.selected+'"');
+    					
+    					console.log($scope.selected+">>><<,");
+    					//$('#fontFamily').html($scope.selected);
     				}
 
     				//set FontColor
     				$scope.$watch("setFontColor",function(newColor,oldColor){
-    					$('#textSelected').css('color',newColor);
+    					$('.ui-selected > .mText').css('color',newColor);
     				});
 
     				//init line height
-    				$scope.lineHeight = [{"lineHeight":"1"},{"lineHeight":"1.15"},{"lineHeight":"1.5"},{"lineHeight":"2"},{"lineHeight":"2.5"},{"lineHeight":"3"}];
-    				//set line height
     				$scope.setLineHeight = function(){
-    					$('#textSelected').css('lineHeight',$scope.selected.lineHeight*100+"%");
+    					$('.ui-selected > .mText').css('lineHeight',$scope.selected.lineHeight*100+"%");
     				}
 
     				//setFontBold
     				$scope.setFontBold = function(){
-    					if($("#textSelected").css("fontWeight") != "bold"){
-    						$("#textSelected").css("fontWeight","bold");
+    					if($('.ui-selected > .mText').css("fontWeight") != "bold"){
+    						$('.ui-selected > .mText').css("fontWeight","bold");
     						$(".bold-active").css("background","#eeeeee");
-    					}else if($("#textSelected").css("fontWeight") == "bold"){
-    						$("#textSelected").css("fontWeight","");
+    					}else if($('.ui-selected > .mText').css("fontWeight") == "bold"){
+    						$('.ui-selected > .mText').css("fontWeight","");
     						$(".bold-active").css("background","");
     					}
     				};
 
     				//set Italic
     				$scope.setFontItalic = function(){
-    					if($("#textSelected").css("fontStyle") != "italic"){
-    						$("#textSelected").css("fontStyle","italic");
+    					if($('.ui-selected > .mText').css("fontStyle") != "italic"){
+    						$('.ui-selected > .mText').css("fontStyle","italic");
     						$(".italic-active").css("background","#eeeeee");
-    					}else if($("#textSelected").css("fontStyle") == "italic"){
-    						$("#textSelected").css("fontStyle","");
+    					}else if($('.ui-selected > .mText').css("fontStyle") == "italic"){
+    						$('.ui-selected > .mText').css("fontStyle","");
     						$(".italic-active").css("background","");
     					}
     				}
     				
     				//set Text Decoration
     				$scope.setTextDecoration = function(){
-    					if($("#textSelected").css("textDecoration") != "underline"){
-    						$("#textSelected").css("textDecoration","underline");
+    					if($('.ui-selected > .mText').css("textDecoration") != "underline"){
+    						$('.ui-selected > .mText').css("textDecoration","underline");
     						$(".textDecoration-active").css("background","#eeeeee");
-    					}else if($("#textSelected").css("textDecoration") == "underline"){
-    						$("#textSelected").css("textDecoration","");
+    					}else if($('.ui-selected > .mText').css("textDecoration") == "underline"){
+    						$('.ui-selected > .mText').css("textDecoration","");
     						$(".textDecoration-active").css("background","");
     					}
     				}
 
     				//set TextAlignLeft
     				$scope.setTextAlign = function(textPos){
-    					if($("#textSelected").css("textAlign") != textPos){
-    						$("#textSelected").css("textAlign",textPos);
+    					if($('.ui-selected > .mText').css("textAlign") != textPos){
+    						$('.ui-selected > .mText').css("textAlign",textPos);
     						$(".text"+textPos+"-active").css("background","#eeeeee");
-    					}else if($("#textSelected").css("textAlign") == textPos){
-    						$("#textSelected").css("textAlign","");
+    					}else if($('.ui-selected > .mText').css("textAlign") == textPos){
+    						$('.ui-selected > .mText').css("textAlign","");
     						$(".text"+textPos+"-active").css("background","");
     					}
     				}
 
     				//set Radius 
-    				$scope.setRadiusSize   = function(){
-    					$("#textSelected").css("borderRadius",$scope.radius.size+"px");
+    				$scope.getRadiusSize = function(){
+    					$('.ui-selected').css("borderRadius",$scope.radius.size+"px");
     				}
 
     				//set FontBackgroundColor
     				$scope.$watch("setFontBackgroundColor",function(newValue,oldValue){
-    					$("#textSelected").css("backgroundColor",newValue);
+    					$('.ui-selected').css("backgroundColor",newValue);
     				});
 
     				//set FontOpacity
-    				$scope.setFontOpacity  = function(){
-    					$("#textSelected").css("opacity",$scope.opacity.numberValue);
+    				$scope.getFontOpacity  = function(){
+    					$('.ui-selected > .mText').css("opacity",$scope.opacity.numberValue);
     				};
 
-    				//set setFontTransform
-    				$scope.setFontTransform = function(){
-    					$('#textSelected').css('transform','rotate('+$scope.transform.numberValue+'deg)');
-    				}
+    				// //set setFontTransform
+    				// $scope.setFontTransform = function(){
+    				// 	$('.ui-selected > .mText').css('transform','rotate('+$scope.transform.numberValue+'deg)');
+    				// }
 
     				//init border style
 		    		$scope.borderStyle = [{"borderStyle":"none"},{"borderStyle":"dotted"},{"borderStyle":"dashed"},{"borderStyle":"solid"},{"borderStyle":"double"},{"borderStyle":"groove"},{"borderStyle":"ridge"},{"borderStyle":"inset"},{"borderStyle":"outset"},{"borderStyle":"inherit"}]
 		    		//set  border style
 		    		$scope.setBorderStyle = function(){
-		    			$('#textSelected').css('borderStyle',$scope.selected.borderStyle);	
+		    			$('.ui-selected > .mText').css('borderStyle',$scope.selected.borderStyle);	
 		    		};
 		    		
 		    		//set font link
 		    		$scope.$watch("setFontLink",function(newValue,oldValue){
-						$("#textSelected").attr("data-link",newValue);		    			
+						$('.ui-selected > .mText').attr("data-link",newValue);		    			
 		    		})
 
 		    		//set border color
 		    		$scope.$watch("setBorderColor",function(newValue,oldColor){
-		    			$('#textSelected').css('borderColor',newValue);	
+		    			$('.ui-selected > .mText').css('borderColor',newValue);	
 		    		});
 
 		    		//text animate
 		    		$scope.textAnimate = function(){
 					    testAnimation($scope.selected);
 		    		 function testAnimation(x){
-					    $('#textSelected').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+					    $('.ui-selected').removeClass().addClass(x + ' animated ui-selected ui-draggable ui-resizable').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 					      // $(this).removeClass();
 					    });
 					  }
@@ -533,24 +427,34 @@ var showTextEditPanel = function($mdToast,$document)	{
 		    		
 		    		//text link
 		    		$scope.setTextLink = function(){
-		    			if($("#linkValue").val() !=''){
-		    				
-		    			}
+		    			$mdDialog.show({
+		    				controller:function($scope){
+		    				  $scope.saveTextLinkCancel = function(){
+		    	    			$mdDialog.cancel();
+		    	    		  }
+		    				  $scope.saveTextLink = function(){
+		    				   $(".ui-selected").attr("onclick","window.open('"+$('#textLink').val()+"','target','param')");
+		    				   $mdDialog.cancel();
+		    				   	$("#addBox").show();
+								setTimeout(function(){$("#addBox").fadeTo(3000).hide();	},1000);
+		    				  }
+		    				},
+		    				templateUrl:'./template/page.addLink.tmpl.html',
+		    				parent:$document[0].querySelector("#main"),
+		    				hideDelay:false
+		    			});
 		    		}
+
+
     			},
 			      templateUrl: './template/fontPropertyPanel.html',
 			      parent : $document[0].querySelector('#editModulePosition'),
 			      hideDelay: false
 			      // position: $scope.getToastPosition()
 			    });
-			}//end of showTextEditPanel function
+}//end of showTextEditPanel function
 
 
-function initSelectedStyleToJson(jsonObj,propertyName,propertyValue){
-	for(var i in jsonObj){
-		console.log(i+"////////////");
-	}		
-}
 
 
 
@@ -596,59 +500,42 @@ function initFormDraggable($mdToast,$document){
 
 
 
-//loading Images from Server
-
-function loadingImagesFromServer(){
-	console.log('loading images works');
-	$.ajax({
-	    url: 'http://9.112.71.102:3000/findImageByUser',
-	    type: 'GET',
-	    cache: false,
-	    // data:new FormData($('#uploadImageForm')[0]),
-	    processData: false,
-	    contentType: 	false
-	}).done(function(res) {
-		console.log('works'+res)
-		//var oLi = $('<li class="myImg"><img src="./images/1.jpg" ng-click="selectImage('./images/1.jpg')"></li>');
-		console.log(res.length+"////");
-		
-		for(var i=0;i<res.length;i++){
-			$('<li class="myImg"><img class="myImageActive" src="'+res[i].url+'" ng-click="selectImage('+res[i].url+')"></li>').appendTo($("#imageList"));
-			//console.log(res[i].url+"/// image ")
-		}
-	}).fail(function(res) {
-		console.log('fail');
-	});
-	
-}
 
 
 
 // show input edit panel if input active
 function showInputEditPanel($mdToast,$document){
-		$mdToast.show({
-	      controller:function(){
-	      	//createInput();
-	      	if($('#selectedFormItem').length >0){
-			$('#selectedFormItem').removeAttr('style');
-			$('#selectedFormItem').removeAttr('id');
-		}
-		$(this).parent().attr('id','selectedFormItem');
-		$(this).parent().css({'border':'#dedede 3px dashed','overflow':'hidden'});
+	$mdToast.show({
+			      controller:function($scope,$mdToast,$document){
+			      	// createInput($mdToast,$document);
+			      	$scope.$watch('inputLable',function(newValue,oldValue){
+			      		//$scope.inputLable = newValue;
+			      		console.log(newValue+"$scope.inputLable");
+			      	});
 
- 
-	    $(function() {
-		    $( "#formContent" ).sortable({
-		      revert: true
-		    });
-		});
+			      	$scope.$watch('requiredStatus',function(newValue,oldValue){
+			      		//$scope.requiredStatus = newValue;
+			      		console.log(newValue+'$scope.requiredStatus')
+			      	});
 
-	      },
-	      templateUrl: './template/form.input.tmpl.html',
-	      parent : $document[0].querySelector('#editModulePosition'),
-	       hideDelay: false
-	      // position: $scope.getToastPosition()
-		});	
+			      	$scope.$watch('inputType',function(newValue,oldValue){
+			      		//$scope.inputType = newValue;
+			      		console.log(newValue+"////")
+			      	});
+
+			      	$scope.createInputFn = function(){
+			      		var initInput = $('<div class="form-group formElement"><label for="inputEmail3" class="col-sm-2 control-label">'+$scope.inputLable+'</label><div class="col-sm-10"><input readonly type="'+$scope.inputType+'" class="form-control" name="'+$scope.inputLable+'" placeholder=""></div></div>');
+			      		initInput.appendTo($('#formContent'));
+			      		
+			      	}
+
+			      		 
+			      },
+			      templateUrl: './template/form.input.tmpl.html',
+			      parent : $document[0].querySelector('#editModulePosition'),
+			       hideDelay: false
+			      // position: $scope.getToastPosition()
+			    });	
 }
 
 // show textarea edit panel if textarea active
@@ -660,8 +547,8 @@ function showTextareaEditPanel($mdToast,$document){
 			$('#selectedFormItem').removeAttr('style');
 			$('#selectedFormItem').removeAttr('id');
 		}
-		$(this).parent().attr('id','selectedFormItem');
-		$(this).parent().css({'border':'#dedede 3px dashed','overflow':'hidden'});
+		$(this).parent().parent().attr('id','selectedFormItem');
+		$(this).parent().parent().css({'border':'#dedede 3px dashed','overflow':'hidden'});
 
  
 	    $(function() {
@@ -789,83 +676,99 @@ function showBackgroundEditPanel($mdToast,$document){
 
 
 
-function showImageEditPanel($mdToast,$document){
+function showImageEditPanel($mdToast,$document,newImage){
+	var activeOpacity = $('.ui-selected').data('opacity');
 	$mdToast.show({
 			      controller: function($scope,$mdDialog){
- 						
-			      	loadingImagesFromServer();
-				    $mdDialog.show({
-				      controller: function($scope){
-					  var selectedImage = [];
-
-					   $(document).on("click",".myImageActive",function(){
-					   		  $(".myImageActive").attr('style','');
-					   		  $(this).css({"border":"1px solid #eeeeee","borderRadius":"2px"});
-					   	 	  selectedImage = [];
-						      selectedImage.push($(this).attr('src'));
-					   });
-					   $scope.selectImage = function(target){
-						   	console.log('select image works'+target);
-						  
+				   if(newImage){
+				   	 $mdDialog.show({
+				      controller: function($scope,$compile,getImageList,imageActionService){
+				      $scope.imageList = getImageList.data;		  
+					   $scope.imageSelected = function(target){
+							$compile($('<div class="ui-selected" data-type="image" style="width:200px;height:200px;position:absolute;"><div class="rotate-location rotate-rightTop"><i class="icon-undo"></i></div><div class="mImage" ng-click="imageActive()" style="position: absolute; width: 100%; height:100%;overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;background-image: url('+target+');background-size:100% 100%;"></div></div>').appendTo($('.isEdit')))($scope);
+						    initElement('.mImage','image',$mdToast,$document);
+						    $("#imgpop").animate({left:"-99999px"},200);
+						    $('.md-dialog-backdrop').remove();
+							$('.md-scroll-mask').remove();
+							$('.md-scroll-mask-bar').remove();
+							$('.md-dialog-container').remove();
 					    }
+
+						$scope.removeImage = function(imageId){
+							console.log('imageId in controller'+imageId)
+					      	imageActionService.removeImage(imageId);
+					      	$("#"+imageId).remove();
+					    }
+
+					    $scope.uploadImage = function(element){
+					    	 $scope.$apply(function(scope) {
+						         var photofile = element.files[0];
+						         var reader = new FileReader();
+						         reader.onload = function(e) {
+						           $scope.prev_img = e.target.result;
+						           imageActionService.addImage(photofile,$scope);
+						           console.log($scope.prev_img+"/////////")
+						         };
+						        console.log( reader.readAsDataURL(photofile)+".........");
+						     });
+					    	
+					    }
+
+					    // $scope.$watch('uploadImageFile',function(newValue,oldValue){
+					    // 	console.log(newValue+"//newValue");
+					    // })
 					
-					   $scope.addImage = function(){
-					   	      
-							  $('#imageSelected').attr('id','')
-						      var oImage = $('<div data-type="image" data-link=""  id="imageSelected"><img src="'+selectedImage[0]+'" style="position: absolute;resize:none; top: 50%; left: 50%;  margin-left: -80px; margin-top: -120px; overflow:hidden; min-width:300px; min-height:200px;width:100%;height:100%"><div>')
-						      var currentPage = $('.isEdit');
-						      oImage.appendTo(currentPage);
-						 	  $('#imageSelected').draggable();
-						      initImage($mdToast,$document);
-						      
-						      $("#imgpop").animate({left:"-99999px"},200);
-						      	$('.md-dialog-backdrop').remove();
-								$('.md-scroll-mask').remove();
-								$('.md-scroll-mask-bar').remove();
-								$('.md-dialog-container').remove();
-					   }
+				      },
+				      resolve:{
+				      		getImageList :function(imageActionService){
+				      		return imageActionService.loadImage();
+				      	}
 				      },
 				      templateUrl: './template/addImage.tmpl.html',
 			          parent: $document[0].querySelector('#main')
-			    });
+			    	 });
 
+				   }
+                   
+		          /*
+					use below to return the value on edit panel
+			      */
 
-				 	$scope.setImageWidthSize = function(){
-						$('#imageSelected > img').css({'width':$scope.imageWidth.size+'px','height':'auto'});
-			      	}
+			      $scope.imageRadius  = {"size":$('.ui-selected').data('radius')};
+			      $scope.selected     = $(".ui-selected").data('animate');
+                  $scope.opacity      = {"numberValue":activeOpacity};
 
-    		    //roate Image 
-				 	$scope.setImageTransform = function(){
-				 		console.log('image transform works');
-    					$('#imageSelected').css('transform','rotate('+$scope.transform.numberValue+'deg)');
-    				}
     			  $scope.getImageOpacity = function(){
-      					$('#imageSelected').css('opacity',$scope.opacity.numberValue);
-  					}
+      					$('.ui-selected').css('opacity',$scope.opacity.numberValue);
+      					$('.ui-selected').attr('data-opacity',$scope.opacity.numberValue);
+  				   }
 
 				
 				//set image Radius 
     				$scope.setImageRadiusSize   = function(){
-    					console.log('image radius size works');
-    					$("#imageSelected >img").css("borderRadius",$scope.imageRadius.size+"px");
+    					$('.ui-selected').attr('data-radius',$scope.imageRadius.size);
+    					$(".ui-selected >.mImage").css("borderRadius",$scope.imageRadius.size+"px");
     				}
 				//set image animate
 				   $scope.setImageAnimate = function(){
-				   	  	 function testAnimation(x){
-						    $('#imageSelected > img').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-						      // $(this).removeClass();
+				   		$('.ui-selected').attr('data-animate',$scope.selected);
+				   	 	testAnimation($scope.selected);
+				   	  	function testAnimation(x){
+						    $('.ui-selected').removeClass().addClass(x + ' animated ui-selected ui-draggable ui-resizable').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 						    });
-						  }
-						  $('#js--imageAnimations').change(function(){
-						    var anim = $(this).val()
-						    testAnimation(anim);
-						  }); 
+						 }
 				   }
-				   
-				   //set image opacity
-				     $scope.getImageOpacity = function(){
-					      $('#imageSelected').css('opacity',$scope.opacity.numberValue);
-					  }
+
+				   //set font link
+		    		$scope.$watch("setImageLink",function(newValue,oldValue){
+		    			console.log(newValue+"newValuenewValuenewValuenewValue")
+						if(newValue){
+							$(".ui-selected").addClass('hasLink');
+							$(".ui-selected").attr("onclick","window.open('"+newValue+"','target','param')");
+
+						}	    			
+		    		})
+		
 
 			      },
 			      templateUrl: './template/imagePropertyPanel.html',
@@ -893,53 +796,193 @@ function showImageEditPanel($mdToast,$document){
 
 
 //show image edit only
-function showImageEditPanelOnly($mdToast,$document){
-	$mdToast.show({
-			      controller: function($scope,$mdDialog){
- 						
-			      	$scope.setImageWidthSize = function(){
-						$('#imageSelected > img').css({'width':$scope.imageWidth.size+'px','height':'auto'});
-			      	}
+// function showImageEditPanelOnly($mdToast,$document){
+// 	$mdToast.show({
+// 			      controller: function($scope,$mdDialog){
 
-    		    //roate Image 
-				 	$scope.setImageTransform = function(){
-				 		console.log('image transform works');
-    					$('#imageSelected').css('transform','rotate('+$scope.transform.numberValue+'deg)');
-    				}
-    			  $scope.getImageOpacity = function(){
-      					$('#imageSelected').css('opacity',$scope.opacity.numberValue);
-  					}
+// 			      /*
+// 					use below to return the value on edit panel
+// 			      */
+// 			      console.log($('.ui-selected').data('link')+"||"+$('.ui-selected').data('radius')+"||"+$(".ui-selected").data('animate')+"||"+$('.ui-selected').data('opacity')+"only");
+// 			       $scope.setImageLink = $('.ui-selected').data('link');
+// 			       $scope.imageRadius  = {"size":$('.ui-selected').data('radius')};
+// 			       $scope.selected     = $(".ui-selected").data('animate');
+//                    $scope.opacity      = {"numberValue":$('.ui-selected').data('opacity')};
+                    
+//                     $scope.imageActive = function(){
+//                     	console.log(' image works');
+//                     }
 
-				
-				//set image Radius 
-    				$scope.setImageRadiusSize   = function(){
-    					console.log('image radius size works');
-    					$("#imageSelected").css("borderRadius",$scope.imageRadius.size+"px");
-    				}
-				//set image animate
-				   $scope.setImageAnimate = function(){
-				   	  	 function testAnimation(x){
-						    $('#imageSelected > img').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-						      // $(this).removeClass();
-						    });
-						  }
-						  $('#js--imageAnimations').change(function(){
-						    var anim = $(this).val()
-						    testAnimation(anim);
-						  }); 
-				   }
-				   
-				   //set image opacity
-				     $scope.getImageOpacity = function(){
-					      $('#imageSelected').css('opacity',$scope.opacity.numberValue);
-					  }
+//     			  	$scope.getImageOpacity = function(){
+//       					$('.ui-selected').css('opacity',$scope.opacity.numberValue);
+//       					$('.ui-selected').attr('data-opacity',$scope.opacity.numberValue);
+//   					}
 
-			      },
-			      templateUrl: './template/imagePropertyPanel.html',
-			      parent : $document[0].querySelector('#editModulePosition'),
-			       hideDelay: false
-			      // position: $scope.getToastPosition()
-			    });
+//   					//set font link
+// 		    		$scope.$watch("setImageLink",function(newValue,oldValue){
+// 						$(".ui-selected").attr("data-link",newValue);	
+// 		    		})
+// 				   //set image Radius 
+//     				$scope.setImageRadiusSize = function(){
+//     					$(".ui-selected >.mImage").css("borderRadius",$scope.imageRadius.size+"px");
+//     					$(".ui-selected").attr("data-radius",$scope.imageRadius.size);
+//     				}
+// 				   //set image animate
+// 				   $scope.setImageAnimate = function(){
+// 				   		$(".ui-selected").attr("data-animate",$scope.selected);
+// 						testAnimation($scope.selected);
+// 				   	  	function testAnimation(x){
+// 						    $('.ui-selected').removeClass().addClass(x + ' animated ui-selected ui-draggable ui-resizable').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+// 						    });
+// 						}
+// 				   }
 
+// 			      },
+// 			      templateUrl: './template/imagePropertyPanel.html',
+// 			      parent : $document[0].querySelector('#editModulePosition'),
+// 			       hideDelay: false
+// 			      // position: $scope.getToastPosition()
+// 			    });
+
+
+// }
+
+
+
+// init element 
+
+function initElement(clickOnTargetElementName,panelType,$mdToast,$document){
+    console.log(clickOnTargetElementName+'clickOnTargetElementName');
+	$(document).ready(function(){
+		$('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
+	
+		var selected = $([]), offset = {top:0, left:0}; 
+
+		$( ".isEdit > div" ).draggable({
+		    start: function(ev, ui) {
+		      // ev.stopPropagation();
+		        if ($(this).hasClass("ui-selected")){
+		            selected = $(".ui-selected").each(function() {
+		               var el = $(this);
+		               el.data("offset", el.offset());
+		            });
+		        }
+		        else {
+		            selected = $([]);
+		            $(".isEdit > div").removeClass("ui-selected");
+		        }
+		        offset = $(this).offset();
+		    },
+		    drag: function(ev, ui) {
+		        var dt = ui.position.top - offset.top, dl = ui.position.left - offset.left;
+		        selected.not(this).each(function() {
+		        var el = $(this), off = el.data("offset");
+		        el.css({top: off.top + dt, left: off.left + dl});
+		        });
+		    }
+		}).resizable({ handles: 'n, e, s, w,se,sw,ne,nw' });
+
+		$( ".isEdit " ).selectable();
+
+		//rotate function
+		applyRotation();
+		function applyRotation() {
+		    $('.rotate-rightTop').draggable({
+		        opacity: 0.01,
+		        helper: 'clone',
+		        drag: function (event, ui) {
+		            var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
+		            $(this).parent().css({
+		                '-moz-transform': rotateCSS,
+		                    '-webkit-transform': rotateCSS
+		            });
+		        }
+		    });
+		}
+
+
+
+		$(clickOnTargetElementName).on('click',function(e){
+			showEditPanel($mdToast,$document,panelType);
+			e.stopPropagation();
+			if(clickOnTargetElementName == ".formElement"){
+				 if($(e.target).hasClass("ui-selected")){
+			  	  $(e.target).focus();
+			  	  $(".rotate-rightTop").css('display','none');
+			  	  $(e.target).find(".rotate-rightTop").show();
+			  }else if(!$(e.target).hasClass("ui-selected")){
+			  	  $(e.target).focus();
+			  	  $(".rotate-rightTop").css('display','none');
+			  	  $('.ui-selected').removeClass('ui-selected');
+			  	  $(e.target).addClass('ui-selected');
+			  	  $(e.target).find(".rotate-rightTop").show();
+			  }  
+			}else{
+			  if($(this).parent().hasClass("ui-selected")){
+			  	  $(e.target).focus();
+			  	  $(".rotate-rightTop").css('display','none');
+			  	  $(e.target).parent().find(".rotate-rightTop").show();
+			  }else if(!$(e.target).parent().hasClass("ui-selected")){
+			  	  $(e.target).focus();
+			  	  $(".rotate-rightTop").css('display','none');
+			  	  $('.ui-selected').removeClass('ui-selected');
+			  	  $(this).parent().addClass('ui-selected');
+			  	  $(e.target).parent().find(".rotate-rightTop").show();
+			  }  
+			}
+			
+
+
+			// if(clickOnTargetElementName == ".formElement"){
+			// 	 if($(e.target).hasClass("ui-selected")){
+			//   	  $(e.target).focus();
+			//   	  $(".rotate-rightTop").css('display','none');
+			//   	  $(e.target).find(".rotate-rightTop").show();
+			//   }else if(!$(e.target).hasClass("ui-selected")){
+			//   	  $(e.target).focus();
+			//   	  $(".rotate-rightTop").css('display','none');
+			//   	  $('.ui-selected').removeClass('ui-selected');
+			//   	  $(e.target).addClass('ui-selected');
+			//   	  $(e.target).find(".rotate-rightTop").show();
+			//   }  
+			// }else{
+			//   if($(e.target).parent().hasClass("ui-selected")){
+			//   	  $(e.target).focus();
+			//   	  $(".rotate-rightTop").css('display','none');
+			//   	  $(e.target).parent().find(".rotate-rightTop").show();
+			//   }else if(!$(e.target).parent().hasClass("ui-selected")){
+			//   	  $(e.target).focus();
+			//   	  $(".rotate-rightTop").css('display','none');
+			//   	  $('.ui-selected').removeClass('ui-selected');
+			//   	  $(e.target).parent().addClass('ui-selected');
+			//   	  $(e.target).parent().find(".rotate-rightTop").show();
+			//   }  
+			// }
+			
+			 
+		});
+
+
+
+
+       $('#pagesList').on('mousedown',function(){
+       		console.log(' works works');
+       		$('.mText').blur();
+       		 $(".rotate-rightTop").css('display','none');
+       })});
+
+	//showEditPanel($mdToast,$document,panelType);
+}
+
+function showEditPanel ($mdToast,$document,panelType,newImage){
+    console.log(' showEditPanel'+newImage);
+	switch(panelType){
+		case "image":showImageEditPanel($mdToast,$document,newImage);
+		break;
+		case "text" :showTextEditPanel($mdToast,$document);
+		break;
+		case "form" :showFormEditPanel($mdToast,$document);
+		case "input":showInputEditPanel($mdToast,$document);
+	}
 
 }

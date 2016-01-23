@@ -3,30 +3,30 @@ var dashboardController = angular.module('dashboardController', ['ngMaterial','d
 dashboardController.controller('dashboardController',function ($scope,$rootScope, $timeout,$mdToast,$document,getMyProjectsList,$document,$mdDialog,dashBoardFunctionCollection){
 	$scope.projectList = getMyProjectsList.data;
 	$scope.showBack = function(target){
-		console.log('show back works');
 			$(target).find('.dask').stop().delay(50).animate({opacity:1},200);
 			$('#container').css('filter','blur(5px)');
 	};
+    $scope.downLoadQrCode = function(qrUrl){
+     window.open('http://9.115.24.168:3000/downloadQRCode?url='+qrUrl,'target');
+    }
+	$scope.previewPage = function(ev,url,qrcode,code){	
+		 $('.modlist').css('display','none')
+		 $mdToast.show({
+				      controller: function($scope){
+	 					  $scope.previewUrl =url;
+       					  $scope.qrcode = qrcode;
+       					  $scope.close = function(){
+       					  	$('.dashBoardPreview').css('display','none');
+       					  	$('.modlist').css('display','block')
 
-	$scope.previewPage = function(ev,url,qrcode){	
-	$mdDialog.show({
-      controller: function($scope){
-
-       $scope.previewUrl ='./data/index.html';
-       $scope.qrcode = qrcode; 	
-       $scope.close = function(){
-       	$mdDialog.cancel();
-       }
-      },
-      templateUrl: './template/page.previewPage.tmpl.html',
-      parent : $document[0].querySelector('#editModulePosition'),
-      targetEvent: ev,
-      clickOutsideToClose:true
-	    }).then(function(answer) {
-	          $scope.status = 'You said the information was "' + answer + '".';
-	        }, function() {
-	          $scope.status = 'You cancelled the dialog.';
-	        });
+       					  }
+				      },
+				      // template:'<div class=""  tabindex="-1" ><div class="modal-dialog"style="width:600px;position: absolute;z-index: 999;"><div class="modal-content" style="border-radius: 0px;"><div class="modal-body"><div style="width:370px;height:568px;display:inline-block"><div class="swiper-container" style="width:100%;height:568px;"><div class="swiper-wrapper" id="previewPageInDashboard">'+code.replace(/display/g,"!").replace(/isEdit/g,"!").replace(/icon-undo/g,"!")+'</div></div></div><div><img src="'+qrcode+'" style="width:300px;height:300px;margin-top:30px;" /><div class="input-group" style="margin-top:100px"><input type="text" class="form-control" value="'+url+'" aria-describedby="basic-addon2"><span class="input-group-addon">Preview Url</span></div></div></div></div></div></div>',
+				      template:'<div class="dashBoardPreview"  tabindex="-1" ><div class="modal-dialog"style="width:85%;z-index: 999;"><div class="modal-content" style="border-radius: 0px;"><div class="modal-body"><a  style="cursor: pointer; font-size: 17px;text-align: right;font-weight: bold;text-decoration: none;vertical-align: top;position: absolute;right: 18px;top: 9px;" ng-click="close()">&times;</a><div style="width:370px;height:568px;display:inline-block"><iframe src="'+url+'" style="width:370px;height:568px;" scrolling="no"></iframe></div><div style=" text-align:center;display: inline-block;vertical-align: top;width: 500px;margin-left: 40px;"><img src="'+qrcode+'" style="width:300px;height:300px;margin-top:30px;" /><div class="input-group"><span class="input-group-addon" style="border-radius: 0px;">Preview Url</span><input readonly style="border-radius: 0px;" type="text" class="form-control" value="'+url+'"></div></div></div></div></div></div>',
+				      parent : $document[0].querySelector('#dashboardContent'),
+				      hideDelay: false
+				      // position: $scope.getToastPosition()
+				    });
 	
 	}
 
@@ -49,33 +49,53 @@ dashboardController.controller('dashboardController',function ($scope,$rootScope
 
 
 	$scope.copyProject = function(ev,projectId,projectName){	
-	   var pId = projectId;
-	   var pName = projectName;
-	   console.log(pName+"///")
-	$mdDialog.show({
-      controller: function( $scope){
-      	$scope.copyProjectInProgress = function(){
-      	console.log(pId+"//"+pName)
-      	var newProject = dashBoardFunctionCollection.copyProject(pName,pId);
-      	console.log(newProject._id+"///// new project id")
-
-var newProject= $('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="{{item.id}}"><div class="thumbnail"  style="height: 334px;" ><div class="projectInfo-projectName" style="position:absolute;width:98%;opacity:1;"><img  style="width:100%;height:325px;"  src="{{item.cover}}"><div style="width:100%;position:absolute;bottom:0px;text-align:center;height:40px;background:#fff;padding:10px 0px 10px 0px;"><p>{{item.projectname}} new project new project</p></div></div><div class="dask" style="position:absolute;width:98%;opacity:0;"><p class="showMoreIcons"><span ng-click="deletePage($event,item.id)" class="projectInfoShowMoreIcons-remove" style="width:0px;opacity:0;"></span><span ng-click="copyProject($event,item.id,item.projectname)" class="projectInfoShowMoreIcons-copy" style="width:0px;opacity:0;"></span><span href="javascript:;" class="projectInfoShowMoreIcons"></span></p><img src="{{item.qrcode}}" style="width:100%;"><p class="projectInfoDownloadQRCode">DownLoad QR Code</p><p class="showMoreIconsBottom"><a ng-click="previewPage($event,item.url,item.qrcode)" class="projectInfoShowMoreIcons-preview"></a><a href="javascript:;" class="projectInfoShowMoreIcons-edit"></a><a href="javascript:;" class="projectInfoShowMoreIcons-report"></a></p></div></div></div></div></div>');
-		newProject.prependTo($('.row'));
-      	}
-       $scope.close = function(){
-       	$mdDialog.cancel();
-       }
-      },
-      templateUrl: './template/page.copyProject.tmpl.html',
-      parent : $document[0].querySelector('#editModulePosition'),
-      targetEvent: ev,
-      clickOutsideToClose:true
-	    }).then(function(answer) {
-	          $scope.status = 'You said the information was "' + answer + '".';
-	        }, function() {
-	          $scope.status = 'You cancelled the dialog.';
-	        });
+		 $('.modlist').css('display','none')
 	
+	   console.log($scope.projectName+"|||||")
+	   	 $mdToast.show({
+	      controller: function($scope,$compile,dashBoardFunctionCollection){
+	      	 var pId = projectId;
+	         $scope.projectName = projectName;
+			$scope.copyProjectInProgress = function(){
+
+			$scope.projectInfo = {"_id":"","projectname":"","cover":"","qrcode":""}
+			     
+	           dashBoardFunctionCollection.copyProject($scope.projectName,pId);
+      		
+      		   dashBoardFunctionCollection.getProjectList().success(function(data){
+      		   
+      		   		console.log(data[0].projectname+"////")
+                    
+      		   		$scope.projectInfo._id = data[0]._id;
+      		   		
+      		   		$scope.projectInfo.projectname = data[0].projectname;
+      		   		$scope.projectInfo.cover = data[0].cover;
+      		   		$scope.projectInfo.qrcode = data[0].qrcode;
+      		   	    $scope.projectInfo.url = data[0].url;
+$compile(
+$('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="'+$scope.projectInfo._id+'"><div class="thumbnail"  style="height: 334px;" ><div class="projectInfo-projectName" style="position:absolute;width:98%;opacity:1;"><img  style="width:100%;height:325px;"  src="'+$scope.projectInfo.cover+'"><div style="width:100%;position:absolute;bottom:0px;text-align:center;height:40px;background:#fff;padding:10px 0px 10px 0px;">'+$scope.projectInfo.projectname+'</p></div></div><div class="dask" style="position:absolute;width:98%;opacity:0;"><p class="showMoreIcons"><span ng-click="deletePage($event,item.id)" class="projectInfoShowMoreIcons-remove" style="width:0px;opacity:0;"></span><span ng-click="copyProject($event,'+"'"+$scope.projectInfo._id+"',"+"'"+$scope.projectInfo.projectname+') class="projectInfoShowMoreIcons-copy" style="width:0px;opacity:0;"></span><span href="javascript:;" class="projectInfoShowMoreIcons"></span></p><img src="'+$scope.projectInfo.qrcode+'" style="width:100%;"><p class="projectInfoDownloadQRCode">DownLoad QR Code</p><p class="showMoreIconsBottom"><a ng-click="previewPage($event,'+"'"+$scope.projectInfo.url+"'"+','+"'"+$scope.projectInfo.qrcode+')" class="projectInfoShowMoreIcons-preview"></a><a href="javascript:;" class="projectInfoShowMoreIcons-edit"></a><a href="javascript:;" class="projectInfoShowMoreIcons-report"></a></p></div></div></div></div></div>'))($scope)
+      		   	   
+					$('#copyProjectOverLay').css('display','none');
+					$('.modlist').css('display','block')
+      		   });
+      		
+				
+      		}
+
+      		$scope.close = function(){
+      			$('#copyProjectOverLay').css('display','none');
+      			$('.modlist').css('display','block')
+      		}
+	      
+	      },
+	      templateUrl: './template/page.copyProject.tmpl.html',
+	      parent : $document[0].querySelector('#dashboardContent'),
+	      hideDelay: false
+	      // position: $scope.getToastPosition()
+		});
+
+
+
 	}
   	$("#bg-properties").remove();
 

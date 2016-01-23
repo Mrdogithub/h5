@@ -1,28 +1,21 @@
 
+code.replace(/display/g,"!").replace(/isEdit/g,"!").replace(/icon-undo/g,"!")
+<div class=""  tabindex="-1" ><div class="modal-dialog"style="width:600px;position: absolute;z-index: 999;"><div class="modal-content" style="border-radius: 0px;"><div class="modal-body"><div style="width:370px;height:568px;display:inline-block"><div class="swiper-container" style="width:100%;height:568px;"><div class="swiper-wrapper" id="previewPageInDashboard"></div></div></div><div><img src="{{qrcode}}" style="width:300px;height:300px;margin-top:30px;" /><div class="input-group" style="margin-top:100px"><input type="text" class="form-control" value="{{previewUrl}}" aria-describedby="basic-addon2"><span class="input-group-addon">Preview Url</span></div></div></div></div></div></div>
 
-<md-dialog aria-label="Mango (Fruit)"  ng-cloak style="width:100%;max-height:100%;">
+
+
+
+<!-- 
+<md-dialog aria-label="Mango (Fruit)"  ng-cloak style="max-width:100%;width:100%;max-height:100%;">
   <form>
-<!--     <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2>Mango (Fruit)</h2>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="cancel()">
-          <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
-        </md-button>
-      </div>
-    </md-toolbar> -->
     <md-dialog-content>
 
       <div class="md-dialog-content" style="width:100%;">
-       <div style="width:450px;height:100%;display:inline-block">
-         <iframe src="{{previewUrl}}" id="previewIframe" style="width:450px;height:750px;" scrolling=0>
-           
-         </iframe>
+     
+
        </div>
        <div style="width:600px; margin-left:20px;height:650px; text-align:center; display:inline-block;vertical-align:top">
-             <a ng-click="close('useful')" style="margin-right:20px;position:absolute;top:10px;right:10px;color:#333;text-decoration:none;cursor:pointer">
-        Close
-      </a>
+             <a ng-click="close('useful')" style="margin-right:20px;position:absolute;top:10px;right:10px;color:#333;text-decoration:none;cursor:pointer">&times;</a>
          <img src="{{qrcode}}" style="width:300px;height:300px;margin-top:30px;" />
       <div class="input-group" style="margin-top:100px">
         <input type="text" class="form-control" value="{{previewUrl}}" aria-describedby="basic-addon2">
@@ -31,9 +24,9 @@
        </div>
       </div>
     </md-dialog-content>
-  <!--   <md-dialog-actions layout="row">
+ <md-dialog-actions layout="row">
 
     </md-dialog-actions> -->
-  </form>
-</md-dialog>
+  <!--    </form>
+</md-dialog> -->
 

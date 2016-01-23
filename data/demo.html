@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Swiper demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    <!-- Link Swiper's CSS -->
+	<script type="text/javascript" src="js/lib/jquery.js"></script>
+		<script type="text/javascript" src="js/lib/swiper.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/animate.css"/>
+		<link rel="stylesheet" type="text/css" href="css/swiper.min.css"/>
+
+    <!-- Demo styles -->
+    <style>
+    html, body {
+        position: relative;
+        height: 100%;
+    }
+    body {
+        background: #eee;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color:#000;
+        margin: 0;
+        padding: 0;
+    }
+    .swiper-container {
+  
+    height:568px;width:370px;
+	overflow:hidden;
+    }
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+    </style>
+</head>
+<body>
+    <!-- Swiper -->
+<div class="swiper-container" style="width:100%;height:568px;">
+<div class="swiper-wrapper" id="previewPage">
+<div class="swiper-slide ui-selectable isEdit swiper-slide-active" data-type="page" id="right_1" style="height: 550px; display: flex;"> <div class="shake animated ui-draggable ui-resizable ui-selectee hasLink" data-type="image" style="width: 350px; height: 334px; position: absolute; left: 8px; top: 8px;" onclick="window.open('undefined','target','param')" data-animate="shake"><div class="rotate-location rotate-rightTop ui-selectee ui-draggable" style="!: none;"><i class="! ui-selectee"></i></div><div class="mImage ui-selectee" ng-click="imageActive()" style="position: absolute; width: 100%; height:100%;overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;background-image: url(images/5.jpg);background-size:100% 100%;" role="button" tabindex="0"></div><div class="ui-resizable-handle ui-resizable-n ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-e ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-s ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-w ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-sw ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-ne ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-nw ui-selectee" style="z-index: 1000;"></div></div></div>
+<div id="right_2" class="swiper-slide ! ui-selectable swiper-slide-next" style="height: 600px; display: none;"><div id="myForm" style="width: 322px; position: absolute; left: 17px; top: 95px; height: 372px;" class="ui-draggable ui-resizable ui-selectee"><form class="form-horizontal mForm ui-selectee ng-pristine ng-valid" id="formContent" style="font-size:10px;"><div class="form-group formElement ui-selectee"><label for="inputEmail3" class="col-sm-2 control-label ui-selectee">Name</label><div class="col-sm-10 ui-selectee"><input type="text" class="form-control ui-selectee" id="m1111" placeholder="" name="name"></div></div><div class="form-group formElement ui-selectee"><label for="inputEmail3" class="col-sm-2 control-label ui-selectee">Email</label><div class="col-sm-10 ui-selectee"><input type="email" class="form-control ui-selectee" id="m2222" placeholder="" name="email"></div></div><div class="form-group formElement ui-selectee"><label for="inputEmail3" class="col-sm-2 control-label ui-selectee">Address</label><div class="col-sm-10 ui-selectee"> <input type="text" class="form-control ui-selectee" id="m3333" placeholder=""></div></div><div class="form-group formElement ui-selectee"><label for="inputEmail3" class="col-sm-2 control-label ui-selectee">Other</label><div class="col-sm-10 ui-selectee"><textarea class="form-control formElement ui-selectee" id="m444" name="comments" rows="3"></textarea></div></div><div class="form-group formElement ui-selectee"><div class="col-sm-offset-2 col-sm-10 ui-selectee"><div class="checkbox formElement ui-selectee"><label class="ui-selectee"><input type="checkbox" id="m555" name="call me" class="ui-selectee"> Remember me</label></div></div></div><div class="form-group formElement ui-selectee"><div class="col-sm-offset-2 col-sm-10 ui-selectee"><button id="formSubmit" class="btn btn-default ui-selectee">Submit</button></div></div></form><div class="ui-resizable-handle ui-resizable-n ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-e ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-s ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-w ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-sw ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-ne ui-selectee" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-nw ui-selectee" style="z-index: 1000;"></div></div><div class="ui-selected ui-draggable ui-resizable hasLink" data-type="text" style="width: 200px; height: 60px; position: absolute; left: 120px; top: 13px; background-color: rgb(214, 34, 34);" onclick="window.open('undefined','target','param')"><div class="rotate-location rotate-rightTop ui-draggable" style="!: block;"><i class="!"></i></div><div class="mText" contenteditable="true" style="position: absolute; width: 100%; height: 100%;overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;">text placeholder</div><div class="ui-resizable-handle ui-resizable-n" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-e" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-w" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-sw" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-ne" style="z-index: 1000;"></div><div class="ui-resizable-handle ui-resizable-nw" style="z-index: 1000;"></div></div></div>
+</div>
+</div>
+    <!-- Swiper JS -->
+   
+
+    <!-- Initialize Swiper -->
+    <script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        direction: 'vertical'
+    });
+    </script>
+</body>
+</html>

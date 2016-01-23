@@ -1,32 +1,26 @@
 
+<div class="" id="saveProjectOverLay" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document" style="width:400px;z-index: 999;" id="copyProjectOverLay">
+    <div class="modal-content" style="border-radius: 0px;">
 
-<md-dialog aria-label="Mango (Fruit)"  ng-cloak style="width:40%;max-height:100%;">
-
-<!--     <md-toolbar>
-      <div class="md-toolbar-tools">
-        <h2>Mango (Fruit)</h2>
-        <span flex></span>
-        <md-button class="md-icon-button" ng-click="cancel()">
-          <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
-        </md-button>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Project Name</label>
+            <input type="text" class="form-control" id="projectName" style=" border-radius: 0px;"  ng-model="projectName" value="{{projectName}}">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">Project Description</label>
+            <textarea class="form-control" id="message-text" style="    border-radius: 0px;"></textarea>
+          </div>
+        </form>
       </div>
-    </md-toolbar> -->
-    <md-dialog-content>
-
-      <div class="md-dialog-content">
-       <input type="text" class="form-control" value="projectName" ng-model="projectName">
-	   <button type="button" class="btn btn-info" ng-click="copyProjectInProgress()">Submit</button>
-       <div >
-             <a ng-click="close('useful')" style="margin-right:20px;position:absolute;top:10px;right:10px;color:#333;text-decoration:none;cursor:pointer">
-        Close
-      </a>
-       
-
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" style="border-radius:0px" ng-click="close()">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="copyProjectInProgress()" style="border-radius:0px">Save</button>
       </div>
-    </md-dialog-content>
-  <!--   <md-dialog-actions layout="row">
+    </div>
+  </div>
+</div>
 
-    </md-dialog-actions> -->
-  
-</md-dialog>
 
