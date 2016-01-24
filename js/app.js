@@ -1,4 +1,4 @@
-angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial','loginController','homeController',"kendo.directives",'dragDirective','dashboardController','dashBoardService','imageService','userImageActionService'],function($httpProvider) {
+angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial','loginController','homeController',"kendo.directives",'dragDirective','dashboardController','dashBoardService','imageService','userImageActionService','AuthService'],function($httpProvider) {
   // Use x-www-form-urlencoded Content-Type
   $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
@@ -53,7 +53,10 @@ angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial','loginCo
 	}
 	console.log('applicationController')
 	
-}).config(function($stateProvider,$urlRouterProvider){
+}).constant('SERVER_URL',{
+  testUrl:"",
+  liveUrl:"http://9.115.24.168:3000/"
+}).constant('USER_ROLES',{}).config(function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider.otherwise('/');
 	$stateProvider.state('homePage',{
 		url:'/',

@@ -1,7 +1,7 @@
 var homeController = angular.module('homeController', ['ngMaterial']);
-homeController.controller('homeController', function($scope, $mdSidenav,$mdToast,$mdDialog,$document) {
+homeController.controller('homeController', function($scope, $mdSidenav,$mdToast,$mdDialog,$document,SERVER_URL) {
 
-
+console.log(SERVER_URL.liveUrl+"live url")
 
 //判断是否为chrome浏览器
 var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;

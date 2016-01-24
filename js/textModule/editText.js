@@ -21,7 +21,7 @@ editText.directive('pageleft',function($mdToast,$document){
 
 
 //init edit bar
-editText.directive('edittool1',function($mdToast,$document,$rootScope){
+editText.directive('edittool1',function($mdToast,$document,$rootScope,SERVER_URL){
 	return {
 		restrict:'AE',
 		templateUrl:'./template/editbar.html',
@@ -36,7 +36,7 @@ editText.directive('edittool1',function($mdToast,$document,$rootScope){
 			      		var userInfo = {"username":$scope.user.firstName,"password":$scope.user.passWord}
 		  				console.log(userInfo.username+"||"+userInfo.password)
 		  				var aj = $.ajax( {  
-				 	     url:'http://9.115.24.168:3000/login',// 跳转到 action
+				 	     url:SERVER_URL.liveUrl+'login',// 跳转到 action
 				  	     data:userInfo,
 				 		 type:'post',  
 					     cache:false,  

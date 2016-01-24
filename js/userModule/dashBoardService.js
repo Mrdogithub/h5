@@ -1,6 +1,6 @@
 var dashBoardService = angular.module('dashBoardService',[]);
-dashBoardService.factory('dashBoardFunctionCollection',function($http,$q,$timeout, $compile){
-	var theUrlForLoadingMyProjects  = 'http://192.168.1.102:3000';
+dashBoardService.factory('dashBoardFunctionCollection',function($http,$q,$timeout,$compile,SERVER_URL){
+	var theUrlForLoadingMyProjects  = SERVER_URL.liveUrl;
 	var findMyProject  = '/findProjectByUser';
 	var deletedProject = '/delProject';
 	var copyProject    = '/copyProject'

@@ -1,5 +1,5 @@
 var toolBar = angular.module('toolBar',['ngMaterial','editText']);
-toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope){
+toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope,SERVER_URL){
 	return {
 		restrict:"AE",
 		templateUrl:"./template/toolBar.html",
@@ -25,36 +25,36 @@ toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope){
 			$scope.savePage = function(){
 				if(!$rootScope.userStatus){
 					 $mdToast.show({
-				      controller: function($scope,$mdDialog){
+				      controller: function($scope,$mdDialog,SERVER_URL){
 	 					$scope.loginBtn = function(){
 	 					var userInfo = {"username":$scope.user.firstName,"password":$scope.user.passWord}
 			  		
-	 					if(userInfo.username !='123'){ $scope.error="用户名或密码错误"}else{  saveProjectFn($mdToast,$document);}
-			  			// var aj = $.ajax( {  
-					 	 //     url:'http://9.115.24.168:3000/login',// 跳转到 action
-					  	//      data:userInfo,
-					 		//  type:'post',  
-						  //    cache:false,  
-					 	 //     dataType:'json',  
-					 		//  success:function(data) {  
-			     //  		     console.log(data.userPhoto+"||"+data.userName);
-			     //  			 $("#uImage").attr("src",data.userPhoto);
-			     //  			 $("#uName").html(data.userName);
+	 				//	if(userInfo.username !='123'){ $scope.error="用户名或密码错误"}else{  saveProjectFn($mdToast,$document);}
+			  			var aj = $.ajax( {  
+					 	     url:SERVER_URL.liveUrl+'/login',// 跳转到 action
+					  	     data:userInfo,
+					 		 type:'post',  
+						     cache:false,  
+					 	     dataType:'json',  
+					 		 success:function(data) {  
+			      		     console.log(data.userPhoto+"||"+data.userName);
+			      			 $("#uImage").attr("src",data.userPhoto);
+			      			 $("#uName").html(data.userName);
 				 	         
-				 	  //        $("#userLogin").remove();
+				 	         $("#userLogin").remove();
 
-				 	  //        $rootScope.userStatus = true;
-				 	  //        $rootScope.userName = data.userName;
-				 	  //        $rootScope.userPhoto = data.userPhoto;
+				 	         $rootScope.userStatus = true;
+				 	         $rootScope.userName = data.userName;
+				 	         $rootScope.userPhoto = data.userPhoto;
 
-				 	  //        saveProjectFn($mdToast,$document);
-				 		 //      },  
-				 		 //      error : function() {  
-					 		//       	console.log("error");
-				 			//            // view("异常！");  
-					 		//            alert("异常！");  
-				 	  //     		}  
-				 		 // 	});
+				 	         saveProjectFn($mdToast,$document);
+				 		      },  
+				 		      error : function() {  
+					 		      	console.log("error");
+				 			           // view("异常！");  
+					 		           alert("异常！");  
+				 	      		}  
+				 		 	});
 	 					}
 				      },
 				      templateUrl:'./template/user.login.tmpl.html',
@@ -67,7 +67,7 @@ toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope){
  					pages.push($("#pagesList").html().replace(/display/g,"!").replace(/isEdit/g,"!").replace(/icon-undo/g,"!"));
 					var	pageObj = {"projectId":$rootScope.projectId,"pages":{"editCode":$("#pagesList").html(),"previewCode":$("#pagesList").html().replace(/display/g,"!").replace(/isEdit/g,"!").replace(/icon-undo/g,"!")}};	
  							var aj = $.ajax( {  
-						 	     url:'http://192.168.1.102/:3000/saveProject',// 跳转到 action  
+						 	     url:SERVER_URL.liveUrl+'/saveProject',// 跳转到 action  
 						 	     data:pageObj,
 							     type:'post',  
 							     cache:false,  
@@ -115,7 +115,7 @@ toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope){
 						pageObj = {"projectName":projectName,"pages":{"editCode":$("#pagesList").html(),"previewCode":$("#pagesList").html().replace(/display/g,"!").replace(/isEdit/g,"!").replace(/icon-undo/g,"!")},"owner":owner,"formLabel":[{'key':'labelname'},{'key':'labelname'}]};
 
 						var aj = $.ajax( {  
-						     url:'http://192.168.1.102:3000/saveProject',// 跳转到 action  
+						     url:SERVER_URL.liveUrl+'saveProject',// 跳转到 action  
 						     data:pageObj,
 						     type:'post',  
 						     cache:false,  
