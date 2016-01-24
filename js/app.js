@@ -43,6 +43,16 @@ angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial','loginCo
   $httpProvider.defaults.transformRequest = [function(data) {
     return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
   }];
+}).controller('applicationController',function($scope,USER_ROLES,AuthService){
+	$scope.currentUser = null;
+	$scope.userRoles = USER_ROLES;
+	$scope.isAuthorized = AuthService.isAuthorized;
+	
+	$scope.setCurrentUser = function(user){
+		$scope.currentUser = user;
+	}
+	console.log('applicationController')
+	
 }).config(function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider.otherwise('/');
 	$stateProvider.state('homePage',{

@@ -23,11 +23,20 @@
           <input flex type="number" ng-model="opacity.numberValue" aria-label="red" aria-controls="red-slider"><span class="md-body-1" style="margin-left: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </div>
       </div>
-	  		  
-		  <div class="Separation"></div>		  
-		<select class="input input--dropdown form-control" id="js--imageAnimations" ng-change="setImageAnimate()" ng-model="selected">
-    <option value="">Animate</option>
-         <optgroup label="Attention Seekers">
+<div class="Separation"></div>   
+   <div layout>  
+
+        <div class="textright-active fontFormat" ng-click="setImageLink()"><i class="icon-link"></i></div>
+      </div>      
+		  <div class="Separation"></div>
+
+
+      <div layout layout-align="center center">
+        <div flex="30"  style="margin-right:10px;">
+          <span class="md-body-1">动效</span>
+        </div>
+          <select class="input input--dropdown form-control" id="js--imageAnimations" ng-change="setImageAnimate()" ng-model="selected">
+<!--          <optgroup label="Attention Seekers">
           <option value="bounce">bounce</option>
           <option value="flash">flash</option>
           <option value="pulse">pulse</option>
@@ -38,36 +47,36 @@
           <option value="wobble">wobble</option>
           <option value="jello">jello</option>
         </optgroup>
-
-        <optgroup label="Bouncing Entrances">
-          <option value="bounceIn">bounceIn</option>
-          <option value="bounceInDown">bounceInDown</option>
-          <option value="bounceInLeft">bounceInLeft</option>
-          <option value="bounceInRight">bounceInRight</option>
-          <option value="bounceInUp">bounceInUp</option>
+ -->
+        <optgroup label="弹入效果">
+          <option value="bounceIn">弹入</option>
+          <option value="bounceInDown">向下弹入</option>
+          <option value="bounceInLeft">向左弹入</option>
+          <option value="bounceInRight">向右弹入</option>
+          <option value="bounceInUp">向上弹入</option>
         </optgroup>
 
-        <optgroup label="Bouncing Exits">
+<!--         <optgroup label="Bouncing Exits">
           <option value="bounceOut">bounceOut</option>
           <option value="bounceOutDown">bounceOutDown</option>
           <option value="bounceOutLeft">bounceOutLeft</option>
           <option value="bounceOutRight">bounceOutRight</option>
           <option value="bounceOutUp">bounceOutUp</option>
+        </optgroup> -->
+
+        <optgroup label="渐入效果">
+          <option value="fadeIn">渐入</option>
+          <option value="fadeInDown">向下渐入</option>
+          <option value="fadeInDownBig">向下渐入放大</option>
+          <option value="fadeInLeft">向左渐入</option>
+          <option value="fadeInLeftBig">向左渐入放大</option>
+          <option value="fadeInRight">向右渐入</option>
+          <option value="fadeInRightBig">向右渐入放大</option>
+          <option value="fadeInUp">向上渐入</option>
+          <option value="fadeInUpBig">向上渐入放大</option>
         </optgroup>
 
-        <optgroup label="Fading Entrances">
-          <option value="fadeIn">fadeIn</option>
-          <option value="fadeInDown">fadeInDown</option>
-          <option value="fadeInDownBig">fadeInDownBig</option>
-          <option value="fadeInLeft">fadeInLeft</option>
-          <option value="fadeInLeftBig">fadeInLeftBig</option>
-          <option value="fadeInRight">fadeInRight</option>
-          <option value="fadeInRightBig">fadeInRightBig</option>
-          <option value="fadeInUp">fadeInUp</option>
-          <option value="fadeInUpBig">fadeInUpBig</option>
-        </optgroup>
-
-        <optgroup label="Fading Exits">
+    <!--     <optgroup label="Fading Exits">
           <option value="fadeOut">fadeOut</option>
           <option value="fadeOutDown">fadeOutDown</option>
           <option value="fadeOutDownBig">fadeOutDownBig</option>
@@ -77,77 +86,77 @@
           <option value="fadeOutRightBig">fadeOutRightBig</option>
           <option value="fadeOutUp">fadeOutUp</option>
           <option value="fadeOutUpBig">fadeOutUpBig</option>
-        </optgroup>
+        </optgroup> -->
 
-        <optgroup label="Flippers">
-          <option value="flip">flip</option>
-          <option value="flipInX">flipInX</option>
-          <option value="flipInY">flipInY</option>
-          <option value="flipOutX">flipOutX</option>
-          <option value="flipOutY">flipOutY</option>
+        <optgroup label="翻转效果">
+          <option value="flip">翻转</option>
+          <option value="flipInX">水平翻转</option>
+          <option value="flipInY">垂直翻转</option>
+<!--           <option value="flipOutX">flipOutX</option>
+          <option value="flipOutY">flipOutY</option> -->
         </optgroup>
-
+<!-- 
         <optgroup label="Lightspeed">
           <option value="lightSpeedIn">lightSpeedIn</option>
           <option value="lightSpeedOut">lightSpeedOut</option>
         </optgroup>
-
-        <optgroup label="Rotating Entrances">
-          <option value="rotateIn">rotateIn</option>
-          <option value="rotateInDownLeft">rotateInDownLeft</option>
-          <option value="rotateInDownRight">rotateInDownRight</option>
-          <option value="rotateInUpLeft">rotateInUpLeft</option>
-          <option value="rotateInUpRight">rotateInUpRight</option>
+ -->
+        <optgroup label="旋转效果">
+          <option value="rotateIn">旋转进入</option>
+          <option value="rotateInDownLeft">向左旋转进入</option>
+          <option value="rotateInDownRight">向右旋转进入</option>
+          <option value="rotateInUpLeft">向左上旋转进入</option>
+          <option value="rotateInUpRight">向右上旋转进入</option>
         </optgroup>
-
+<!-- 
         <optgroup label="Rotating Exits">
           <option value="rotateOut">rotateOut</option>
           <option value="rotateOutDownLeft">rotateOutDownLeft</option>
           <option value="rotateOutDownRight">rotateOutDownRight</option>
           <option value="rotateOutUpLeft">rotateOutUpLeft</option>
           <option value="rotateOutUpRight">rotateOutUpRight</option>
-        </optgroup>
+        </optgroup> -->
 
-        <optgroup label="Sliding Entrances">
-          <option value="slideInUp">slideInUp</option>
-          <option value="slideInDown">slideInDown</option>
-          <option value="slideInLeft">slideInLeft</option>
-          <option value="slideInRight">slideInRight</option>
-
+        <optgroup label="滑入效果">
+          <option value="slideInUp">向上上滑入</option>
+          <option value="slideInDown">向下滑入</option>
+          <option value="slideInLeft">向左滑入</option>
+          <option value="slideInRight">向右滑入</option>
         </optgroup>
-        <optgroup label="Sliding Exits">
+   <!--      <optgroup label="Sliding Exits">
           <option value="slideOutUp">slideOutUp</option>
           <option value="slideOutDown">slideOutDown</option>
           <option value="slideOutLeft">slideOutLeft</option>
           <option value="slideOutRight">slideOutRight</option>
           
-        </optgroup>
+        </optgroup> -->
         
-        <optgroup label="Zoom Entrances">
+<!--         <optgroup label="Zoom Entrances">
           <option value="zoomIn">zoomIn</option>
           <option value="zoomInDown">zoomInDown</option>
           <option value="zoomInLeft">zoomInLeft</option>
           <option value="zoomInRight">zoomInRight</option>
           <option value="zoomInUp">zoomInUp</option>
-        </optgroup>
+        </optgroup> -->
         
-        <optgroup label="Zoom Exits">
+<!--         <optgroup label="Zoom Exits">
           <option value="zoomOut">zoomOut</option>
           <option value="zoomOutDown">zoomOutDown</option>
           <option value="zoomOutLeft">zoomOutLeft</option>
           <option value="zoomOutRight">zoomOutRight</option>
           <option value="zoomOutUp">zoomOutUp</option>
-        </optgroup>
+        </optgroup> -->
 
-        <optgroup label="Specials">
+       <!--  <optgroup label="Specials">
           <option value="hinge">hinge</option>
           <option value="rollIn">rollIn</option>
           <option value="rollOut">rollOut</option>
-        </optgroup>
+        </optgroup> -->
          </select>
+       
+      </div>
+
+
 	
-		  <div class="Separation"></div>
-       <div >		  
-		  <input class="fullText btn " placeholder="Input URL" ng-model="setImageLink"/>
-    </div>
+	
 </div>

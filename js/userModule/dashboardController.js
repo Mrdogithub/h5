@@ -22,7 +22,7 @@ dashboardController.controller('dashboardController',function ($scope,$rootScope
        					  }
 				      },
 				      // template:'<div class=""  tabindex="-1" ><div class="modal-dialog"style="width:600px;position: absolute;z-index: 999;"><div class="modal-content" style="border-radius: 0px;"><div class="modal-body"><div style="width:370px;height:568px;display:inline-block"><div class="swiper-container" style="width:100%;height:568px;"><div class="swiper-wrapper" id="previewPageInDashboard">'+code.replace(/display/g,"!").replace(/isEdit/g,"!").replace(/icon-undo/g,"!")+'</div></div></div><div><img src="'+qrcode+'" style="width:300px;height:300px;margin-top:30px;" /><div class="input-group" style="margin-top:100px"><input type="text" class="form-control" value="'+url+'" aria-describedby="basic-addon2"><span class="input-group-addon">Preview Url</span></div></div></div></div></div></div>',
-				      template:'<div class="dashBoardPreview"  tabindex="-1" ><div class="modal-dialog"style="width:85%;z-index: 999;"><div class="modal-content" style="border-radius: 0px;"><div class="modal-body"><a  style="cursor: pointer; font-size: 17px;text-align: right;font-weight: bold;text-decoration: none;vertical-align: top;position: absolute;right: 18px;top: 9px;" ng-click="close()">&times;</a><div style="width:370px;height:568px;display:inline-block"><iframe src="'+url+'" style="width:370px;height:568px;" scrolling="no"></iframe></div><div style=" text-align:center;display: inline-block;vertical-align: top;width: 500px;margin-left: 40px;"><img src="'+qrcode+'" style="width:300px;height:300px;margin-top:30px;" /><div class="input-group"><span class="input-group-addon" style="border-radius: 0px;">Preview Url</span><input readonly style="border-radius: 0px;" type="text" class="form-control" value="'+url+'"></div></div></div></div></div></div>',
+				      template:'<div class="dashBoardPreview"  tabindex="-1" ><div class="modal-dialog"style="width:85%;z-index: 999;"><div class="modal-content" style="border-radius: 0px;"><div class="modal-body"><a  style="cursor: pointer; font-size: 17px;text-align: right;font-weight: bold;text-decoration: none;vertical-align: top;position: absolute;right: 18px;top: 9px;" ng-click="close()">&times;</a><div style="width:370px;height:568px;display:inline-block"><iframe src="'+url+'" style="width:370px;height:568px;" scrolling="no"></iframe></div><div style=" text-align:center;display: inline-block;vertical-align: top;width: 500px;margin-left: 40px;"><img src="'+qrcode+'" style="width:300px;height:300px;margin-top:30px;" /><div class="input-group"><span class="input-group-addon" style="border-radius: 0px;">链接</span><input readonly style="border-radius: 0px;" type="text" class="form-control" value="'+url+'"></div></div></div></div></div></div>',
 				      parent : $document[0].querySelector('#dashboardContent'),
 				      hideDelay: false
 				      // position: $scope.getToastPosition()
@@ -32,11 +32,11 @@ dashboardController.controller('dashboardController',function ($scope,$rootScope
 
 	$scope.deletePage = function(ev,projectId){
 	    var confirm = $mdDialog.confirm()
-	          .title('Would you like to delete your project?')
+	          .title('确定要删除当前项目？')
 	          .ariaLabel('Lucky day')
 	          .targetEvent(ev)
-	          .ok('Yes')
-	          .cancel('No');
+	          .ok('是')
+	          .cancel('不');
 	    $mdDialog.show(confirm).then(function(data) {
 	      if(data){
 	      	dashBoardFunctionCollection.deletedProject(projectId);
@@ -57,26 +57,26 @@ dashboardController.controller('dashboardController',function ($scope,$rootScope
 	      	 var pId = projectId;
 	         $scope.projectName = projectName;
 			$scope.copyProjectInProgress = function(){
-
+				  $('#saveProjectOverLay').css('display','block');
 			$scope.projectInfo = {"_id":"","projectname":"","cover":"","qrcode":""}
 			     
-	           dashBoardFunctionCollection.copyProject($scope.projectName,pId);
+	           dashBoardFunctionCollection.copyProject($scope.projectName,pId,$scope);
       		
       		   dashBoardFunctionCollection.getProjectList().success(function(data){
-      		   
-      		   		console.log(data[0].projectname+"////")
+
                     
-      		   		$scope.projectInfo._id = data[0]._id;
+     //  		   		$scope.projectInfo._id = data[0]._id;
       		   		
-      		   		$scope.projectInfo.projectname = data[0].projectname;
-      		   		$scope.projectInfo.cover = data[0].cover;
-      		   		$scope.projectInfo.qrcode = data[0].qrcode;
-      		   	    $scope.projectInfo.url = data[0].url;
-$compile(
-$('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="'+$scope.projectInfo._id+'"><div class="thumbnail"  style="height: 334px;" ><div class="projectInfo-projectName" style="position:absolute;width:98%;opacity:1;"><img  style="width:100%;height:325px;"  src="'+$scope.projectInfo.cover+'"><div style="width:100%;position:absolute;bottom:0px;text-align:center;height:40px;background:#fff;padding:10px 0px 10px 0px;">'+$scope.projectInfo.projectname+'</p></div></div><div class="dask" style="position:absolute;width:98%;opacity:0;"><p class="showMoreIcons"><span ng-click="deletePage($event,item.id)" class="projectInfoShowMoreIcons-remove" style="width:0px;opacity:0;"></span><span ng-click="copyProject($event,'+"'"+$scope.projectInfo._id+"',"+"'"+$scope.projectInfo.projectname+') class="projectInfoShowMoreIcons-copy" style="width:0px;opacity:0;"></span><span href="javascript:;" class="projectInfoShowMoreIcons"></span></p><img src="'+$scope.projectInfo.qrcode+'" style="width:100%;"><p class="projectInfoDownloadQRCode">DownLoad QR Code</p><p class="showMoreIconsBottom"><a ng-click="previewPage($event,'+"'"+$scope.projectInfo.url+"'"+','+"'"+$scope.projectInfo.qrcode+')" class="projectInfoShowMoreIcons-preview"></a><a href="javascript:;" class="projectInfoShowMoreIcons-edit"></a><a href="javascript:;" class="projectInfoShowMoreIcons-report"></a></p></div></div></div></div></div>'))($scope)
-      		   	   
-					$('#copyProjectOverLay').css('display','none');
-					$('.modlist').css('display','block')
+     //  		   		$scope.projectInfo.projectname = data[0].projectname;
+     //  		   		$scope.projectInfo.cover = data[0].cover;
+     //  		   		$scope.projectInfo.qrcode = data[0].qrcode;
+     //  		   	    $scope.projectInfo.url = data[0].url;
+					// $compile($('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="'+$scope.projectInfo._id+'"><div class="thumbnail"  style="height: 334px;" ><div class="projectInfo-projectName" style="position:absolute;width:98%;opacity:1;"><img  style="width:100%;height:325px;"  src="'+$scope.projectInfo.cover+'"><div style="width:100%;position:absolute;bottom:0px;text-align:center;height:40px;background:#fff;padding:10px 0px 10px 0px;">'+$scope.projectInfo.projectname+'</p></div></div><div class="dask" style="position:absolute;width:98%;opacity:0;"><p class="showMoreIcons"><span ng-click="deletePage($event,'+"'"+$scope.projectInfo._id+"'"+')" class="projectInfoShowMoreIcons-remove" style="width:0px;opacity:0;"></span><span ng-click="copyProject($event,'+"'"+$scope.projectInfo._id+"',"+"'"+$scope.projectInfo.projectname+"'"+')" class="projectInfoShowMoreIcons-copy" style="width:0px;opacity:0;"></span><span href="javascript:;" class="projectInfoShowMoreIcons"></span></p><img src="'+$scope.projectInfo.qrcode+'" style="width:100%;"><p class="projectInfoDownloadQRCode">下载二维码</p><p class="showMoreIconsBottom"><a ng-click="previewPage($event,'+"'"+$scope.projectInfo.url+"',"+"'"+$scope.projectInfo.qrcode+"'"+')" class="projectInfoShowMoreIcons-preview"></a><a href="javascript:;" class="projectInfoShowMoreIcons-edit"></a><a href="javascript:;" class="projectInfoShowMoreIcons-report"></a></p></div></div></div></div></div>').prependTo($('.modlist')))($scope)
+     //  			    $('#saveProjectOverLay').css('display','none');
+		   //  		$("#addBox").show();
+					//  setTimeout(function(){$("#addBox").fadeTo(3000).hide();	},1000);
+					// $('.modlist').css('display','block')
+			
       		   });
       		
 				

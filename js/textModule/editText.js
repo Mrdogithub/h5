@@ -30,38 +30,38 @@ editText.directive('edittool1',function($mdToast,$document,$rootScope){
 			$scope.userLogin = function(){
 				$("#pagesList").css('display','none');
 				$mdToast.show({
-				      controller: function($scope,$mdDialog,$rootScope){
-				      	$scope.loginBtn = function(){
-				    		
-				      		var userInfo = {"username":$scope.user.firstName,"password":$scope.user.passWord}
-			  				console.log(userInfo.username+"||"+userInfo.password)
-			  				var aj = $.ajax( {  
-					 	     url:'http://9.115.24.168:3000/login',// 跳转到 action
-					  	     data:userInfo,
-					 		 type:'post',  
-						     cache:false,  
-					 	     dataType:'json',  
-					 		 success:function(data) {  
-			      			 $("#uName").html(data.userName);
-			      			 $("<span class='userImage'><img id='uImage' src='"+data.userPhoto+"'/></span>").prependTo($("#userProfile"));
-				 	         $("#userLogin").remove();
-				 	         $("#pagesList").css('display','block');
-				 	         console.log("$rootScope.userStatus = true;"+$rootScope.userStatus);
-				 	         for(var i in data){
-				 	         	console.log(i+":"+data[i]);
-				 	         }
-				 	         $rootScope.userStatus = true;
-				 		      },  
-				 		      error : function() {  
-					 		        $scope.error = "用户名或密码错误";
-				 	      		}  
-				 		 	});
-				 		 }
-				      },
-				      templateUrl:'./template/user.login.tmpl.html',
-				      parent : $document[0].querySelector('#editModulePosition'),
-				      hideDelay: false
-				    });
+			      controller: function($scope,$mdDialog,$rootScope){
+			      	$scope.loginBtn = function(){
+			    		
+			      		var userInfo = {"username":$scope.user.firstName,"password":$scope.user.passWord}
+		  				console.log(userInfo.username+"||"+userInfo.password)
+		  				var aj = $.ajax( {  
+				 	     url:'http://9.115.24.168:3000/login',// 跳转到 action
+				  	     data:userInfo,
+				 		 type:'post',  
+					     cache:false,  
+				 	     dataType:'json',  
+				 		 success:function(data) {  
+		      			 $("#uName").html(data.userName);
+		      			 $("<span class='userImage'><img id='uImage' src='"+data.userPhoto+"'/></span>").prependTo($("#userProfile"));
+			 	         $("#userLogin").remove();
+			 	         $("#pagesList").css('display','block');
+			 	         console.log("$rootScope.userStatus = true;"+$rootScope.userStatus);
+			 	         for(var i in data){
+			 	         	console.log(i+":"+data[i]);
+			 	         }
+			 	         $rootScope.userStatus = true;
+			 		      },  
+			 		      error : function() {  
+				 		        $scope.error = "用户名或密码错误";
+			 	      		}  
+			 		 	});
+			 		}
+			      },
+			      templateUrl:'./template/user.login.tmpl.html',
+			      parent : $document[0].querySelector('#editModulePosition'),
+			      hideDelay: false
+			    });
 			}
 
 
@@ -70,6 +70,7 @@ editText.directive('edittool1',function($mdToast,$document,$rootScope){
                 createNewText($mdToast,$document);
 				// showTextEditPanel($mdToast,$document);
 				//var editPanelIsShow = true;
+				showTextEditPanel($mdToast,$document);
 				initElement('.mText','text',$mdToast,$document);
 				//initText($mdToast,$document,editPanelIsShow);
 			};
@@ -431,10 +432,12 @@ function showTextEditPanel($mdToast,$document)	{
 		    				controller:function($scope){
 		    				  $scope.saveTextLinkCancel = function(){
 		    	    			$mdDialog.cancel();
+		    	    			$('.md-dialog-container').css('display','none');
 		    	    		  }
 		    				  $scope.saveTextLink = function(){
 		    				   $(".ui-selected").attr("onclick","window.open('"+$('#textLink').val()+"','target','param')");
 		    				   $mdDialog.cancel();
+		    				   $('.md-dialog-container').css('display','none');
 		    				   	$("#addBox").show();
 								setTimeout(function(){$("#addBox").fadeTo(3000).hide();	},1000);
 		    				  }
@@ -506,36 +509,32 @@ function initFormDraggable($mdToast,$document){
 // show input edit panel if input active
 function showInputEditPanel($mdToast,$document){
 	$mdToast.show({
-			      controller:function($scope,$mdToast,$document){
-			      	// createInput($mdToast,$document);
-			      	$scope.$watch('inputLable',function(newValue,oldValue){
-			      		//$scope.inputLable = newValue;
-			      		console.log(newValue+"$scope.inputLable");
-			      	});
+      controller:function($scope,$mdToast,$document){
+      	// createInput($mdToast,$document);
+      	$scope.$watch('inputLable',function(newValue,oldValue){
+      		//$scope.inputLable = newValue;
+      		console.log(newValue+"$scope.inputLable");
+      	});
 
-			      	$scope.$watch('requiredStatus',function(newValue,oldValue){
-			      		//$scope.requiredStatus = newValue;
-			      		console.log(newValue+'$scope.requiredStatus')
-			      	});
+      	$scope.$watch('requiredStatus',function(newValue,oldValue){
+      		//$scope.requiredStatus = newValue;
+      		console.log(newValue+'$scope.requiredStatus')
+      	});
 
-			      	$scope.$watch('inputType',function(newValue,oldValue){
-			      		//$scope.inputType = newValue;
-			      		console.log(newValue+"////")
-			      	});
+      	$scope.$watch('inputType',function(newValue,oldValue){
+      		//$scope.inputType = newValue;
+      		console.log(newValue+"////")
+      	});
 
-			      	$scope.createInputFn = function(){
-			      		var initInput = $('<div class="form-group formElement"><label for="inputEmail3" class="col-sm-2 control-label">'+$scope.inputLable+'</label><div class="col-sm-10"><input readonly type="'+$scope.inputType+'" class="form-control" name="'+$scope.inputLable+'" placeholder=""></div></div>');
-			      		initInput.appendTo($('#formContent'));
-			      		
-			      	}
-
-			      		 
-			      },
-			      templateUrl: './template/form.input.tmpl.html',
-			      parent : $document[0].querySelector('#editModulePosition'),
-			       hideDelay: false
-			      // position: $scope.getToastPosition()
-			    });	
+      	$scope.createInputFn = function(){
+      		var initInput = $('<div class="form-group formElement"><label for="inputEmail3" class="col-sm-2 control-label">'+$scope.inputLable+'</label><div class="col-sm-10"><input readonly type="'+$scope.inputType+'" class="form-control" name="'+$scope.inputLable+'" placeholder=""></div></div>');
+      		initInput.appendTo($('#formContent'));
+      	} 
+      },
+      templateUrl: './template/form.input.tmpl.html',
+      parent : $document[0].querySelector('#editModulePosition'),
+      hideDelay: false
+	});	
 }
 
 // show textarea edit panel if textarea active
@@ -760,15 +759,38 @@ function showImageEditPanel($mdToast,$document,newImage){
 				   }
 
 				   //set font link
-		    		$scope.$watch("setImageLink",function(newValue,oldValue){
-		    			console.log(newValue+"newValuenewValuenewValuenewValue")
-						if(newValue){
-							$(".ui-selected").addClass('hasLink');
-							$(".ui-selected").attr("onclick","window.open('"+newValue+"','target','param')");
+		    // 		$scope.$watch("setImageLink",function(newValue,oldValue){
+		    // 			console.log(newValue+"newValuenewValuenewValuenewValue")
+						// if(newValue){
+						// 	$(".ui-selected").addClass('hasLink');
+						// 	$(".ui-selected").attr("onclick","window.open('"+newValue+"','target','param')");
 
-						}	    			
-		    		})
-		
+						// }	    			
+		    // 		})
+
+
+					$scope.setImageLink = function(){
+						  	console.log('xxx')
+		    			$mdDialog.show({
+		    				controller:function($scope){
+		    				  $scope.saveImageLinkCancel = function(){
+		    	    			$mdDialog.cancel();
+		    	    			$('.md-dialog-container').css('display','none');
+		    	    		  }
+		    				  $scope.saveImageLink = function(){
+		    				  	console.log('xxx')
+		    				   $(".ui-selected").attr("onclick","window.open('"+$('#textLink').val()+"','target','param')");
+		    				   $mdDialog.cancel();
+		    				   $('.md-dialog-container').css('display','none');
+		    				   	$("#addBox").show();
+								setTimeout(function(){$("#addBox").fadeTo(3000).hide();	},1000);
+		    				  }
+		    				},
+		    				templateUrl:'./template/page.addImageLink.tmpl.html',
+		    				parent:$document[0].querySelector("#main"),
+		    				hideDelay:false
+		    			});
+		    		}
 
 			      },
 			      templateUrl: './template/imagePropertyPanel.html',
@@ -795,64 +817,9 @@ function showImageEditPanel($mdToast,$document,newImage){
 }
 
 
-//show image edit only
-// function showImageEditPanelOnly($mdToast,$document){
-// 	$mdToast.show({
-// 			      controller: function($scope,$mdDialog){
-
-// 			      /*
-// 					use below to return the value on edit panel
-// 			      */
-// 			      console.log($('.ui-selected').data('link')+"||"+$('.ui-selected').data('radius')+"||"+$(".ui-selected").data('animate')+"||"+$('.ui-selected').data('opacity')+"only");
-// 			       $scope.setImageLink = $('.ui-selected').data('link');
-// 			       $scope.imageRadius  = {"size":$('.ui-selected').data('radius')};
-// 			       $scope.selected     = $(".ui-selected").data('animate');
-//                    $scope.opacity      = {"numberValue":$('.ui-selected').data('opacity')};
-                    
-//                     $scope.imageActive = function(){
-//                     	console.log(' image works');
-//                     }
-
-//     			  	$scope.getImageOpacity = function(){
-//       					$('.ui-selected').css('opacity',$scope.opacity.numberValue);
-//       					$('.ui-selected').attr('data-opacity',$scope.opacity.numberValue);
-//   					}
-
-//   					//set font link
-// 		    		$scope.$watch("setImageLink",function(newValue,oldValue){
-// 						$(".ui-selected").attr("data-link",newValue);	
-// 		    		})
-// 				   //set image Radius 
-//     				$scope.setImageRadiusSize = function(){
-//     					$(".ui-selected >.mImage").css("borderRadius",$scope.imageRadius.size+"px");
-//     					$(".ui-selected").attr("data-radius",$scope.imageRadius.size);
-//     				}
-// 				   //set image animate
-// 				   $scope.setImageAnimate = function(){
-// 				   		$(".ui-selected").attr("data-animate",$scope.selected);
-// 						testAnimation($scope.selected);
-// 				   	  	function testAnimation(x){
-// 						    $('.ui-selected').removeClass().addClass(x + ' animated ui-selected ui-draggable ui-resizable').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-// 						    });
-// 						}
-// 				   }
-
-// 			      },
-// 			      templateUrl: './template/imagePropertyPanel.html',
-// 			      parent : $document[0].querySelector('#editModulePosition'),
-// 			       hideDelay: false
-// 			      // position: $scope.getToastPosition()
-// 			    });
-
-
-// }
-
-
-
 // init element 
 
 function initElement(clickOnTargetElementName,panelType,$mdToast,$document){
-    console.log(clickOnTargetElementName+'clickOnTargetElementName');
 	$(document).ready(function(){
 		$('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
 	
@@ -930,36 +897,7 @@ function initElement(clickOnTargetElementName,panelType,$mdToast,$document){
 			  	  $(e.target).parent().find(".rotate-rightTop").show();
 			  }  
 			}
-			
-
-
-			// if(clickOnTargetElementName == ".formElement"){
-			// 	 if($(e.target).hasClass("ui-selected")){
-			//   	  $(e.target).focus();
-			//   	  $(".rotate-rightTop").css('display','none');
-			//   	  $(e.target).find(".rotate-rightTop").show();
-			//   }else if(!$(e.target).hasClass("ui-selected")){
-			//   	  $(e.target).focus();
-			//   	  $(".rotate-rightTop").css('display','none');
-			//   	  $('.ui-selected').removeClass('ui-selected');
-			//   	  $(e.target).addClass('ui-selected');
-			//   	  $(e.target).find(".rotate-rightTop").show();
-			//   }  
-			// }else{
-			//   if($(e.target).parent().hasClass("ui-selected")){
-			//   	  $(e.target).focus();
-			//   	  $(".rotate-rightTop").css('display','none');
-			//   	  $(e.target).parent().find(".rotate-rightTop").show();
-			//   }else if(!$(e.target).parent().hasClass("ui-selected")){
-			//   	  $(e.target).focus();
-			//   	  $(".rotate-rightTop").css('display','none');
-			//   	  $('.ui-selected').removeClass('ui-selected');
-			//   	  $(e.target).parent().addClass('ui-selected');
-			//   	  $(e.target).parent().find(".rotate-rightTop").show();
-			//   }  
-			// }
-			
-			 
+		 
 		});
 
 
@@ -970,12 +908,9 @@ function initElement(clickOnTargetElementName,panelType,$mdToast,$document){
        		$('.mText').blur();
        		 $(".rotate-rightTop").css('display','none');
        })});
-
-	//showEditPanel($mdToast,$document,panelType);
 }
 
 function showEditPanel ($mdToast,$document,panelType,newImage){
-    console.log(' showEditPanel'+newImage);
 	switch(panelType){
 		case "image":showImageEditPanel($mdToast,$document,newImage);
 		break;

@@ -1,7 +1,7 @@
 var imageService = angular.module('imageService',[]);
 
 imageService.factory('imageActionService',function($http,$q,$compile){
-	var serverUrl    = 'http://9.115.24.168:3000';
+	var serverUrl    = 'http://192.168.1.102:3000';
 	// var serverUrl    = 'data/images';
 	var removeImage  = '/delImage';
 	var loadImage    = '/findImageByUser';	
@@ -41,7 +41,7 @@ $.ajax({
                }
             }
          },
-        url: "http://9.115.24.168:3000/uploadImage",
+        url: "http://192.168.1.102:3000/uploadImage",
         type: "POST",
         data: new FormData($('#uploadImageForm')[0]), 
 

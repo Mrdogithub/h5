@@ -1,6 +1,6 @@
 var userImageActionService = angular.module('userImageActionService',[]);
 userImageActionService.factory('userPostAction',function($http){
-	var serverUrl   = 'http://9.115.24.168:3000';
+	var serverUrl   = 'http://192.168.1.102:3000';
 	var uploadImage = '/uploadImage';
 	var delImage    = '/delImage';
     var loadImage   = '/findImageByUser';

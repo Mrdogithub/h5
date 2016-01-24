@@ -1,13 +1,13 @@
   <nav class="navbar navbar-blue">        
       <div class="navbar-text navbar-left" id="ibm-home"><a class="ibm-logo">&nbsp;</a></div>
-      <p class="navbar-text navbar-left"><a href="#" ui-sref="homePage">H5 DashBoard</a></p>
+      <p class="navbar-text navbar-left"><a href="#" ui-sref="homePage">返回</a></p>
       <p class="navbar-text navbar-right" id="userProfile" style="margin: 0px 10px 0px 0px;">
  <p class="navbar-text navbar-right" id="userProfile" style="margin: 0px 10px 0px 0px;"><span class="userImage"><img id="uImage" src="https://w3-connectionsapi.ibm.com/profiles/photo.do?email=dlyupeng@cn.ibm.com"></span>
           <span class="userName" id="uName" ng-click="userLogin()" role="button" tabindex="0">Peng Yu</span></p>
   </nav>
 
 <div class="container" style="margin-top:40px;" id="dashboardContent">
-<div style="text-align:center; margin-bottom:40px;"><input ng-model="query" class="dashboardSearch" placeholder="Search" style="height:50px;min-width:500px;border:0;border-bottom:1px solid #eeeeee;font-size:18px;"> </div>
+<div style="text-align:center; margin-bottom:40px;"><input ng-model="query" class="dashboardSearch" placeholder="查找项目" style="height:50px;min-width:500px;border:0;border-bottom:1px solid #eeeeee;font-size:18px;"> </div>
 <div class="row modlist">
         <div class="col-sm-6 col-md-4 col-lg-3 modmore" ng-repeat="item in projectList | filter:query | orderBy:order" id="{{item._id}}">
           <div class="thumbnail"  style="height: 334px;" >
@@ -25,7 +25,7 @@
         				<span href="javascript:;" class="projectInfoShowMoreIcons"></span>
         			</p>
 					<img src="{{item.qrcode}}" style="width:100%;">
-					<p class="projectInfoDownloadQRCode" ng-click="downLoadQrCode(item.qrcode)">DownLoad QR Code</p>
+					<p class="projectInfoDownloadQRCode" ng-click="downLoadQrCode(item.qrcode)">下载二维码</p>
 					<p class="showMoreIconsBottom">
 						<a ng-click='previewPage($event,item.url,item.qrcode,item.code[0])' class="projectInfoShowMoreIcons-preview"></a>
 						<a href="javascript:;" class="projectInfoShowMoreIcons-edit"></a>
