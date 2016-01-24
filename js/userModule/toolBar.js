@@ -1,10 +1,9 @@
-var toolBar = angular.module('toolBar',['ngMaterial','editText']);
-toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope,SERVER_URL){
+var toolBar = angular.module('toolBar',['ngMaterial','editText','mainApp']);
+toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope,SERVER_URL,AuthService){
 	return {
 		restrict:"AE",
 		templateUrl:"./template/toolBar.html",
-		scope:{},
-		link:function($scope,$mdDialog){
+		link:function($scope,$mdDialog,$rootScope){
 			$scope.remove = function(){$(".ui-selected").remove();}
 
 			$scope.previewPage = function(){
@@ -22,46 +21,33 @@ toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope,SE
 					      // position: $scope.getToastPosition()
 				 });
 			}
+			$scope.userName='';
 			$scope.savePage = function(){
 				if(!$rootScope.userStatus){
 					 $mdToast.show({
-				      controller: function($scope,$mdDialog,SERVER_URL){
+				      controller: function($scope,$parse,$mdDialog,$rootScope,SERVER_URL){
 	 					$scope.loginBtn = function(){
-	 					var userInfo = {"username":$scope.user.firstName,"password":$scope.user.passWord}
-			  		
-	 				//	if(userInfo.username !='123'){ $scope.error="用户名或密码错误"}else{  saveProjectFn($mdToast,$document);}
-			  			var aj = $.ajax( {  
-					 	     url:SERVER_URL.liveUrl+'/login',// 跳转到 action
-					  	     data:userInfo,
-					 		 type:'post',  
-						     cache:false,  
-					 	     dataType:'json',  
-					 		 success:function(data) {  
-			      		     console.log(data.userPhoto+"||"+data.userName);
-			      			 $("#uImage").attr("src",data.userPhoto);
-			      			 $("#uName").html(data.userName);
-				 	         
-				 	         $("#userLogin").remove();
-
-				 	         $rootScope.userStatus = true;
-				 	         $rootScope.userName = data.userName;
-				 	         $rootScope.userPhoto = data.userPhoto;
-
-				 	         saveProjectFn($mdToast,$document);
-				 		      },  
-				 		      error : function() {  
-					 		      	console.log("error");
-				 			           // view("异常！");  
-					 		           alert("异常！");  
-				 	      		}  
-				 		 	});
-	 					}
+				  		    $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord}
+			  		     	AuthService.login($scope.credentials).then(function(user){
+//			  		     		$rootScope.$broadcast(Auth_EVENTS.loginSuccess);
+			  		     		$rootScope.userName = user;
+			  		     		console.log($rootScope.userName +"$rootScope.userName ")
+//			  		     		$cookieStore.put('userName',user);
+//								sessionStorage.setItem("userName", user)
+			  		     	},function(){
+//			  		     		$rootScope.$broadcastAUTRH(AUTH_EVENTS.loginFailed);
+			  		     	})
+			  		    }
 				      },
 				      templateUrl:'./template/user.login.tmpl.html',
 				      parent : $document[0].querySelector('#editModulePosition'),
 				      hideDelay: false
 				      // position: $scope.getToastPosition()
-				    });
+			});
+				   // $scope.userName = sessionStorage.getItem('userName');
+			  		   
+	 				//	if(userInfo.username !='123'){ $scope.error="用户名或密码错误"}else{  saveProjectFn($mdToast,$document);}
+			  			
 			    }else{
 				var pages=[];
  					pages.push($("#pagesList").html().replace(/display/g,"!").replace(/isEdit/g,"!").replace(/icon-undo/g,"!"));

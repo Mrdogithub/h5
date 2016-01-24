@@ -1,7 +1,22 @@
 var homeController = angular.module('homeController', ['ngMaterial']);
-homeController.controller('homeController', function($scope, $mdSidenav,$mdToast,$mdDialog,$document,SERVER_URL) {
+homeController.controller('homeController', function($scope, $stateParams,$mdSidenav,editPage,$mdToast,$compile,$sce,$mdDialog,$document,SERVER_URL) {
 
+$scope.page = {
+	"editCode":""
+}
+$scope.page.editCode = $sce.trustAsHtml(editPage.data.pages.editCode);
+console.log(editPage.data.pages.editCode)
+$scope.editcode = editPage.data.pages.editCode
+console.log($("#editModulePosition").empty()+".............")
+$(document).ready(function(){
+	
+$("#pagesList").html('111111111111111111');
+});
 console.log(SERVER_URL.liveUrl+"live url")
+//删除选中元素
+$scope.remove = function(){$(".ui-selected").remove();}
+
+	$("<a id='loginOut' style='margin-left:5px; font-size:12px; text-decoration:none;cursor:pointer'>退出</a>").insertAfter($("#uName"));
 
 //判断是否为chrome浏览器
 var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
@@ -286,5 +301,4 @@ function showBackgroundEditPanel($mdToast,$document){
 
   }
   });
-;
 
