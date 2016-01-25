@@ -30,7 +30,7 @@
 	<script type="text/javascript" src="js/lib/angular-messages.js"></script>
 	<script type="text/javascript" src="js/lib/jquery-ui-1.9.2.custom.min.js"></script>
 	<script type="text/javascript" src="js/lib/jscolor.min.js"></script>
-	
+	<script type="text/javascript" src="js/lib/angular-cookies.min.js"></script>
 
 	
 	<link rel="stylesheet" href="css/kendo.common-material.min.css" />
@@ -60,7 +60,6 @@
 	 margin: 0;
 	 padding: 0;
 	 max-height: 700px;
-
 	}
 	div.h-slide-tool-bar{
 		margin: 0;
@@ -75,7 +74,6 @@
 		text-align: center;
 		padding: 10px;
 	}
-
 	div.h-slide-tool-bar ul {
 		margin: 0;
 		padding: 0;
@@ -107,7 +105,6 @@
 		height: 40px;
 		/*border:1px solid #000;*/
 		margin-right: 5px;
-
 		text-align: center;
 		padding: 5px;
 		display: inline-block;
@@ -142,7 +139,6 @@
         text-align: center;
         font-size: 18px;
         background: #fff;
-
         /* Center slide text vertically */
         display: -webkit-box;
         display: -ms-flexbox;
@@ -166,7 +162,6 @@
 	md-tabs-wrapper{
 		-display:none;
 	}
-
 ul.h-images-list{
 	margin: 0;
 	padding: 0;
@@ -185,15 +180,12 @@ ul.h-images-list li img{
 	padding: 5px;
 	width: 100%;
 }
-
-
 .pannel-title{
 	width:50px;font-weight:bold;
 	
 	margin-bottom: 10px;
 	margin-right: 10px;
 }
-
 .bgAcitve{
 	cursor: pointer;
 }
@@ -204,15 +196,12 @@ ul.h-images-list li img{
 	width: 20px;
 	height: 20px;
 }
-
 #textSelected:hover{
 	cursor: move;
 }
 <!--2015 12 14 -->
 .editModuleWrap{
-
 }
-
 .k-colorpicker, .k-toolbar .k-split-button{
  width:57px;
 }
@@ -228,7 +217,6 @@ ul.h-images-list li img{
 .k-picker-wrap.k-state-default>.k-select{
 	    border-color: #ceced2;
 }
-
 #pagesList,.isEdit{
 	border: 1px #7ec8ed solid;
 	width: 370px;
@@ -259,16 +247,12 @@ ul.h-images-list li img{
 	width: 100%;
 	background: #fff;
     height: 325px;
-
 }
 .imgClass{
-
 }
-
 .thumbnail .projectInfo{
 	
 }
-
 .flip {
 	-webkit-backface-visibility: hidden;
 	-webkit-transform: translateX(0); /* Needed to work around an iOS 3.1 bug that causes listview thumbs to disappear when -webkit-visibility:hidden is used. */
@@ -289,7 +273,6 @@ ul.h-images-list li img{
 	animation-name: flipintoright;
 	animation-duration: 225ms;
 }
-
 @-webkit-keyframes flipouttoleft {
     from { -webkit-transform: rotateY(0); }
     to { -webkit-transform: rotateY(-90deg) scale(.9); }
@@ -298,7 +281,6 @@ ul.h-images-list li img{
     from { transform: rotateY(0); }
     to { transform: rotateY(-90deg) scale(.9); }
 }
-
 @-webkit-keyframes flipintoright {
     from { -webkit-transform: rotateY(90deg) scale(.9); }
     to { -webkit-transform: rotateY(0); }
@@ -307,10 +289,6 @@ ul.h-images-list li img{
     from { transform: rotateY(90deg) scale(.9); }
     to { transform: rotateY(0); }
 }
-
-
-
-
 	.ui-selected > [class^="m"], .ui-selecting > [class^="m"], .ui-draggable-dragging > [class^="m"],.active > [class^="m"]{
 		position: absolute;
 	    top: 0;
@@ -334,7 +312,6 @@ ul.h-images-list li img{
     border: 1px solid #fff;
     box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
-
 .ui-resizable-s {
     cursor: s-resize;
     height: 7px;
@@ -343,7 +320,6 @@ ul.h-images-list li img{
     left: 50%;
     margin-left: -5px;
 }
-
 .ui-resizable-n {
     cursor: n-resize;
     height: 7px;
@@ -352,7 +328,6 @@ ul.h-images-list li img{
     left: 50%;
     margin-left: -5px;
 }
-
 .ui-resizable-e {
     cursor: e-resize;
     width: 7px;
@@ -361,7 +336,6 @@ ul.h-images-list li img{
     height: 7px;
     margin-top: -5px;
 }
-
 .ui-resizable-w {
     cursor: w-resize;
     width: 7px;
@@ -370,7 +344,6 @@ ul.h-images-list li img{
     height: 7px;
     margin-top: -5px;
 }
-
 .ui-resizable-se {
     cursor: se-resize;
     width: 7px;
@@ -385,8 +358,6 @@ ul.h-images-list li img{
     left: -5px;
     bottom: -5px;
 }
-
-
 .ui-resizable-ne {
     cursor: ne-resize;
     width: 7px;
@@ -394,7 +365,6 @@ ul.h-images-list li img{
     right: -5px;
     top: -5px;
 }
-
 .ui-resizable-nw {
     cursor: nw-resize;
     width: 7px;
@@ -410,22 +380,15 @@ ul.h-images-list li img{
     cursor: url(./images/rotate_cursor.png),auto;
     display: none;
 }
-
 a.selectedImageHover:hover,a.removeImageHover:hover{
   text-decoration: none;
 }
-
 .mainbox{
-	min-height:742px;
+	min-height:785px;
 	background: #E0E0E0;
 	overflow: hidden;
 	position: relative;
 }
-
-
-
-
-
 .gridListdemoDynamicTiles md-icon {
   width: 50%;
   height: 30%; }
@@ -478,7 +441,6 @@ a.selectedImageHover:hover,a.removeImageHover:hover{
   font-weight: 700;
   width: 100%;
   text-align: center; }
-
 .md-dialog-container{
 	z-index: 99999999999;
 }
@@ -516,4 +478,7 @@ input,button,select,textarea{outline:none}
 <script type="text/javascript" src="js/imageModule/imageService.js"></script>
 <script type="text/javascript" src="js/userModule/userImageActionService.js"></script>
 <script type="text/javascript" src="js/userModule/AuthService.js"></script>
+<script type="text/javascript" src="js/userModule/session.js"></script>
+<script type="text/javascript" src="js/userModule/application-controller.js"></script>
+
 </html>

@@ -1,13 +1,6 @@
-angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial','loginController','homeController',"kendo.directives",'dragDirective','dashboardController','dashBoardService','imageService','userImageActionService','AuthService'],function($httpProvider) {
-  // Use x-www-form-urlencoded Content-Type
-  $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-
-  /**
-   * The workhorse; converts an object to x-www-form-urlencoded serialization.
-   * @param {Object} obj
-   * @return {String}
-   */ 
-  var param = function(obj) {
+angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial','loginController','homeController','applicationController',"kendo.directives",'dragDirective','dashboardController','dashBoardService','imageService','userImageActionService','AuthService'],function($httpProvider) {
+$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+var param = function(obj) {
     var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
       
     for(name in obj) {
@@ -43,26 +36,34 @@ angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial','loginCo
   $httpProvider.defaults.transformRequest = [function(data) {
     return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
   }];
-}).controller('applicationController',function($scope,USER_ROLES,AuthService){
-	$scope.currentUser = null;
-	$scope.userRoles = USER_ROLES;
-	$scope.isAuthorized = AuthService.isAuthorized;
-	
-	$scope.setCurrentUser = function(user){
-		$scope.currentUser = user;
-	}
-	console.log('applicationController')
-	
+}).constant('Auth_EVENTS',{
+	loginSuccess:'auth-login-success',
+	loginFailed:'auth-login-failed',
+	loginOutSuccess:'auth-loginout-success',
+	sessionTimeout:'auth-session-timeout',
+	notAuthenticated:'auth-not-authenticated',
+	notAuthorized:'auth-not-authorized'
 }).constant('SERVER_URL',{
   testUrl:"",
   liveUrl:"http://9.115.24.168:3000/"
 }).constant('USER_ROLES',{}).config(function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider.otherwise('/');
 	$stateProvider.state('homePage',{
-		url:'/',
+		url:'/:projectId',
 		views:{
 			'':{templateUrl:'./template/home.html',
-		 		controller:'homeController'}
+		 		controller:'homeController',
+		 		resolve:{
+		 			editPage:function($stateParams,dashBoardFunctionCollection){
+		 			    console.log($stateParams.projectId+"$stateParams.projectId")
+		 			    if($stateParams.projectId){
+		 			    	return dashBoardFunctionCollection.loadEditPage($stateParams.projectId);	
+		 			    }
+		 				
+	
+		 			}
+		 		}
+			}
 		}
 	}).state('homePage.dashboard',{
 		url:'/dashboard',
@@ -71,7 +72,9 @@ angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial','loginCo
 						 controller:'dashboardController',
 						 resolve:{
 						 		getMyProjectsList:function(dashBoardFunctionCollection){
-						 			return dashBoardFunctionCollection.getProjectList();
+						 			   
+						 			   $("#uNameDashboard").html($("#uName").html());
+						 			   return dashBoardFunctionCollection.getProjectList();
 						 		}
 						 	}
 						}

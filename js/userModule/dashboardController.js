@@ -1,6 +1,28 @@
 var dashboardController = angular.module('dashboardController', ['ngMaterial','dashBoardService','toolBar']);
 
-dashboardController.controller('dashboardController',function ($scope,$rootScope, $timeout,$mdToast,$document,getMyProjectsList,$document,$mdDialog,dashBoardFunctionCollection){
+dashboardController.controller('dashboardController',function ($scope,$rootScope,$state, $timeout,$mdToast,$document,getMyProjectsList,$document,$mdDialog,dashBoardFunctionCollection){
+   	$(document).on('click','#loginOutIn',function(){
+				setTimeout(function(){
+				$("#loginOutIn").remove();
+				$("#uNameDashboard").html('欢迎,登陆');
+				},1000);
+	})
+   	
+   	$scope.editPage = function(ev,id){
+   		console.log(id+"idiidididididi")
+   		$state.go('homePage',{"projectId":id})
+   	}
+   $scope.myEdit = function(){
+   		$("#uName").html($scope.userName);
+   		console.log($scope.userName+"//////"+$("#uName").html())
+		////////////////////////
+		$state.go('homePage')
+		///////////////////////
+		$("#uNameDashboard").addClass('dashboardActive');
+   }
+
+    $scope.userName = $("#uName").html();
+       		$("<a id='loginOutIn' style='margin-left:5px; font-size:12px; text-decoration:none;cursor:pointer'>退出</a>").insertAfter($("#uNameDashboard"));
 	$scope.projectList = getMyProjectsList.data;
 	$scope.showBack = function(target){
 			$(target).find('.dask').stop().delay(50).animate({opacity:1},200);

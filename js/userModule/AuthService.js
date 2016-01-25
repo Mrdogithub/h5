@@ -1,19 +1,17 @@
-var authService = angular.module('AuthService',[]);
-authService.factory('AuthService',function($http,Session){
+var authService = angular.module('AuthService',['session']);
+authService.factory('AuthService',function($http,Session,SERVER_URL){
 	var authService = {};
 	authService.login = function(credentials){
 		return $http
-				.post('',credentials)
+				.post(SERVER_URL.liveUrl+'login',credentials)
 				.then(function(res){
-					Session.create(res.data.id,res.data.user.id,res.data.user.role);
-					return res.data.user;
+					Session.create(res.data.userName);
+					return res.data.userName;
 				});
 	};
-	
 	authService.isAuthenticated = function(){
-		return !!Session.userId;
+		return !!Session.userName;
 	};
-	
 	authService.isAuthorized = function(authorizedRoles){
 		if(!angular.isArray(authorizedRoles)){
 			authorizedRoles = [authorizedRoles];
@@ -21,21 +19,5 @@ authService.factory('AuthService',function($http,Session){
 		return(authService.isAuthenticated() &&
 			authorizedRoles.indexOf(Session.userRole)!== -1);
 	}
-	
 	return authService;
-});
-
-authService.service('Session',function(){
-	this.create = function(sessionId,userId,userRole){
-		this.id = sessionId;
-		this.userId = userId;
-		this.userRole = userRole;
-	}
-	this.destroy = function(){
-		this.id = null;
-		this.userId = null;
-		this.userRole = null;
-	}
-	
-	return this;
 });

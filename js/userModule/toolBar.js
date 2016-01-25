@@ -1,10 +1,9 @@
-var toolBar = angular.module('toolBar',['ngMaterial','editText']);
-toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope,SERVER_URL){
+var toolBar = angular.module('toolBar',['ngMaterial','editText','mainApp']);
+toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope,SERVER_URL,AuthService){
 	return {
 		restrict:"AE",
 		templateUrl:"./template/toolBar.html",
-		scope:{},
-		link:function($scope,$mdDialog){
+		link:function($scope,$mdDialog,$rootScope){
 			$scope.remove = function(){$(".ui-selected").remove();}
 
 			$scope.previewPage = function(){
@@ -22,52 +21,35 @@ toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope,SE
 					      // position: $scope.getToastPosition()
 				 });
 			}
+			$scope.userName='';
 			$scope.savePage = function(){
-				if(!$rootScope.userStatus){
+				if($("#uName").html()=="欢迎,登陆"){
 					 $mdToast.show({
-				      controller: function($scope,$mdDialog,SERVER_URL){
+				      controller: function($scope,$parse,$mdDialog,$rootScope,SERVER_URL){
 	 					$scope.loginBtn = function(){
-	 					var userInfo = {"username":$scope.user.firstName,"password":$scope.user.passWord}
-			  		
-	 				//	if(userInfo.username !='123'){ $scope.error="用户名或密码错误"}else{  saveProjectFn($mdToast,$document);}
-			  			var aj = $.ajax( {  
-					 	     url:SERVER_URL.liveUrl+'/login',// 跳转到 action
-					  	     data:userInfo,
-					 		 type:'post',  
-						     cache:false,  
-					 	     dataType:'json',  
-					 		 success:function(data) {  
-			      		     console.log(data.userPhoto+"||"+data.userName);
-			      			 $("#uImage").attr("src",data.userPhoto);
-			      			 $("#uName").html(data.userName);
-				 	         
-				 	         $("#userLogin").remove();
-
-				 	         $rootScope.userStatus = true;
-				 	         $rootScope.userName = data.userName;
-				 	         $rootScope.userPhoto = data.userPhoto;
-
-				 	         saveProjectFn($mdToast,$document);
-				 		      },  
-				 		      error : function() {  
-					 		      	console.log("error");
-				 			           // view("异常！");  
-					 		           alert("异常！");  
-				 	      		}  
-				 		 	});
-	 					}
+				  		    $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord}
+			  		     	AuthService.login($scope.credentials).then(function(user){
+		                            $("#uName").html(user);
+									$("<a id='loginOut' style='margin-left:5px; font-size:12px; text-decoration:none;cursor:pointer'>退出</a>").insertAfter($("#uName"));
+									$("#loginOverLay").css('display','none');
+									saveProjectFn($mdToast,$document);
+			  		     	},function(){
+//			  		     		$rootScope.$broadcastAUTRH(AUTH_EVENTS.loginFailed);
+			  		     	})
+			  		    }
 				      },
 				      templateUrl:'./template/user.login.tmpl.html',
 				      parent : $document[0].querySelector('#editModulePosition'),
 				      hideDelay: false
 				      // position: $scope.getToastPosition()
-				    });
+			});
+			  			
 			    }else{
 				var pages=[];
  					pages.push($("#pagesList").html().replace(/display/g,"!").replace(/isEdit/g,"!").replace(/icon-undo/g,"!"));
 					var	pageObj = {"projectId":$rootScope.projectId,"pages":{"editCode":$("#pagesList").html(),"previewCode":$("#pagesList").html().replace(/display/g,"!").replace(/isEdit/g,"!").replace(/icon-undo/g,"!")}};	
  							var aj = $.ajax( {  
-						 	     url:SERVER_URL.liveUrl+'/saveProject',// 跳转到 action  
+						 	     url:SERVER_URL.liveUrl+'saveProject',// 跳转到 action  
 						 	     data:pageObj,
 							     type:'post',  
 							     cache:false,  
@@ -121,14 +103,13 @@ toolBar.directive('toolbar1',function($mdToast,$mdDialog,$document,$rootScope,SE
 						     cache:false,  
 						     dataType:'json',  
 						     success:function(data) {  
-						     	console.log(data.project.id+"data.project.id")
 						     	$("#pagesList").attr('class',data.project.id);
 						     	$rootScope.projectStatus = data.status;
 						     	$rootScope.projectId = data.project.id;
-						     	$("#projectId").val($('#pagesList').attr('class'));
+
 
 						     	if(data.status){
-							       $('.md-dialog-container').css('display','none');
+							       $('#saveProjectOverLay').css('display','none');
 		    					   $("#addBox").show();
 						        setTimeout(function(){$("#addBox").fadeTo(3000).hide();	},1000);
 							    }else{  

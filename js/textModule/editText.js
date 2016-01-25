@@ -1,4 +1,4 @@
-var editText = angular.module('editText',['toolBar']);
+var editText = angular.module('editText',['toolBar','applicationController','mainApp']);
      
 editText.directive('pageleft',function($mdToast,$document){
 	return{
@@ -21,47 +21,85 @@ editText.directive('pageleft',function($mdToast,$document){
 
 
 //init edit bar
-editText.directive('edittool1',function($mdToast,$document,$rootScope,SERVER_URL){
+editText.directive('edittool1',function($mdToast,$parse,$document,$rootScope,$state,AuthService,SERVER_URL){
 	return {
 		restrict:'AE',
 		templateUrl:'./template/editbar.html',
 		scope:{},
-		link:function($scope){
+		link:function($scope,$rootScope,$mdDialog,$state){
+			if($("#uNameDashboard").hasClass('dashboardActive')){
+				$("#uName").html($("#uNameDashboard").html());
+				$("")
+			$("<a id='loginOut' style='margin-left:5px; font-size:12px; text-decoration:none;cursor:pointer'>退出</a>").insertAfter($("#uName"));
+			}
+			
+			$(document).on('click','#loginOut',function(){
+				setTimeout(function(){
+				$("#loginOut").remove();
+				$("#uName").html('欢迎,登陆');
+				},1000);
+			})
+	        $scope.myProject = function(){
+	        		if($("#uName").html()=="欢迎,登陆"){
+			    		$mdToast.show({
+			           controller: function($scope,$mdDialog,$rootScope,$state){
+			      			$scope.loginBtn = function(){
+				    		 		$scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
+				  		     	AuthService.login($scope.credentials).then(function(user){
+//				  		     		$rootScope.$broadcast(Auth_EVENTS.loginSuccess);
+				  		     		$rootScope.userName = user;
+									$("#uName").html(user);
+									$("<a id='loginOut' style='margin-left:5px; font-size:12px; text-decoration:none;cursor:pointer'>退出</a>").insertAfter($("#uName"));
+									$("#loginOverLay").css('display','none');
+									$("#pagesList").css('display','block');
+									////////////////////////
+									$state.go('.dashboard');
+									///////////////////////
+									
+				  		     	},function(){
+//				  		     		$rootScope.$broadcastAUTRH(AUTH_EVENTS.loginFailed);
+				  		     	});
+			  		     	
+			 			}
+			      },
+			      templateUrl:'./template/user.login.tmpl.html',
+			      parent : $document[0].querySelector('#editModulePosition'),
+			      hideDelay: false
+			    });
+	        		}else{
+	        			
+	        			$mdToast.show({
+			           controller: function($scope,$mdDialog,$rootScope,$state){
+							$state.go('.dashboard');
+			           }
+			
+			           });
+	        			
+	        		}
+	        }
 			$scope.userLogin = function(){
 				$("#pagesList").css('display','none');
 				$mdToast.show({
 			      controller: function($scope,$mdDialog,$rootScope){
 			      	$scope.loginBtn = function(){
-			    		
-			      		var userInfo = {"username":$scope.user.firstName,"password":$scope.user.passWord}
-		  				console.log(userInfo.username+"||"+userInfo.password)
-		  				var aj = $.ajax( {  
-				 	     url:SERVER_URL.liveUrl+'login',// 跳转到 action
-				  	     data:userInfo,
-				 		 type:'post',  
-					     cache:false,  
-				 	     dataType:'json',  
-				 		 success:function(data) {  
-		      			 $("#uName").html(data.userName);
-		      			 $("<span class='userImage'><img id='uImage' src='"+data.userPhoto+"'/></span>").prependTo($("#userProfile"));
-			 	         $("#userLogin").remove();
-			 	         $("#pagesList").css('display','block');
-			 	         console.log("$rootScope.userStatus = true;"+$rootScope.userStatus);
-			 	         for(var i in data){
-			 	         	console.log(i+":"+data[i]);
-			 	         }
-			 	         $rootScope.userStatus = true;
-			 		      },  
-			 		      error : function() {  
-				 		        $scope.error = "用户名或密码错误";
-			 	      		}  
-			 		 	});
+			    		 $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
+			  		     	AuthService.login($scope.credentials).then(function(user){
+//			  		     		$rootScope.$broadcast(Auth_EVENTS.loginSuccess);
+			  		     		$rootScope.userName = user;
+								$("#uName").html(user);
+								$("<a id='loginOut' style='margin-left:5px; font-size:12px; text-decoration:none;cursor:pointer'>退出</a>").insertAfter($("#uName"));
+								$("#loginOverLay").css('display','none');
+								$("#pagesList").css('display','block');
+			  		     	},function(){
+//			  		     		$rootScope.$broadcastAUTRH(AUTH_EVENTS.loginFailed);
+			  		     	});
 			 		}
 			      },
 			      templateUrl:'./template/user.login.tmpl.html',
 			      parent : $document[0].querySelector('#editModulePosition'),
 			      hideDelay: false
 			    });
+			  
 			}
 
 
@@ -243,6 +281,7 @@ console.log('showFormEditPanel....................');
 			      // position: $scope.getToastPosition()
 		});
 }
+
 
 
 //Create new text
