@@ -1,20 +1,5 @@
 var homeController = angular.module('homeController', ['ngMaterial']);
-homeController.controller('homeController', function($scope, $stateParams,$mdSidenav,editPage,$mdToast,$compile,$sce,$mdDialog,$document,SERVER_URL) {
-
-if($stateParams.projectId){
-
- $compile($("#pagesList").attr('ng-bind-html','page.editCode'))($scope)
- $scope.page = {
-  "editCode":""
-}
-$scope.page.editCode = $sce.trustAsHtml(editPage.data.pages.editCode);
-$scope.editcode = editPage.data.pages.editCode;
-
-
-}else{
-       $scope.editcode=''
-}
-
+homeController.controller('homeController', function($scope,$rootScope,$mdSidenav,editPage,$mdToast,$compile,$sce,$mdDialog,$document,SERVER_URL) {
 //删除选中元素
 $scope.remove = function(){$(".ui-selected").remove();}
 
@@ -258,14 +243,22 @@ function showBackgroundEditPanel($mdToast,$document){
 
 
 
-}).controller('LeftCtrl', function ($scope, $timeout, $mdSidenav, $log,$rootScope,$mdToast,$document) { // 左侧导航栏位 start --
-  $scope.feedback = {
-          title: '',
-          leftpages: [{
-            'type': '1211',
-            'page': ''
-          }]
-        };
+}).controller('LeftCtrl', function ($scope, $timeout,$mdSidenav,$log,$rootScope,$mdToast,$document,dashBoardFunctionCollection) { // 左侧导航栏位 start --
+  $scope.feedback = {title: '',leftpages: [{'type': '1'}]};
+  var projectIdInLeftNav = dashBoardFunctionCollection.getProjectId();
+    dashBoardFunctionCollection.loadEditPage(projectIdInLeftNav).success(function(data){
+       var k=0;
+       k = data.pageLength;
+       var colLeftHeight = 140*k;
+       if(k>1){
+                  for (var i = 0; i < k-1; i++) {
+                       $scope.feedback.leftpages.push({type: '1'})
+                  };
+        } 
+
+    })
+
+
   $scope.addEmptyTemplate = function(index) {
         var n=0
         $scope.feedback.leftpages.push({
@@ -273,25 +266,23 @@ function showBackgroundEditPanel($mdToast,$document){
           page: ''
         }),
         $rootScope.feedback = $scope.feedback;
-      // console.log( $scope.feedback.leftpages.length)
         var n = $scope.feedback.leftpages.length
         $('#pagesList').append('<div id=right_'+(n)+' class="swiper-slide isEdit" ></div>');
-         
-         // $('.swiper-slide').hasClass('isEdit')?$('.swiper-slide').removeClass('isEdit').css("display","none"):'';
         $(".swiper-slide").each(function(index,element){     
             $("#right_"+index).hide();
             $("#right_"+index).removeClass('isEdit');
            
         });
-        console.log(n)
+        console.log(n+"-----------------------------")
+        dashBoardFunctionCollection.savePageLength(n);
+        $rootScope.pageLength = n;
        // $("#right_"+n).show()
         showBackgroundEditPanel($mdToast,$document)
       }
 
   $scope.choosePage = function(i) {
-    // $("#ques_"+(i+1)).css("border","10px solid #000")
     $("#right_"+(i+1)).animate({height:'10px'});
-    $("#right_"+(i+1)).animate({height:'600px'});
+    $("#right_"+(i+1)).animate({height:'568px'});
   
     $(".swiper-slide").hide();
     $(".swiper-slide").removeClass("isEdit")

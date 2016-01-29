@@ -1,4 +1,4 @@
-var editText = angular.module('editText',['toolBar','applicationController','mainApp']);
+var editText = angular.module('editText',['toolBar','mainApp']);
      
 editText.directive('pageleft',function($mdToast,$document){
 	return{
@@ -7,6 +7,7 @@ editText.directive('pageleft',function($mdToast,$document){
 		scope:{},
 		link:function($scope){
             var indexArray=10;
+
 			$scope.createNewPage = function(){
 				//第一个页面必须有 swiper-slide-active
 			    $('.swiper-slide').hasClass('isEdit')?$('.swiper-slide').removeClass('isEdit').css("display","none"):'';
@@ -14,6 +15,7 @@ editText.directive('pageleft',function($mdToast,$document){
 				$(".isEdit").css('display','block');
                 newSlide.appendTo($('#pagesList'));
                 showBackgroundEditPanel($mdToast,$document);
+                console.log($('.swiper-slide').length+"///////")
 			}
 		}
 	}
@@ -21,16 +23,47 @@ editText.directive('pageleft',function($mdToast,$document){
 
 
 //init edit bar
-editText.directive('edittool1',function($mdToast,$parse,$document,$rootScope,$state,AuthService,SERVER_URL){
+editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,$rootScope,$state,dashBoardFunctionCollection,AuthService,SERVER_URL){
 	return {
 		restrict:'AE',
 		templateUrl:'./template/editbar.html',
 		scope:{},
 		link:function($scope,$rootScope,$mdDialog,$state){
-			if($("#uNameDashboard").hasClass('dashboardActive')){
-				$("#uName").html($("#uNameDashboard").html());
-				$("")
-			$("<a id='loginOut' style='margin-left:5px; font-size:12px; text-decoration:none;cursor:pointer'>退出</a>").insertAfter($("#uName"));
+            var projectIdInEditroolDirective = dashBoardFunctionCollection.getProjectId();
+			if(projectIdInEditroolDirective){
+				dashBoardFunctionCollection.loadEditPage(projectIdInEditroolDirective).success(function(data){
+						$compile($("#pagesList").attr('ng-bind-html','page.editCode'))($scope)
+						$scope.page = { "editCode":""};
+						$scope.page.editCode = $sce.trustAsHtml(data.pages.editCode);
+						$scope.editcode = data.pages.editCode;
+						$("#pagesList").attr('data-projectid',projectIdInEditroolDirective);
+					    $(document).on('click',' .isEdit > div ',function(e){
+					    	console.log('edit page works length'+$(e.target).find('.mText').length+"||"+e.target.nodeName);
+					    	console.log($(e.target).hasClass('mText')+":$(this).hasClass('mText')")
+					    	if($(e.target).hasClass('mText')){
+					    		$(e.target).focus();
+				  	  			$(".rotate-rightTop").css('display','none');
+				  	  			$('.ui-selected').removeClass('ui-selected');
+				  	  			$(e.target).parent().addClass('ui-selected');
+				  	  			$(e.target).parent().find(".rotate-rightTop").show();
+				  	  			initSelectedDraggable()
+					    	}else if($(e.target).hasClass('mImage')){
+					    		$('.mText').blur();
+					    		$(".rotate-rightTop").css('display','none');
+				  	  			$('.ui-selected').removeClass('ui-selected');
+				  	  			$(e.target).parent().addClass('ui-selected');
+				  	  			$(e.target).parent().find(".rotate-rightTop").show();
+				  	  			initSelectedDraggable()
+					    	}
+					    });
+						
+	           },function(){})
+			}
+
+			if($("#userProfileInDashboard").hasClass('dashboardActive')){
+				$("#welcome").css('display','none')
+				var user = AuthService.getUserInfo();
+				$('<span class="userImage"><img id="uImage" src="'+user[0].userPhoto+'"></span><span class="userName ng-binding"  role="button" tabindex="0"> '+user[0].userName+' </span>').prependTo($("#userProfile"));
 			}
 			
 			$(document).on('click','#loginOut',function(){
@@ -40,24 +73,34 @@ editText.directive('edittool1',function($mdToast,$parse,$document,$rootScope,$st
 				},1000);
 			})
 	        $scope.myProject = function(){
-	        		if($("#uName").html()=="欢迎,登陆"){
+
+	        		if($("#welcome").css('display') == "block"){
+
 			    		$mdToast.show({
-			           controller: function($scope,$mdDialog,$rootScope,$state){
+			           controller: function($scope,$mdToast,$mdDialog,$rootScope,$state){
+			           		$scope.loginClose = function(){
+				      			$('#loginOverLay').css('display','none');
+				      	    }
 			      			$scope.loginBtn = function(){
-				    		 		$scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
+			      				$scope.loading = true;
+				    		 	$scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
 				  		     	AuthService.login($scope.credentials).then(function(user){
-//				  		     		$rootScope.$broadcast(Auth_EVENTS.loginSuccess);
-				  		     		$rootScope.userName = user;
-									$("#uName").html(user);
-									$("<a id='loginOut' style='margin-left:5px; font-size:12px; text-decoration:none;cursor:pointer'>退出</a>").insertAfter($("#uName"));
-									$("#loginOverLay").css('display','none');
-									$("#pagesList").css('display','block');
-									////////////////////////
-									$state.go('.dashboard');
-									///////////////////////
-									
+				  		     	if(typeof(user.userName)!=="undefined"){
+				  		     			$rootScope.userName = user.userName;
+					  		     		$rootScope.userPhoto = user.userPhoto;
+										$('<span class="userImage"><img id="uImage" src="'+user.userPhoto+'"></span><span class="userName ng-binding" role="button" tabindex="0"> '+user.userName+' </span>').prependTo("#userProfile")
+			        			 		$("#welcome").css('display','none')
+										$("#loginOverLay").css('display','none');
+										$("#pagesList").css('display','block');
+										AuthService.setUserInfo(user.userName,user.userPhoto);
+										$scope.loading = false;
+										$state.go('.dashboard');
+										//saveProjectFn($mdToast,$document,$state,SERVER_URL);
+				  		     		}else{
+				  		     			$scope.error ="用户名或密码错误";
+				  		     		}
 				  		     	},function(){
-//				  		     		$rootScope.$broadcastAUTRH(AUTH_EVENTS.loginFailed);
+				  		     		
 				  		     	});
 			  		     	
 			 			}
@@ -66,39 +109,56 @@ editText.directive('edittool1',function($mdToast,$parse,$document,$rootScope,$st
 			      parent : $document[0].querySelector('#editModulePosition'),
 			      hideDelay: false
 			    });
-	        		}else{
+	        	}else{
 	        			
+// }else if(projectIsNull()){       	
+// 	saveProjectFn($mdToast,$document,$state,SERVER_URL,'goDashboard')	        			
+	        		
 	        			$mdToast.show({
-			           controller: function($scope,$mdDialog,$rootScope,$state){
+			               controller: function($scope,$mdDialog,$rootScope,$state){
 							$state.go('.dashboard');
-			           }
+			             }
 			
 			           });
-	        			
 	        		}
 	        }
 			$scope.userLogin = function(){
 				$("#pagesList").css('display','none');
-				$mdToast.show({
+		        $mdToast.show({
 			      controller: function($scope,$mdDialog,$rootScope){
+			      		$scope.loginClose = function(){
+				      		$('#loginOverLay').css('display','none');
+				      	}
 			      	$scope.loginBtn = function(){
+			      		$scope.loading = true;
 			    		 $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
 			  		     	AuthService.login($scope.credentials).then(function(user){
-//			  		     		$rootScope.$broadcast(Auth_EVENTS.loginSuccess);
-			  		     		$rootScope.userName = user;
-								$("#uName").html(user);
-								$("<a id='loginOut' style='margin-left:5px; font-size:12px; text-decoration:none;cursor:pointer'>退出</a>").insertAfter($("#uName"));
-								$("#loginOverLay").css('display','none');
-								$("#pagesList").css('display','block');
+			  		     		console.log(user.userName+"////////////user.userName")
+			  		     		if(typeof(user.userName)!=="undefined"){
+			  		     			$scope.loading = false;
+				  		     			$rootScope.userName = user.userName;
+					  		     		$rootScope.userPhoto = user.userPhoto;
+										$('<span class="userImage"><img id="uImage" src="'+user.userPhoto+'"></span><span class="userName ng-binding" role="button" tabindex="0"> '+user.userName+' </span>').prependTo("#userProfile")
+			        			 		$("#welcome").css('display','none')
+										$("#loginOverLay").css('display','none');
+										$("#pagesList").css('display','block');
+										//saveProjectFn($mdToast,$document,$state,SERVER_URL);
+										AuthService.setUserInfo(user.userName,user.userPhoto);
+				  		     		}else{
+				  		     			$scope.error ="用户名或密码错误";
+				  		     		}
 			  		     	},function(){
 //			  		     		$rootScope.$broadcastAUTRH(AUTH_EVENTS.loginFailed);
 			  		     	});
+
 			 		}
+
 			      },
 			      templateUrl:'./template/user.login.tmpl.html',
 			      parent : $document[0].querySelector('#editModulePosition'),
 			      hideDelay: false
 			    });
+		
 			  
 			}
 
@@ -114,8 +174,8 @@ editText.directive('edittool1',function($mdToast,$parse,$document,$rootScope,$st
 			};
 
 			$scope.newImages = function(){
-				 console.log('works');
-				 console.log(+"loadingImagesFromServer()");
+				$('.ui-selected').removeClass('ui-selected');
+				$('.rotate-rightTop').css('display','none');
 				 var newImage = true;
 				 showEditPanel($mdToast,$document,'image',newImage);
 				//initElement('.mImage','imageWithOverlay',$mdToast,$document);
@@ -282,17 +342,66 @@ console.log('showFormEditPanel....................');
 		});
 }
 
+function saveProjectFn($mdToast,$document,$state,SERVER_URL,pathTarget){
+	var status = false;
+				$mdToast.show({
+				  controller: function($scope,$mdDialog){
+				  	$scope.savePageContentClose = function(){
+   						$('saveProjectOverLay').css('display','none');
+				  	}
+					$scope.savePageContent = function(){
+						var projectName = $("#projectName").val();
+						var pages=[];
 
+						pageObj = {"projectName":projectName,"pages":{"editCode":$("#pagesList").html().replace(/ui-selected/,"").replace(/<div class="ui-resizable-handle(.)*?div>/g,''),"previewCode":$("#pagesList").html().replace(/display/g,"!").replace(/isEdit/g,"!").replace(/icon-undo/g,"!").replace(/<div class="ui-resizable-handle(.)*?div>/g,'')},"owner":'owner',"formLabel":[{'key':'labelname'},{'key':'labelname'}]};
 
+						var aj = $.ajax( {  
+						     url:SERVER_URL.liveUrl+'saveProject',// 跳转到 action  
+						     data:pageObj,
+						     type:'post',  
+						     cache:false,  
+						     dataType:'json',  
+						     success:function(data) {
+						     	$("#pagesList").attr('data-projectid',data.project.id);
+						     	if(data.status){
+							       $('#saveProjectOverLay').css('display','none');
+		    					   $("#addBox").show();
+						           setTimeout(function(){$("#addBox").fadeTo(3000).hide();	},1000);
+						           status = true;
+						           switch(pathTarget){
+						           	 case 'goDashboard' : $state.go('.dashboard');
+						           	 break;
+						           }
+							    }else{  
+							        view(data.msg);  
+							    }   
+						      },  
+						      error : function() {  
+						      		$scope.error ="用户名或密码错误" 
+						      }  
+					 	});	
+					}
+
+				  },
+				  templateUrl:'./template/page.save.tmpl.html',
+				  parent : $document[0].querySelector('#editModulePosition'),
+				   hideDelay: false
+				});
+
+return status;
+			}
+function projectIsNull(){
+	var status = typeof($("#pagesList").data('projectid')) == "undefined"?true:false;
+	return status;
+}
 //Create new text
 function createNewText($mdToast,$document){
 	$('.ui-selected').removeClass('ui-selected');
 	$('.rotate-rightTop').css('display','none');
 	var iText = $('<div class="ui-selected" data-type="text" style="width:200px;height:60px;position:absolute;"><div class="rotate-location rotate-rightTop" style="display:block;"><i class="icon-undo"></i></div><div class="mText" contentEditable="true" style="overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;">text placeholder</div></div>');
+    // var iText = $('<div class="ui-selected" data-type="text" style="width:200px;height:60px;position:absolute;"><div class="mText" contentEditable="true" style="overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;">text placeholder</div></div>');
     var currentPage = $('.isEdit');
-
     iText.appendTo(currentPage);
-
 }
 
 
@@ -751,10 +860,6 @@ function showImageEditPanel($mdToast,$document,newImage){
 						     });
 					    	
 					    }
-
-					    // $scope.$watch('uploadImageFile',function(newValue,oldValue){
-					    // 	console.log(newValue+"//newValue");
-					    // })
 					
 				      },
 				      resolve:{
@@ -924,7 +1029,7 @@ function initElement(clickOnTargetElementName,panelType,$mdToast,$document){
 			  	  $(e.target).find(".rotate-rightTop").show();
 			  }  
 			}else{
-			  if($(this).parent().hasClass("ui-selected")){
+			  if($(e.target).parent().hasClass("ui-selected")){
 			  	  $(e.target).focus();
 			  	  $(".rotate-rightTop").css('display','none');
 			  	  $(e.target).parent().find(".rotate-rightTop").show();
@@ -938,9 +1043,6 @@ function initElement(clickOnTargetElementName,panelType,$mdToast,$document){
 			}
 		 
 		});
-
-
-
 
        $('#pagesList').on('mousedown',function(){
        		console.log(' works works');
@@ -959,4 +1061,54 @@ function showEditPanel ($mdToast,$document,panelType,newImage){
 		case "input":showInputEditPanel($mdToast,$document);
 	}
 
+}
+
+
+
+function initSelectedDraggable(){
+	$(document).ready(function(){
+		$('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
+		var selected = $([]), offset = {top:0, left:0}; 
+		$( ".isEdit > div" ).draggable({
+		    start: function(ev, ui) {
+		      // ev.stopPropagation();
+		        if ($(this).hasClass("ui-selected")){
+		            selected = $(".ui-selected").each(function() {
+		               var el = $(this);
+		               el.data("offset", el.offset());
+		            });
+		        }
+		        else {
+		            selected = $([]);
+		            $(".isEdit > div").removeClass("ui-selected");
+		        }
+		        offset = $(this).offset();
+		    },
+		    drag: function(ev, ui) {
+		        var dt = ui.position.top - offset.top, dl = ui.position.left - offset.left;
+		        selected.not(this).each(function() {
+		        var el = $(this), off = el.data("offset");
+		        el.css({top: off.top + dt, left: off.left + dl});
+		        });
+		    }
+		}).resizable({ handles: 'n, e, s, w,se,sw,ne,nw' });
+
+		$( ".isEdit " ).selectable();
+
+		//rotate function
+		applyRotation();
+		function applyRotation() {
+		    $('.rotate-rightTop').draggable({
+		        opacity: 0.01,
+		        helper: 'clone',
+		        drag: function (event, ui) {
+		            var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
+		            $(this).parent().css({
+		                '-moz-transform': rotateCSS,
+		                    '-webkit-transform': rotateCSS
+		            });
+		        }
+		    });
+		}
+});
 }

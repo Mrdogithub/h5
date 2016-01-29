@@ -49,19 +49,21 @@ var param = function(obj) {
 }).constant('USER_ROLES',{}).config(function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider.otherwise('/');
 	$stateProvider.state('homePage',{
-		url:'/:projectId',
+		url:'/',
 		views:{
 			'':{templateUrl:'./template/home.html',
 		 		controller:'homeController',
 		 		resolve:{
-		 			editPage:function($stateParams,dashBoardFunctionCollection){
-		 			    console.log($stateParams.projectId+"$stateParams.projectId")
-		 			    if($stateParams.projectId){
-		 			    	return dashBoardFunctionCollection.loadEditPage($stateParams.projectId);	
+		 			editPage:function(dashBoardFunctionCollection){
+		 			    var projectIdCallBack = dashBoardFunctionCollection.getProjectId();
+		 			    console.log('projectInEdit in app.js:'+projectIdCallBack)
+		 			    if(projectIdCallBack){
+		 			    	return dashBoardFunctionCollection.loadEditPage(projectIdCallBack);	
 		 			    }
-		 				
-	
-		 			}
+		 			},
+					getPageLength:function(dashBoardFunctionCollection){
+						 	return dashBoardFunctionCollection.getPageLength();
+					}
 		 		}
 			}
 		}
@@ -72,8 +74,6 @@ var param = function(obj) {
 						 controller:'dashboardController',
 						 resolve:{
 						 		getMyProjectsList:function(dashBoardFunctionCollection){
-						 			   
-						 			   $("#uNameDashboard").html($("#uName").html());
 						 			   return dashBoardFunctionCollection.getProjectList();
 						 		}
 						 	}
@@ -81,4 +81,5 @@ var param = function(obj) {
 
 		}
 	})
+}).run(function($rootScope) {
 });

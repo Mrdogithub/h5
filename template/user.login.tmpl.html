@@ -18,8 +18,9 @@
          </div>
       </div>
       <div class="modal-footer">
-      	<span style="    text-align: left;display: inline-block;float: left;">{{error}}</span>
-        <button type="button" class="btn btn-primary" ng-click="loginBtn()" style="border-radius:0px">登录</button>
+      	<span style="text-align: left;display: inline-block;float: left;">{{error}}</span>
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="loginClose()" style="border-radius:0px">关闭</button>
+        <button type="button" class="btn btn-primary" ng-click="loginBtn()" style="border-radius:0px"><i class="icon-spinner icon-spin" ng-show="loading"></i> 登录</button>
       </div>
   </form>
   </div>

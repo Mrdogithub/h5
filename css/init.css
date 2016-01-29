@@ -56,8 +56,14 @@ a.imgbut:hover{ background: #3383b1; }
 .col-center .edit-area{margin-top: 40px;width: 100%;height: 500px;}
 .col-center .grid{background: url(../images/phone.png) no-repeat; background-size: cover;width: 300px;height: 550px;}
 .col-center .phone img{height: 100%;}
-.col-center .edit-icon{margin-top: 70px; text-align: center;width:370px;}
-.col-center .edit-icon a{ margin-left: 20px; text-decoration: none;}
+.col-center .edit-icon{    text-align: center;
+    width: 40px;
+    position: absolute;
+    left: 670px;
+    top: 147px;
+background: #fff;
+    box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.3);}
+.col-center .edit-icon a{text-decoration: none;}
 .col-center .edit-icon a:hover{color:#fcc10e;}
 .col-center .edit-icon img{ width: 2pc;}
 .col-center .phoneTemplate{width:400px; border: darksalmon solid 1px; height: 600px;  background-image: url(../images/phone.png); margin-top: 40px;}
@@ -129,7 +135,7 @@ a.imgbut:hover{ background: #3383b1; }
 }
 
 @media (min-width: 1200px) {
-.navbar-img{margin-left: 33em;}
+.navbar-img{margin-left: 42em;}
 .col-center{padding-left: 18em;}
 }
 
@@ -162,7 +168,18 @@ a.imgbut:hover{ background: #3383b1; }
 
 .editPanelElement{
 	margin-left: 10px;
-    padding: 2px 10px 2px 10px;
+    padding:2px 6px 2px 10px;
     border-radius: 1px;
     border: 1px solid #3C4646;
+    background: #eeeeee;
+}
+.scrollspy-example{
+    height: 200px;
+    overflow: auto;
+    position: relative;
+    border:1px;
+} 
+
+.edit-icon a:hover{
+    background: #eee;
 }

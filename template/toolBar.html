@@ -1,15 +1,27 @@
 <div class="edit-icon">
+		    <a  ng-click="remove()" id="#delicon"  data-toggle="delicon" data-placement="top" title="删除"><i class='icon-trash icon-2x'></i></a>
 
- 		    <a  ng-click="remove()" id="#example"  data-toggle="tooltip" data-placement="top" title="Tooltip on top"><i class='icon-trash icon-2x'></i></a>
- 		    <a  ng-click="previewPage()"><i class=" icon-eye-open icon-2x"></i></a>
-          	<a ng-click="savePage()"><i class=" icon-save icon-2x"></i></a>
+		      <a ng-click="previewPage()" id="#previewIcon"  data-toggle="previewIcon" data-placement="top" title="预览"><i class=" icon-eye-open icon-2x"></i></a>
+
+		      <a ng-click="savePage()" id="#saveIcon"  data-toggle="saveIcon" data-placement="top" title="保存"
+		      ><i class=" icon-save icon-2x"></i></a>
 </div>
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#example').tooltip();
+		$('#delicon').tooltip();
 		$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+		  $('[data-toggle="delicon"]').tooltip()
+		})
+
+		$('#previewIcon').tooltip();
+		$(function () {
+		  $('[data-toggle="previewIcon"]').tooltip()
+		})
+
+		$('#saveIcon').tooltip();
+		$(function () {
+		  $('[data-toggle="saveIcon"]').tooltip()
+		})
 	});
 </script>

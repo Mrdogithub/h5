@@ -1,32 +1,32 @@
 
-code.replace(/display/g,"!").replace(/isEdit/g,"!").replace(/icon-undo/g,"!")
-<div class=""  tabindex="-1" ><div class="modal-dialog"style="width:600px;position: absolute;z-index: 999;"><div class="modal-content" style="border-radius: 0px;"><div class="modal-body"><div style="width:370px;height:568px;display:inline-block"><div class="swiper-container" style="width:100%;height:568px;"><div class="swiper-wrapper" id="previewPageInDashboard"></div></div></div><div><img src="{{qrcode}}" style="width:300px;height:300px;margin-top:30px;" /><div class="input-group" style="margin-top:100px"><input type="text" class="form-control" value="{{previewUrl}}" aria-describedby="basic-addon2"><span class="input-group-addon">Preview Url</span></div></div></div></div></div></div>
 
 
 
+<div class="dashBoardPreview"  tabindex="-1" id="previewPageInEditStatus"  style="width:470px;height:568px;">
+<div class="modal-dialog"style="width:85%;z-index: 999;">
+<div class="modal-content" style="border-radius: 0px;">
+<div class="modal-body"><a  style="   
+ cursor: pointer;
+    font-size: 23px;
+    text-align: right;
+    font-weight: bold;
+    text-decoration: none;
+    vertical-align: top;
+    position: absolute;
+    right: -16px;
+    top: -17px;
+    background: #fff;
+    border-radius: 100px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 124%;" ng-click="close()">&times;</a><div style="width:370px;height:480px;display:inline-block" >
+<div class="swiper-container" style="width:100%;height:568px;">
+<div class="swiper-wrapper" id="previewContent" class="ng-binding" ng-bind-html="page.preivewCode">
 
-<!-- 
-<md-dialog aria-label="Mango (Fruit)"  ng-cloak style="max-width:100%;width:100%;max-height:100%;">
-  <form>
-    <md-dialog-content>
+  </div>
 
-      <div class="md-dialog-content" style="width:100%;">
-     
-
-       </div>
-       <div style="width:600px; margin-left:20px;height:650px; text-align:center; display:inline-block;vertical-align:top">
-             <a ng-click="close('useful')" style="margin-right:20px;position:absolute;top:10px;right:10px;color:#333;text-decoration:none;cursor:pointer">&times;</a>
-         <img src="{{qrcode}}" style="width:300px;height:300px;margin-top:30px;" />
-      <div class="input-group" style="margin-top:100px">
-        <input type="text" class="form-control" value="{{previewUrl}}" aria-describedby="basic-addon2">
-        <span class="input-group-addon">Preview Url</span>
-      </div>
-       </div>
-      </div>
-    </md-dialog-content>
- <md-dialog-actions layout="row">
-
-    </md-dialog-actions> -->
-  <!--    </form>
-</md-dialog> -->
-
+  </div>
+</div>
+</div></div></div></div>
