@@ -125,7 +125,8 @@ editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,
 			$scope.userLogin = function(){
 				$("#pagesList").css('display','none');
 		        $mdToast.show({
-			      controller: function($scope,$mdDialog,$rootScope){
+			      controller: function($q,$scope,$mdDialog,$rootScope){
+			      	console.log($q.defer()+"-------")
 			      		$scope.loginClose = function(){
 				      		$('#loginOverLay').css('display','none');
 				      	}
@@ -365,7 +366,7 @@ function saveProjectFn($mdToast,$document,$state,SERVER_URL,pathTarget){
 						     	$("#pagesList").attr('data-projectid',data.project.id);
 						     	if(data.status){
 							       $('#saveProjectOverLay').css('display','none');
-		    					   $("#addBox").show();
+		    					       $("#addBox").show();
 						           setTimeout(function(){$("#addBox").fadeTo(3000).hide();	},1000);
 						           status = true;
 						           switch(pathTarget){

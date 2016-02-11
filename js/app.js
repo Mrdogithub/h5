@@ -1,5 +1,6 @@
 angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial','loginController','homeController','applicationController',"kendo.directives",'dragDirective','dashboardController','dashBoardService','imageService','userImageActionService','AuthService'],function($httpProvider) {
 $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+console.log(angular+"angular")
 var param = function(obj) {
     var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
       
@@ -45,7 +46,7 @@ var param = function(obj) {
 	notAuthorized:'auth-not-authorized'
 }).constant('SERVER_URL',{
   testUrl:"",
-  liveUrl:"http://9.115.24.168:3000/"
+  liveUrl:"http://192.168.1.102:3000/"
 }).constant('USER_ROLES',{}).config(function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider.otherwise('/');
 	$stateProvider.state('homePage',{

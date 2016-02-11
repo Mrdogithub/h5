@@ -14630,7 +14630,7 @@ function $ParseProvider() {
  *      // Propagate promise resolution to 'then' functions using $apply().
  *      $rootScope.$apply();
  *      expect(resolvedValue).toEqual(123);
- *    }));Q
+ *    }));
  *  ```
  *
  * @param {function(function, function)} resolver Function which is responsible for resolving or
