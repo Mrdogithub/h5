@@ -313,15 +313,15 @@ homeController.controller('homeController', function($scope, $rootScope, $mdSide
 
 
 
-}).controller('LeftCtrl', function($scope, $timeout, $mdSidenav, $log, $rootScope, $mdToast, $document, dashBoardFunctionCollection) { // 左侧导航栏位 start --
+}).controller('LeftCtrl', function($scope, $timeout, $mdSidenav, $log, $rootScope, $mdToast, $document, projectFn) { // 左侧导航栏位 start --
   $scope.feedback = {
     title: '',
     leftpages: [{
       'type': '1'
     }]
   };
-  var projectIdInLeftNav = dashBoardFunctionCollection.getProjectId();
-  dashBoardFunctionCollection.loadEditPage(projectIdInLeftNav).success(function(data) {
+  var projectIdInLeftNav = projectFn.getProjectId();
+  projectFn.loadEditPage(projectIdInLeftNav).then(function(data) {
     var k = 0;
     k = data.pageLength;
     var colLeftHeight = 140 * k;
@@ -351,7 +351,7 @@ homeController.controller('homeController', function($scope, $rootScope, $mdSide
 
     });
     console.log(n + "-----------------------------")
-    dashBoardFunctionCollection.savePageLength(n);
+    projectFn.savePageLength(n);
     $rootScope.pageLength = n;
     // $("#right_"+n).show()
     showBackgroundEditPanel($mdToast, $document)

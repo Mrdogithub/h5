@@ -15,7 +15,6 @@ editText.directive('pageleft',function($mdToast,$document){
 				$(".isEdit").css('display','block');
                 newSlide.appendTo($('#pagesList'));
                 showBackgroundEditPanel($mdToast,$document);
-                console.log($('.swiper-slide').length+"///////")
 			}
 		}
 	}
@@ -23,15 +22,16 @@ editText.directive('pageleft',function($mdToast,$document){
 
 
 //init edit bar
-editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,$rootScope,$state,dashBoardFunctionCollection,AuthService,SERVER_URL){
+editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,$rootScope,$state,projectFn,AuthService,SERVER_URL){
 	return {
 		restrict:'AE',
 		templateUrl:'./template/editbar.html',
 		scope:{},
 		link:function($scope,$rootScope,$mdDialog,$state){
-            var projectIdInEditroolDirective = dashBoardFunctionCollection.getProjectId();
-			if(projectIdInEditroolDirective){
-				dashBoardFunctionCollection.loadEditPage(projectIdInEditroolDirective).success(function(data){
+            var loadingProjectById = projectFn.getProjectId();
+
+			if(loadingProjectById){
+				projectFn.loadEditPage(loadingProjectById).then(function(data){
 						$compile($("#pagesList").attr('ng-bind-html','page.editCode'))($scope)
 						$scope.page = { "editCode":""};
 						$scope.page.editCode = $sce.trustAsHtml(data.pages.editCode);
@@ -95,7 +95,6 @@ editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,
 										AuthService.setUserInfo(user.userName,user.userPhoto);
 										$scope.loading = false;
 										$state.go('.dashboard');
-										//saveProjectFn($mdToast,$document,$state,SERVER_URL);
 				  		     		}else{
 				  		     			$scope.error ="用户名或密码错误";
 				  		     		}
@@ -111,9 +110,6 @@ editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,
 			    });
 	        	}else{
 	        			
-// }else if(projectIsNull()){       	
-// 	saveProjectFn($mdToast,$document,$state,SERVER_URL,'goDashboard')	        			
-	        		
 	        			$mdToast.show({
 			               controller: function($scope,$mdDialog,$rootScope,$state){
 							$state.go('.dashboard');
@@ -126,7 +122,6 @@ editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,
 				$("#pagesList").css('display','none');
 		        $mdToast.show({
 			      controller: function($q,$scope,$mdDialog,$rootScope){
-			      	console.log($q.defer()+"-------")
 			      		$scope.loginClose = function(){
 				      		$('#loginOverLay').css('display','none');
 				      	}
@@ -143,13 +138,11 @@ editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,
 			        			 		$("#welcome").css('display','none')
 										$("#loginOverLay").css('display','none');
 										$("#pagesList").css('display','block');
-										//saveProjectFn($mdToast,$document,$state,SERVER_URL);
 										AuthService.setUserInfo(user.userName,user.userPhoto);
 				  		     		}else{
 				  		     			$scope.error ="用户名或密码错误";
 				  		     		}
 			  		     	},function(){
-//			  		     		$rootScope.$broadcastAUTRH(AUTH_EVENTS.loginFailed);
 			  		     	});
 
 			 		}
@@ -277,7 +270,6 @@ editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,
 
 
 function showFormEditPanel($mdToast,$document){
-console.log('showFormEditPanel....................');
 	$mdToast.show({
 			      controller: function($scope){
 
@@ -343,54 +335,7 @@ console.log('showFormEditPanel....................');
 		});
 }
 
-function saveProjectFn($mdToast,$document,$state,SERVER_URL,pathTarget){
-	var status = false;
-				$mdToast.show({
-				  controller: function($scope,$mdDialog){
-				  	$scope.savePageContentClose = function(){
-   						$('saveProjectOverLay').css('display','none');
-				  	}
-					$scope.savePageContent = function(){
-						var projectName = $("#projectName").val();
-						var pages=[];
 
-						pageObj = {"projectName":projectName,"pages":{"editCode":$("#pagesList").html().replace(/ui-selected/,"").replace(/<div class="ui-resizable-handle(.)*?div>/g,''),"previewCode":$("#pagesList").html().replace(/display/g,"!").replace(/isEdit/g,"!").replace(/icon-undo/g,"!").replace(/<div class="ui-resizable-handle(.)*?div>/g,'')},"owner":'owner',"formLabel":[{'key':'labelname'},{'key':'labelname'}]};
-
-						var aj = $.ajax( {  
-						     url:SERVER_URL.liveUrl+'saveProject',// 跳转到 action  
-						     data:pageObj,
-						     type:'post',  
-						     cache:false,  
-						     dataType:'json',  
-						     success:function(data) {
-						     	$("#pagesList").attr('data-projectid',data.project.id);
-						     	if(data.status){
-							       $('#saveProjectOverLay').css('display','none');
-		    					       $("#addBox").show();
-						           setTimeout(function(){$("#addBox").fadeTo(3000).hide();	},1000);
-						           status = true;
-						           switch(pathTarget){
-						           	 case 'goDashboard' : $state.go('.dashboard');
-						           	 break;
-						           }
-							    }else{  
-							        view(data.msg);  
-							    }   
-						      },  
-						      error : function() {  
-						      		$scope.error ="用户名或密码错误" 
-						      }  
-					 	});	
-					}
-
-				  },
-				  templateUrl:'./template/page.save.tmpl.html',
-				  parent : $document[0].querySelector('#editModulePosition'),
-				   hideDelay: false
-				});
-
-return status;
-			}
 function projectIsNull(){
 	var status = typeof($("#pagesList").data('projectid')) == "undefined"?true:false;
 	return status;

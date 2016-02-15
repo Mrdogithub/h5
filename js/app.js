@@ -1,4 +1,7 @@
-angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial','loginController','homeController','applicationController',"kendo.directives",'dragDirective','dashboardController','dashBoardService','imageService','userImageActionService','AuthService'],function($httpProvider) {
+angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial',
+	'homeController','applicationController',
+	"kendo.directives",'dashboardController',
+	'projectService','AuthService'],function($httpProvider) {
 $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 console.log(angular+"angular")
 var param = function(obj) {
@@ -46,7 +49,7 @@ var param = function(obj) {
 	notAuthorized:'auth-not-authorized'
 }).constant('SERVER_URL',{
   testUrl:"",
-  liveUrl:"http://192.168.1.102:3000/"
+  liveUrl:"http://9.115.24.168:3000/"
 }).constant('USER_ROLES',{}).config(function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider.otherwise('/');
 	$stateProvider.state('homePage',{
@@ -55,15 +58,15 @@ var param = function(obj) {
 			'':{templateUrl:'./template/home.html',
 		 		controller:'homeController',
 		 		resolve:{
-		 			editPage:function(dashBoardFunctionCollection){
-		 			    var projectIdCallBack = dashBoardFunctionCollection.getProjectId();
+		 			editPage:function(projectFn){
+		 			    var projectIdCallBack = projectFn.getProjectId();
 		 			    console.log('projectInEdit in app.js:'+projectIdCallBack)
 		 			    if(projectIdCallBack){
-		 			    	return dashBoardFunctionCollection.loadEditPage(projectIdCallBack);	
+		 			    	return projectFn.loadEditPage(projectIdCallBack);	
 		 			    }
 		 			},
-					getPageLength:function(dashBoardFunctionCollection){
-						 	return dashBoardFunctionCollection.getPageLength();
+					getPageLength:function(projectFn){
+						 	return projectFn.getPageLength();
 					}
 		 		}
 			}
@@ -74,8 +77,10 @@ var param = function(obj) {
 			'editPanel':{templateUrl:'./template/page.dashboard.tmpl.html',
 						 controller:'dashboardController',
 						 resolve:{
-						 		getMyProjectsList:function(dashBoardFunctionCollection){
-						 			   return dashBoardFunctionCollection.getProjectList();
+						 		getMyProjectsList:function(projectFn){
+						 			   return projectFn.getProjectList().then(function(data){
+						 			   		return data;
+						 			   });
 						 		}
 						 	}
 						}

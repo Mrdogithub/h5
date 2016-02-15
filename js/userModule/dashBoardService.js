@@ -1,68 +1,76 @@
-var dashBoardService = angular.module('dashBoardService',[]);
-dashBoardService.factory('dashBoardFunctionCollection',function($http,$q,$timeout,$compile,SERVER_URL){
-	var theUrlForLoadingMyProjects  = SERVER_URL.liveUrl;
-	var findMyProject  = 'findProjectByUser';
-	var deletedProject = 'delProject';
-	var copyProject    = 'copyProject';
-	var editProject    = 'findProjectById';
-	var pagelength = [];
+var project = angular.module('projectService',[]);
+project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL){
+
+	var productUrl                   = SERVER_URL.liveUrl;
+	var copyProject                  = 'copyProject';
+	var editProject                  = 'findProjectById';
+    var saveProject                  = 'saveProject';
+	var pagelength                   = [];
+    var findMyProject                = 'findProjectByUser';
+    var deletedProject               = 'delProject';
     var projectIdInDashboardService  = [];
+
+
+
     var myProjectAction = {
+
         saveProjectId:function(projectId){
-            console.log(projectId+" saveProjectId");
             projectIdInDashboardService.length = 0;
             projectIdInDashboardService.push(projectId);
-        },
-        getProjectId:function(){
-            return projectIdInDashboardService[0];
-        },
-        removeProjectId:function(){
-            projectIdInDashboardService.length = 0;
         },
         savePageLength:function(num){
            pagelength.length = 0;
            pagelength.push(num);
-           console.log(pagelength[0]+'------------------ in')
+        },
+        saveProject:function(pageLength,projectId,editCode,previewCode,projectName){
+            var deffered = $q.defer();
+            $http.post(productUrl+saveProject,{
+                'pageLength':pageLength,
+                'projectId':projectId,
+                'projectName':projectName,
+                'pages':{'editCode':editCode,'previewCode':previewCode}
+            }).success(function(data){
+                deffered.resolve(data)
+            });
+            return deffered.promise;
+        },
+        getProjectId:function(){
+            return projectIdInDashboardService[0];
         },
         getPageLength:function(){
 
             return pagelength[0];
         },
-    	loadEditPage:function(id,$scope){
-    	    var promise = $http({method:"GET",url:theUrlForLoadingMyProjects+editProject,params:{pid:id}});
-    		promise.success(function(data,status,headers){
-    			return data;
-    		});
-    		return promise;
-    	},
     	getProjectList:function(){
-    		var promise = $http({method:"GET",url:theUrlForLoadingMyProjects+findMyProject});
-    		promise.success(function(data,status,headers){
-    			return data;
+            var deffered = $q.defer();
+    		$http({method:"GET",url:productUrl+findMyProject}).success(function(data){
+    			deffered.resolve(data);
     		});
-    		return promise;
+    		return deffered.promise;
     	},
+        removeProjectId:function(){
+            projectIdInDashboardService.length = 0;
+        },
     	deletedProject:function(projectId){
-    		console.log('delete works')
-    		var promise = $http({method:"POST",url:theUrlForLoadingMyProjects+deletedProject,params:{pid:projectId}});
-    		promise.success(function(data,status,headers){
-    			return data;
+            var deffered = $q.defer()
+    		$http({method:"POST",url:productUrl+deletedProject,params:{pid:projectId}}).success(function(data){
+                deffered.resolve(data);
     		});
-    		return promise;
+    		return deffered.promise;
     	},
-    	copyProject:function(projectName,projectId,$scope){
-    		console.log("projectName"+projectName +"////"+projectId);
-    		var promise = $http.post(theUrlForLoadingMyProjects+copyProject,{pid:projectId,projectname:projectName});
-    		promise.success(function(data,status,headers){
-        $compile($('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="'+data.project.id+'"><div class="thumbnail"  style="height: 334px;" ><div class="projectInfo-projectName" style="position:absolute;width:98%;opacity:1;"><img  style="width:100%;height:325px;"  src="'+data.project.cover+'"><div style="width:100%;position:absolute;bottom:0px;text-align:center;height:40px;background:#fff;padding:10px 0px 10px 0px;">'+data.project.projectname+'</p></div></div><div class="dask" style="position:absolute;width:98%;opacity:0;"><p class="showMoreIcons"><span ng-click="deletePage($event,'+"'"+data.project.id+"'"+')" class="projectInfoShowMoreIcons-remove" style="width:0px;opacity:0;"></span><span ng-click="copyProject($event,'+"'"+data.project.id+"',"+"'"+data.project.projectname+"'"+')" class="projectInfoShowMoreIcons-copy" style="width:0px;opacity:0;"></span><span href="javascript:;" class="projectInfoShowMoreIcons"></span></p><img src="'+data.project.qrcode+'" style="width:100%;"><p class="projectInfoDownloadQRCode">下载二维码</p><p class="showMoreIconsBottom"><a ng-click="previewPage($event,'+"'"+data.project.url+"',"+"'"+data.project.qrcode+"'"+')" class="projectInfoShowMoreIcons-preview"></a><a href="javascript:;" class="projectInfoShowMoreIcons-edit"></a><a href="javascript:;" class="projectInfoShowMoreIcons-report"></a></p></div></div></div></div></div>').prependTo($('.modlist')))($scope)
-        
-                    $('#saveProjectOverLay').css('display','none');
-                    $("#addBox").show();
-                     setTimeout(function(){$("#addBox").fadeTo(3000).hide();},1000);
-                    $('.modlist').css('display','block')
+        loadEditPage:function(id,$scope){
+            var deffered = $q.defer()
+            $http({method:"GET",url:productUrl+editProject,params:{pid:id}}).success(function(data){
+                deffered.resolve(data);
+            });
+            return deffered.promise;
+        },
+    	copyProject:function(projectName,projectId){
+            var deffered = $q.defer()
+    	    $http.post(productUrl+copyProject,{'pid':projectId,'projectname':projectName}).success(function(data){
+                deffered.resolve(data);
     		});
-    		return promise;
-
+    		return deffered.promise;
     	}
     };
     return myProjectAction;
