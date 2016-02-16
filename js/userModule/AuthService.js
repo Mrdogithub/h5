@@ -1,3 +1,6 @@
+"use strict";
+
+
 var authService = angular.module('AuthService',['session']);
 authService.factory('AuthService',function($http,$rootScope,Session,SERVER_URL){
 	var userInfo = []
@@ -11,6 +14,8 @@ authService.factory('AuthService',function($http,$rootScope,Session,SERVER_URL){
 						console.log(i+":"+res.data[i])
 					}
 					return res.data;
+				},function(data){
+
 				});
 	};
 	authService.isAuthenticated = function(){

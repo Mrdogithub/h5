@@ -1,11 +1,15 @@
 var homeController = angular.module('homeController', ['ngMaterial']);
-homeController.controller('homeController', function($scope, $rootScope, $mdSidenav, editPage, $mdToast, $compile, $sce, $mdDialog, $document, SERVER_URL) {
+homeController.controller('homeController', function($scope, $rootScope, $mdSidenav, 
+  editPage, $mdToast, $compile, $sce, 
+  $mdDialog, $document, SERVER_URL) {
+
   //删除选中元素
   $scope.remove = function() {
     $(".ui-selected").remove();
   }
 
-  $("<a id='loginOut' style='margin-left:5px; font-size:12px; text-decoration:none;cursor:pointer'>退出</a>").insertAfter($("#uName"));
+  $("<a id='loginOut' style='margin-left:5px; font-size:12px; text-decoration:none;cursor:pointer'>退出</a>")
+  .insertAfter($("#uName"));
 
   //判断是否为chrome浏览器
   var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
@@ -250,15 +254,13 @@ homeController.controller('homeController', function($scope, $rootScope, $mdSide
             console.log('image radius size works');
             $(".ui-selected >.mImage").css("borderRadius", $scope.imageRadius.size + "px");
           }
-          //set image animate
-          // $scope.setImageAnimate = function(){
-          //   // console.log(+"////")
-          //   //  var anim = $(this).val()
+        
         testAnimation($scope.selected);
 
         function testAnimation(x) {
-          $('.ui-selected').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-            $(this).removeClass();
+          $('.ui-selected').removeClass().addClass(x + ' animated')
+            .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
+              $(this).removeClass();
           });
         }
         $('#js--imageAnimations').change(function() {
@@ -307,13 +309,15 @@ homeController.controller('homeController', function($scope, $rootScope, $mdSide
       templateUrl: './template/page.background.tmpl.html',
       parent: $document[0].querySelector('#editModulePosition'),
       hideDelay: false
-        // position: $scope.getToastPosition()
     });
   }
 
 
 
-}).controller('LeftCtrl', function($scope, $timeout, $mdSidenav, $log, $rootScope, $mdToast, $document, projectFn) { // 左侧导航栏位 start --
+}).controller('LeftCtrl', function($scope, $timeout, $mdSidenav, 
+  $log, $rootScope, $mdToast,
+   $document, projectFn) { // 左侧导航栏位 start --
+  
   $scope.feedback = {
     title: '',
     leftpages: [{
@@ -350,7 +354,7 @@ homeController.controller('homeController', function($scope, $rootScope, $mdSide
       $("#right_" + index).removeClass('isEdit');
 
     });
-    console.log(n + "-----------------------------")
+
     projectFn.savePageLength(n);
     $rootScope.pageLength = n;
     // $("#right_"+n).show()

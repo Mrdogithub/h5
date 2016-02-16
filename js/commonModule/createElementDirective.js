@@ -1,5 +1,10 @@
-var toolBar = angular.module('toolBar', ['ngMaterial', 'editText', 'mainApp','projectService']);
-toolBar.directive('toolbar1', function($mdToast, $mdDialog, $document, $rootScope, SERVER_URL, AuthService, projectFn) {
+var createElementDirective = angular.module('createElementDirective', ['ngMaterial', 'editText', 
+  'mainApp','projectService']);
+
+createElementDirective.directive('toolbar1', function($mdToast, $mdDialog, 
+  $document, $rootScope, 
+  SERVER_URL, AuthService, projectFn) {
+
   return {
     restrict: "AE",
     scope: {},
@@ -18,7 +23,11 @@ toolBar.directive('toolbar1', function($mdToast, $mdDialog, $document, $rootScop
               "preivewCode": ""
             };
             $("#pagesList").html()
-            $scope.page.preivewCode = $sce.trustAsHtml($("#pagesList").html().replace(/display/g, "!").replace(/isEdit/g, "!").replace(/icon-undo/g, "!").replace(/ui-selected/g, "").replace(/ui-selectable/g, "") + '<script type="text/javascript"> $(document).ready(function(){var swiper = new Swiper(".swiper-container",{pagination:".swiper-pagination",paginationClickable:true,direction:"vertical",effect:"slide"})})</script>');
+            $scope.page.preivewCode = $sce.trustAsHtml($("#pagesList").html()
+              .replace(/display/g, "!").replace(/isEdit/g, "!")
+              .replace(/icon-undo/g, "!").replace(/ui-selected/g, "")
+              .replace(/ui-selectable/g, "") + '<script type="text/javascript"> $(document).ready(function(){var swiper = new Swiper(".swiper-container",{pagination:".swiper-pagination",paginationClickable:true,direction:"vertical",effect:"slide"})})</script>');
+            
             $scope.close = function() {
               $('#previewPageInEditStatus').css('display', 'none');
               $("#pagesList").css('display', 'block');
@@ -33,11 +42,14 @@ toolBar.directive('toolbar1', function($mdToast, $mdDialog, $document, $rootScop
         });
       }
       $scope.userName = '';
+      var _parentScope = $scope;
+
+
       $scope.savePage = function() {
         var pageLength = projectFn.getPageLength();
         if ($("#welcome").css('display') == "block") {
           $mdToast.show({
-            controller: function($scope, $parse, $mdDialog, $rootScope, SERVER_URL) {
+            controller: function($scope, $parse, $mdDialog, $rootScope, SERVER_URL,AUTH_EVENTS) {
               $scope.loginClose = function() {
                 $('#loginOverLay').css('display', 'none');
               }
@@ -52,6 +64,9 @@ toolBar.directive('toolbar1', function($mdToast, $mdDialog, $document, $rootScop
                     $scope.loading = false;
                     $rootScope.userName = user.userName;
                     $rootScope.userPhoto = user.userPhoto;
+
+                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+                    _parentScope.setCurrentUser(user);
                     $('<span class="userImage"><img id="uImage" src="' + user.userPhoto + '"></span><span class="userName ng-binding" role="button" tabindex="0"> ' + user.userName + ' </span>').prependTo("#userProfile")
                     $("#welcome").css('display', 'none')
                     $("#loginOverLay").css('display', 'none');
@@ -60,7 +75,9 @@ toolBar.directive('toolbar1', function($mdToast, $mdDialog, $document, $rootScop
                   } else {
                     $scope.error = "用户名或密码错误";
                   }
-                }, function() {})
+                }, function() {
+                	$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+                })
               }
             },
             templateUrl: './template/user.login.tmpl.html',
@@ -94,22 +111,32 @@ toolBar.directive('toolbar1', function($mdToast, $mdDialog, $document, $rootScop
             console.log(": save exist project in service Fnd and projectId is:" + projectid)
             var projectIdInSaveProjectAction = projectFn.getProjectId();
             console.log("save project and got projectid from serv function：" + projectIdInSaveProjectAction)
-            var editCode = $("#pagesList").html().replace(/ui-selected/, '').replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
-            var previewCode = $("#pagesList").html().replace(/display/g, "!").replace(/isEdit/g, "!").replace(/icon-undo/g, "!").replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
+            var editCode = $("#pagesList").html()
+                    .replace(/ui-selected/, '')
+                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
 
-            projectFn.saveProject(newLength, projectid, editCode, previewCode).then(function(data) {
-              if (data.status) {
-                $('.md-dialog-container').css('display', 'none');
-                $("#addBox").show();
-                setTimeout(function() {
-                  $("#addBox").fadeTo(3000).hide();
-                }, 1000);
-              } else {
-                view(data.msg);
-              }
-            }, function() {
-              $scope.error = "用户名或密码错误"
-            });
+            var previewCode = $("#pagesList").html()
+                    .replace(/display/g, "!")
+                    .replace(/isEdit/g, "!")
+                    .replace(/icon-undo/g, "!")
+                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
+
+            projectFn.saveProject(newLength, projectid, editCode, previewCode)
+              .then(function(data) {
+
+                  if (data.status) {
+                    $('.md-dialog-container').css('display', 'none');
+                    $("#addBox").show();
+                    setTimeout(function() {
+                      $("#addBox").fadeTo(3000).hide();
+                    }, 1000);
+                  } else {
+                    view(data.msg);
+                  }
+              }, function() {
+
+                  $scope.error = "用户名或密码错误"
+              });
 
           })
         }
@@ -137,23 +164,31 @@ toolBar.directive('toolbar1', function($mdToast, $mdDialog, $document, $rootScop
               console.log(pageLengthInit + "--------pageLengthInit")
               
               var projectName = $("#projectName").val();           
-              var previewCode = $("#pagesList").html().replace(/display/g, "!").replace(/isEdit/g, "!").replace(/icon-undo/g, "!").replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
+              var previewCode = $("#pagesList").html()
+                    .replace(/display/g, "!")
+                    .replace(/isEdit/g, "!")
+                    .replace(/icon-undo/g, "!")
+                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
+
               var projectid   = '';
-              var editCode 	  = $("#pagesList").html().replace(/ui-selected/, '').replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
+              var editCode 	  = $("#pagesList").html()
+                    .replace(/ui-selected/, '')
+                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
               
-              projectFn.saveProject(pageLengthInit, projectid, editCode, previewCode, projectName).then(function(data) {
-                $("#pagesList").attr('data-projectid', data.project.id);
-                if (data.status) {
-                  $('#saveProjectOverLay').css('display', 'none');
-                  $("#addBox").show();
-                  setTimeout(function() {
-                    $("#addBox").fadeTo(3000).hide();
-                  }, 1000);
-                } else {
-                  view(data.msg);
-                }
+              projectFn.saveProject(pageLengthInit, projectid, editCode, previewCode, projectName)
+                .then(function(data) {
+                    $("#pagesList").attr('data-projectid', data.project.id);
+                    if (data.status) {
+                      $('#saveProjectOverLay').css('display', 'none');
+                      $("#addBox").show();
+                      setTimeout(function() {
+                        $("#addBox").fadeTo(3000).hide();
+                      }, 1000);
+                    } else {
+                      view(data.msg);
+                    }
               }, function() {
-                $scope.error = "用户名或密码错误"
+                    $scope.error = "用户名或密码错误"
               });
             }
 

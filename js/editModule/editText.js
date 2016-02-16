@@ -1,35 +1,19 @@
-var editText = angular.module('editText',['toolBar','mainApp']);
+"use strict";
+
+var editText = angular.module('editText',['createElementDirective','mainApp']);
      
-editText.directive('pageleft',function($mdToast,$document){
-	return{
-		restrict:"AE",
-		templateUrl:"./template/page.left.tmpl.html",
-		scope:{},
-		link:function($scope){
-            var indexArray=10;
+editText.directive('edittool1',function($mdToast,
+	$sce,
+	$compile,
+	$document,$rootScope,
+	projectFn,AuthService,SERVER_URL){
 
-			$scope.createNewPage = function(){
-				//第一个页面必须有 swiper-slide-active
-			    $('.swiper-slide').hasClass('isEdit')?$('.swiper-slide').removeClass('isEdit').css("display","none"):'';
-				var newSlide = $('<div class="swiper-slide isEdit"></div>');
-				$(".isEdit").css('display','block');
-                newSlide.appendTo($('#pagesList'));
-                showBackgroundEditPanel($mdToast,$document);
-			}
-		}
-	}
-});
-
-
-//init edit bar
-editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,$rootScope,$state,projectFn,AuthService,SERVER_URL){
 	return {
 		restrict:'AE',
 		templateUrl:'./template/editbar.html',
 		scope:{},
 		link:function($scope,$rootScope,$mdDialog,$state){
             var loadingProjectById = projectFn.getProjectId();
-
 			if(loadingProjectById){
 				projectFn.loadEditPage(loadingProjectById).then(function(data){
 						$compile($("#pagesList").attr('ng-bind-html','page.editCode'))($scope)
@@ -38,8 +22,7 @@ editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,
 						$scope.editcode = data.pages.editCode;
 						$("#pagesList").attr('data-projectid',projectIdInEditroolDirective);
 					    $(document).on('click',' .isEdit > div ',function(e){
-					    	console.log('edit page works length'+$(e.target).find('.mText').length+"||"+e.target.nodeName);
-					    	console.log($(e.target).hasClass('mText')+":$(this).hasClass('mText')")
+
 					    	if($(e.target).hasClass('mText')){
 					    		$(e.target).focus();
 				  	  			$(".rotate-rightTop").css('display','none');
@@ -55,6 +38,7 @@ editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,
 				  	  			$(e.target).parent().find(".rotate-rightTop").show();
 				  	  			initSelectedDraggable()
 					    	}
+
 					    });
 						
 	           },function(){})
@@ -118,10 +102,11 @@ editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,
 			           });
 	        		}
 	        }
+	        var _parentScope = $scope;	
 			$scope.userLogin = function(){
 				$("#pagesList").css('display','none');
 		        $mdToast.show({
-			      controller: function($q,$scope,$mdDialog,$rootScope){
+			      controller: function($q,$scope,$mdDialog,$rootScope,AUTH_EVENTS){
 			      		$scope.loginClose = function(){
 				      		$('#loginOverLay').css('display','none');
 				      	}
@@ -134,6 +119,13 @@ editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,
 			  		     			$scope.loading = false;
 				  		     			$rootScope.userName = user.userName;
 					  		     		$rootScope.userPhoto = user.userPhoto;
+
+
+					                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+					                 	$rootScope.setCurrentUser(user);
+
+					                    $scope.$emit('setCurrentUser',user)
+
 										$('<span class="userImage"><img id="uImage" src="'+user.userPhoto+'"></span><span class="userName ng-binding" role="button" tabindex="0"> '+user.userName+' </span>').prependTo("#userProfile")
 			        			 		$("#welcome").css('display','none')
 										$("#loginOverLay").css('display','none');
@@ -267,6 +259,14 @@ editText.directive('edittool1',function($mdToast,$parse,$sce,$compile,$document,
 		}
 	}
 })
+
+
+
+
+
+
+
+
 
 
 function showFormEditPanel($mdToast,$document){
@@ -848,15 +848,6 @@ function showImageEditPanel($mdToast,$document,newImage){
 						 }
 				   }
 
-				   //set font link
-		    // 		$scope.$watch("setImageLink",function(newValue,oldValue){
-		    // 			console.log(newValue+"newValuenewValuenewValuenewValue")
-						// if(newValue){
-						// 	$(".ui-selected").addClass('hasLink');
-						// 	$(".ui-selected").attr("onclick","window.open('"+newValue+"','target','param')");
-
-						// }	    			
-		    // 		})
 
 
 					$scope.setImageLink = function(){

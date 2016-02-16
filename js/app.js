@@ -1,7 +1,13 @@
-angular.module('mainApp',['toolBar','editText','ui.router','ngMaterial',
-	'homeController','applicationController',
-	"kendo.directives",'dashboardController',
-	'projectService','AuthService'],function($httpProvider) {
+"use strict";
+
+
+angular.module('mainApp',['createElementDirective','editText',
+  'homeController','applicationController',
+  "kendo.directives",'projectController',
+  'leftNav','ui.router','ngMaterial',
+	'projectService','AuthService',
+  'loginDirectiveModule'],function($httpProvider) {
+
 $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 console.log(angular+"angular")
 var param = function(obj) {
@@ -40,16 +46,17 @@ var param = function(obj) {
   $httpProvider.defaults.transformRequest = [function(data) {
     return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
   }];
-}).constant('Auth_EVENTS',{
-	loginSuccess:'auth-login-success',
-	loginFailed:'auth-login-failed',
-	loginOutSuccess:'auth-loginout-success',
-	sessionTimeout:'auth-session-timeout',
-	notAuthenticated:'auth-not-authenticated',
-	notAuthorized:'auth-not-authorized'
+}).constant('AUTH_EVENTS',{
+  loginSuccess     : 'auth-login-success',
+  loginFailed      : 'auth-login-failed',
+  logoutSuccess    : 'auth-logout-success',
+  sessionTimeout   : 'auth-session-timeout',
+  notAuthenticated : 'auth-not-authenticated',
+  notAuthorized    : 'auth-not-authorized'
 }).constant('SERVER_URL',{
   testUrl:"",
-  liveUrl:"http://9.115.24.168:3000/"
+  // liveUrl:"http://9.115.24.168:3000/"
+  liveUrl:"http://9.115.28.75:3000/"
 }).constant('USER_ROLES',{}).config(function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider.otherwise('/');
 	$stateProvider.state('homePage',{
@@ -75,7 +82,7 @@ var param = function(obj) {
 		url:'/dashboard',
 		views:{
 			'editPanel':{templateUrl:'./template/page.dashboard.tmpl.html',
-						 controller:'dashboardController',
+						 controller:'projectController',
 						 resolve:{
 						 		getMyProjectsList:function(projectFn){
 						 			   return projectFn.getProjectList().then(function(data){

@@ -1,4 +1,5 @@
 var project = angular.module('projectService',[]);
+
 project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL){
 
 	var productUrl                   = SERVER_URL.liveUrl;

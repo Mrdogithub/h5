@@ -1,12 +1,25 @@
-var dashboardController = angular.module('dashboardController', ['ngMaterial', 'AuthService', 'projectService', 'toolBar']);
+"use strict";
 
-dashboardController.controller('dashboardController', function($scope, $rootScope, $state, AuthService, $timeout, $stateParams, $mdToast, $document, getMyProjectsList, $document, $mdDialog, projectFn) {
+
+var projectController = angular.module('projectController', ['ngMaterial', 
+  'AuthService', 
+  'projectService', 
+  'createElementDirective']);
+
+projectController.controller('projectController', function($scope, 
+  $rootScope, 
+  $state, AuthService, 
+  $timeout, $stateParams, 
+  $document, $mdDialog, projectFn,
+  $mdToast, $document, getMyProjectsList) {
+
   $(document).on('click', '#loginOutIn', function() {
     setTimeout(function() {
       $("#loginOutIn").remove();
       $("#uNameDashboard").html('欢迎,登陆');
     }, 1000);
   })
+  
   var user = AuthService.getUserInfo();
 
   $("#userProfileInDashboard").addClass('dashboardActive');
