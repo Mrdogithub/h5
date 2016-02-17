@@ -6,13 +6,14 @@ editText.directive('edittool1',function($mdToast,
 	$sce,
 	$compile,
 	$document,$rootScope,
-	projectFn,AuthService,SERVER_URL){
+	projectFn,AuthService,SERVER_URL,loginFn){
 
 	return {
 		restrict:'AE',
 		templateUrl:'./template/editbar.html',
 		scope:{},
-		link:function($scope,$rootScope,$mdDialog,$state){
+		link:function($scope){
+
             var loadingProjectById = projectFn.getProjectId();
 			if(loadingProjectById){
 				projectFn.loadEditPage(loadingProjectById).then(function(data){
@@ -20,7 +21,7 @@ editText.directive('edittool1',function($mdToast,
 						$scope.page = { "editCode":""};
 						$scope.page.editCode = $sce.trustAsHtml(data.pages.editCode);
 						$scope.editcode = data.pages.editCode;
-						$("#pagesList").attr('data-projectid',projectIdInEditroolDirective);
+						$("#pagesList").attr('data-projectid',loadingProjectById);
 					    $(document).on('click',' .isEdit > div ',function(e){
 
 					    	if($(e.target).hasClass('mText')){
@@ -44,11 +45,7 @@ editText.directive('edittool1',function($mdToast,
 	           },function(){})
 			}
 
-			if($("#userProfileInDashboard").hasClass('dashboardActive')){
-				$("#welcome").css('display','none')
-				var user = AuthService.getUserInfo();
-				$('<span class="userImage"><img id="uImage" src="'+user[0].userPhoto+'"></span><span class="userName ng-binding"  role="button" tabindex="0"> '+user[0].userName+' </span>').prependTo($("#userProfile"));
-			}
+
 			
 			$(document).on('click','#loginOut',function(){
 				setTimeout(function(){
@@ -57,11 +54,18 @@ editText.directive('edittool1',function($mdToast,
 				},1000);
 			})
 	        $scope.myProject = function(){
+	        		console.log(loginFn.islogged().status+":loginFn.islogged().status")
+	        		if(loginFn.islogged().status){
+	        			$mdToast.show({
+			               controller: function($state){
+							$state.go('.dashboard');
+			             }
+			           });
 
-	        		if($("#welcome").css('display') == "block"){
-
-			    		$mdToast.show({
-			           controller: function($scope,$mdToast,$mdDialog,$rootScope,$state){
+			    	
+	        	}else{
+	        				$mdToast.show({
+			           controller: function($scope,$rootScope){
 			           		$scope.loginClose = function(){
 				      			$('#loginOverLay').css('display','none');
 				      	    }
@@ -92,51 +96,25 @@ editText.directive('edittool1',function($mdToast,
 			      parent : $document[0].querySelector('#editModulePosition'),
 			      hideDelay: false
 			    });
-	        	}else{
-	        			
-	        			$mdToast.show({
-			               controller: function($scope,$mdDialog,$rootScope,$state){
-							$state.go('.dashboard');
-			             }
-			
-			           });
+
 	        		}
 	        }
 	        var _parentScope = $scope;	
 			$scope.userLogin = function(){
+				$rootScope.text = "1111111111111";
 				$("#pagesList").css('display','none');
 		        $mdToast.show({
-			      controller: function($q,$scope,$mdDialog,$rootScope,AUTH_EVENTS){
+			      controller: function($q,$scope,$rootScope,loginFn){
 			      		$scope.loginClose = function(){
 				      		$('#loginOverLay').css('display','none');
 				      	}
 			      	$scope.loginBtn = function(){
 			      		$scope.loading = true;
 			    		 $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
-			  		     	AuthService.login($scope.credentials).then(function(user){
-			  		     		console.log(user.userName+"////////////user.userName")
-			  		     		if(typeof(user.userName)!=="undefined"){
-			  		     			$scope.loading = false;
-				  		     			$rootScope.userName = user.userName;
-					  		     		$rootScope.userPhoto = user.userPhoto;
-
-
-					                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-					                 	$rootScope.setCurrentUser(user);
-
-					                    $scope.$emit('setCurrentUser',user)
-
-										$('<span class="userImage"><img id="uImage" src="'+user.userPhoto+'"></span><span class="userName ng-binding" role="button" tabindex="0"> '+user.userName+' </span>').prependTo("#userProfile")
-			        			 		$("#welcome").css('display','none')
-										$("#loginOverLay").css('display','none');
-										$("#pagesList").css('display','block');
-										AuthService.setUserInfo(user.userName,user.userPhoto);
-				  		     		}else{
-				  		     			$scope.error ="用户名或密码错误";
-				  		     		}
-			  		     	},function(){
-			  		     	});
-
+			    		 loginFn.login($scope.credentials).then(function(data){
+			    		  _parentScope.currentUser  = $rootScope.getCurrentUser();
+			    		  _parentScope.isAuthorized = loginFn.islogged().status;
+			    		 },function(){});
 			 		}
 
 			      },

@@ -6,5 +6,8 @@
             <a class="imgbut" id="img"   ng-click="newImages()"><img src="images/img.svg"></a>
           </div>
           <p class="navbar-text navbar-right" id="userProfile" style="margin: 0px 10px 0px 0px; line-height:50px;">
-          <span class="userName" style="display:block" id="welcome" ng-click="userLogin()">欢迎,登陆</span></p> 
+
+          <span class="userImage"><img id="uImage" src="{{currentUser.userPhoto}}" ng-if="isAuthorized"></span><span class="userName ng-binding" role="button" tabindex="0">{{currentUser.userName}}</span>
+          <span class="userName" style="display:block" id="welcome" ng-click="userLogin()" ng-if="!isAuthorized">欢迎,登陆</span></p>
+
 </div>

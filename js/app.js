@@ -1,12 +1,12 @@
 "use strict";
 
 
-angular.module('mainApp',['createElementDirective','editText',
+var app = angular.module('mainApp',['createElementDirective','editText',
   'homeController','applicationController',
   "kendo.directives",'projectController',
   'leftNav','ui.router','ngMaterial',
 	'projectService','AuthService',
-  'loginDirectiveModule'],function($httpProvider) {
+  'loginDirectiveModule','sessionService','loginService','imageService'],function($httpProvider) {
 
 $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 console.log(angular+"angular")
@@ -55,8 +55,8 @@ var param = function(obj) {
   notAuthorized    : 'auth-not-authorized'
 }).constant('SERVER_URL',{
   testUrl:"",
-  // liveUrl:"http://9.115.24.168:3000/"
-  liveUrl:"http://9.115.28.75:3000/"
+  liveUrl:"http://9.115.24.168:3000/"
+  // liveUrl:"http://9.115.28.182:3000/"
 }).constant('USER_ROLES',{}).config(function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider.otherwise('/');
 	$stateProvider.state('homePage',{
@@ -88,11 +88,30 @@ var param = function(obj) {
 						 			   return projectFn.getProjectList().then(function(data){
 						 			   		return data;
 						 			   });
-						 		}
+						 		},
+                isLogin:function(loginFn){
+                    return loginFn.islogged();
+                }
 						 	}
 						}
 
 		}
 	})
-}).run(function($rootScope) {
+});
+
+app.run(function($rootScope,loginFn){
+  $rootScope.$on('$stateChangeStart',function(event,next){
+
+      if(loginFn.islogged().status){
+        console.log(
+             loginFn.islogged().userName+":"+
+             loginFn.islogged().userPhoto
+          )
+          $rootScope.currentUser = {
+            "userName":loginFn.islogged().userName,
+            "userPhoto":loginFn.islogged().userPhoto,
+          }
+      }
+
+  })
 });

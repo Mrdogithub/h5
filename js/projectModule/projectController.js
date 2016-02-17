@@ -7,11 +7,10 @@ var projectController = angular.module('projectController', ['ngMaterial',
   'createElementDirective']);
 
 projectController.controller('projectController', function($scope, 
-  $rootScope, 
-  $state, AuthService, 
-  $timeout, $stateParams, 
-  $document, $mdDialog, projectFn,
-  $mdToast, $document, getMyProjectsList) {
+  $state,
+  $rootScope,AuthService,  
+  $document,$mdDialog,
+  $mdToast,getMyProjectsList,projectFn,isLogin) {
 
   $(document).on('click', '#loginOutIn', function() {
     setTimeout(function() {
@@ -20,17 +19,60 @@ projectController.controller('projectController', function($scope,
     }, 1000);
   })
   
-  var user = AuthService.getUserInfo();
 
-  $("#userProfileInDashboard").addClass('dashboardActive');
-  $('<span class="userImage"><img id="uImage" src="' + user[0].userPhoto + '"></span><span class="userName ng-binding"  role="button" tabindex="0"> ' + user[0].userName + ' </span>').prependTo($("#userProfileInDashboard"));
-  $scope.editPage = function(ev, id) {
-    $state.go('homePage');
-    projectFn.saveProjectId(id);
-  }
-  $scope.myEdit = function() {
-    projectFn.removeProjectId();
-    $state.go('homePage')
+  var _scope = $scope;
+  $scope.createProject = function(ev, id) {
+    $mdToast.show({
+      controller: function($scope, $compile, projectFn) {
+        $scope.copyProjectInProgress = function() {
+          $('#saveProjectOverLay').css('display', 'block');
+          $scope.projectInfo = {
+            "id": "",
+            "projectname": "",
+            "cover": "",
+            "qrcode": ""
+          }
+
+          projectFn.addProject($scope.projectName).then(function(data){
+            for(var i in data){
+              console.log(i+":"+data[i])
+            }
+            if(data.status){
+              $scope.projectInfo.id          = data.project.id;
+              $scope.projectInfo.url         = data.project.url;
+              $scope.projectInfo.cover       = data.project.cover;
+              $scope.projectInfo.qrcode      = data.project.qrcode;
+              $scope.projectInfo.projectname = data.project.projectname;
+         
+            
+              $compile($('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="' + $scope.projectInfo.id + '"><div class="thumbnail"  style="height: 334px;" ><div class="projectInfo-projectName" style="position:absolute;width:98%;opacity:1;"><img  style="width:100%;height:325px;"  src="' + $scope.projectInfo.cover + '"><div style="width:100%;position:absolute;bottom:0px;text-align:center;height:40px;background:#fff;padding:10px 0px 10px 0px;">' + $scope.projectInfo.projectname + '</p></div></div><div class="dask" style="position:absolute;width:98%;opacity:0;"><p class="showMoreIcons"><span ng-click="deletePage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="projectInfoShowMoreIcons-remove" style="width:0px;opacity:0;"></span><span ng-click="copyProject($event,' + "'" + $scope.projectInfo.id + "'," + "'" + $scope.projectInfo.projectname + "'" + ')" class="projectInfoShowMoreIcons-copy" style="width:0px;opacity:0;"></span><span href="javascript:;" class="projectInfoShowMoreIcons"></span></p><img src="' + $scope.projectInfo.qrcode + '" style="width:100%;"><p class="projectInfoDownloadQRCode">下载二维码</p><p class="showMoreIconsBottom"><a ng-click="previewPage($event,' + "'" + $scope.projectInfo.url + "'," + "'" + $scope.projectInfo.qrcode + "'" + ')" class="projectInfoShowMoreIcons-preview"></a><a ng-click="editPage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="projectInfoShowMoreIcons-edit"></a></p></div></div></div></div></div>').prependTo($('.modlist')))(_scope);
+              $('#saveProjectOverLay').css('display','none');
+       
+              $("#addBox").show();
+              setTimeout(function() {
+                $("#addBox").fadeTo(3000).hide();
+              }, 1000);
+              
+              $('.modlist').css('display', 'block')
+            }
+            
+          });
+
+        }
+
+        $scope.close = function() {
+          $('#copyProjectOverLay').css('display', 'none');
+          $('.modlist').css('display', 'block')
+        }
+
+      },
+      templateUrl: './template/page.copyProject.tmpl.html',
+      parent: $document[0].querySelector('#dashboardContent'),
+      hideDelay: false
+    });
+
+
+
   }
 
   $scope.projectList = getMyProjectsList;
@@ -43,6 +85,11 @@ projectController.controller('projectController', function($scope,
   $scope.downLoadQrCode = function(qrUrl) {
     window.open('http://9.115.24.168:3000/downloadQRCode?url=' + qrUrl, 'target');
   }
+
+    $scope.editPage = function(ev,id){
+      $state.go('homePage');
+      projectFn.saveProjectId(id);
+    }
   $scope.previewPage = function(ev, url, qrcode, code) {
     $('.modlist').css('display', 'none')
     $mdToast.show({

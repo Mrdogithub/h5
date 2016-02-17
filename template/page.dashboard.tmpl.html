@@ -1,11 +1,14 @@
   <nav class="navbar navbar-blue">        
      <div class="navbar-text navbar-left" id="ibm-home" style="    font-size: 24px;font-weight: bold;line-height: 50px;margin-left: 10px;">H5</div>
-      <p class="navbar-text navbar-left"><a  ng-click="myEdit()" style="text-decoration:none;cursor:pointer">新建项目</a></p>
-      <p class="navbar-text navbar-right" id="userProfile" style="margin: 0px 10px 0px 0px;">
- <p class="navbar-text navbar-right" id="userProfileInDashboard" style="margin: 0px 10px 0px 0px;line-height:50px;">
- 	
+      <p class="navbar-text navbar-left"><a  ng-click="createProject()" style="text-decoration:none;cursor:pointer">新建项目</a></p>
+          <p class="navbar-text navbar-right" id="userProfile" style="margin: 0px 10px 0px 0px; line-height:50px;">
+          <span class="userImage">
+          <img id="uImage" src="{{currentUser.userPhoto}}">
+          </span>
+          <span class="userName ng-binding" role="button" tabindex="0">{{currentUser.userName}}</span>
+          <span class="userName" style="display:block" id="welcome" ng-click="userLogin()" ng-if="">欢迎,登陆</span>
+         </p>
 
- </p>
   </nav>
 
 
