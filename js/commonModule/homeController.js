@@ -1,7 +1,114 @@
 var homeController = angular.module('homeController', ['ngMaterial']);
 homeController.controller('homeController', function($scope, $rootScope, $mdSidenav, 
-  editPage, $mdToast, $compile, $sce, 
-  $mdDialog, $document, SERVER_URL) {
+  editPage, $mdToast, $compile, $sce, $state,
+  $mdDialog, $document, SERVER_URL,loginFn) {
+
+
+  //用户退出
+  $scope.loginOut = function(){
+      loginFn.logout();
+      $rootScope.isAuthorized = loginFn.islogged().status;
+
+      //项目管理页面退出后，返回到主页
+      $state.go('homePage');
+  }
+
+  //用户登录
+    $scope.userLogin = function(){
+        $("#pagesList").css('display','none');
+            $mdToast.show({
+            controller: function($q,$scope,$rootScope,loginFn){
+                $scope.loginClose = function(){
+                    $('#loginOverLay').css('display','none');
+                    $("#pagesList").css('display','block');
+                }
+
+                $scope.loginBtn = function(){
+                        $scope.loading = true;
+                         $scope.error = '';
+                         $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
+                         loginFn.login($scope.credentials).then(function(data){
+
+                          //$scope 作用于 user.login.tmpl.html
+                          //$rootScope 作用于全局
+                          console.log(data.status+">>>>data.status")
+                           if(data.status){
+                                $rootScope.currentUser  = $rootScope.getCurrentUser();
+                                $rootScope.isAuthorized = loginFn.islogged().status;
+                                $("#loginOverLay").css('display','none');
+                                $("#pagesList").css('display','block');
+
+                            }else{
+                              // console.log('fail')
+                              $scope.loading = false;
+                              console.log('error')
+                                $scope.error = "用户名或密码错误";
+                            }
+                          
+                           
+                         });
+                      }
+
+            },
+            templateUrl:'./template/user.login.tmpl.html',
+            parent : $document[0].querySelector('#editModulePosition'),
+            hideDelay: false
+          });
+    
+        
+      }
+
+
+//用户未登录状态点击我的项目
+      $scope.myProject = function(){
+        if(loginFn.islogged().status){
+           $state.go('.dashboard');
+        }else{
+              $mdToast.show({
+                 controller: function($scope,$rootScope){
+                    $scope.loginClose = function(){
+                        $('#loginOverLay').css('display','none');
+                    }
+                
+                    $scope.loginBtn = function(){
+                         $scope.loading = true;
+                         $scope.error = '';
+                         $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
+                         loginFn.login($scope.credentials).then(function(data){
+
+                          //$scope 作用于 user.login.tmpl.html
+                          //$rootScope 作用于全局
+                          console.log(data.status+">>>>data.status")
+                           if(data.status){
+                                $rootScope.currentUser  = $rootScope.getCurrentUser();
+                                $rootScope.isAuthorized = loginFn.islogged().status;
+                                $("#loginOverLay").css('display','none');
+                                $("#pagesList").css('display','block');
+
+                            }else{
+                              // console.log('fail')
+                              $scope.loading = false;
+                              console.log('error')
+                                $scope.error = "用户名或密码错误";
+                            }
+                          
+                           
+                         });
+                      }
+                },
+                templateUrl:'./template/user.login.tmpl.html',
+                parent : $document[0].querySelector('#editModulePosition'),
+                hideDelay: false
+              });
+
+          }
+     }
+      
+    
+
+
+
+
 
   //删除选中元素
   $scope.remove = function() {

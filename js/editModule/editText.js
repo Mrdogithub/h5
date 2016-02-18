@@ -1,6 +1,6 @@
 "use strict";
 
-var editText = angular.module('editText',['createElementDirective','mainApp']);
+var editText = angular.module('editText',[]);
      
 editText.directive('edittool1',function($mdToast,
 	$sce,
@@ -53,79 +53,7 @@ editText.directive('edittool1',function($mdToast,
 				$("#uName").html('欢迎,登陆');
 				},1000);
 			})
-	        $scope.myProject = function(){
-	        		console.log(loginFn.islogged().status+":loginFn.islogged().status")
-	        		if(loginFn.islogged().status){
-	        			$mdToast.show({
-			               controller: function($state){
-							$state.go('.dashboard');
-			             }
-			           });
-
-			    	
-	        	}else{
-	        				$mdToast.show({
-			           controller: function($scope,$rootScope){
-			           		$scope.loginClose = function(){
-				      			$('#loginOverLay').css('display','none');
-				      	    }
-			      			$scope.loginBtn = function(){
-			      				$scope.loading = true;
-				    		 	$scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
-				  		     	AuthService.login($scope.credentials).then(function(user){
-				  		     	if(typeof(user.userName)!=="undefined"){
-				  		     			$rootScope.userName = user.userName;
-					  		     		$rootScope.userPhoto = user.userPhoto;
-										$('<span class="userImage"><img id="uImage" src="'+user.userPhoto+'"></span><span class="userName ng-binding" role="button" tabindex="0"> '+user.userName+' </span>').prependTo("#userProfile")
-			        			 		$("#welcome").css('display','none')
-										$("#loginOverLay").css('display','none');
-										$("#pagesList").css('display','block');
-										AuthService.setUserInfo(user.userName,user.userPhoto);
-										$scope.loading = false;
-										$state.go('.dashboard');
-				  		     		}else{
-				  		     			$scope.error ="用户名或密码错误";
-				  		     		}
-				  		     	},function(){
-				  		     		
-				  		     	});
-			  		     	
-			 			}
-			      },
-			      templateUrl:'./template/user.login.tmpl.html',
-			      parent : $document[0].querySelector('#editModulePosition'),
-			      hideDelay: false
-			    });
-
-	        		}
-	        }
-	        var _parentScope = $scope;	
-			$scope.userLogin = function(){
-				$rootScope.text = "1111111111111";
-				$("#pagesList").css('display','none');
-		        $mdToast.show({
-			      controller: function($q,$scope,$rootScope,loginFn){
-			      		$scope.loginClose = function(){
-				      		$('#loginOverLay').css('display','none');
-				      	}
-			      	$scope.loginBtn = function(){
-			      		$scope.loading = true;
-			    		 $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
-			    		 loginFn.login($scope.credentials).then(function(data){
-			    		  _parentScope.currentUser  = $rootScope.getCurrentUser();
-			    		  _parentScope.isAuthorized = loginFn.islogged().status;
-			    		 },function(){});
-			 		}
-
-			      },
-			      templateUrl:'./template/user.login.tmpl.html',
-			      parent : $document[0].querySelector('#editModulePosition'),
-			      hideDelay: false
-			    });
-		
-			  
-			}
-
+	  
 
 
 			$scope.newText = function(){
@@ -150,7 +78,7 @@ editText.directive('edittool1',function($mdToast,
 			      // controller: 'ToastCtrl',
 			      templateUrl: './template/graphPropertyPanel.html',
 			      parent : $document[0].querySelector('#editModulePosition'),
-			       hideDelay: false
+			      hideDelay: false
 			      // position: $scope.getToastPosition()
 			    });
 			};
@@ -369,16 +297,13 @@ function createButton($rootScope){
 function showTextEditPanel($mdToast,$document)	{
 				$mdToast.show({
 			      controller: function($scope,$mdDialog){ 
-			      	setFontSize();
-			      	
+			      
 			      	//get  FonttSize
-			      	$scope.getFontSize = function(fontSize){
+			      	$scope.getFontSize = function(){
     					$('.ui-selected > .mText').css('fontSize',$scope.fontSize.size);
-    					$('#fontSize').html(fontSize); 
+    					 console.log($scope.fontSize.size)
     				}
-    				function setFontSize(){
-            		$('#fontSize').html($(".ui-selected > .mText").css('fontSize'));
-    				}
+    			
 
     				 	//get  FonttSize
 			      	$scope.getLineHeight = function(fontSize){

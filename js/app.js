@@ -1,7 +1,8 @@
 "use strict";
 
 
-var app = angular.module('mainApp',['createElementDirective','editText',
+var app = angular.module('mainApp',['ui.bootstrap',
+  'eidtToolDirective','editText',
   'homeController','applicationController',
   "kendo.directives",'projectController',
   'leftNav','ui.router','ngMaterial',

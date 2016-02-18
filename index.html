@@ -3,9 +3,21 @@
 <head>
 	<meta charset="UTF-8">
 	<title>H5</title>
+	<script type="text/javascript" src="js/lib/jquery.js"></script>
+    <script type="text/javascript" src="js/lib/swiper.min.js"></script>
+	<script type="text/javascript" src='js/lib/jquery-ui.min.js"'></script>
+	<script type="text/javascript" src="js/lib/bootstrap.js"></script>
+	<script type="text/javascript" src="js/lib/angular.js"></script>	
+	<script type="text/javascript" src="js/lib/angular-aria.js"></script>
+	<script type="text/javascript" src="js/lib/angular-material.js"></script>
+	<script type="text/javascript" src="js/lib/angular-ui-router.js"></script>
+	<script type="text/javascript" src="js/lib/jquery-ui-1.9.2.custom.min.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/lib/angular-animate.js"></script>
+    <script type="text/javascript" src="js/lib/ui-bootstrap-1.1.2.js"></script>
+	<script src="js/lib/kendo.all.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/angular-material.css"/>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
-	<link rel="stylesheet" type="text/css" href="css/angular-material.layouts.css"/>
 	<link rel="stylesheet" type="text/css" href="css/animate.css"/>
 	<link rel="stylesheet" type="text/css" href="css/swiper.min.css"/>
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
@@ -13,36 +25,23 @@
     <link rel="stylesheet" type="text/css" href="css/init.css"/>
     <link rel="stylesheet" type="text/css" href="css/h5_dash.css"/>
 	<link rel="stylesheet" type="text/css" href="css/animate.css"/>
-	
-	<script type="text/javascript" src="js/lib/jquery.js"></script>
-    <script type="text/javascript" src="js/lib/swiper.min.js"></script>
-	<script type="text/javascript" src='js/lib/jquery-ui.min.js"'></script>
-<!-- 	<script type="text/javascript" src="js/lib/jquery.ui.touch-punch.min.js"></script> -->
-	<script type="text/javascript" src="js/lib/bootstrap.js"></script>
-	<script type="text/javascript" src="js/lib/angular.js"></script>
-	<script type="text/javascript" src="js/lib/angular-animate.js"></script>
-	<script type="text/javascript" src="js/lib/angular-aria.js"></script>
-	<script type="text/javascript" src="js/lib/angular-material.js"></script>
-	<script type="text/javascript" src="js/lib/angular-ui-router.js"></script>
-<!-- 	<script type="text/javascript" src="js/lib/angular-messages.js"></script> -->
-	<script type="text/javascript" src="js/lib/jquery-ui-1.9.2.custom.min.js"></script>
-	<script type="text/javascript" src="js/lib/jscolor.min.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
-<!-- 	<script type="text/javascript" src="js/lib/angular-cookies.min.js"></script> -->
-
-	
 	<link rel="stylesheet" href="css/kendo.common-material.min.css" />
     <link rel="stylesheet" href="css/kendo.material.min.css" />
 	<link rel="stylesheet" href="css/kendo.common.min.css" />
     <link rel="stylesheet" href="css/kendo.rtl.min.css">
     <link rel="stylesheet" href="css/kendo.silver.min.css"/>
     <link rel="stylesheet" href="css/kendo.mobile.all.min.css"/>
- 	<script src="js/lib/kendo.all.min.js"></script>
+
+
+	<!--<script type="text/javascript" src="js/lib/angular-messages.js"></script> -->
+	<!--<script type="text/javascript" src="js/lib/angular-cookies.min.js"></script> -->
+	<!--<script type="text/javascript" src="js/lib/jquery.ui.touch-punch.min.js"></script> -->
 	<style type="text/css">
 	body{
 		background: #fff;
 		height: 100%;
 		width: 100%;
+		background-image: url('./images/bg.png') no-repeat;
 	}
 	.h-nav-bar{
 		background: #ffffff none repeat scroll 0 0 !important;
@@ -456,6 +455,41 @@ a.selectedImageHover:hover,a.removeImageHover:hover{
     line-height: 48px;
 }
 input,button,select,textarea{outline:none}
+
+/**reset angular ui*/
+
+/*user profile*/
+.btn-group.open .dropdown-toggle {
+     -webkit-box-shadow: none; 
+     box-shadow: none; 
+}
+.dropdown-menu{
+	border-radius: 0px;
+	box-shadow: none;
+	min-width: 220px;
+	padding:0;
+}
+.dropdown-menu:before{
+    content: '';
+    display: block;
+    overflow: hidden;
+    width: 0px;
+    height: 0px;
+    border: 50px solid transparent;
+    border-color: #fff transparent;
+    border-width: 0 10px 10px 10px;
+    position: absolute;
+    left: 178px;
+    top: -10px;
+
+}
+.logout:hover{
+	background: #f4f4f4;
+	transition: background 200ms ease-in-out 0s;
+}
+
+/*remove outline */
+:focus{outline:0;};
 </style>
 
 
@@ -471,7 +505,7 @@ input,button,select,textarea{outline:none}
 <script type="text/javascript" src="js/projectModule/projectService.js"></script>
 <script type="text/javascript" src="js/userModule/AuthService.js"></script>
 <script type="text/javascript" src="js/userModule/session.js"></script>
-<script type="text/javascript" src="js/commonModule/createElementDirective.js"></script>
+<script type="text/javascript" src="js/commonModule/eidtToolDirective.js"></script>
 <script type="text/javascript" src="js/commonModule/leftNavDirective.js"></script>
 <script type="text/javascript" src="js/userModule/loginDirective.js"></script>
 <script type="text/javascript" src="js/projectModule/projectController.js"></script>

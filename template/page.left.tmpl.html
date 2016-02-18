@@ -1,21 +1,13 @@
 <div class="col-left scrollspy-example" ng-controller="LeftCtrl" data-spy="scroll" data-target="#navbar-example"> 
-
-  	  <div ng-repeat="ques in feedback.leftpages track by $index">
-         <fieldset>
-		  <div class="box" ng-click="choosePage($index)">
-		    <div class="page" id="ques_{{$index + 1}}" >
-		 <!--      <img src="images/img1.jpg" />
-		      <div class="pop-icon">
-		      <div class="mark"></div><a class="glyphicon glyphicon-file"></a><a class="glyphicon glyphicon-trash"></a></div>
-		    </div> -->
-		  <!--   <div class="pagenum"><a class="glyphicon glyphicon-menu-up"></a> -->
-		    <span>{{$index+1}}</span>
-		  <a class="glyphicon glyphicon-menu-down"></a> 
-		    </div>		  	
-		  </div>
-		 </fieldset>
-	  </div>
-	  <div class="new-button" ng-click="addEmptyTemplate()"><i class="icon-plus 2x-icon" style="margin-right:10px;"></i>创建新页</div>
-		<!--  <div class="new-button" ng-click="createNewPage()">New</div> -->
-    </div>
-    
+<div ng-repeat="ques in feedback.leftpages track by $index">
+<fieldset>
+<div class="box" ng-click="choosePage($index)">
+<div class="page" id="ques_{{$index + 1}}" >
+<span>{{$index+1}}</span>
+<a class="glyphicon glyphicon-menu-down"></a> 
+</div>		  	
+</div>
+</fieldset>
+</div>
+<div class="new-button" ng-click="addEmptyTemplate()"><i class="icon-plus 2x-icon" style="margin-right:10px;"></i>创建新页</div>
+</div>

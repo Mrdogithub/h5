@@ -1,15 +1,16 @@
-var createElementDirective = angular.module('createElementDirective', ['ngMaterial', 'editText', 
-  'mainApp','projectService']);
+'use strict';
 
-createElementDirective.directive('toolbar1', function($mdToast, $mdDialog, 
-  $document, $rootScope, 
-  SERVER_URL, AuthService, projectFn) {
+var eidtToolDirective = angular.module('eidtToolDirective', ['ngMaterial', 'projectService']);
+
+eidtToolDirective.directive('toolbar1', function($mdToast,
+  $document, $rootScope,
+  projectFn,loginFn) {
 
   return {
     restrict: "AE",
     scope: {},
     templateUrl: "./template/toolBar.html",
-    link: function($scope, $mdDialog, $rootScope) {
+    link: function($scope, $rootScope) {
       $scope.remove = function() {
         $(".ui-selected").remove();
       }
@@ -17,7 +18,7 @@ createElementDirective.directive('toolbar1', function($mdToast, $mdDialog,
       $scope.previewPage = function() {
         $("#pagesList").css('display', 'none');
         $mdToast.show({
-          controller: function($scope, $mdDialog, $compile, $sce) {
+          controller: function($scope, $compile, $sce) {
             $compile($("#previewContent").attr('ng-bind-html', 'page.preivewCode'))($scope)
             $scope.page = {
               "preivewCode": ""
@@ -41,76 +42,95 @@ createElementDirective.directive('toolbar1', function($mdToast, $mdDialog,
             // position: $scope.getToastPosition()
         });
       }
-      $scope.userName = '';
-      var _parentScope = $scope;
-
 
       $scope.savePage = function() {
-        var pageLength = projectFn.getPageLength();
-        if ($("#welcome").css('display') == "block") {
-          $mdToast.show({
-            controller: function($scope, $parse, $mdDialog, $rootScope, SERVER_URL,AUTH_EVENTS) {
-              $scope.loginClose = function() {
-                $('#loginOverLay').css('display', 'none');
-              }
-              $scope.loginBtn = function() {
-                $scope.loading = true;
-                $scope.credentials = {
-                  "username": $scope.user.firstName,
-                  "password": $scope.user.passWord
+          var pageLength = projectFn.getPageLength();
+
+          if (loginFn.islogged().status) {
+
+                /**
+                * loginFn.islogged()
+                * @ userModule/loginService.js
+                * 返回:
+                *
+                * { 
+                *   status    ：true | false 用户登录状态
+                *   userName  ：用户名
+                *   userPhoto : 用户头像链接
+                *  }
+                */
+
+                // projectIdIsNull()?addProjectFn($mdToast, $document):saveProjectFn()
+                if(projectIdIsNull()){
+                    addProjectFn($mdToast, $document)  
+                }else{
+                    saveProjectFn();
                 }
-                AuthService.login($scope.credentials).then(function(user) {
-                  if (typeof(user.userName) !== "undefined") {
-                    $scope.loading = false;
-                    $rootScope.userName = user.userName;
-                    $rootScope.userPhoto = user.userPhoto;
+          
+          }else{
 
-                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-                    _parentScope.setCurrentUser(user);
-                    $('<span class="userImage"><img id="uImage" src="' + user.userPhoto + '"></span><span class="userName ng-binding" role="button" tabindex="0"> ' + user.userName + ' </span>').prependTo("#userProfile")
-                    $("#welcome").css('display', 'none')
-                    $("#loginOverLay").css('display', 'none');
-                    AuthService.setUserInfo(user.userName, user.userPhoto);
-                    saveProjectFn($mdToast, $document);
-                  } else {
-                    $scope.error = "用户名或密码错误";
-                  }
-                }, function() {
-                	$rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-                })
-              }
-            },
-            templateUrl: './template/user.login.tmpl.html',
-            parent: $document[0].querySelector('#editModulePosition'),
-            hideDelay: false
-          });
 
-        } else if (projectIsNull()) {
-          saveProjectFn($mdToast, $document);
-        } else {
+                $mdToast.show({
+                  controller: function($scope, $rootScope,loginFn) {
+                      $scope.loginClose = function(){
+                         $('#loginOverLay').css('display','none');
+                      }
 
+                      $scope.loginBtn = function(){
+                         $scope.loading = true;
+                         $scope.error = '';
+                         $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
+                         loginFn.login($scope.credentials).then(function(data){
+
+                           if(data.status){
+                                $rootScope.currentUser  = $rootScope.getCurrentUser();
+                                $rootScope.isAuthorized = loginFn.islogged().status;
+                                $("#loginOverLay").css('display','none');
+                                $("#pagesList").css('display','block');
+
+                            }else{
+                                // console.log('fail')
+                                $scope.loading = false;
+                                $scope.error = "用户名或密码错误";
+                            }
+                          
+                           
+                         });
+                      }
+
+                  },
+                  templateUrl: './template/user.login.tmpl.html',
+                  parent: $document[0].querySelector('#editModulePosition'),
+                  hideDelay: false
+                });         
+          }
+      }
+
+      function projectIdIsNull() {
+        var status = typeof($("#pagesList").data('projectid')) == "undefined" ? true : false;
+        return status;
+      }
+
+      function saveProjectFn(){
           var pageLength = [];
           pageLength.length = 0;
+
+          //初始化页面个数
           var projectid = $("#pagesList").data("projectid");
-          console.log(": save exist project and projectId is:" + projectid)
           var pageLengthNotSave = projectFn.getPageLength();
-          projectFn.loadEditPage(projectid).success(function(data) {
+          projectFn.loadEditPage(projectid).then(function(data) {
             var newLength = 0;
             if (typeof(data.pageLength) == 'undefined') {
               newLength = 1;
             } else if (pageLengthNotSave > data.pageLength) {
-              console.log('pageLengthNotSave > data.pageLength')
               newLength = pageLengthNotSave;
             } else if (pageLengthNotSave < data.pageLength) {
-              console.log('pageLengthNotSave < data.pageLength')
               newLength = data.pageLength;
             } else if (pageLengthNotSave = data.pageLength) {
-              console.log('pageLengthNotSave = data.pageLength')
               newLength = data.pageLength;
             }
-            console.log(": save exist project in service Fnd and projectId is:" + projectid)
-            var projectIdInSaveProjectAction = projectFn.getProjectId();
-            console.log("save project and got projectid from serv function：" + projectIdInSaveProjectAction)
+         
+         
             var editCode = $("#pagesList").html()
                     .replace(/ui-selected/, '')
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
@@ -139,30 +159,18 @@ createElementDirective.directive('toolbar1', function($mdToast, $mdDialog,
               });
 
           })
-        }
-      }
 
-      function projectIsNull() {
-        var status = typeof($("#pagesList").data('projectid')) == "undefined" ? true : false;
-        return status;
       }
 
       //common function
 
-      function saveProjectFn($mdToast, $document, pageLengthInit) {
+      function addProjectFn($mdToast, $document) {
         $mdToast.show({
-          controller: function($scope, $mdDialog, projectFn) {
+          controller: function($scope, projectFn) {
             $scope.savePageContentClose = function() {
               $('#saveProjectOverLay').css('display', 'none');
             }
             $scope.savePageContent = function() {
-              var pageLengthInit = projectFn.getPageLength();
-              if (typeof(pageLengthInit) == 'undefined') {
-                pageLengthInit = 1;
-              }
-
-              console.log(pageLengthInit + "--------pageLengthInit")
-              
               var projectName = $("#projectName").val();           
               var previewCode = $("#pagesList").html()
                     .replace(/display/g, "!")
@@ -170,15 +178,15 @@ createElementDirective.directive('toolbar1', function($mdToast, $mdDialog,
                     .replace(/icon-undo/g, "!")
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
 
-              var projectid   = '';
               var editCode 	  = $("#pagesList").html()
                     .replace(/ui-selected/, '')
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
-              
-              projectFn.saveProject(pageLengthInit, projectid, editCode, previewCode, projectName)
+
+              projectFn.addProject(projectName,previewCode,editCode)
                 .then(function(data) {
-                    $("#pagesList").attr('data-projectid', data.project.id);
+     
                     if (data.status) {
+                      $("#pagesList").attr('data-projectid', data.project.id);
                       $('#saveProjectOverLay').css('display', 'none');
                       $("#addBox").show();
                       setTimeout(function() {
@@ -188,7 +196,7 @@ createElementDirective.directive('toolbar1', function($mdToast, $mdDialog,
                       view(data.msg);
                     }
               }, function() {
-                    $scope.error = "用户名或密码错误"
+              
               });
             }
 
@@ -198,6 +206,10 @@ createElementDirective.directive('toolbar1', function($mdToast, $mdDialog,
           hideDelay: false
         });
       }
+
+
+
+
     }
   };
 });

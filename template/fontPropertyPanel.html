@@ -10,7 +10,7 @@
           <md-slider flex class="md-primary" md-discrete  ng-model="fontSize.size"  max='100' min = '8' step='1' ng-change="getFontSize()">
           </md-slider>
      	    <div flex="25" layout layout-align="center center" class="editPanelElement">
-          		<input flex type="text" ng-model="fontSize.size" aria-label="red" aria-controls="red-slider" disabled="disabled"><span class="md-body-1" style="margin-left: 5px;">px</span>
+          	<span class="md-body-1" style="margin-left: 5px;">{{fontSize.size}}px</span>
           </div>
       </div>
 
@@ -21,7 +21,7 @@
           <md-slider flex class="md-primary" md-discrete  ng-model="lineHeight.size"  max='300' min = '1' step='1' ng-change="getLineHeight()" aria-label="rating">
           </md-slider>
      	    <div flex="25" layout layout-align="center center" class="editPanelElement">
-          		<input flex type="text" ng-model="lineHeight.size" aria-label="red" aria-controls="red-slider" disabled><span class="md-body-1" style="margin-left: 5px;">px</span>
+          	<span class="md-body-1" style="margin-left: 5px;">{{lineHeight.size}}px</span>
           </div>
       </div>
 
@@ -32,7 +32,7 @@
             <md-slider flex class="md-primary" md-discrete  ng-model="radius.size"  max='300' min = '1' step='1' ng-change="getRadiusSize()" aria-label="rating">
             </md-slider>
        	    <div flex="25" layout layout-align="center center" class="editPanelElement">
-            		<input flex type="text"  ng-model="radius.size" aria-label="red" aria-controls="red-slider" disabled><span class="md-body-1" style="margin-left: 5px;">px</span>
+          <span class="md-body-1" style="margin-left: 5px;">{{radius.size}}px</span>
             </div>
         </div>
 
@@ -43,8 +43,8 @@
             <md-slider flex class="md-primary" md-discrete  ng-model="opacity.numberValue"  max='1' min = '0' step='0.1' ng-change="getFontOpacity()" aria-label="rating">
             </md-slider>
        	    <div flex="25" layout layout-align="center center" class="editPanelElement">
-            		<input flex type="text" ng-model="opacity.numberValue" disabled aria-label="red" aria-controls="red-slider">
-                <span class="md-body-1" style="margin-left: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            	
+                <span class="md-body-1" style="margin-left: 5px;">{{opacity.numberValue}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
             </div>
         </div>
 

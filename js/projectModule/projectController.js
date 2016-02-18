@@ -4,7 +4,7 @@
 var projectController = angular.module('projectController', ['ngMaterial', 
   'AuthService', 
   'projectService', 
-  'createElementDirective']);
+  'eidtToolDirective']);
 
 projectController.controller('projectController', function($scope, 
   $state,

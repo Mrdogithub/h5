@@ -7,17 +7,16 @@ angular.module('loginService',[])
 				var deffered = $q.defer();
 				$http.post(SERVER_URL.liveUrl+'login',credentials)
 					.success(function(data){
-						if(data){
-							sessionFn.set('user',JSON.stringify(data));
+							if(data.status){
+								sessionFn.set('user',JSON.stringify(data));
+								$rootScope.setCurrentUser(data);
+							}
 							deffered.resolve(data);
-							$rootScope.setCurrentUser(data);
-							$("#loginOverLay").css('display','none');
-						}else{
-							$scope.error ="用户名或密码错误";
-						}
+						
+			
 					})
 					.error(function(data){
-						deffered.reject(data);
+							deffered.reject(data);
 					});
 
 					 return deffered.promise;
