@@ -7,7 +7,10 @@ scrollbar-arrow-color: hotpink;
 scrollbar-track-color: white;
 scrollbar-darkshadow-color: white;
 font-size: 14px;}
-.navbar{margin-bottom: 0px; position: relative;}
+.navbar{margin-bottom: 0px;
+    position: absolute;
+    z-index: 9999;
+    width: 100%;}
 .navbar-blue{background: #00649d; border-radius: 0; color: #fff;}
 .navbar-right{margin-right:15px;}
 #ibm-home{ width: 80px; padding: 0; margin: 0; height: 50px;}
@@ -17,8 +20,8 @@ font-size: 14px;}
 .navbar-blue li a{padding: 0; margin: 0;}
 .navbar-text-img{margin-left: 400px; width: 600px; }
 .imgbut{ float: left; margin-left: 20px;}
-a.imgbut{height: 50px; padding-top: 10px; display: inline-block;}
-a.imgbut:hover{ background: #3383b1; }
+a.imgbut{height: 50px; padding-top: 10px; display: inline-block;text-align: center;width: 50px;}
+a.imgbut:hover{ background: #3383b1; text-decoration: none;}
 .imgbut img{width: 2.5pc;}
 .navbar-img{margin-left: 45rem;}
 
@@ -35,7 +38,7 @@ a.imgbut:hover{ background: #3383b1; }
 .navbar .popbox .pickup span{border-bottom:8px solid #aaa; border-left: 8px solid #fff; border-right: 8px solid #fff; display: inline-block; width:16px }
 
 
-.col-left{width: 145px;min-height: 750px;z-index: 999; background: #ffffff; margin: 0; padding-top: 1px; padding-bottom: 60px; float: left; text-align: center; position: absolute; overflow-x: hidden;}
+.col-left{width: 145px;min-height: 100%;z-index: 999; background: #ffffff; margin: 0; padding-top: 60px; padding-bottom: 60px; float: left; text-align: center; position: absolute; overflow-x: hidden;}
 .col-left .box{float: left; margin: 20px 20px 0 20px; }
 .col-left .page{ width:70px; height: 110px;border-bottom:2px solid #5AAAFA;  box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.3); float: left; position: relative;}
 .col-left .page img{ width: 100px; height: 150px;}
@@ -174,7 +177,7 @@ background: #fff;
     background: #eeeeee;
 }
 .scrollspy-example{
-    height: 200px;
+    height: 100%;
     overflow: auto;
     position: relative;
     border:1px;

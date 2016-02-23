@@ -25,7 +25,7 @@ editText.directive('edittool1',function($mdToast,
 					    $(document).on('click',' .isEdit > div ',function(e){
 
 					    	if($(e.target).hasClass('mText')){
-					    		$(e.target).focus();
+					    		// $(e.target).focus();
 				  	  			$(".rotate-rightTop").css('display','none');
 				  	  			$('.ui-selected').removeClass('ui-selected');
 				  	  			$(e.target).parent().addClass('ui-selected');
@@ -249,9 +249,11 @@ function projectIsNull(){
 //Create new text
 function createNewText($mdToast,$document){
 	$('.ui-selected').removeClass('ui-selected');
-	$('.rotate-rightTop').css('display','none');
-	var iText = $('<div class="ui-selected" data-type="text" style="width:200px;height:60px;position:absolute;"><div class="rotate-location rotate-rightTop" style="display:block;"><i class="icon-undo"></i></div><div class="mText" contentEditable="true" style="overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;">text placeholder</div></div>');
+	$('.rotate-rightTop').css('display','none');//<div class="rotate-location rotate-rightTop" style="display:block;"><i class="icon-undo"></i></div>
+var iText = $('<div class="ui-selected" data-type="text" style="width:auto;height:auto;position:absolute;"><textarea  class="mText"  style=" width:100%;height:auto;position:relative;overflow-y:hidden;resize:none" onclick="textActive(this)">text placeholder</textarea></div>');
     // var iText = $('<div class="ui-selected" data-type="text" style="width:200px;height:60px;position:absolute;"><div class="mText" contentEditable="true" style="overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;">text placeholder</div></div>');
+    
+//var iText = $('<div class="ui-selected" data-type="text" style="width:50%;min-height:5%;position:relative;"><div  class="mText"  style="width:100%; min-height:5%;position:relative;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div>');
     var currentPage = $('.isEdit');
     iText.appendTo(currentPage);
 }
@@ -302,6 +304,12 @@ function showTextEditPanel($mdToast,$document)	{
 			      	$scope.getFontSize = function(){
     					$('.ui-selected > .mText').css('fontSize',$scope.fontSize.size);
     					 console.log($scope.fontSize.size)
+    					 setFontSize($scope.fontSize.size)
+    				}
+
+    				function setFontSize(fontsize){
+    					console.log(fontsize+":font-size")
+    					$('#txtNumid').html(fontsize);
     				}
     			
 
@@ -487,7 +495,8 @@ function initFormDraggable($mdToast,$document){
 	});
 
 
-	$('#myForm').draggable({'position':'absolute'});
+
+
 	$("#myForm").css({'resize':'both','overflow':'hidden','width':'80%','min-height':'350px','padding':'2%'});
     $('#myForm').on("mouseover",function(){
     	$(this).css('opacity','0.5');
@@ -805,33 +814,35 @@ function showImageEditPanel($mdToast,$document,newImage){
 
 function initElement(clickOnTargetElementName,panelType,$mdToast,$document){
 	$(document).ready(function(){
-		$('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
-	
-		var selected = $([]), offset = {top:0, left:0}; 
+		// $('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
 
-		$( ".isEdit > div" ).draggable({
-		    start: function(ev, ui) {
-		      // ev.stopPropagation();
-		        if ($(this).hasClass("ui-selected")){
-		            selected = $(".ui-selected").each(function() {
-		               var el = $(this);
-		               el.data("offset", el.offset());
-		            });
-		        }
-		        else {
-		            selected = $([]);
-		            $(".isEdit > div").removeClass("ui-selected");
-		        }
-		        offset = $(this).offset();
-		    },
-		    drag: function(ev, ui) {
-		        var dt = ui.position.top - offset.top, dl = ui.position.left - offset.left;
-		        selected.not(this).each(function() {
-		        var el = $(this), off = el.data("offset");
-		        el.css({top: off.top + dt, left: off.left + dl});
-		        });
-		    }
-		}).resizable({ handles: 'n, e, s, w,se,sw,ne,nw' });
+
+		$( ".isEdit > div.ui-selected" ).draggable(
+		{   
+			"cancel":"text",
+		stop:function (){
+			     var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
+			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
+			     $(this).css("left" , l);
+			     $(this).css("top" , t);
+
+			     var w = ( 100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")) )+ "%" ;
+			     var h = ( 100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")) )+ "%" ;
+			     $(this).css("width" , w);
+			     $(this).css("height" , h);  
+         }
+     }).resizable({ handles: 'n, e, s, w,se,sw,ne,nw' ,stop:function (){
+
+			     var w = ( 100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")) )+ "%" ;
+			     var h = ( 100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")) )+ "%" ;
+			     $(this).css("width" , w);
+			     $(this).css("height" , h);
+				 }}).mousedown(function(e){
+				 	e.stopPropagation();
+    				$(this).draggable({
+            		  disabled: true
+        			})
+        		})
 
 		$( ".isEdit " ).selectable();
 
@@ -854,41 +865,48 @@ function initElement(clickOnTargetElementName,panelType,$mdToast,$document){
 
 
 		$(clickOnTargetElementName).on('click',function(e){
-			showEditPanel($mdToast,$document,panelType);
-			e.stopPropagation();
-			if(clickOnTargetElementName == ".formElement"){
-				 if($(e.target).hasClass("ui-selected")){
-			  	  $(e.target).focus();
-			  	  $(".rotate-rightTop").css('display','none');
-			  	  $(e.target).find(".rotate-rightTop").show();
-			  }else if(!$(e.target).hasClass("ui-selected")){
-			  	  $(e.target).focus();
-			  	  $(".rotate-rightTop").css('display','none');
-			  	  $('.ui-selected').removeClass('ui-selected');
-			  	  $(e.target).addClass('ui-selected');
-			  	  $(e.target).find(".rotate-rightTop").show();
-			  }  
-			}else{
-			  if($(e.target).parent().hasClass("ui-selected")){
-			  	  $(e.target).focus();
-			  	  $(".rotate-rightTop").css('display','none');
-			  	  $(e.target).parent().find(".rotate-rightTop").show();
-			  }else if(!$(e.target).parent().hasClass("ui-selected")){
-			  	  $(e.target).focus();
-			  	  $(".rotate-rightTop").css('display','none');
-			  	  $('.ui-selected').removeClass('ui-selected');
-			  	  $(this).parent().addClass('ui-selected');
-			  	  $(e.target).parent().find(".rotate-rightTop").show();
-			  }  
-			}
+	 		showEditPanel($mdToast,$document,panelType);
+	 		//
+			// e.stopPropagation();
+			// if(clickOnTargetElementName == ".formElement"){
+			// 	 if($(e.target).hasClass("ui-selected")){
+			//   	  // $(e.target).focus();
+			//   	  $(".rotate-rightTop").css('display','none');
+			//   	  $(e.target).find(".rotate-rightTop").show();
+			//   }else if(!$(e.target).hasClass("ui-selected")){
+			//   	  // $(e.target).focus();
+			//   	  $(".rotate-rightTop").css('display','none');
+			//   	  $('.ui-selected').removeClass('ui-selected');
+			//   	  $(e.target).addClass('ui-selected');
+			//   	  $(e.target).find(".rotate-rightTop").show();
+			//   }  
+			// }else{
+			//   if($(e.target).parent().hasClass("ui-selected")){
+			//   	  // $(e.target).focus();
+			//   	  $(".rotate-rightTop").css('display','none');
+			//   	  $(e.target).parent().find(".rotate-rightTop").show();
+			//   }else if(!$(e.target).parent().hasClass("ui-selected")){
+			//   	  // $(e.target).focus();
+			//   	  $(".rotate-rightTop").css('display','none');
+			//   	  $('.ui-selected').removeClass('ui-selected');
+			//   	  $(this).parent().addClass('ui-selected');
+			//   	  $(e.target).parent().find(".rotate-rightTop").show();
+			//   }  
+			// }
 		 
 		});
 
        $('#pagesList').on('mousedown',function(){
        		console.log(' works works');
-       		$('.mText').blur();
-       		 $(".rotate-rightTop").css('display','none');
-       })});
+       		 // $('.mText').focus();
+       $(".mText").css("cursor","move")
+       })
+
+     
+
+   });
+
+
 }
 
 function showEditPanel ($mdToast,$document,panelType,newImage){
@@ -904,51 +922,34 @@ function showEditPanel ($mdToast,$document,panelType,newImage){
 }
 
 
+function textActive(curText){
+	//alert(clickOnTargetElementName);
+	//
+  	  	var reg = /\d+/;
+	  		var fontSize =	$(curText).attr("style").indexOf("font-size")
+	 	if(fontSize>-1) {
+	 		console.log( $(curText).css("font-size"))
+	 	 	var num = $(curText).css("font-size").match(reg)[0];
+	 		$('#txtNumid').html(num) 
+	 	}else{$('#txtNumid').html("") } 
 
-function initSelectedDraggable(){
-	$(document).ready(function(){
-		$('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
-		var selected = $([]), offset = {top:0, left:0}; 
-		$( ".isEdit > div" ).draggable({
-		    start: function(ev, ui) {
-		      // ev.stopPropagation();
-		        if ($(this).hasClass("ui-selected")){
-		            selected = $(".ui-selected").each(function() {
-		               var el = $(this);
-		               el.data("offset", el.offset());
-		            });
-		        }
-		        else {
-		            selected = $([]);
-		            $(".isEdit > div").removeClass("ui-selected");
-		        }
-		        offset = $(this).offset();
-		    },
-		    drag: function(ev, ui) {
-		        var dt = ui.position.top - offset.top, dl = ui.position.left - offset.left;
-		        selected.not(this).each(function() {
-		        var el = $(this), off = el.data("offset");
-		        el.css({top: off.top + dt, left: off.left + dl});
-		        });
-		    }
-		}).resizable({ handles: 'n, e, s, w,se,sw,ne,nw' });
+		var lineheight =$(curText).attr("style").indexOf("line-height")
+		 	if(lineheight>-1) {
+	 	 	var num = $(curText).css("line-height").match(reg)[0];
+	 		$('#txtHeightid').html(num)
+	 	} else{$('#txtHeightid').html("")}
 
-		$( ".isEdit " ).selectable();
-
-		//rotate function
-		applyRotation();
-		function applyRotation() {
-		    $('.rotate-rightTop').draggable({
-		        opacity: 0.01,
-		        helper: 'clone',
-		        drag: function (event, ui) {
-		            var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
-		            $(this).parent().css({
-		                '-moz-transform': rotateCSS,
-		                    '-webkit-transform': rotateCSS
-		            });
-		        }
-		    });
-		}
-});
+	 	var vopacity =$(curText).attr("style").indexOf("opacity")
+		 	if(vopacity>-1) {
+	 	 	var num = $(curText).css("opacity");
+	 		$('#txtOpacityid').html(num)
+	 	} else{$('#txtOpacityid').html("")}
+	 	//border-radius
+	 	
+	 		var borderradius =$(curText).attr("style").indexOf("border-radius")
+		 	if(borderradius>-1) {
+	 	 	var num = $(curText).css("border-radius").match(reg)[0];
+	 		$('#txtRadiusid').html(num)
+	 	}else{$('#txtRadiusid').html("")}
+			 		
 }

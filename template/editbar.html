@@ -1,5 +1,31 @@
 <div class="navbar-img">
-<a class="imgbut" id="text"  ng-click="newText()"><img src="images/text.svg"></a>
-<a class="imgbut" id="img"   ng-click="newImages()"><img src="images/img.svg"></a>
+	<a 	class="imgbut"  
+		ng-click="newText()" 
+		data-toggle="editIcon" 
+		data-placement="top" 
+		title="创建文本"
+		id="editIcon"
+		><i class="icon-edit icon-2x"></i></a>
+
+	<a 	class="imgbut"  
+		ng-click="newImages()" 
+		id="imageIcon" 
+		data-toggle="imageIcon" 
+		data-placement="top" 
+		title="选择图片" ><i class="icon-picture icon-2x"></i></a>
 </div>
 
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#editIcon').tooltip();
+    $(function () {
+      $('[data-toggle="editIcon"]').tooltip()
+    })
+
+    $('#imageIcon').tooltip();
+    $(function () {
+      $('[data-toggle="imageIcon"]').tooltip()
+    })
+
+  });
+</script>

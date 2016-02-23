@@ -214,10 +214,14 @@ ul.h-images-list li img{
 	    border-color: #ceced2;
 }
 #pagesList,.isEdit{
-	border: 1px #7ec8ed solid;
-	width: 370px;
-	height: 568px;
+/*	width: 370px;*/
+	width: 320px;
+	height: 480px;
 	position: relative;
+}
+
+.isEdit{
+	border: 1px #7ec8ed solid;
 }
 .swiper-slide{
 	
@@ -284,8 +288,18 @@ ul.h-images-list li img{
 @keyframes flipintoright {
     from { transform: rotateY(90deg) scale(.9); }
     to { transform: rotateY(0); }
-}
+/*}
 	.ui-selected > [class^="m"], .ui-selecting > [class^="m"], .ui-draggable-dragging > [class^="m"],.active > [class^="m"]{
+		position: absolute;
+	    top: 0;
+	    right: 0;
+	    bottom: 0;
+	    left: 0;
+	    outline: 1px solid #81a3ea;
+	    cursor: default;
+	}*/
+	}
+	.ui-selected{
 		position: absolute;
 	    top: 0;
 	    right: 0;
@@ -380,7 +394,7 @@ a.selectedImageHover:hover,a.removeImageHover:hover{
   text-decoration: none;
 }
 .mainbox{
-	min-height:785px;
+	height: 100%;
 	background: #E0E0E0;
 	overflow: hidden;
 	position: relative;
@@ -489,14 +503,48 @@ input,button,select,textarea{outline:none}
 }
 
 /*remove outline */
-:focus{outline:0;};
-</style>
+:focus{outline:0;}
 
+
+
+</style>
 
 </head>
 
 <body id="main">
-<div ui-view=""></div>
+
+
+<style>
+.positionable {
+    position:absolute;
+    width:400px; height:200px;
+}
+.drag_handle {
+    position:absolute;
+    top:-8px; left:-8px;
+    background-color:#FFF; color:#000;
+    width:14px; height:14px;
+    cursor:move;
+    font-size:14px; line-height:14px;
+    font-weight:bold;
+    text-align:center;
+    border:1px solid #000;
+}
+.editable {
+    outline:none;
+    width:100%; height:100%;
+}
+</style>
+
+<div class="positionable">
+    <div class="drag_handle">+</div>
+    <div class="editable" contentEditable="TRUE">type here...</div>
+</div>
+
+<script>
+    $('.positionable').draggable({handle: '.drag_handle'});
+</script>
+<div ui-view="" style="height: 100%;"></div>
 </body>
 
 <script type="text/javascript" src="js/app.js"></script>

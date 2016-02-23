@@ -3,30 +3,32 @@
 
 
 <div class="dashBoardPreview"  tabindex="-1" id="previewPageInEditStatus"  style="width:470px;height:568px;">
-<div class="modal-dialog"style="width:85%;z-index: 999;">
+<div class="modal-dialog"style="width:75%;z-index: 999;margin-top: 90px">
 <div class="modal-content" style="border-radius: 0px;">
-<div class="modal-body"><a  style="   
- cursor: pointer;
-    font-size: 23px;
-    text-align: right;
-    font-weight: bold;
-    text-decoration: none;
-    vertical-align: top;
-    position: absolute;
-    right: -16px;
-    top: -17px;
-    background: #fff;
-    border-radius: 100px;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 124%;" ng-click="close()">&times;</a><div style="width:370px;height:480px;display:inline-block" >
-<div class="swiper-container" style="width:100%;height:568px;">
-<div class="swiper-wrapper" id="previewContent" class="ng-binding" ng-bind-html="page.preivewCode">
-
-  </div>
-
-  </div>
+    <div class="modal-body">
+        <a  style="   
+         cursor: pointer;
+            font-size: 23px;
+            text-align: right;
+            font-weight: bold;
+            text-decoration: none;
+            vertical-align: top;
+            position: absolute;
+            right: -16px;
+            top: -17px;
+            background: #fff;
+            border-radius: 100px;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            vertical-align: middle;
+            line-height: 124%;" ng-click="close()">&times;</a>
+        <div style="width:320px;height:480px;display:inline-block" >
+            <div class="swiper-container" style="width:100%;height:568px;">
+                <div class="swiper-wrapper" id="previewContent" class="ng-binding" ng-bind-html="page.preivewCode"></div>
+            </div>
+        </div>
+    </div>
 </div>
-</div></div></div></div>
+</div>
+</div>

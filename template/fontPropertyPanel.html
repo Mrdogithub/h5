@@ -1,86 +1,85 @@
-	<!--text-properties start-->
+  <!--text-properties start-->
 <div class="col-right" id="text-properties">
-		  <div class="title"><div class="active">文本设置</div></div>		  
-		  <div class="btn-group module">
+      <div class="title"><div class="active">文本设置</div></div>     
+      <div class="btn-group module">
       <div layout layout-align="center center">
-  	    <div flex="15" style="margin-right:10px;" layout layout-align="center center">
-  	        <span class="md-body-1">字号</span>
+        <div flex="15" style="margin-right:10px;" layout layout-align="center center">
+            <span class="md-body-1">字号</span>
 
-  	    </div>
+        </div>
           <md-slider flex class="md-primary" md-discrete  ng-model="fontSize.size"  max='100' min = '8' step='1' ng-change="getFontSize()">
           </md-slider>
-     	    <div flex="25" layout layout-align="center center" class="editPanelElement">
-          	<span class="md-body-1" style="margin-left: 5px;">{{fontSize.size}}px</span>
+          <div flex="25" layout layout-align="center center" class="editPanelElement">
+              <span id="txtNumid" class="md-body-1" style="margin-left: 5px;"></span><span>px</span>
           </div>
       </div>
 
      <div layout layout-align="center center">
-  	    <div flex="15" layout layout-align="center center" style="margin-right:10px;">
-  	        <span class="md-body-1">行高</span>
-  	    </div>
+        <div flex="15" layout layout-align="center center" style="margin-right:10px;">
+            <span class="md-body-1">行高</span>
+        </div>
           <md-slider flex class="md-primary" md-discrete  ng-model="lineHeight.size"  max='300' min = '1' step='1' ng-change="getLineHeight()" aria-label="rating">
           </md-slider>
-     	    <div flex="25" layout layout-align="center center" class="editPanelElement">
-          	<span class="md-body-1" style="margin-left: 5px;">{{lineHeight.size}}px</span>
+          <div flex="25" layout layout-align="center center" class="editPanelElement">
+              <span id="txtHeightid" class="md-body-1" style="margin-left: 5px;">{{lineHeight.size}}</span><span>px</span>
           </div>
       </div>
 
       <div layout layout-align="center center">
-    	    <div flex="15" layout layout-align="center center" style="margin-right:10px;">
-    	        <span class="md-body-1">圆角</span>
-    	    </div>
+          <div flex="15" layout layout-align="center center" style="margin-right:10px;">
+              <span class="md-body-1">圆角</span>
+          </div>
             <md-slider flex class="md-primary" md-discrete  ng-model="radius.size"  max='300' min = '1' step='1' ng-change="getRadiusSize()" aria-label="rating">
             </md-slider>
-       	    <div flex="25" layout layout-align="center center" class="editPanelElement">
-          <span class="md-body-1" style="margin-left: 5px;">{{radius.size}}px</span>
+            <div flex="25" layout layout-align="center center" class="editPanelElement">
+                <span id="txtRadiusid" class="md-body-1" style="margin-left: 5px;">{{radius.size}}</span><span>px</span>
             </div>
         </div>
 
         <div layout layout-align="center center">
-    	    <div flex="15" layout layout-align="center center" style="margin-right:10px;">
-    	        <span class="md-body-1">透明</span>
-    	    </div>
+          <div flex="15" layout layout-align="center center" style="margin-right:10px;">
+              <span class="md-body-1">透明</span>
+          </div>
             <md-slider flex class="md-primary" md-discrete  ng-model="opacity.numberValue"  max='1' min = '0' step='0.1' ng-change="getFontOpacity()" aria-label="rating">
             </md-slider>
-       	    <div flex="25" layout layout-align="center center" class="editPanelElement">
-            	
-                <span class="md-body-1" style="margin-left: 5px;">{{opacity.numberValue}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <div flex="25" layout layout-align="center center" class="editPanelElement">
+                 <span  id="txtOpacityid" class="md-body-1" style="margin-left: 5px;">{{opacity.numberValue}} </span>
             </div>
         </div>
 
-<!--  <div class="Separation"></div>	 -->
+<!--  <div class="Separation"></div>   -->
 <div class="Separation"></div>
       <div layout layout-align="center center">
-		    <div flex="15" layout layout-align="center center" style="margin-right:10px;">
-		        <span class="md-body-1">字体</span>
-		    </div>
+        <div flex="15" layout layout-align="center center" style="margin-right:10px;">
+            <span class="md-body-1">字体</span>
+        </div>
         <select class="input input--dropdown form-control"  ng-change="setFontFamily()" ng-model="selected">
           <option value="{{item.value}}" ng-repeat="item in fontFamily">{{item.name}}</option>
         </select>
-    	</div>
+      </div>
 
 <div class="Separation"></div>
    <div layout layout-align="center center">
-		  <div class="form-group" style="text-align:left; margin:10px 0px 0px 10px;">
-    		<span class="md-body-1">字体颜色</span>
-   			<input id="fontColor" type="color"  ng-model="setFontColor"  />
+      <div class="form-group" style="text-align:left; margin:10px 0px 0px 10px;">
+        <span class="md-body-1">字体颜色</span>
+        <input id="fontColor" type="color"  ng-model="setFontColor"  />
           <span class="md-body-1">背景颜色</span>
         <input id="fontBackgroundColor" type="color"  ng-model="setFontBackgroundColor" />
-  		</div>
+      </div>
     </div>
 
 
-  <div class="Separation"></div>		
+  <div class="Separation"></div>    
    <div layout>  
-   			<div class=" B-but bold-active fontFormat"  ng-click="setFontBold()"><i class=" icon-bold"></i></div>
-   			<div class=" B-I  italic-active fontFormat" ng-click="setFontItalic()"><i class="icon-italic"></i></div>
-   			<div class=" B-U  textDecoration-active fontFormat" ng-click="setTextDecoration()"><i class=" icon-underline"></i></div>
-   			<div class="textleft-active fontFormat" ng-click="setTextAlign('left')"><i class="icon-align-left"></i></div>
-   			<div class="textcenter-active fontFormat" ng-click="setTextAlign('center')"><i class="icon-align-center"></i></div>
-   			<div class="textright-active fontFormat" ng-click="setTextAlign('right')"><i class="icon-align-right"></i></div>
+        <div class=" B-but bold-active fontFormat"  ng-click="setFontBold()"><i class=" icon-bold"></i></div>
+        <div class=" B-I  italic-active fontFormat" ng-click="setFontItalic()"><i class="icon-italic"></i></div>
+        <div class=" B-U  textDecoration-active fontFormat" ng-click="setTextDecoration()"><i class=" icon-underline"></i></div>
+        <div class="textleft-active fontFormat" ng-click="setTextAlign('left')"><i class="icon-align-left"></i></div>
+        <div class="textcenter-active fontFormat" ng-click="setTextAlign('center')"><i class="icon-align-center"></i></div>
+        <div class="textright-active fontFormat" ng-click="setTextAlign('right')"><i class="icon-align-right"></i></div>
         <div class="textright-active fontFormat" ng-click="setTextLink()"><i class="icon-link"></i></div>
-		  </div>			
-		  <div class="Separation"></div>
+      </div>      
+      <div class="Separation"></div>
      <div layout layout-align="center center">
         <div flex="15"  style="margin-right:10px;">
           <span class="md-body-1">动效</span>
@@ -326,7 +325,7 @@
           <option value="rollOut">rollOut</option>
         </optgroup>
          </select>
-		 -->
+     -->
 </div>
 
    
@@ -346,6 +345,6 @@ $("#borderColor").kendoColorPicker({
     opacity: true
 });
 });
-	
+  
 </script>
 
