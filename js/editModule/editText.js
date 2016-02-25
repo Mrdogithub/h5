@@ -250,10 +250,14 @@ function projectIsNull(){
 function createNewText($mdToast,$document){
 	$('.ui-selected').removeClass('ui-selected');
 	$('.rotate-rightTop').css('display','none');//<div class="rotate-location rotate-rightTop" style="display:block;"><i class="icon-undo"></i></div>
-var iText = $('<div class="ui-selected" data-type="text" style="width:auto;height:auto;position:absolute;"><textarea  class="mText"  style=" width:100%;height:auto;position:relative;overflow-y:hidden;resize:none" onclick="textActive(this)">text placeholder</textarea></div>');
+//var iText = $('<div class="ui-selected" data-type="text" style="width:auto;height:auto;position:absolute;"><div class="drag_handle">+</div><textarea id="textarea"  class="mText"  style=" width:100%;height:auto;position:relative;overflow-y:hidden;resize:none" onclick="textActive(this)">text placeholder</textarea></div>');
     // var iText = $('<div class="ui-selected" data-type="text" style="width:200px;height:60px;position:absolute;"><div class="mText" contentEditable="true" style="overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;">text placeholder</div></div>');
+   // var iText =   $('<div class="ui-selected" data-type="text" style="min-height: 3%;"><div class="drag_handle">+</div><div  class="mText" contenteditable="true"  style=" background: #fff;min-width: 20%;min-height:20%;position:absolute;" onclick="textActive(this)">text placeholder</div></div>')  
+//var iText = $('<div class="ui-selected" data-type="text" style="width:50%;min-height:5%;position:relative;"><div class="drag_handle">+</div><div  class="mText"  style="width:100%; min-height:5%;position:relative;display:block" contentEditable="TRUE" onclick="textActive(this)">请输入文本</div></div>');
     
-//var iText = $('<div class="ui-selected" data-type="text" style="width:50%;min-height:5%;position:relative;"><div  class="mText"  style="width:100%; min-height:5%;position:relative;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div>');
+	//var iText = $('<div class="ui-selected" data-type="text" style="width:50%;min-height:3%;position:absolute;"><div class="drag_handle">+</div><div  class="mText"  style="width:100%; min-height:5%;position:relative;display:block" contentEditable="TRUE" onclick="textActive(this)">请输入文本</div></div>')
+    
+	var iText = $('<div class="ui-selected" data-type="text" style="width:50%;min-height:3%;position:absolute;"><div class="drag_handle" style="display:none">+</div><div  class="mText"  style="width:100%; min-height:5%;position:relative;display:block" contentEditable="TRUE" onclick="textActive(this)">请输入文本</div></div>');
     var currentPage = $('.isEdit');
     iText.appendTo(currentPage);
 }
@@ -816,10 +820,11 @@ function initElement(clickOnTargetElementName,panelType,$mdToast,$document){
 	$(document).ready(function(){
 		// $('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
 
-
-		$( ".isEdit > div.ui-selected" ).draggable(
+// $('.positionable').draggable({});
+		$( ".ui-selected" ).draggable(
 		{   
-			"cancel":"text",
+			 delay: 100, containment: ".isEdit",
+		handle: '.drag_handle',
 		stop:function (){
 			     var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
 			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
@@ -837,14 +842,8 @@ function initElement(clickOnTargetElementName,panelType,$mdToast,$document){
 			     var h = ( 100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")) )+ "%" ;
 			     $(this).css("width" , w);
 			     $(this).css("height" , h);
-				 }}).mousedown(function(e){
-				 	e.stopPropagation();
-    				$(this).draggable({
-            		  disabled: true
-        			})
-        		})
-
-		$( ".isEdit " ).selectable();
+				 }}).click(function(){
+				 });
 
 		//rotate function
 		applyRotation();
@@ -896,11 +895,11 @@ function initElement(clickOnTargetElementName,panelType,$mdToast,$document){
 		 
 		});
 
-       $('#pagesList').on('mousedown',function(){
-       		console.log(' works works');
-       		 // $('.mText').focus();
-       $(".mText").css("cursor","move")
-       })
+       // $('#pagesList').on('mousedown',function(){
+       // 		console.log(' works works');
+       // 		 // $('.mText').focus();
+       // $(".mText").css("cursor","move")
+       // })
 
      
 

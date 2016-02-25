@@ -62,7 +62,8 @@ homeController.controller('homeController', function($scope, $rootScope, $mdSide
 //用户未登录状态点击我的项目
       $scope.myProject = function(){
         if(loginFn.islogged().status){
-           $state.go('.dashboard');
+           $state.go('dashboard');
+
         }else{
               $mdToast.show({
                  controller: function($scope,$rootScope){

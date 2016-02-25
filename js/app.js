@@ -79,24 +79,24 @@ var param = function(obj) {
 		 		}
 			}
 		}
-	}).state('homePage.dashboard',{
+	}).state('dashboard',{
 		url:'/dashboard',
 		views:{
-			'editPanel':{templateUrl:'./template/page.dashboard.tmpl.html',
-						 controller:'projectController',
-						 resolve:{
-						 		getMyProjectsList:function(projectFn){
-						 			   return projectFn.getProjectList().then(function(data){
-						 			   		return data;
-						 			   });
-						 		},
+			'':{
+           templateUrl:'./template/page.dashboard.tmpl.html',
+             controller:'projectController',
+             resolve:{
+                getMyProjectsList:function(projectFn){
+                     return projectFn.getProjectList().then(function(data){
+                        return data;
+                     });
+                },
                 isLogin:function(loginFn){
                     return loginFn.islogged();
                 }
-						 	}
-						}
-
-		}
+              }
+      }
+    }
 	})
 });
 
