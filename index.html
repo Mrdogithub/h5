@@ -199,8 +199,9 @@ ul.h-images-list li img{
 .editModuleWrap{
 }
 .k-colorpicker, .k-toolbar .k-split-button{
- width:57px;
-}
+ width:20px
+    height: 20px;
+    overflow: hidden;}
 .k-colorpicker .k-selected-color {
     border-radius: 0px;
 }
@@ -209,9 +210,20 @@ ul.h-images-list li img{
 }
 .k-colorpicker .k-picker-wrap {
 	line-height: none;
+	width: 20px;
+	height: 20px;
+	border:none;
 }
 .k-picker-wrap.k-state-default>.k-select{
-	    border-color: #ceced2;
+	    border-color: none;
+}
+
+.k-colorpicker .k-selected-color{
+	width: 20px;
+	height: 16px;
+}
+.k-colorpicker .k-selected-color {
+   border-radius:none;
 }
 #pagesList,.isEdit{
 /*	width: 370px;*/
@@ -288,27 +300,37 @@ ul.h-images-list li img{
 @keyframes flipintoright {
     from { transform: rotateY(90deg) scale(.9); }
     to { transform: rotateY(0); }
-/*}
-	.ui-selected > [class^="m"], .ui-selecting > [class^="m"], .ui-draggable-dragging > [class^="m"],.active > [class^="m"]{
+}
+
+    .ui-selected{
+    	outline: 1px solid #81a3ea;
+    /*
+    	-overflow: hidden;
+    
+    	position: relative;
+	    top: 0;
+	    right: 0;
+	    /*bottom: 0;*/
+	    left: 0;
+
+	    
+	    cursor: default;*/
+	    position: absolute;
+	    font-size: 14px;
+
+    }
+/*	.ui-selected > [class^="m"], .ui-selecting > [class^="m"], .ui-draggable-dragging > [class^="m"],.active > [class^="m"]{
 		position: absolute;
 	    top: 0;
 	    right: 0;
 	    bottom: 0;
 	    left: 0;
-	    outline: 1px solid #81a3ea;
+	    
 	    cursor: default;
+	    font-size: 14px;
+	   
 	}*/
-	}
-	.ui-selected{
-		position:relative;
-	    top: 0;
-	    right: 0;
-	    /*bottom: 0;*/
-	    left: 0;
-	    outline: 1px solid #81a3ea;
-	    cursor: default;
-	}
-.ui-selected>.ui-resizable-handle {
+.ui-selected >.ui-resizable-handle {
     display: block;
     position: absolute;
     width: 8px;
@@ -505,98 +527,19 @@ input,button,select,textarea{outline:none}
 /*remove outline */
 :focus{outline:0;}
 
+/*.k-button {
+            width: 20px;
+            height: 20px;
+        }*/
 
-
-
-
-
-
-.positionable {
- 
-}
-.drag_handle {
-/*    position:absolute;
-    top:-8px; left:-8px;
-    background-color:#FFF; color:#000;
-    width:14px; height:14px;
-    cursor:move;
-    font-size:14px; line-height:14px;
-    font-weight:bold;
-    text-align:center;
-    border:1px solid #000;*/
-
-    position: absolute;
-    /* top: -8px; */
-    /* left: -8px; */
-    background-color: #FFF;
-    color: #000;
-    width: 100%;
-    height: 100%;
-    cursor: move;
-    font-size: 14px;
-    line-height: 14px;
-    font-weight: bold;
-    text-align: center;
-    border: 1px solid #000;
-    /* background: #000; */
-    z-index: 9999;
-    opacity: .8;
-
-}
-.editable {
-    outline:none;
-    width:100%; height:100%;
-}
-
-
-#addBox{
-	display:none;text-align:center;background:rgba(0,0,0,0.8);width:150px;height:50px;color:#fff;font-size:18px;padding:10px;border-radius:5px;position:absolute;top:50%;left:90%;z-index:9999999;
-}
-
-
-
-#textarea { 
-    display: block;
-    margin:0 auto;
-    overflow: hidden; 
-    width: 550px; 
-    font-size: 14px;
-    height: 18px; 
-    line-height: 24px;
-    padding:2px; 
-}
-textarea {
-    outline: 0 none;
-    border-color: rgba(82, 168, 236, 0.8);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 8px rgba(82, 168, 236, 0.6);
-}
-
-.mText{
-    margin-left: auto; 
-    margin-right: auto; 
-    padding: 3px; 
-    outline: 0; 
-    font-size: 12px; 
-    word-wrap: break-word;
-    overflow-x: hidden;
-    overflow-y: auto;
-    _overflow-y: visible;
-}
 </style>
 
 </head>
 
-<body id="main">
+<body >
 
-
-
-
-
-<div ui-view="" style="height: 100%;" ng-controller="applicationController"></div>
+<div ui-view="" style="height: 100%;" id="main"></div>
 </body>
-
-
-
 
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/commonModule/homeController.js"></script>
@@ -612,5 +555,4 @@ textarea {
 <script type="text/javascript" src="js/userModule/sessionService.js"></script>
 <script type="text/javascript" src="js/userModule/loginService.js"></script>
 <script type="text/javascript" src="js/imageModule/imageService.js"></script>
-
 </html>

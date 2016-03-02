@@ -1,11 +1,8 @@
-<md-dialog aria-label="Mango (Fruit)"  ng-cloak style="padding:0;max-height: 100%; width:1000px;z-index:9999999">
+<md-dialog aria-label="Mango (Fruit)"  ng-cloak style="padding:0;max-height: 100%; width:1000px;z-index:9999999" id="imageOverlay">
 <div class="modal-header c-modal-header" style="padding:5px;height:37px;">
-    <button class="close dialog-close" data-dismiss="modal" type="button" style="display:inline-block">
-     <span aria-hidden="True" class="c-span">
+    <button class="close dialog-close" ng-click="imageOverlayClose()" data-dismiss="modal" type="button" style="display:inline-block">
+     <span aria-hidden="True" class="c-span" >
       ×
-     </span>
-     <span class="sr-only c-span">
-      关闭
      </span>
         </button>
         <i class="fa fa-folder c-icon">
@@ -15,7 +12,8 @@
         </h5>
     
         <div class="" style="display:inline-block;float:right;margin-right:50px;">
-          <input class="form-control" ng-model="query" placeholder="搜索图片" type="text" style="height: 25px;padding: 6px 6px;font-size: 10px;">
+          <input class="form-control" name="image" ng-model="query" placeholder="搜索图片" type="text" style="height: 25px;padding: 6px 6px;font-size: 10px;">
+         
         </div>
       </div>
 
@@ -30,8 +28,9 @@
           <div class="rightTab">
               <ul id="imageList">
                  <li class="myImg" style="width:140px; height:120px;" id="newImageTarget">
-                 <form id='uploadImageForm' enctype='multipart/form-data'>
-                          <input type="file" name="uploadImage" ng-model="uploadImageFile" style="width:140px;height:120px;opacity:0; z-index:99999;position:absolute;"  onchange="angular.element(this).scope().uploadImage(this)" />
+                 <form id='uploadImageForm' name="peter" enctype='multipart/form-data'>
+                    <input type="file" name="uploadImage" ng-model="uploadImageFile" style="width:140px;height:120px;opacity:0; z-index:99999;position:absolute;"  onchange="angular.element(this).scope().uploadImage(this)" />
+              
             </form>
                   <a type="button" class="btn btn-default" style="width: 140px;height: 120px;display: block;line-height: 100px;"><i class="icon-upload-alt icon-large"></i></a>
                  </li> 
@@ -39,10 +38,10 @@
 
                 <li class="myImg" ng-repeat="item in imageList | filter:query | orderBy:order" id="{{item._id}}">
                 <img class="myImageActive" src="{{item.url}}" >
-                <div style="height:20px;width:100%;background-color:rgba(0,0,0,0.8);margin-top:-1px;">
+                <div style="height: 20px;width: 100%;background-color: rgba(0,0,0,0.8);margin-top: -1px;position: absolute;bottom: 0;">
                 <span style="font-size:6px;color:#fff;float:left; padding:2px;">{{item.name.substring(-1,16)}}</span>
                 </div>
-                <div style="position:absolute;top:0px;left:0px;background-color:rgba(0,0,0,0.8);width:140px;height:120px;opacity:0;text-align:center;" class="imageOption">
+                <div style="position:absolute;top:0px;left:0px;background-color:rgba(0,0,0,0.8);width:100%;height:100%;opacity:0;text-align:center;" class="imageOption">
                 <a style="z-index:9999;color:#fff; margin-right:20px;display:inline-block;line-height:120px;" class="removeImageHover" ng-click="removeImage(item._id)">
                 <i class=" icon-trash icon-2x" ></i></a>
                 <a style="z-index:9999;color:#fff;display:inline-block;line-height: 120px;" class="selectedImageHover" ng-click="imageSelected(item.url)"><i class="icon-ok-sign icon-2x" ></i></a>
@@ -50,7 +49,7 @@
               </li>
               </ul>
           </div>
-          <span class="glyphicon glyphicon-remove close"></span>
+         
         </div>
     
     </md-dialog-content>

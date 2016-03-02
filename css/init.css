@@ -87,7 +87,8 @@ background: #fff;
     position: absolute;
     /*text-align: center;*/
     top: -4%;
-    width: 280px;
+    width: 250px;
+    font-size: 12px;
     box-shadow: 0 1px 3px 0px rgba(0, 0, 0, 0.3);
 }
 .col-right .title{ height: 30px; background: #f2f2f2; line-height: 30px; text-align: center;}
@@ -97,7 +98,7 @@ background: #fff;
 .col-right .module-half{width: 120px;}
 .col-right .module .module-select-half{width: 95px;}
 .col-right .module .module-select-full{width: 225px;}
-.col-right .Separation{width: 250px; margin-bottom:10px;border-bottom: 1px solid #c3c3c3; height: 10px; /*float: left;*//*margin-left: 10px; margin-right: 10px;*/}
+.col-right .Separation{width: 225px; margin-bottom:10px;border-bottom: 1px solid #c3c3c3; height: 10px; /*float: left;*//*margin-left: 10px; margin-right: 10px;*/}
 .col-right .B-but{font-weight: bold;}
 .col-right .B-I{font-style: italic;}
 .col-right .B-U{text-decoration: underline;}
@@ -121,7 +122,7 @@ background: #fff;
 
 .piclaber .rightTab{padding: 20px 0  ; background: #FFF; height: 500px; overflow-y: auto; width:860px;display: inline-block;}
 .piclaber .rightTab .myImg{width: 140px; height: 100px;}
-.piclaber .rightTab .myImg img{ width: 140px; height: 100px;border-radius: 3px 3px 0px 0px; box-sizing: border-box;}
+.piclaber .rightTab .myImg img{width: 100%;height: auto;border-radius: 3px 3px 0px 0px; box-sizing: border-box;}
 .piclaber .rightTab ul{margin: 0; padding: 0;}
 .piclaber .rightTab ul li{margin: 20px 0 0 20px; list-style: none; position:relative; display: table; float:left;}
 .piclaber .rightTab ul li a{display: table-cell; vertical-align: middle;text-align: center; }
@@ -185,4 +186,34 @@ background: #fff;
 
 .edit-icon a:hover{
     background: #eee;
+}
+
+
+/*
+text edit panel
+*/
+
+.size-input-wrapper{
+    width: 60px;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    margin-left: 15px;
+}
+
+#inputValidation,#txtNumid,#txtHeightid,#txtOpacityid,#txtRadiusid,#fontFamilyid{
+   width: 100%;
+   font-size: 12px;
+}
+.pxSpan {
+    position: absolute;
+    top:0px;
+    right: 20px;
+    font-size: 12px;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+
+   opacity: 1;
+
 }

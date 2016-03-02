@@ -23,10 +23,11 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL){
            pagelength.length = 0;
            pagelength.push(num);
         },
-        saveProject:function(pageLength,projectId,editCode,previewCode,projectName){
+        saveProject:function(pageLength,projectId,editCode,previewCode,projectName,userName){
             var deffered = $q.defer();
             $http.post(productUrl+saveProject,{
                 'pageLength':pageLength,
+                'userName':userName,
                 'projectId':projectId,
                 'projectName':projectName,
                 'pages':{'editCode':editCode,'previewCode':previewCode}
@@ -37,14 +38,17 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL){
             });
             return deffered.promise;
         },
-        addProject:function(projectName,previewCode,editCode){
-           var previewCode = previewCode || '<div class="swiper-slide isEdit" data-type="page" id="right_1"> </div>';
-           var editCode    = editCode    || '<i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i><div class="swiper-slide isEdit" data-type="page" id="right_1"> </div>';
+        addProject:function(projectName,previewCode,editCode,projectInfo,userName){
+           var previewCode = previewCode || '<div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%;"> </div>';
+           var editCode    = editCode    || '<i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i><div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%"> </div>';
            var deffered = $q.defer();
+            console.log(userName+'...... uesr name')
             $http.post(productUrl+saveProject,{
                 'pageLength':'1',
                 'projectId':'',
                 'projectName':projectName,
+                'userName':userName,
+                'projectInfo':projectInfo,
                 'pages':{'editCode':editCode,'previewCode':previewCode}
             }).success(function(data){
                 deffered.resolve(data)
@@ -60,9 +64,14 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL){
 
             return pagelength[0];
         },
-    	getProjectList:function(){
+    	getProjectList:function(userName){
             var deffered = $q.defer();
-    		$http({method:"GET",url:productUrl+findMyProject}).success(function(data){
+            console.log(userName+" userName in getProjectList Function")
+    		$http({method:"GET",url:productUrl+findMyProject,params:{userName:userName}}).success(function(data){
+                for(var i in data){
+                    console.log(i+":"+data[i])
+                }
+                console.log(data+"....")
     			deffered.resolve(data);
     		}).error(function(data){
                 deffered.reject(data)

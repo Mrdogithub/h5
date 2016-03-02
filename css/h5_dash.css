@@ -74,9 +74,22 @@ right: 15px;
 }
 .showMoreIconsBottom{
     height:30px;
+    margin-left:110px;
+    overflow:hidden;
+    width: auto;
+   /* position: absolute;
+    bottom: 10px;*/
+}
+.showMoreIconsTop{
+/*    position: absolute;*/
+    height:30px;
     margin-left:100px;
     overflow:hidden;
     width: auto;
+    margin: 0;
+    text-align: right;
+    margin-right: 5px;
+    margin-top: 10px;
 }
 .showMoreIconsBottom a{
     margin-left: 10px;

@@ -250,14 +250,10 @@ function projectIsNull(){
 function createNewText($mdToast,$document){
 	$('.ui-selected').removeClass('ui-selected');
 	$('.rotate-rightTop').css('display','none');//<div class="rotate-location rotate-rightTop" style="display:block;"><i class="icon-undo"></i></div>
-//var iText = $('<div class="ui-selected" data-type="text" style="width:auto;height:auto;position:absolute;"><div class="drag_handle">+</div><textarea id="textarea"  class="mText"  style=" width:100%;height:auto;position:relative;overflow-y:hidden;resize:none" onclick="textActive(this)">text placeholder</textarea></div>');
+	//var iText = $('<div class="ui-selected" data-type="text" style="width:auto;height:auto;position:absolute;"><textarea  class="mText"  style=" width:100%;height:auto;position:relative;overflow-y:hidden;resize:none" onclick="textActive(this)">text placeholder</textarea></div>');
     // var iText = $('<div class="ui-selected" data-type="text" style="width:200px;height:60px;position:absolute;"><div class="mText" contentEditable="true" style="overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;">text placeholder</div></div>');
-   // var iText =   $('<div class="ui-selected" data-type="text" style="min-height: 3%;"><div class="drag_handle">+</div><div  class="mText" contenteditable="true"  style=" background: #fff;min-width: 20%;min-height:20%;position:absolute;" onclick="textActive(this)">text placeholder</div></div>')  
-//var iText = $('<div class="ui-selected" data-type="text" style="width:50%;min-height:5%;position:relative;"><div class="drag_handle">+</div><div  class="mText"  style="width:100%; min-height:5%;position:relative;display:block" contentEditable="TRUE" onclick="textActive(this)">请输入文本</div></div>');
     
-	//var iText = $('<div class="ui-selected" data-type="text" style="width:50%;min-height:3%;position:absolute;"><div class="drag_handle">+</div><div  class="mText"  style="width:100%; min-height:5%;position:relative;display:block" contentEditable="TRUE" onclick="textActive(this)">请输入文本</div></div>')
-    
-	var iText = $('<div class="ui-selected" data-type="text" style="width:50%;min-height:3%;position:absolute;"><div class="drag_handle" style="display:none">+</div><div  class="mText"  style="width:100%; min-height:5%;position:relative;display:block" contentEditable="TRUE" onclick="textActive(this)">请输入文本</div></div>');
+var iText = $('<div class="ui-selected" data-type="text" style="position:absolute"><div  class="mText"  style="min-width:50%;font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div><div style="font: 0px/0px sans-serif;clear: both;display: block"> </div></div>');
     var currentPage = $('.isEdit');
     iText.appendTo(currentPage);
 }
@@ -303,7 +299,11 @@ function createButton($rootScope){
 function showTextEditPanel($mdToast,$document)	{
 				$mdToast.show({
 			      controller: function($scope,$mdDialog){ 
-			      
+			         
+			      	$scope.getTextContent = function(){
+			      		$('.ui-selected > .mText').html($scope.textContent);
+			      	}
+
 			      	//get  FonttSize
 			      	$scope.getFontSize = function(){
     					$('.ui-selected > .mText').css('fontSize',$scope.fontSize.size);
@@ -318,8 +318,10 @@ function showTextEditPanel($mdToast,$document)	{
     			
 
     				 	//get  FonttSize
-			      	$scope.getLineHeight = function(fontSize){
-    					$('.ui-selected > .mText').css('lineHeight',$scope.lineHeight.size);
+			      	$scope.getLineHeight = function(){
+			      		var lineHeightValue = $scope.lineHeight.size+"em";
+			      		console.log('lineHeight:'+lineHeightValue)
+    					$('.ui-selected > .mText').css('lineHeight',lineHeightValue);
     				}
 
     				//init FontFamily
@@ -329,9 +331,6 @@ function showTextEditPanel($mdToast,$document)	{
     				$scope.setFontFamily = function(){
     					
     					$('.ui-selected > .mText').css('fontFamily','"'+$scope.selected+'"');
-    					
-    					console.log($scope.selected+">>><<,");
-    					//$('#fontFamily').html($scope.selected);
     				}
 
     				//set FontColor
@@ -340,9 +339,9 @@ function showTextEditPanel($mdToast,$document)	{
     				});
 
     				//init line height
-    				$scope.setLineHeight = function(){
-    					$('.ui-selected > .mText').css('lineHeight',$scope.selected.lineHeight*100+"%");
-    				}
+    				// $scope.setLineHeight = function(){
+    				// 	$('.ui-selected > .mText').css('lineHeight',$scope.selected.lineHeight*100+"%");
+    				// }
 
     				//setFontBold
     				$scope.setFontBold = function(){
@@ -390,6 +389,7 @@ function showTextEditPanel($mdToast,$document)	{
 
     				//set Radius 
     				$scope.getRadiusSize = function(){
+    					console.log('$scope.radius.size:'+$scope.radius.size)
     					$('.ui-selected').css("borderRadius",$scope.radius.size+"px");
     				}
 
@@ -426,14 +426,99 @@ function showTextEditPanel($mdToast,$document)	{
 		    		});
 
 		    		//text animate
+		    	// 	$scope.textAnimate = function(){
+					  //   testAnimation($scope.selected);
+		    	// 	 function testAnimation(x){
+					  //   $('.ui-selected').removeClass().addClass(x + ' animated ui-selected ui-draggable ui-resizable').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+					  //     // $(this).removeClass();
+					  //   });
+					  // }
+		    	// 	}
+		    		
+
+
+
+
+
+
+
+
+
+
+
+
+
 		    		$scope.textAnimate = function(){
+						var speed = "1s";
+						var delay = "0s";
+						if($scope.AnimateSpeed){
+							speed = $scope.AnimateSpeed.size + "s";
+						}
+						if($scope.AnimateDelay){
+							delay = $scope.AnimateDelay.size + "s";
+						}
 					    testAnimation($scope.selected);
 		    		 function testAnimation(x){
-					    $('.ui-selected').removeClass().addClass(x + ' animated ui-selected ui-draggable ui-resizable').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-					      // $(this).removeClass();
-					    });
+					    $('.ui-selected').removeClass().addClass(x + ' ui-selected ui-draggable ui-resizable').css({"animation-name":x,"animation-duration":speed,"animation-delay":delay});
+						//$('.ui-selected').css({"-webkit-animation-name":x,"-webkit-animation-duration":speed,"-webkit-animation-delay":delay});
 					  }
 		    		}
+					//text animate speed
+			      	$scope.getAnimateSpeed = function(){
+						//$('#ani').prop('selectedIndex', -1);
+						var aniname = "bounceIn";
+						var speed = "1s";
+						var delay = "0s";
+						if($scope.selected){
+							aniname = $scope.selected +"";
+						}
+						if($scope.AnimateSpeed){
+							speed = $scope.AnimateSpeed.size + "s";
+						}
+						if($scope.AnimateDelay){
+							delay = $scope.AnimateDelay.size + "s";
+						}
+						$('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
+						
+						function test(){
+							$('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay});
+						}
+						setTimeout(test,100);
+    				}
+    			
+
+    				//text animate delay
+			      	$scope.getAnimateDelay = function(){
+						//$('#ani').prop('selectedIndex', -1);
+						var aniname = "bounceIn";
+						var speed = "1s";
+						var delay = "0s";
+						if($scope.selected){
+							aniname = $scope.selected +"";
+						}
+						if($scope.AnimateSpeed){
+							speed = $scope.AnimateSpeed.size + "s";
+						}
+						if($scope.AnimateDelay){
+							delay = $scope.AnimateDelay.size + "s";
+						}
+						$('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
+						
+						function test(){
+							$('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay});
+						}
+						setTimeout(test,100);
+    				}
+
+
+
+
+
+
+
+
+
+
 		    		
 		    		//text link
 		    		$scope.setTextLink = function(){
@@ -687,14 +772,30 @@ function showBackgroundEditPanel($mdToast,$document){
 
 function showImageEditPanel($mdToast,$document,newImage){
 	var activeOpacity = $('.ui-selected').data('opacity');
+	console.log(' image works ');
 	$mdToast.show({
 			      controller: function($scope,$mdDialog){
 				   if(newImage){
 				   	 $mdDialog.show({
 				      controller: function($scope,$compile,getImageList,imageActionService){
-				      $scope.imageList = getImageList.data;		  
+
+				      console.log('image image works');
+				      $scope.imageList = getImageList.data;	
+				      for(var i in $scope.imageList){
+				      	console.log(i+":"+$scope.imageList[i])
+				      }	 
+				       $scope.imageOverlayClose = function(){
+				       		console.log('xxx image overlay close');
+				       		  $('.md-dialog-backdrop').remove();
+							$('.md-scroll-mask').remove();
+							$('.md-scroll-mask-bar').remove();
+							$('.md-dialog-container').remove();
+				       		$("#imageOverlay").css('display','none')
+				       } 
 					   $scope.imageSelected = function(target){
-							$compile($('<div class="ui-selected" data-type="image" style="width:200px;height:200px;position:absolute;"><div class="rotate-location rotate-rightTop"><i class="icon-undo"></i></div><div class="mImage" ng-click="imageActive()" style="position: absolute; width: 100%; height:100%;overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;background-image: url('+target+');background-size:100% 100%;"></div></div>').appendTo($('.isEdit')))($scope);
+					   	     console.log(target+":target")
+							//$compile($('<div class="ui-selected" data-type="image" style="width:200px;height:200px;position:absolute;"><div class="rotate-location rotate-rightTop"><i class="icon-undo"></i></div><div class="mImage" ng-click="imageActive()" style="position: absolute; width: 100%; height:100%;overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;background-image: url('+target+');background-size:100% 100%;"></div></div>').appendTo($('.isEdit')))($scope);
+						    $compile($('<div class="ui-selected" data-type="image" style="width:100%;height:100%;"><div class="mImage" ng-click="imageActive()" style="position:absolute;background-image: url('+target+');width:100%;height:100%;background-size:cover;background-repeat:no-repeat"></div></div>').appendTo($('.isEdit')))($scope);
 						    initElement('.mImage','image',$mdToast,$document);
 						    $("#imgpop").animate({left:"-99999px"},200);
 						    $('.md-dialog-backdrop').remove();
@@ -726,8 +827,9 @@ function showImageEditPanel($mdToast,$document,newImage){
 				      },
 				      resolve:{
 				      		getImageList :function(imageActionService){
-				      		return imageActionService.loadImage();
-				      	}
+				      			    console.log('resolve works')
+				      				return imageActionService.loadImage();
+				      		}
 				      },
 				      templateUrl: './template/addImage.tmpl.html',
 			          parent: $document[0].querySelector('#main')
@@ -814,94 +916,53 @@ function showImageEditPanel($mdToast,$document,newImage){
 }
 
 
-// init element 
 
+/*
+*Description:每次创建新元素，调用此方法，触发选中状态
+*
+*
+*
+*
+*
+*
+**/
 function initElement(clickOnTargetElementName,panelType,$mdToast,$document){
 	$(document).ready(function(){
-		// $('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
-
-// $('.positionable').draggable({});
-		$( ".ui-selected" ).draggable(
-		{   
-			 delay: 100, containment: ".isEdit",
-		handle: '.drag_handle',
-		stop:function (){
-			     var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
-			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
-			     $(this).css("left" , l);
-			     $(this).css("top" , t);
-
-			     var w = ( 100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")) )+ "%" ;
-			     var h = ( 100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")) )+ "%" ;
-			     $(this).css("width" , w);
-			     $(this).css("height" , h);  
-         }
-     }).resizable({ handles: 'n, e, s, w,se,sw,ne,nw' ,stop:function (){
-
-			     var w = ( 100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")) )+ "%" ;
-			     var h = ( 100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")) )+ "%" ;
-			     $(this).css("width" , w);
-			     $(this).css("height" , h);
-				 }}).click(function(){
-				 });
-
-		//rotate function
-		applyRotation();
-		function applyRotation() {
-		    $('.rotate-rightTop').draggable({
-		        opacity: 0.01,
-		        helper: 'clone',
-		        drag: function (event, ui) {
-		            var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
-		            $(this).parent().css({
-		                '-moz-transform': rotateCSS,
-		                    '-webkit-transform': rotateCSS
-		            });
-		        }
-		    });
-		}
-
-
-
+		initDraggable();
 		$(clickOnTargetElementName).on('click',function(e){
-	 		showEditPanel($mdToast,$document,panelType);
-	 		//
-			// e.stopPropagation();
-			// if(clickOnTargetElementName == ".formElement"){
-			// 	 if($(e.target).hasClass("ui-selected")){
-			//   	  // $(e.target).focus();
-			//   	  $(".rotate-rightTop").css('display','none');
-			//   	  $(e.target).find(".rotate-rightTop").show();
-			//   }else if(!$(e.target).hasClass("ui-selected")){
-			//   	  // $(e.target).focus();
-			//   	  $(".rotate-rightTop").css('display','none');
-			//   	  $('.ui-selected').removeClass('ui-selected');
-			//   	  $(e.target).addClass('ui-selected');
-			//   	  $(e.target).find(".rotate-rightTop").show();
-			//   }  
-			// }else{
-			//   if($(e.target).parent().hasClass("ui-selected")){
-			//   	  // $(e.target).focus();
-			//   	  $(".rotate-rightTop").css('display','none');
-			//   	  $(e.target).parent().find(".rotate-rightTop").show();
-			//   }else if(!$(e.target).parent().hasClass("ui-selected")){
-			//   	  // $(e.target).focus();
-			//   	  $(".rotate-rightTop").css('display','none');
-			//   	  $('.ui-selected').removeClass('ui-selected');
-			//   	  $(this).parent().addClass('ui-selected');
-			//   	  $(e.target).parent().find(".rotate-rightTop").show();
-			//   }  
-			// }
+
+ $('.mText').blur();
+	    $('.ui-selected>.mText').focus();
+
+		// showEditPanel($mdToast,$document,panelType);
+			e.stopPropagation();
+			if(clickOnTargetElementName == ".formElement"){
+				 if($(e.target).hasClass("ui-selected")){
+			  	  // $(e.target).focus();
+			  	  $(".rotate-rightTop").css('display','none');
+			  	  $(e.target).find(".rotate-rightTop").show();
+			  }else if(!$(e.target).hasClass("ui-selected")){
+			  	  // $(e.target).focus();
+			  	  $(".rotate-rightTop").css('display','none');
+			  	  $('.ui-selected').removeClass('ui-selected');
+			  	  $(e.target).addClass('ui-selected');
+			  	  $(e.target).find(".rotate-rightTop").show();
+			  }  
+			}else{
+			  if($(e.target).parent().hasClass("ui-selected")){
+			  	  // $(e.target).focus();
+			  	  $(".rotate-rightTop").css('display','none');
+			  	  $(e.target).parent().find(".rotate-rightTop").show();
+			  }else if(!$(e.target).parent().hasClass("ui-selected")){
+			  	  // $(e.target).focus();
+			  	  $(".rotate-rightTop").css('display','none');
+			  	  $('.ui-selected').removeClass('ui-selected');
+			  	  $(this).parent().addClass('ui-selected');
+			  	  $(e.target).parent().find(".rotate-rightTop").show();
+			  }  
+			}
 		 
 		});
-
-       // $('#pagesList').on('mousedown',function(){
-       // 		console.log(' works works');
-       // 		 // $('.mText').focus();
-       // $(".mText").css("cursor","move")
-       // })
-
-     
 
    });
 
@@ -924,31 +985,111 @@ function showEditPanel ($mdToast,$document,panelType,newImage){
 function textActive(curText){
 	//alert(clickOnTargetElementName);
 	//
-  	  	var reg = /\d+/;
-	  		var fontSize =	$(curText).attr("style").indexOf("font-size")
+
+   
+  	  	var reg = /\d+/g;
+	  	var fontSize =	$(curText).attr("style").indexOf("font-size")
 	 	if(fontSize>-1) {
-	 		console.log( $(curText).css("font-size"))
-	 	 	var num = $(curText).css("font-size").match(reg)[0];
-	 		$('#txtNumid').html(num) 
+	 	 	var numFontSize = $(curText).css("fontSize").match(reg)[0];
+	 		$('#txtNumid').val(numFontSize) 
 	 	}else{$('#txtNumid').html("") } 
 
-		var lineheight =$(curText).attr("style").indexOf("line-height")
+		var lineheight =$('.ui-selected>.mText').attr("style").indexOf("line-height");
+		    console.log(lineheight+">> lineheight")
 		 	if(lineheight>-1) {
-	 	 	var num = $(curText).css("line-height").match(reg)[0];
-	 		$('#txtHeightid').html(num)
+	 	 	var numLineHeight = $(curText).css("lineHeight").match(reg)[0];
+	 	 	console.log('numLineHeight:'+numLineHeight/16)
+	 		$('#txtHeightid').val(numLineHeight)
 	 	} else{$('#txtHeightid').html("")}
+
 
 	 	var vopacity =$(curText).attr("style").indexOf("opacity")
 		 	if(vopacity>-1) {
 	 	 	var num = $(curText).css("opacity");
-	 		$('#txtOpacityid').html(num)
+	 		$('#txtOpacityid').val(num)
 	 	} else{$('#txtOpacityid').html("")}
 	 	//border-radius
 	 	
-	 		var borderradius =$(curText).attr("style").indexOf("border-radius")
-		 	if(borderradius>-1) {
-	 	 	var num = $(curText).css("border-radius").match(reg)[0];
-	 		$('#txtRadiusid').html(num)
+ 		var borderradius =$(curText).attr("style").indexOf("border-radius")
+	 	if(borderradius>-1) {
+ 	 	var num = $(curText).css("border-radius").match(reg)[0];
+ 		$('#txtRadiusid').val(num)
 	 	}else{$('#txtRadiusid').html("")}
+
+	 	var fontFamily =$(curText).attr("style").indexOf("font-family")
+	 	if(fontFamily>-1) {
+
+	 	var lista = fontFamily; 
+		// $('#fontFamilyid option').filter(function () { 
+		//     return $(this).text() == lista; 
+		// })[0].selected = true;
+		
+		//$('#fontFamilyid option:contains(' + lista + ')')[0].selected = true;
+$("#fontFamilyid").val(lista);
+ 	 	var num = $(curText).css("font-family");
+ 	 	console.log(num+"fontFamily")
+ 		$('#fontFamilyid').val(num)
+	 	}else{$('#fontFamilyid').html("")}
 			 		
+}
+
+
+
+/*
+*Description:
+*从dashboard中，点击编辑，调用此方法，用于监听元素选中状态
+*
+*
+*
+*
+*
+*****/
+function initSelectedDraggable(){
+	$(document).ready(function(){
+		initDraggable();
+	});
+}
+
+
+function initDraggable(){
+	$('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
+		var selected = $([]), offset = {top:0, left:0}; 
+		$( ".isEdit > div" ).draggable({
+			stop:function (){
+			     var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
+			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
+			     $(this).css("left" , l);
+			     $(this).css("top" , t);
+			}
+		}).resizable({ handles: 'n, e, s, w,se,sw,ne,nw',stop:function (){
+		    var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
+			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
+			     $(this).css("left" , l);
+			     $(this).css("top" , t);
+
+			      var w = ( 100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")) )+ "%" ;
+			     var h = ( 100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")) )+ "%" ;
+			     $(this).css("width" , w);
+			     $(this).css("height" , h);
+
+    	}});
+
+
+		$( ".isEdit " ).selectable();
+
+		//rotate function
+		applyRotation();
+		function applyRotation() {
+		    $('.rotate-rightTop').draggable({
+		        opacity: 0.01,
+		        helper: 'clone',
+		        drag: function (event, ui) {
+		            var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
+		            $(this).parent().css({
+		                '-moz-transform': rotateCSS,
+		                    '-webkit-transform': rotateCSS
+		            });
+		        }
+		    });
+		}//end of applyRotation
 }

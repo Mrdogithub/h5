@@ -57,7 +57,7 @@ var param = function(obj) {
 }).constant('SERVER_URL',{
   testUrl:"",
   liveUrl:"http://9.115.24.168:3000/"
-   //liveUrl:"http://9.115.28.138:3000/"
+   //liveUrl:"http://9.115.28.163:3000/"
 }).constant('USER_ROLES',{}).config(function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider.otherwise('/');
 	$stateProvider.state('homePage',{
@@ -86,8 +86,10 @@ var param = function(obj) {
            templateUrl:'./template/page.dashboard.tmpl.html',
              controller:'projectController',
              resolve:{
-                getMyProjectsList:function(projectFn){
-                     return projectFn.getProjectList().then(function(data){
+                getMyProjectsList:function(projectFn,loginFn){
+                     var userName = loginFn.islogged().email;
+                     console.log(userName+":userName")
+                     return projectFn.getProjectList(userName).then(function(data){
                         return data;
                      });
                 },

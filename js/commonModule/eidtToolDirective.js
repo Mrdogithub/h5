@@ -140,7 +140,7 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace(/isEdit/g, "!")
                     .replace(/icon-undo/g, "!")
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
-
+            console.log('loginFn.islogged():'+loginFn.islogged().userName);
             projectFn.saveProject(newLength, projectid, editCode, previewCode)
               .then(function(data) {
 
@@ -171,7 +171,9 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
               $('#saveProjectOverLay').css('display', 'none');
             }
             $scope.savePageContent = function() {
-              var projectName = $("#projectName").val();           
+              var projectName = $("#projectName").val();
+              var projectInfo = $('#projectInfo').val();     
+              var userName    = loginFn.islogged().email;
               var previewCode = $("#pagesList").html()
                     .replace(/display/g, "!")
                     .replace(/isEdit/g, "!")
@@ -181,8 +183,8 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
               var editCode 	  = $("#pagesList").html()
                     .replace(/ui-selected/, '')
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
-
-              projectFn.addProject(projectName,previewCode,editCode)
+  
+              projectFn.addProject(projectName,previewCode,editCode,projectInfo,userName)
                 .then(function(data) {
      
                     if (data.status) {

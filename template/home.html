@@ -1,8 +1,11 @@
+<div  class="mainContent" id='popupContainer' ng-controller="applicationController" style="height: 100%;">
+<div ui-view="editPanel" style="height: 100%;">
 
 
 <div class="navbar navbar-blue">  
 
-    <div class="navbar-text navbar-left" id="ibm-home" style="    font-size: 24px;font-weight: bold;line-height: 50px;margin-left: 10px;">H5</div>
+    <div class="navbar-text navbar-left" id="ibm-home" style="    font-size: 24px;font-weight: bold;line-height: 50px;margin-left: 10px;">H5
+    </div>
     <p class="navbar-text navbar-left"><a ng-click="myProject()" style="text-decoration:none;cursor:pointer">我的项目</a></p>
     <edittool1></edittool1>
     <p class="navbar-text navbar-right" id="userProfile" style="margin: 0px 10px 0px 0px; line-height:50px;">
@@ -52,78 +55,34 @@
                             line-height: 3.5em;" 
                             id="welcome" 
                             ng-click="userLogin()" 
-                            ng-if="!isAuthorized">欢迎,登陆</span>
-    </p>
+                            ng-if="!isAuthorized">欢迎,登陆</span></p>
 
 </div>
 
 
     
-<div class="mainbox" style="height: 100%;">
-    <pageleft></pageleft>
-    <div class="col-center" id="editModulePosition" style="height: 100%;">
-               <div id="addBox">保存成功</div>
-
-                <div 　id="pagesList" class="editContainer" style="height: 100%;">
-               <!--    <i class="icon-move 
-                          bgAcitve" 
-                          style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" 
-                          ng-click="setBackground()">
-                        </i> 
-               -->
-                          <div class="swiper-slide isEdit" data-type="page" id="right_1"> </div>
-
-
-     
-             
-<!-- 
-                          <div class="" data-type="text" >
-                            
-                            　<textarea  class="mText mTextarea" onclick="textActive(this)">text placeholder</textarea>
-                          </div> -->
-
-<!-- <div class="ui-selected" data-type="text" style="width:50%;min-height:3%;position:absolute;"><div class="drag_handle">+</div><div  class="mText"  style="width:100%; min-height:5%;position:relative;display:block" contentEditable="TRUE" onclick="textActive(this)">请输入文本</div></div> -->
-
+    <div class="mainbox" style="height: 100%;">
+      <pageleft></pageleft>
+        <div class="col-center" id="editModulePosition" style="height: 100%;">
+              <div id="addBox" style="display:none;text-align:center;background:rgba(0,0,0,0.8);width:150px; height:50px;color:#fff;font-size:18px;padding:10px;border-radius:5px;position:absolute;top:50%;left:90%;z-index:9999999;">保存成功！</div>
+                <div id="pagesList" class="editContainer" style="height: 480px;">
+                  <i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i>
+                  <div class="swiper-slide isEdit" data-type="page" id="right_1" style="height: 100%;"> </div>
                 </div>
-
-                <toolbar1></toolbar1>
+          <toolbar1></toolbar1>
+        </div>
     </div>
+  </div>
 </div>
 
 <script type="text/javascript">
-  // $(document).on("mouseenter","#pagesList",function(){
-  //   $('.bgAcitve').stop().delay(50).animate({opacity:0.7},100);
-  //   $("#pagesList").draggable({});
-  // });
-  // $(document).on("mouseleave",".isEdit",function(){
-  // $('.bgAcitve').stop().delay(50).animate({opacity:0},100);  
-  // });
+  $(document).on("mouseenter","#pagesList",function(){
+    $('.bgAcitve').stop().delay(50).animate({opacity:0.7},100);
+    $("#pagesList").draggable({});
+  });
+  $(document).on("mouseleave",".isEdit",function(){
+  $('.bgAcitve').stop().delay(50).animate({opacity:0},100);  
+  });
 </script>
 
-<script>
-    // $('.ui-selected').draggable({handle: '.drag_handle'}).resizable({ handles: 'n, e, s, w,se,sw,ne,nw'});
 
-    // $( ".isEdit " ).selectable();
-$(document).on("mouseover",".ui-selected",function(){
-    console.log('text text');
-    // $('<div class="drag_handle">+</div>').prepend($('.ui-selected'))
-    // $(this).find('.dask').stop().delay(50).animate({opacity:0},200);
-    // $('#container').css('filter','blur(5px)');
-    $('.drag_handle').css('display','block')
-});
-
-$(document).on("mouseout",".drag_handle",function(){
-    // console.log('text text');
-    $(".drag_handle").css('display','none')
-    // $(this).find('.dask').stop().delay(50).animate({opacity:0},200);
-    // $('#container').css('filter','blur(5px)');
-});
-
-$(document).on("click",".drag_handle",function(){
-    // console.log('text text');
-    console.log('xxxxx');
-    $(".drag_handle").css('display','none')
-    // $(this).find('.dask').stop().delay(50).animate({opacity:0},200);
-    // $('#container').css('filter','blur(5px)');
-});
-</script>
