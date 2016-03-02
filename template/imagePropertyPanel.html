@@ -1,29 +1,36 @@
 <div class="col-right" id="img-properties">
 		  <div class="title"><div class="active">图片设置</div></div>
       <div class="btn-group module">
-      <div layout layout-align="center center" >
-          <div flex="15" style="margin-right:10px;">
-            <span class="md-body-1">圆角</span>
-          </div>
-          <md-slider flex class="md-primary" md-discrete  ng-model="imageRadius.size"  max='100' min = '1' step='1' ng-change="setImageRadiusSize()" aria-label="rating">
-          </md-slider>
-          <div flex="25" layout layout-align="center center" class="editPanelElement">
-            <span class="md-body-1" style="margin-left: 5px;">px</span>
-          </div>
-      </div>
+
+   <div layout style="margin-top: 10px;">
+      <div flex="50" layout layout-align="start start">
+      
+            <span>圆角</span>
+             <div class="size-input-wrapper">
+                <input type="number" 
+                       id="txtRadiusid"
+                       ng-model="imageRadius.size" 
+                       ng-change="setImageRadiusSize()"/>
+                <span class="pxSpan">px</span>
+            </div>
+     </div>
 
 
-
-      <div layout layout-align="center center">
-        <div flex="15"  style="margin-right:10px;">
-          <span class="md-body-1">透明</span>
+       <div flex layout layout-align="end start">
+          
+             <span>透明</span>
+             <div class="size-input-wrapper">
+                <input type="number" 
+                       id="txtOpacityid"
+                       ng-model="opacity.numberValue"
+                       ng-change="getImageOpacity()"/>
+              </div>
         </div>
-        <md-slider flex class="md-primary" md-discrete   ng-model="opacity.numberValue"  max='1' min = '0' step='-0.1' ng-change="getImageOpacity()" aria-label="rating">
-        </md-slider>
-        <div flex="25" layout layout-align="center center" class="editPanelElement">
-          <span class="md-body-1" style="margin-left: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-        </div>
-      </div>
+   </div>
+
+
+
+
 <div class="Separation"></div>   
    <div layout>  
 

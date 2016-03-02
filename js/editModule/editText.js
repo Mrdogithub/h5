@@ -347,10 +347,10 @@ function showTextEditPanel($mdToast,$document)	{
     				$scope.setFontBold = function(){
     					if($('.ui-selected > .mText').css("fontWeight") != "bold"){
     						$('.ui-selected > .mText').css("fontWeight","bold");
-    						$(".bold-active").css("background","#eeeeee");
+    						$("#fontBlodId").addClass("fontItemActive");
     					}else if($('.ui-selected > .mText').css("fontWeight") == "bold"){
     						$('.ui-selected > .mText').css("fontWeight","");
-    						$(".bold-active").css("background","");
+    						$("#fontBlodId").removeClass("fontItemActive");
     					}
     				};
 
@@ -358,10 +358,10 @@ function showTextEditPanel($mdToast,$document)	{
     				$scope.setFontItalic = function(){
     					if($('.ui-selected > .mText').css("fontStyle") != "italic"){
     						$('.ui-selected > .mText').css("fontStyle","italic");
-    						$(".italic-active").css("background","#eeeeee");
+    						$("#fontItalicId").addClass("fontItemActive");
     					}else if($('.ui-selected > .mText').css("fontStyle") == "italic"){
     						$('.ui-selected > .mText').css("fontStyle","");
-    						$(".italic-active").css("background","");
+    						$("#fontItalicId").removeClass("fontItemActive");
     					}
     				}
     				
@@ -369,10 +369,10 @@ function showTextEditPanel($mdToast,$document)	{
     				$scope.setTextDecoration = function(){
     					if($('.ui-selected > .mText').css("textDecoration") != "underline"){
     						$('.ui-selected > .mText').css("textDecoration","underline");
-    						$(".textDecoration-active").css("background","#eeeeee");
+    						$("#textDecorationId").addClass("fontItemActive");
     					}else if($('.ui-selected > .mText').css("textDecoration") == "underline"){
     						$('.ui-selected > .mText').css("textDecoration","");
-    						$(".textDecoration-active").css("background","");
+    						$("#textDecorationId").removeClass("fontItemActive");
     					}
     				}
 
@@ -380,10 +380,11 @@ function showTextEditPanel($mdToast,$document)	{
     				$scope.setTextAlign = function(textPos){
     					if($('.ui-selected > .mText').css("textAlign") != textPos){
     						$('.ui-selected > .mText').css("textAlign",textPos);
-    						$(".text"+textPos+"-active").css("background","#eeeeee");
+    						$('.textAlign').removeClass("fontItemActive");
+    						$(".textAlign"+textPos+"Id").addClass("fontItemActive");
     					}else if($('.ui-selected > .mText').css("textAlign") == textPos){
     						$('.ui-selected > .mText').css("textAlign","");
-    						$(".text"+textPos+"-active").css("background","");
+    						$(".textAlign"+textPos+"Id").removeClass("fontItemActive");
     					}
     				}
 
@@ -425,16 +426,6 @@ function showTextEditPanel($mdToast,$document)	{
 		    			$('.ui-selected > .mText').css('borderColor',newValue);	
 		    		});
 
-		    		//text animate
-		    	// 	$scope.textAnimate = function(){
-					  //   testAnimation($scope.selected);
-		    	// 	 function testAnimation(x){
-					  //   $('.ui-selected').removeClass().addClass(x + ' animated ui-selected ui-draggable ui-resizable').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-					  //     // $(this).removeClass();
-					  //   });
-					  // }
-		    	// 	}
-		    		
 
 
 
@@ -523,13 +514,18 @@ function showTextEditPanel($mdToast,$document)	{
 		    		//text link
 		    		$scope.setTextLink = function(){
 		    			$mdDialog.show({
-		    				controller:function($scope){
+		    				controller:function($scope,items){
+		    				  $scope.textlink="";
+		    				  $scope.textlink = $('.ui-selected').attr('data-link');
 		    				  $scope.saveTextLinkCancel = function(){
 		    	    			$mdDialog.cancel();
 		    	    			$('.md-dialog-container').css('display','none');
 		    	    		  }
 		    				  $scope.saveTextLink = function(){
-		    				   $(".ui-selected").attr("onclick","window.open('"+$('#textLink').val()+"','target','param')");
+		    				   $('.ui-selected').attr('data-link','');
+		    				   $('.ui-selected').attr('data-link',$scope.textlink);
+
+		    				   $(".ui-selected").attr("onclick","window.open('"+$scope.textlink+"','target','param')");
 		    				   $mdDialog.cancel();
 		    				   $('.md-dialog-container').css('display','none');
 		    				   	$("#addBox").show();
@@ -537,6 +533,9 @@ function showTextEditPanel($mdToast,$document)	{
 		    				  }
 		    				},
 		    				templateUrl:'./template/page.addLink.tmpl.html',
+		    				locals:{
+ 							            items:$('.ui-selected').data('link')     
+ 							         },
 		    				parent:$document[0].querySelector("#main"),
 		    				hideDelay:false
 		    			});
@@ -991,46 +990,106 @@ function textActive(curText){
 	  	var fontSize =	$(curText).attr("style").indexOf("font-size")
 	 	if(fontSize>-1) {
 	 	 	var numFontSize = $(curText).css("fontSize").match(reg)[0];
+	 	 	console.log("fontSize:"+numFontSize)
 	 		$('#txtNumid').val(numFontSize) 
 	 	}else{$('#txtNumid').html("") } 
 
-		var lineheight =$('.ui-selected>.mText').attr("style").indexOf("line-height");
-		    console.log(lineheight+">> lineheight")
+		var lineheight =$(curText).attr("style").indexOf("line-height");
 		 	if(lineheight>-1) {
 	 	 	var numLineHeight = $(curText).css("lineHeight").match(reg)[0];
-	 	 	console.log('numLineHeight:'+numLineHeight/16)
-	 		$('#txtHeightid').val(numLineHeight)
-	 	} else{$('#txtHeightid').html("")}
+	 	 	var numFontSize   = $(curText).css("fontSize").match(reg)[0];
+	 		$('#txtHeightid').val(numLineHeight/numFontSize)
+	 	} else{$('#txtHeightid').val("")}
 
 
 	 	var vopacity =$(curText).attr("style").indexOf("opacity")
 		 	if(vopacity>-1) {
 	 	 	var num = $(curText).css("opacity");
 	 		$('#txtOpacityid').val(num)
-	 	} else{$('#txtOpacityid').html("")}
+	 	} else{$('#txtOpacityid').val("")}
 	 	//border-radius
 	 	
- 		var borderradius =$(curText).attr("style").indexOf("border-radius")
+ 		var borderradius =$(curText).parent().attr("style").indexOf("border-radius")
 	 	if(borderradius>-1) {
- 	 	var num = $(curText).css("border-radius").match(reg)[0];
- 		$('#txtRadiusid').val(num)
-	 	}else{$('#txtRadiusid').html("")}
+ 	 	var num = $(curText).parent().css("borderRadius").match(reg)[0];
+ 			$('#txtRadiusid').val(num)
+	 	}else{$('#txtRadiusid').val("")}
 
 	 	var fontFamily =$(curText).attr("style").indexOf("font-family")
 	 	if(fontFamily>-1) {
+	 		var lista = $(curText).css("fontFamily");
+	 	 	$("#fontFamilyid option").each(function(){
+			    if( $(this).val() == lista ){
+			      this.selected = true;
+			      return false;
+			    }
+			});
+	 	}else{$('#fontFamilyid').val("")}
 
-	 	var lista = fontFamily; 
-		// $('#fontFamilyid option').filter(function () { 
-		//     return $(this).text() == lista; 
-		// })[0].selected = true;
-		
-		//$('#fontFamilyid option:contains(' + lista + ')')[0].selected = true;
-$("#fontFamilyid").val(lista);
- 	 	var num = $(curText).css("font-family");
- 	 	console.log(num+"fontFamily")
- 		$('#fontFamilyid').val(num)
-	 	}else{$('#fontFamilyid').html("")}
-			 		
+
+	 	var fontBlod =$(curText).attr("style").indexOf("font-weight")
+	 	if(fontBlod>-1) {
+       
+	 		$("#fontBlodId").addClass('fontItemActive')
+	 
+	 	}else{$("#fontBlodId").removeClass('fontItemActive')}
+
+
+	 	var textDecorationId =$(curText).attr("style").indexOf("text-decoration")
+	 	if(textDecorationId>-1) {
+       
+	 		$("#textDecorationId").addClass('fontItemActive')
+	 
+	 	}else{$("#textDecorationId").removeClass('fontItemActive')}
+
+
+
+	 	var fontItalicId =$(curText).attr("style").indexOf("font-style")
+	 	if(fontItalicId>-1) {       
+	 		$("#fontItalicId").addClass('fontItemActive')	 
+	 	}else{$("#fontItalicId").removeClass('fontItemActive')}
+
+
+	 	var fontAlign =$(curText).attr("style").indexOf("text-align")
+	 	if(fontAlign>-1) {
+	 		$(".textAlign").removeClass('fontItemActive')
+	 	    var pos = $(curText).css('textAlign');
+	 	    console.log(pos+":post")
+	 		$(".textAlign"+pos+"Id").addClass('fontItemActive')	 
+	 	}else{$(".textAlign").removeClass('fontItemActive')}
+
+
+	 	var animateId = $(curText).parent().attr('style').indexOf('animation-name');
+	 	console.log('animateId:'+animateId)
+	 	if(animateId>-1) {
+	 		var animateName = $(curText).parent().css("animationName");
+	 		console.log('animateName:'+animateName)
+	 	 	$("#animateTextId option").each(function(){
+			    if( $(this).val() == animateName ){
+			      this.selected = true;
+			      return false;
+			    }
+			});
+	 	}else{$('#animateTextId').val("")}
+
+	 	
+			
+
+	 	var animationDurationId =	$(curText).parent().attr("style").indexOf("animation-duration");
+	 	if(animationDurationId>-1) {
+	 	 	var animationDurationNum = $(curText).parent().css("animationDuration").match(reg)[0];
+	 	 	console.log("fontSize:"+animationDurationNum)
+	 		$('#animationDurationId').val(animationDurationNum) 
+	 	}else{$('#animationDurationId').val("") }  	
+
+
+
+	 	var animationDelayId = $(curText).parent().attr("style").indexOf("animation-delay");
+	 	if(animationDelayId>-1) {
+	 	 	var animationDelayNum = $(curText).parent().css("animationDelay").match(reg)[0];
+	 	 	console.log("fontSize:"+animationDelayNum)
+	 		$('#animationDelayId').val(animationDelayNum) 
+	 	}else{$('#animationDelayId').val("") }  		
 }
 
 

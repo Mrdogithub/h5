@@ -100,13 +100,40 @@
 
   <div class="Separation"></div>    
    <div layout>  
-        <div class=" B-but bold-active fontFormat"  ng-click="setFontBold()"><i class=" icon-bold"></i></div>
-        <div class=" B-I  italic-active fontFormat" ng-click="setFontItalic()"><i class="icon-italic"></i></div>
-        <div class=" B-U  textDecoration-active fontFormat" ng-click="setTextDecoration()"><i class=" icon-underline"></i></div>
-        <div class="textleft-active fontFormat" ng-click="setTextAlign('left')"><i class="icon-align-left"></i></div>
-        <div class="textcenter-active fontFormat" ng-click="setTextAlign('center')"><i class="icon-align-center"></i></div>
-        <div class="textright-active fontFormat" ng-click="setTextAlign('right')"><i class="icon-align-right"></i></div>
-        <div class="textright-active fontFormat" ng-click="setTextLink()"><i class="icon-link"></i></div>
+        <div  class=" B-but fontFormat" 
+              id="fontBlodId" 
+              ng-click="setFontBold()">
+              <i class=" icon-bold"></i>
+        </div>
+        <div class=" B-I fontFormat"
+              id="fontItalicId"
+              ng-click="setFontItalic()">
+              <i class="icon-italic"></i>
+        </div>
+        <div class=" B-U fontFormat" 
+             id="textDecorationId"
+             ng-click="setTextDecoration()">
+             <i class=" icon-underline"></i>
+        </div>
+        <div class="fontFormat textAlign textAlignleftId" 
+            
+             ng-click="setTextAlign('left')">
+             <i class="icon-align-left"></i>
+        </div>
+        <div class="fontFormat textAlign textAligncenterId" 
+           
+             ng-click="setTextAlign('center')">
+             <i class="icon-align-center"></i>
+        </div>
+        <div class="fontFormat  textAlignrightId" 
+      
+             ng-click="setTextAlign('right')">
+             <i class="icon-align-right"></i>
+        </div>
+        <div class="fontFormat" 
+             ng-click="setTextLink()">
+             <i class="icon-link"></i>
+        </div>
    </div>      
       <div class="Separation"></div>
      <div layout layout-align="start start">
@@ -115,17 +142,18 @@
         </div>
           <select ng-change="textAnimate()" 
                   ng-model="selected"
+                  id="animateTextId"
                   style="width:100%;height: 25px;">
 
-        <optgroup label="弹入效果">
+    <!--     <optgroup label="弹入效果"> -->
           <option value="bounceIn">弹入</option>
           <option value="bounceInDown">向下弹入</option>
           <option value="bounceInLeft">向左弹入</option>
           <option value="bounceInRight">向右弹入</option>
           <option value="bounceInUp">向上弹入</option>
-        </optgroup>
+      <!--   </optgroup> -->
 
-        <optgroup label="渐入效果">
+  <!--       <optgroup label="渐入效果"> -->
           <option value="fadeIn">渐入</option>
           <option value="fadeInDown">向下渐入</option>
           <option value="fadeInDownBig">向下渐入放大</option>
@@ -135,32 +163,32 @@
           <option value="fadeInRightBig">向右渐入放大</option>
           <option value="fadeInUp">向上渐入</option>
           <option value="fadeInUpBig">向上渐入放大</option>
-        </optgroup>
+<!--         </optgroup> -->
 
 
-
-        <optgroup label="翻转效果">
+<!-- 
+        <optgroup label="翻转效果"> -->
           <option value="flip">翻转</option>
           <option value="flipInX">水平翻转</option>
           <option value="flipInY">垂直翻转</option>
 
-        </optgroup>
-
-        <optgroup label="旋转效果">
+  <!--       </optgroup> -->
+<!-- 
+        <optgroup label="旋转效果"> -->
           <option value="rotateIn">旋转进入</option>
           <option value="rotateInDownLeft">向左旋转进入</option>
           <option value="rotateInDownRight">向右旋转进入</option>
           <option value="rotateInUpLeft">向左上旋转进入</option>
           <option value="rotateInUpRight">向右上旋转进入</option>
-        </optgroup>
+      <!--   </optgroup>
 
 
-        <optgroup label="滑入效果">
+        <optgroup label="滑入效果"> -->
           <option value="slideInUp">向上上滑入</option>
           <option value="slideInDown">向下滑入</option>
           <option value="slideInLeft">向左滑入</option>
           <option value="slideInRight">向右滑入</option>
-        </optgroup>
+    <!--     </optgroup> -->
   
          </select>
        
@@ -174,14 +202,15 @@
                         md-discrete  
                         ng-model="AnimateSpeed.size"  
                         max='10' 
-                        min = '1' s
+                        min = '1'
                         tep='1' 
                         ng-change="getAnimateSpeed()" 
                         aria-label="rating"></md-slider>
 
           <div class="size-input-wrapper">
                 <input type="number" 
-                       id="inputValidation"
+                       id="animationDurationId"
+
                        ng-model="AnimateSpeed.size"
                        ng-change="getAnimateSpeed()"
                        value="{{AnimateSpeed.size}}" />
@@ -204,7 +233,7 @@
 
            <div class="size-input-wrapper">
               <input type="number" 
-                     id="inputValidation"
+                     id="animationDelayId"
                      ng-model="AnimateDelay.size"
                      ng-change="getAnimateSpeed()"
                      value="{{AnimateDelay.size}}" />

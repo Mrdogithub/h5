@@ -201,7 +201,7 @@ text edit panel
     margin-left: 15px;
 }
 
-#inputValidation,#txtNumid,#txtHeightid,#txtOpacityid,#txtRadiusid,#fontFamilyid{
+#inputValidation,#animationDelayId,#animationDurationId,#txtNumid,#txtHeightid,#txtOpacityid,#txtRadiusid,#fontFamilyid{
    width: 100%;
    font-size: 12px;
 }
@@ -213,7 +213,9 @@ text edit panel
 }
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button {  
-
    opacity: 1;
+}
 
+.fontItemActive{
+    background: #eeeeee;
 }
