@@ -116,6 +116,7 @@
 	    html, body {
         position: relative;
         height: 100%;
+
     }
     body {
         font-family: "Microsoft YaHei",微软雅黑,Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -225,15 +226,25 @@ ul.h-images-list li img{
 .k-colorpicker .k-selected-color {
    border-radius:none;
 }
+#pagesList{
+	margin: auto;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top:10%;
+}
 #pagesList,.isEdit{
 /*	width: 370px;*/
 	width: 320px;
 	height: 480px;
 	position: relative;
+
 }
 
 .isEdit{
-	border: 1px #7ec8ed solid;
+/*	border: 1px #7ec8ed solid;*/
+	border:5px rgba(0,0,0,.04) solid
 }
 .swiper-slide{
 	
@@ -420,9 +431,12 @@ a.selectedImageHover:hover,a.removeImageHover:hover{
 }
 .mainbox{
 	height: 100%;
-	background: #E0E0E0;
+/*	background: #E0E0E0;*/
 	overflow: hidden;
 	position: relative;
+	background-image: url('./images/blueprint.png');
+/*background-size: 100% 100%;*/
+	width: 100%;
 }
 .gridListdemoDynamicTiles md-icon {
   width: 50%;

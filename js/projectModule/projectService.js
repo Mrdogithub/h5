@@ -38,13 +38,15 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL){
             });
             return deffered.promise;
         },
-        addProject:function(projectName,previewCode,editCode,projectInfo,userName){
+        addProject:function(projectName,previewCode,editCode,projectInfo,userName,pageLength){
            var previewCode = previewCode || '<div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%;"> </div>';
            var editCode    = editCode    || '<i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i><div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%"> </div>';
-           var deffered = $q.defer();
-            console.log(userName+'...... uesr name')
-            $http.post(productUrl+saveProject,{
-                'pageLength':'1',
+           var pageLength  = pageLength  || '1';
+           var deffered    = $q.defer();
+
+           
+           $http.post(productUrl+saveProject,{
+                'pageLength':pageLength,
                 'projectId':'',
                 'projectName':projectName,
                 'userName':userName,

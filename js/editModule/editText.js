@@ -50,7 +50,7 @@ editText.directive('edittool1',function($mdToast,
 			$(document).on('click','#loginOut',function(){
 				setTimeout(function(){
 				$("#loginOut").remove();
-				$("#uName").html('欢迎,登陆');
+				$("#uName").html('娆㈣繋,鐧婚檰');
 				},1000);
 			})
 	  
@@ -253,7 +253,7 @@ function createNewText($mdToast,$document){
 	//var iText = $('<div class="ui-selected" data-type="text" style="width:auto;height:auto;position:absolute;"><textarea  class="mText"  style=" width:100%;height:auto;position:relative;overflow-y:hidden;resize:none" onclick="textActive(this)">text placeholder</textarea></div>');
     // var iText = $('<div class="ui-selected" data-type="text" style="width:200px;height:60px;position:absolute;"><div class="mText" contentEditable="true" style="overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;">text placeholder</div></div>');
     
-var iText = $('<div class="ui-selected" data-type="text" style="position:absolute"><div  class="mText"  style="min-width:50%;font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div><div style="font: 0px/0px sans-serif;clear: both;display: block"> </div></div>');
+var iText = $('<div class="ui-selected" data-type="text" style="position:absolute"><div  class="mText"  style="min-width:50%;font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div>');
     var currentPage = $('.isEdit');
     iText.appendTo(currentPage);
 }
@@ -325,8 +325,8 @@ function showTextEditPanel($mdToast,$document)	{
     				}
 
     				//init FontFamily
-    				$scope.fontFamily = [{"name":"Helvetica","value":"Helvetica"},{"name":"Arial","value":"Arial"},{"name":"Verdana","value":"Verdana"},{"name":"Tahoma","value":"Tahoma"},{"name":"Georgia","value":"Georgia"},{"name":"sans-serif","value":"sans-serif"},{"name":"monospace","value":"monospace"},{"name":"fantasy","value":"fantasy"},{"name":"cuisive","value":"cuisive"},{"name":"Helvetica, sans-serif","value":"Helvetica, sans-serif"},{"name":"Arial, sans-serif","value":"Arial, sans-serif"},{"name":"Lucida Grande', sans-serif","value":"Lucida Grande', sans-serif"},{"name":"Verdana,sans-serif","value":"Verdana,sans-serif"},{"name":" Tahoma, sans-serif","value":" Tahoma, sans-serif"},{"name":"'Trebuchet MS', sans-serif","value":"'Trebuchet MS', sans-serif"},{"name":"Georgia, serif","value":"Georgia, serif"},{"name":"Times, serif","value":"Times, serif"},{"name":"微软雅黑","value":"Microsoft YaHei"},{"name":"华文细黑","value":"STHeiti"},{"name":"黑体","value":"SimHei"},{"name":"楷体_GB2312","value":"KaiTi_GB2312"}];
-    				// $scope.fontFamily = [{"name":"Helvetica","value":"Helvetica"},{"name":"Arial":"value":"Arial"},{"name":"Verdana":"value":"Verdana"},{"name":"Tahoma":"value":"Tahoma"},{"name":"Georgia":"value":"Georgia"},{"name":"sans-serif":"value":"sans-serif"},{"name":"微软雅黑","value":"Microsoft YaHei"},{"name":"楷体_GB2312","value":"KaiTi_GB2312"},{"name":"仿宋_GB2312","value":"FangSong_GB2312"},{"name":"楷体","value":"KaiTi"},{"name":"仿宋","value":"FangSong"},{"name":"新宋体","value":"NSimSun"},{"name":"宋体","value":"SimSun"},{"name":"黑体","value":"SimHei"},{"name":"华文仿宋","value":"STFangsong "},{"name":"华文宋体","value":"STSong"},{"name":"华文楷体","value":"STKaiti"},{"name":"华文黑体","value":"STHeiti"},{"name":"华文细黑","value":"STHeiti Light"}];
+    				$scope.fontFamily = [{"name":"Helvetica","value":"Helvetica"},{"name":"Arial","value":"Arial"},{"name":"Verdana","value":"Verdana"},{"name":"Tahoma","value":"Tahoma"},{"name":"Georgia","value":"Georgia"},{"name":"sans-serif","value":"sans-serif"},{"name":"monospace","value":"monospace"},{"name":"fantasy","value":"fantasy"},{"name":"cuisive","value":"cuisive"},{"name":"Helvetica, sans-serif","value":"Helvetica, sans-serif"},{"name":"Arial, sans-serif","value":"Arial, sans-serif"},{"name":"Lucida Grande', sans-serif","value":"Lucida Grande', sans-serif"},{"name":"Verdana,sans-serif","value":"Verdana,sans-serif"},{"name":" Tahoma, sans-serif","value":" Tahoma, sans-serif"},{"name":"'Trebuchet MS', sans-serif","value":"'Trebuchet MS', sans-serif"},{"name":"Georgia, serif","value":"Georgia, serif"},{"name":"Times, serif","value":"Times, serif"},{"name":"寰蒋闆呴粦","value":"Microsoft YaHei"},{"name":"鍗庢枃缁嗛粦","value":"STHeiti"},{"name":"榛戜綋","value":"SimHei"},{"name":"妤蜂綋_GB2312","value":"KaiTi_GB2312"}];
+    				// $scope.fontFamily = [{"name":"Helvetica","value":"Helvetica"},{"name":"Arial":"value":"Arial"},{"name":"Verdana":"value":"Verdana"},{"name":"Tahoma":"value":"Tahoma"},{"name":"Georgia":"value":"Georgia"},{"name":"sans-serif":"value":"sans-serif"},{"name":"寰蒋闆呴粦","value":"Microsoft YaHei"},{"name":"妤蜂綋_GB2312","value":"KaiTi_GB2312"},{"name":"浠垮畫_GB2312","value":"FangSong_GB2312"},{"name":"妤蜂綋","value":"KaiTi"},{"name":"浠垮畫","value":"FangSong"},{"name":"鏂板畫浣?,"value":"NSimSun"},{"name":"瀹嬩綋","value":"SimSun"},{"name":"榛戜綋","value":"SimHei"},{"name":"鍗庢枃浠垮畫","value":"STFangsong "},{"name":"鍗庢枃瀹嬩綋","value":"STSong"},{"name":"鍗庢枃妤蜂綋","value":"STKaiti"},{"name":"鍗庢枃榛戜綋","value":"STHeiti"},{"name":"鍗庢枃缁嗛粦","value":"STHeiti Light"}];
     				//set FontFamily
     				$scope.setFontFamily = function(){
     					
@@ -788,11 +788,9 @@ function showImageEditPanel($mdToast,$document,newImage){
 							       } 
 
 								   $scope.imageSelected = function(target){
-    
-	
-										$compile($('<div class="ui-selected" data-type="image" style="width:200px;height:200px;position:absolute;"><div class="rotate-location rotate-rightTop"><i class="icon-undo"></i></div><div class="mImage" ng-click="imageActive()" style="position: absolute; width: 100%; height:100%;overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;background-image: url('+target+');background-size:100% 100%;"></div></div>').appendTo($('.isEdit')))($scope);
-										// left: 0px; right: 0px;top: 0px;bottom: 0px;position: absolute; display: inline-block;max-height: 100%;height: auto;width: auto;max-width: 100%;
-										//$compile($('<div class="ui-selected" data-type="image" style="min-width: 25%;height: 140px;"><div class="mImage" onclick="imageActive(this)" style="background-image:url('+target+');background-repeat:no-repeat;></div></div>'))($scope)							
+										//$compile($('<div class="ui-selected" data-type="image" style="width:200px;height:200px;position:absolute;"><div class="rotate-location rotate-rightTop"><i class="icon-undo"></i></div><div class="mImage" ng-click="imageActive()" style="position: absolute; width: 100%; height:100%;overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;background-image: url('+target+');background-size:100% 100%;"></div></div>').appendTo($('.isEdit')))($scope);
+									    $compile($('<div class="ui-selected" data-type="image" style="min-width:20%;min-height:30%;"><div class="mImage" onclick="imageActive(this)" style="position:absolute;background-image: url('+target+');width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div>').appendTo($('.isEdit')))($scope);
+									    initElement('.mImage','image',$mdToast,$document);
 									    $("#imgpop").animate({left:"-99999px"},200);
 									    $('.md-dialog-backdrop').remove();
 										$('.md-scroll-mask').remove();
@@ -818,7 +816,7 @@ function showImageEditPanel($mdToast,$document,newImage){
 								    }
 
 
-								  
+								   
 					
 				      },
 				      resolve:{
@@ -997,7 +995,7 @@ function showImageEditPanel($mdToast,$document,newImage){
 
 
 /*
-*Description:每次创建新元素，调用此方法，触发选中状态
+*Description:姣忔鍒涘缓鏂板厓绱狅紝璋冪敤姝ゆ柟娉曪紝瑙﹀彂閫変腑鐘舵€?
 *
 *
 *
@@ -1063,8 +1061,8 @@ function showEditPanel ($mdToast,$document,panelType,newImage){
 
 
 /*
-*@方法名：imageActive 
-*@用途  ：图片属性回显
+*@鏂规硶鍚嶏細imageActive 
+*@鐢ㄩ€? 锛氬浘鐗囧睘鎬у洖鏄?
 *
 *
 *
@@ -1196,7 +1194,7 @@ function textActive(curText){
 
 /*
 *Description:
-*从dashboard中，点击编辑，调用此方法，用于监听元素选中状态
+*浠巇ashboard涓紝鐐瑰嚮缂栬緫锛岃皟鐢ㄦ鏂规硶锛岀敤浜庣洃鍚厓绱犻€変腑鐘舵€?
 *
 *
 *

@@ -557,16 +557,24 @@ function saveProjectFn(){
         type: '1',
         page: ''
       }),
-      $rootScope.feedback = $scope.feedback;
+    $rootScope.feedback = $scope.feedback;
     var n = $scope.feedback.leftpages.length
     $('#pagesList').append('<div id=right_' + (n) + ' class="swiper-slide isEdit" ></div>');
     $(".swiper-slide").each(function(index, element) {
       $("#right_" + index).hide();
       $("#right_" + index).removeClass('isEdit');
-
     });
-
+    
+    /**
+    * @name savePageLength()
+    * @path project/projectService.js
+    * @description
+    * 
+    * 用户每增加一页，需要将当前总页数存储，在用户保存时，将当前页数传至后端
+    *
+    **/
     projectFn.savePageLength(n);
+    //console.log('当前页数:'+n);
     $rootScope.pageLength = n;
     // $("#right_"+n).show()
     showBackgroundEditPanel($mdToast, $document)
@@ -574,10 +582,10 @@ function saveProjectFn(){
 
   $scope.choosePage = function(i) {
     $("#right_" + (i + 1)).animate({
-      height: '10px'
+      opacity: 0
     });
     $("#right_" + (i + 1)).animate({
-      height: '568px'
+      opacity: 1
     });
 
     $(".swiper-slide").hide();

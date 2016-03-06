@@ -44,8 +44,13 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
       }
 
       $scope.savePage = function() {
+        /*
+        *projectFn.getPageLength()
+        *@ project/Module/projectService.js
+        *
+        */
           var pageLength = projectFn.getPageLength();
-
+          console.log('pageLength @ savePage funciton'+pageLength)
           if (loginFn.islogged().status) {
 
                 /**
@@ -59,8 +64,6 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                 *   userPhoto : 用户头像链接
                 *  }
                 */
-
-                // projectIdIsNull()?addProjectFn($mdToast, $document):saveProjectFn()
                 if(projectIdIsNull()){
                     addProjectFn($mdToast, $document)  
                 }else{
@@ -87,6 +90,68 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                                 $rootScope.isAuthorized = loginFn.islogged().status;
                                 $("#loginOverLay").css('display','none');
                                 $("#pagesList").css('display','block');
+
+
+                                 addProjectFn($mdToast, $document) 
+        //        if(!$("#pagesList").data("projectid")){
+        //                           $mdToast.show({
+        //   controller: function($scope, projectFn) {
+        //     $scope.savePageContentClose = function() {
+        //       $('#saveProjectOverLay').css('display', 'none');
+        //     }
+        //     $scope.savePageContent = function() {
+        //       var projectName = $("#projectName").val();           
+        //       var previewCode = $("#pagesList").html()
+        //             .replace(/display/g, "!")
+        //             .replace(/isEdit/g, "!")
+        //             .replace(/icon-undo/g, "!")
+        //             .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
+
+        //       var editCode = $("#pagesList").html()
+        //             .replace(/ui-selected/, '')
+        //             .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+        //             .replace(/isEdit/,'')
+        //             .replace(/display: flex/, "display: none")
+        //             .replace('defaultPage','defaultPage isEdit')
+        //             .replace('direction: ltr','direction: ltr;display:block')
+
+        //       projectFn.addProject(projectName,previewCode,editCode)
+        //         .then(function(data) {
+     
+        //             if (data.status) {
+        //               $("#pagesList").attr('data-projectid', data.project.id);
+        //               $('#saveProjectOverLay').css('display', 'none');
+        //               $("#addBox").show();
+        //               setTimeout(function() {
+        //                 $("#addBox").fadeTo(3000).hide();
+        //               }, 1000);
+
+        //                $state.go('dashboard');
+        //             } else {
+        //               view(data.msg);
+        //             }
+        //       }, function() {
+              
+        //       });
+        //     }
+
+        //   },
+        //   templateUrl: './template/page.save.tmpl.html',
+        //   parent: $document[0].querySelector('#editModulePosition'),
+        //   hideDelay: false
+        // });
+
+
+
+
+
+
+
+
+
+
+
+
 
                             }else{
                                 // console.log('fail')
@@ -131,9 +196,13 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
             }
          
          
-            var editCode = $("#pagesList").html()
+           var editCode = $("#pagesList").html()
                     .replace(/ui-selected/, '')
-                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
+                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+                    .replace(/isEdit/,'')
+                    .replace(/display: flex/, "display: none")
+                    .replace('defaultPage','defaultPage isEdit')
+                    .replace('direction: ltr; display: none;','direction: ltr;display: block;')
 
             var previewCode = $("#pagesList").html()
                     .replace(/display/g, "!")
@@ -141,6 +210,7 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace(/icon-undo/g, "!")
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
             console.log('loginFn.islogged():'+loginFn.islogged().userName);
+            console.log('newLength')
             projectFn.saveProject(newLength, projectid, editCode, previewCode)
               .then(function(data) {
 
@@ -161,10 +231,15 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
           })
 
       }
-
-      //common function
+/**
+* @name  addProjecFn
+* @description 
+*
+* 用于用户创建新项目
+*/
 
       function addProjectFn($mdToast, $document) {
+        //console.log('addProjectFn 执行')
         $mdToast.show({
           controller: function($scope, projectFn) {
             $scope.savePageContentClose = function() {
@@ -173,18 +248,25 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
             $scope.savePageContent = function() {
               var projectName = $("#projectName").val();
               var projectInfo = $('#projectInfo').val();     
+              var pageLength  = projectFn.getPageLength();
               var userName    = loginFn.islogged().email;
+
+              console.log('@addProject:current page length is:'+pageLength);
+
               var previewCode = $("#pagesList").html()
                     .replace(/display/g, "!")
                     .replace(/isEdit/g, "!")
                     .replace(/icon-undo/g, "!")
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
 
-              var editCode 	  = $("#pagesList").html()
+               var editCode = $("#pagesList").html()
                     .replace(/ui-selected/, '')
-                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
-  
-              projectFn.addProject(projectName,previewCode,editCode,projectInfo,userName)
+                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+                    .replace(/isEdit/,'')
+                    .replace(/display: flex/, "display: none")
+                    .replace('defaultPage','defaultPage isEdit')
+                    .replace('direction: ltr; display: none;','direction: ltr;display: block;')
+              projectFn.addProject(projectName,previewCode,editCode,projectInfo,userName,pageLength)
                 .then(function(data) {
      
                     if (data.status) {
