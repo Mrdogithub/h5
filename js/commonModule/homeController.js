@@ -181,12 +181,13 @@ function saveProjectFn(){
          
             var editCode = $("#pagesList").html()
                     .replace(/ui-selected/, '')
+                    .replace(/isEdit/g, " ")
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
 
             var previewCode = $("#pagesList").html()
-                    .replace(/display/g, "!")
-                    .replace(/isEdit/g, "!")
-                    .replace(/icon-undo/g, "!")
+                    .replace(/display/g, " ")
+                    .replace(/isEdit/g, " ")
+                    .replace(/icon-undo/g, " ")
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
 
             projectFn.saveProject(newLength, projectid, editCode, previewCode)
@@ -537,6 +538,7 @@ function saveProjectFn(){
   projectFn.loadEditPage(projectIdInLeftNav).then(function(data) {
     var k = 0;
     k = data.pageLength;
+    console.log(k+":page length")
     var colLeftHeight = 140 * k;
     if (k > 1) {
       for (var i = 0; i < k - 1; i++) {

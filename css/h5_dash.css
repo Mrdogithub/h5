@@ -73,12 +73,12 @@ right: 15px;
     overflow: hidden;
 }
 .showMoreIconsBottom{
-    height:30px;
-    margin-left:110px;
-    overflow:hidden;
+     height: 30px;
+    /* margin-left: 110px; */
+    overflow: hidden;
     width: auto;
-   /* position: absolute;
-    bottom: 10px;*/
+    text-align: right;
+    margin-right: 5px;
 }
 .showMoreIconsTop{
 /*    position: absolute;*/

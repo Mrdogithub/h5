@@ -37,8 +37,11 @@
          
 
                 <li class="myImg" ng-repeat="item in imageList | filter:query | orderBy:order" id="{{item._id}}">
-                <img class="myImageActive" src="{{item.url}}" >
-                <div style="height: 20px;width: 100%;background-color: rgba(0,0,0,0.8);margin-top: -1px;position: absolute;bottom: 0;">
+                <div class="imageContainer">
+                  <img class="myImageActive" src="{{item.url}}" >
+                </div>
+                
+                <div class="imageInfo">
                 <span style="font-size:6px;color:#fff;float:left; padding:2px;">{{item.name.substring(-1,16)}}</span>
                 </div>
                 <div style="position:absolute;top:0px;left:0px;background-color:rgba(0,0,0,0.8);width:100%;height:100%;opacity:0;text-align:center;" class="imageOption">

@@ -777,51 +777,48 @@ function showImageEditPanel($mdToast,$document,newImage){
 				   if(newImage){
 				   	 $mdDialog.show({
 				      controller: function($scope,$compile,getImageList,imageActionService){
+							       $scope.imageList = getImageList.data;	
 
-				      console.log('image image works');
-				      $scope.imageList = getImageList.data;	
-				      for(var i in $scope.imageList){
-				      	console.log(i+":"+$scope.imageList[i])
-				      }	 
-				       $scope.imageOverlayClose = function(){
-				       		console.log('xxx image overlay close');
-				       		  $('.md-dialog-backdrop').remove();
-							$('.md-scroll-mask').remove();
-							$('.md-scroll-mask-bar').remove();
-							$('.md-dialog-container').remove();
-				       		$("#imageOverlay").css('display','none')
-				       } 
-					   $scope.imageSelected = function(target){
-					   	     console.log(target+":target")
-							//$compile($('<div class="ui-selected" data-type="image" style="width:200px;height:200px;position:absolute;"><div class="rotate-location rotate-rightTop"><i class="icon-undo"></i></div><div class="mImage" ng-click="imageActive()" style="position: absolute; width: 100%; height:100%;overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;background-image: url('+target+');background-size:100% 100%;"></div></div>').appendTo($('.isEdit')))($scope);
-						    $compile($('<div class="ui-selected" data-type="image" style="width:100%;height:100%;"><div class="mImage" ng-click="imageActive()" style="position:absolute;background-image: url('+target+');width:100%;height:100%;background-size:cover;background-repeat:no-repeat"></div></div>').appendTo($('.isEdit')))($scope);
-						    initElement('.mImage','image',$mdToast,$document);
-						    $("#imgpop").animate({left:"-99999px"},200);
-						    $('.md-dialog-backdrop').remove();
-							$('.md-scroll-mask').remove();
-							$('.md-scroll-mask-bar').remove();
-							$('.md-dialog-container').remove();
-					    }
+							       $scope.imageOverlayClose = function(){
+							       		$('.md-dialog-backdrop').remove();
+										$('.md-scroll-mask').remove();
+										$('.md-scroll-mask-bar').remove();
+										$('.md-dialog-container').remove();
+							       		$("#imageOverlay").css('display','none')
+							       } 
 
-						$scope.removeImage = function(imageId){
-							console.log('imageId in controller'+imageId)
-					      	imageActionService.removeImage(imageId);
-					      	$("#"+imageId).remove();
-					    }
+								   $scope.imageSelected = function(target){
+    
+	
+										$compile($('<div class="ui-selected" data-type="image" style="width:200px;height:200px;position:absolute;"><div class="rotate-location rotate-rightTop"><i class="icon-undo"></i></div><div class="mImage" ng-click="imageActive()" style="position: absolute; width: 100%; height:100%;overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;background-image: url('+target+');background-size:100% 100%;"></div></div>').appendTo($('.isEdit')))($scope);
+										// left: 0px; right: 0px;top: 0px;bottom: 0px;position: absolute; display: inline-block;max-height: 100%;height: auto;width: auto;max-width: 100%;
+										//$compile($('<div class="ui-selected" data-type="image" style="min-width: 25%;height: 140px;"><div class="mImage" onclick="imageActive(this)" style="background-image:url('+target+');background-repeat:no-repeat;></div></div>'))($scope)							
+									    $("#imgpop").animate({left:"-99999px"},200);
+									    $('.md-dialog-backdrop').remove();
+										$('.md-scroll-mask').remove();
+										$('.md-scroll-mask-bar').remove();
+										$('.md-dialog-container').remove();
+								    }
 
-					    $scope.uploadImage = function(element){
-					    	 $scope.$apply(function(scope) {
-						         var photofile = element.files[0];
-						         var reader = new FileReader();
-						         reader.onload = function(e) {
-						           $scope.prev_img = e.target.result;
-						           imageActionService.addImage(photofile,$scope);
-						           console.log($scope.prev_img+"/////////")
-						         };
-						        console.log( reader.readAsDataURL(photofile)+".........");
-						     });
-					    	
-					    }
+									$scope.removeImage = function(imageId){
+								      	imageActionService.removeImage(imageId);
+								      	$("#"+imageId).remove();
+								    }
+
+								    $scope.uploadImage = function(element){
+								    	 $scope.$apply(function(scope) {
+									         var photofile = element.files[0];
+									         var reader = new FileReader();
+									         reader.onload = function(e) {
+									           $scope.prev_img = e.target.result;
+									           imageActionService.addImage(photofile,$scope);
+									         };
+									     });
+								    	
+								    }
+
+
+								  
 					
 				      },
 				      resolve:{
@@ -855,15 +852,98 @@ function showImageEditPanel($mdToast,$document,newImage){
     					$('.ui-selected').attr('data-radius',$scope.imageRadius.size);
     					$(".ui-selected >.mImage").css("borderRadius",$scope.imageRadius.size+"px");
     				}
-				//set image animate
-				   $scope.setImageAnimate = function(){
-				   		$('.ui-selected').attr('data-animate',$scope.selected);
-				   	 	testAnimation($scope.selected);
-				   	  	function testAnimation(x){
-						    $('.ui-selected').removeClass().addClass(x + ' animated ui-selected ui-draggable ui-resizable').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-						    });
-						 }
-				   }
+
+
+
+
+
+
+					$scope.imageAnimate = function(){
+						var speed = "1s";
+						var delay = "0s";
+						if($scope.AnimateSpeed){
+							speed = $scope.AnimateSpeed.size + "s";
+						}
+						if($scope.AnimateDelay){
+							delay = $scope.AnimateDelay.size + "s";
+						}
+					    testAnimation($scope.selected);
+		    		 function imageAnimation(x){
+					    $('.ui-selected').removeClass().addClass(x + ' ui-selected ui-draggable ui-resizable').css({"animation-name":x,"animation-duration":speed,"animation-delay":delay});
+						
+					  }
+		    		}
+					//text animate speed
+			      	$scope.getImageAnimateSpeed = function(){
+						var aniname = "bounceIn";
+						var speed = "1s";
+						var delay = "0s";
+						if($scope.selected){
+							aniname = $scope.selected +"";
+						}
+						if($scope.AnimateSpeed){
+							speed = $scope.AnimateSpeed.size + "s";
+						}
+						if($scope.AnimateDelay){
+							delay = $scope.AnimateDelay.size + "s";
+						}
+						$('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
+						
+						function test(){
+							$('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay});
+						}
+						setTimeout(test,100);
+    				}
+    			
+
+    				//text animate delay
+			      	$scope.getImageAnimateDelay = function(){
+						//$('#ani').prop('selectedIndex', -1);
+						var aniname = "bounceIn";
+						var speed = "1s";
+						var delay = "0s";
+						if($scope.selected){
+							aniname = $scope.selected +"";
+						}
+						if($scope.AnimateSpeed){
+							speed = $scope.AnimateSpeed.size + "s";
+						}
+						if($scope.AnimateDelay){
+							delay = $scope.AnimateDelay.size + "s";
+						}
+						$('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
+						
+						function test(){
+							$('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay});
+						}
+						setTimeout(test,100);
+    				}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -978,6 +1058,26 @@ function showEditPanel ($mdToast,$document,panelType,newImage){
 		case "input":showInputEditPanel($mdToast,$document);
 	}
 
+}
+
+
+
+/*
+*@方法名：imageActive 
+*@用途  ：图片属性回显
+*
+*
+*
+*
+*
+***********/
+function imageActive(curImage){
+  	  	var reg = /\d+/g;
+	  	var imageRadius = $(curImage).attr("style").indexOf("border-radius")
+	 	if(imageRadius>-1) {
+	 	 	var radiusSize = $(curImage).css("borderRadius").match(reg)[0];
+	 		$('#imageRadiusid').val(radiusSize) 
+	 	}else{$('#txtRadiusid').val("") } 	
 }
 
 

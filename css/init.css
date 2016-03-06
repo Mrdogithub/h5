@@ -121,8 +121,39 @@ background: #fff;
 .piclaber .leftTab ul li.active{background: #FFF;border-bottom: 2px solid #0061FF;}
 
 .piclaber .rightTab{padding: 20px 0  ; background: #FFF; height: 500px; overflow-y: auto; width:860px;display: inline-block;}
-.piclaber .rightTab .myImg{width: 140px; height: 100px;}
-.piclaber .rightTab .myImg img{width: 100%;height: auto;border-radius: 3px 3px 0px 0px; box-sizing: border-box;}
+.piclaber .rightTab .myImg{ width: 140px;min-height: 170px;}
+.piclaber .rightTab .myImg .imageContainer> img{margin: auto; 
+    left: 0px; 
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    position: absolute; 
+    display: inline-block;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+    max-width: 100%;
+    }
+.imageInfo{
+    height: 30px;
+    width: 100%;
+    background-color: rgba(0,0,0,0.7);
+    /* margin-top: -1px; */
+    position: absolute;
+    bottom: 0;
+    line-height: 1.8em;
+    text-indent: 5px;
+}
+.piclaber .rightTab .myImg .imageContainer{
+    height: 140px;
+    position: relative;
+    text-align: center;
+    margin-bottom: 5px;
+   background-image: url('../images/imagebg.png');  
+    background-color: rgb(255, 255, 255);
+    background-size: contain;
+    background-position: 50% 50%;
+}
 .piclaber .rightTab ul{margin: 0; padding: 0;}
 .piclaber .rightTab ul li{margin: 20px 0 0 20px; list-style: none; position:relative; display: table; float:left;}
 .piclaber .rightTab ul li a{display: table-cell; vertical-align: middle;text-align: center; }
@@ -201,7 +232,8 @@ text edit panel
     margin-left: 15px;
 }
 
-#inputValidation,#animationDelayId,#animationDurationId,#txtNumid,#txtHeightid,#txtOpacityid,#txtRadiusid,#fontFamilyid{
+#inputValidation,#animationDelayId,#animationDurationId,#txtNumid,#txtHeightid,#txtOpacityid,#txtRadiusid,#fontFamilyid,
+#imageRadiusid{
    width: 100%;
    font-size: 12px;
 }
