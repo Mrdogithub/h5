@@ -50,7 +50,7 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
         *
         */
           var pageLength = projectFn.getPageLength();
-          console.log('pageLength @ savePage funciton'+pageLength)
+
           if (loginFn.islogged().status) {
 
                 /**
@@ -265,10 +265,15 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace(/isEdit/,'')
                     .replace(/display: flex/, "display: none")
                     .replace('defaultPage','defaultPage isEdit')
-                    .replace('direction: ltr; display: none;','direction: ltr;display: block;')
+                    .replace('direction: ltr; display: none;','direction: ltr;display: block;');
+              console.log(projectName+":projectName");
+              console.log(projectInfo+":projectInfo");
+              console.log(pageLength+":pageLength");
+              console.log(userName+":userName");
+
               projectFn.addProject(projectName,previewCode,editCode,projectInfo,userName,pageLength)
                 .then(function(data) {
-     
+                   // console.log(data.status+":data.status")
                     if (data.status) {
                       $("#pagesList").attr('data-projectid', data.project.id);
                       $('#saveProjectOverLay').css('display', 'none');
@@ -277,7 +282,7 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                         $("#addBox").fadeTo(3000).hide();
                       }, 1000);
                     } else {
-                      view(data.msg);
+                      console.log('@editToolDirective.js  Fn: add project :'+data.name)
                     }
               }, function() {
               

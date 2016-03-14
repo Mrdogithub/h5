@@ -10,17 +10,25 @@ projectController.controller('projectController', function($scope,
   $state,
   $rootScope,AuthService,  
   $document,$mdDialog,
-  $mdToast,getMyProjectsList,projectFn,isLogin) {
+  $mdToast,getMyProjectsList,projectFn,isLogin,loginFn) {
 
-  $(document).on('click', '#loginOutIn', function() {
-    setTimeout(function() {
-      $("#loginOutIn").remove();
-      $("#uNameDashboard").html('欢迎,登陆');
-    }, 1000);
-  })
+/*
+*@description
+*when refresh dashboard page,keep user login status
+*
+*/
+  $rootScope.isAuthorized = loginFn.islogged().status;
   
 
   var _scope = $scope;
+
+  $scope.loginOut = function(){
+      loginFn.logout();
+      $rootScope.isAuthorized = loginFn.islogged().status;
+
+      //项目管理页面退出后，返回到主页
+      $state.go('homePage');
+  }
   $scope.createProject = function(ev, id) {
     $mdToast.show({
       controller: function($scope, $compile, projectFn) {
@@ -32,11 +40,8 @@ projectController.controller('projectController', function($scope,
             "cover": "",
             "qrcode": ""
           }
-
+        var userName = loginFn.islogged().email;
           projectFn.addProject($scope.projectName).then(function(data){
-            for(var i in data){
-              console.log(i+":"+data[i])
-            }
             if(data.status){
               $scope.projectInfo.id          = data.project.id;
               $scope.projectInfo.url         = data.project.url;
@@ -76,6 +81,7 @@ projectController.controller('projectController', function($scope,
   }
 
   $scope.projectList = getMyProjectsList;
+
   $scope.showBack = function(target) {
     $(target).find('.dask').stop().delay(50).animate({
       opacity: 1

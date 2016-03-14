@@ -2,7 +2,7 @@
 
 
 var app = angular.module('mainApp',['ui.bootstrap',
-  'eidtToolDirective','editText',
+  'eidtToolDirective','editText','imageEditDirective',
   'homeController','applicationController',
   "kendo.directives",'projectController',
   'leftNav','ui.router','ngMaterial',
@@ -10,13 +10,13 @@ var app = angular.module('mainApp',['ui.bootstrap',
   'loginDirectiveModule','sessionService','loginService','imageService'],function($httpProvider) {
 
 $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-console.log(angular+"angular")
+
 var param = function(obj) {
     var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
       
     for(name in obj) {
       value = obj[name];
-        console.log(value+"///value")
+    //    console.log(value+"///value")
       if(value instanceof Array) {
         for(i=0; i<value.length; ++i) {
           subValue = value[i];
@@ -37,7 +37,7 @@ var param = function(obj) {
       }
       else if(value !== undefined && value !== null)
         query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
-       console.log(query+"/// query")
+      // console.log(query+"/// query")
     }
       
     return query.length ? query.substr(0, query.length - 1) : query;
@@ -68,7 +68,7 @@ var param = function(obj) {
 		 		resolve:{
 		 			editPage:function(projectFn){
 		 			    var projectIdCallBack = projectFn.getProjectId();
-		 			    console.log('projectInEdit in app.js:'+projectIdCallBack)
+
 		 			    if(projectIdCallBack){
 		 			    	return projectFn.loadEditPage(projectIdCallBack);	
 		 			    }
@@ -88,12 +88,14 @@ var param = function(obj) {
              resolve:{
                 getMyProjectsList:function(projectFn,loginFn){
                      var userName = loginFn.islogged().email;
-                     console.log(userName+":userName")
+                     //console.log('@app.js dec:loading project by userName:'+userName)
                      return projectFn.getProjectList(userName).then(function(data){
+
                         return data;
                      });
                 },
                 isLogin:function(loginFn){
+
                     return loginFn.islogged();
                 }
               }
@@ -104,15 +106,14 @@ var param = function(obj) {
 
 app.run(function($rootScope,loginFn){
   $rootScope.$on('$stateChangeStart',function(event,next){
-
+      console.log('@app.js test refresh dashboard page');
+      console.log('@app.js Fn:loginFn.islogged().status:'+loginFn.islogged().status)
+      console.log('@app.js Fn:loginFn.islogged().userName:'+loginFn.islogged().userName)
+      console.log('@app.js Fn:loginFn.islogged().userPhoto:'+loginFn.islogged().userPhoto)
       if(loginFn.islogged().status){
-        console.log(
-             loginFn.islogged().userName+":"+
-             loginFn.islogged().userPhoto
-          )
           $rootScope.currentUser = {
             "userName":loginFn.islogged().userName,
-            "userPhoto":loginFn.islogged().userPhoto,
+            "userPhoto":loginFn.islogged().userPhoto
           }
       }
 

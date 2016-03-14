@@ -1,6 +1,6 @@
 var project = angular.module('projectService',[]);
 
-project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL){
+project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,loginFn){
 
 	var productUrl                   = SERVER_URL.liveUrl;
 	var copyProject                  = 'copyProject';
@@ -10,7 +10,6 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL){
     var findMyProject                = 'findProjectByUser';
     var deletedProject               = 'delProject';
     var projectIdInDashboardService  = [];
-
 
 
     var myProjectAction = {
@@ -43,8 +42,12 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL){
            var editCode    = editCode    || '<i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i><div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%"> </div>';
            var pageLength  = pageLength  || '1';
            var deffered    = $q.defer();
+           var userName    = loginFn.islogged().email;
+           // console.log('@projectService.js add project Fn  pageLength:'+pageLength)
+           // console.log('@projectService.js add project Fn  previewCode:'+previewCode)
+           // console.log('@projectService.js add project Fn  userName:'+userName)
+           // console.log('@projectService.js add project Fn  projectInfo:'+projectInfo)
 
-           
            $http.post(productUrl+saveProject,{
                 'pageLength':pageLength,
                 'projectId':'',
@@ -53,6 +56,7 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL){
                 'projectInfo':projectInfo,
                 'pages':{'editCode':editCode,'previewCode':previewCode}
             }).success(function(data){
+                
                 deffered.resolve(data)
             }).error(function(data){
                 deffered.reject(data)
@@ -68,12 +72,9 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL){
         },
     	getProjectList:function(userName){
             var deffered = $q.defer();
-            console.log(userName+" userName in getProjectList Function")
+            // console.log('@projectService dec:userName is:'+userName);
+            // console.log('@projectService dec:url is:'+productUrl+findMyProject);
     		$http({method:"GET",url:productUrl+findMyProject,params:{userName:userName}}).success(function(data){
-                for(var i in data){
-                    console.log(i+":"+data[i])
-                }
-                console.log(data+"....")
     			deffered.resolve(data);
     		}).error(function(data){
                 deffered.reject(data)

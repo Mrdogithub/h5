@@ -28,18 +28,17 @@
           <div class="rightTab">
               <ul id="imageList">
                  <li class="myImg" style="width:140px; height:120px;" id="newImageTarget">
-                 <form id='uploadImageForm' name="peter" enctype='multipart/form-data'>
-                    <input type="file" name="uploadImage" ng-model="uploadImageFile" style="width:140px;height:120px;opacity:0; z-index:99999;position:absolute;"  onchange="angular.element(this).scope().uploadImage(this)" />
-              
-            </form>
-                  <a type="button" class="btn btn-default" style="width: 140px;height: 120px;display: block;line-height: 100px;"><i class="icon-upload-alt icon-large"></i></a>
+                    <form id='uploadImageForm' name="peter" enctype='multipart/form-data'>
+                      <input type="file" name="uploadImage" ng-model="uploadImageFile" style="width:140px;height:120px;opacity:0; z-index:99999;position:absolute;"  onchange="angular.element(this).scope().uploadImage(this)" />
+                    </form>
+                    <a type="button" class="btn btn-default" style="width: 140px;height: 120px;display: block;line-height: 100px;"><i class="icon-upload-alt icon-large"></i></a>
                  </li> 
          
 
                 <li class="myImg" ng-repeat="item in imageList | filter:query | orderBy:order" id="{{item._id}}">
-                <div class="imageContainer">
-                  <img class="myImageActive" src="{{item.url}}" >
-                </div>
+                  <div class="imageContainer">
+                    <img class="myImageActive" src="{{item.url}}" >
+                  </div>
                 
                 <div class="imageInfo">
                 <span style="font-size:6px;color:#fff;float:left; padding:2px;">{{item.name.substring(-1,16)}}</span>
