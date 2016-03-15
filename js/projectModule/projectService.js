@@ -101,8 +101,15 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
             return deffered.promise;
         },
     	copyProject:function(projectName,projectId){
+            console.log('@projectService.js DEC: projectName:'+projectName+"projectId:"+projectId)
             var deffered = $q.defer()
-    	    $http.post(productUrl+copyProject,{'pid':projectId,'projectname':projectName}).success(function(data){
+    	    $http({method:"POST",url:productUrl+copyProject,params:{'pid':projectId,'projectname':projectName}}).success(function(data){
+                for(var i in data){
+                    console.log(i+":"+data[i])
+                    for(var j  in data[i]){
+                        console.log(j+":"+data[j])
+                    }
+                }
                 deffered.resolve(data);
     		}).error(function(data){
                 deffered.reject(data);

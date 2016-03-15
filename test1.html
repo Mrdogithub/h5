@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script type="text/javascript" src="js/lib/jquery.js"></script>
+</head>
+<body>
+	
+<button id="createDiv">create div</button>
+	<div class="one">click 1</div>
+	<div class="one">click 2</div>
+	<div class="one">click 3</div>
+	<div class="one">click 4</div>
+	<div class="one">click 5</div>
+</body>
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		$('.one').on('click',function(){
+
+			console.log('1');
+		});
+		$("#createDiv").on('click',function(){
+			var i =6;
+			var oDiv = $("<div class='one'>click"+i+"</div>");
+			oDiv.insertAfter($('#createDiv'));
+			i++;
+		})
+	});
+
+	$(document).on('click','.one',function(){
+		console.log('click');
+	})
+</script>
+</html>

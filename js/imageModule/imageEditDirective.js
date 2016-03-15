@@ -15,15 +15,19 @@ imageEditDirective.directive('editimage',function(
 		scope:{},
 		templateUrl:'./template/edit.image.tmpl.html',
 		link:function($scope){
+			$(document).on('click','.imageElement',function(){
+				$('.ui-selected').removeClass('ui-selected');
+				$('.ui-selected').removeClass('ui-selected');
+				$(this).addClass('ui-selected');
+				showImageEditPanel($mdToast,$document);	
+			})
 
 			$scope.newImages = function(){
 				$('.ui-selected').removeClass('ui-selected');
 				$('.rotate-rightTop').css('display','none');
 				 var newImage = true;
 				 showAddImageOverLay($mdToast,$document,newImage)
-				 showImageEditPanel($mdToast,$document);
-				 
-				//initElement('.mImage','imageWithOverlay',$mdToast,$document);
+				 // showImageEditPanel($mdToast,$document);
 			};
 
 			$scope.removeImage = function(imageId){
@@ -32,7 +36,7 @@ imageEditDirective.directive('editimage',function(
 		    }
 
 		    $scope.uploadImage = function(element){
-		    	console.log('@ imageEditDirective.js DEC: uploadImage Fn works')
+		    	//console.log('@ imageEditDirective.js DEC: uploadImage Fn works')
 		    	 $scope.$apply(function(scope) {
 			         var photofile = element.files[0];
 			         var reader = new FileReader();
@@ -51,15 +55,19 @@ imageEditDirective.directive('editimage',function(
 
 
 
-function imageClickActive($mdToast,$document){
-	$('.mImage').on('click',function(){
-		console.log('image click')
-		$('.ui-selected').removeClass('ui-selected');
-		$(this).parent().addClass('ui-selected');
-		initSelectedAndDraggable();
-		showImageEditPanel($mdToast,$document);
-	})
-}            
+// function imageClickActive($mdToast,$document){
+// 	$('.ui-selected >.mImage').on('click',function(event){
+// 		console.log('image click');
+// 		 event.stopPropagation();
+
+// 		$('.ui-selected').removeClass('ui-selected');
+// 		$(this).parent().addClass('ui-selected');
+// 		initSelectedAndDraggable();
+// 		$('.mText').blur();
+// 		$('#text-properties').remove();
+// 		showImageEditPanel($mdToast,$document);
+// 	})
+// }            
 
 function imageActive(curImage){
 	var reg = /\d+/g;
@@ -79,17 +87,11 @@ function showImageEditPanel($mdToast,$document){
 	       $scope.selected     = $(".ui-selected").data('animate');
            $scope.opacity      = {"numberValue":activeOpacity};
 
-		   $scope.getImageOpacity = function(){
+		   $scope.getImageOpacity   = function(){
 					$('.ui-selected').css('opacity',$scope.opacity.numberValue);
 					$('.ui-selected').attr('data-opacity',$scope.opacity.numberValue);
 			   }
-
-		   $scope.setImageRadiusSize   = function(){
-				$('.ui-selected').attr('data-radius',$scope.imageRadius.size);
-				$(".ui-selected >.mImage").css("borderRadius",$scope.imageRadius.size+"px");
-		   }
-		
-		   $scope.imageAnimate = function(){
+			$scope.imageAnimate 	= function(){
 				var speed = "1s";
 				var delay = "0s";
 				if($scope.AnimateSpeed){
@@ -103,6 +105,13 @@ function showImageEditPanel($mdToast,$document){
 				    $('.ui-selected').removeClass().addClass(x + ' ui-selected ui-draggable ui-resizable').css({"animation-name":x,"animation-duration":speed,"animation-delay":delay});	
 				}
 		   }
+
+		   $scope.setImageRadiusSize = function(){
+				$('.ui-selected').attr('data-radius',$scope.imageRadius.size);
+				$(".ui-selected >.mImage").css("borderRadius",$scope.imageRadius.size+"px");
+		   }
+		
+	
 			//text animate speed
 	       $scope.getImageAnimateSpeed = function(){
 				var aniname = "bounceIn";
@@ -149,7 +158,7 @@ function showImageEditPanel($mdToast,$document){
 		   }
 
 		   $scope.setImageLink = function(){
-				console.log('xxx')
+			
     			$mdDialog.show({
     				controller:function($scope){
     				  $scope.saveImageLinkCancel = function(){
@@ -157,7 +166,7 @@ function showImageEditPanel($mdToast,$document){
     	    			$('.md-dialog-container').css('display','none');
     	    		  }
     				  $scope.saveImageLink = function(){
-    				  	console.log('xxx')
+    				 
     				   $(".ui-selected").attr("onclick","window.open('"+$('#textLink').val()+"','target','param')");
     				   $mdDialog.cancel();
     				   $('.md-dialog-container').css('display','none');
@@ -198,10 +207,11 @@ function showAddImageOverLay($mdToast,$document,newImage){
 
 						   $scope.imageSelected = function(target){
 								//$compile($('<div class="ui-selected" data-type="image" style="width:200px;height:200px;position:absolute;"><div class="rotate-location rotate-rightTop"><i class="icon-undo"></i></div><div class="mImage" ng-click="imageActive()" style="position: absolute; width: 100%; height:100%;overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;background-image: url('+target+');background-size:100% 100%;"></div></div>').appendTo($('.isEdit')))($scope);
-							    $compile($('<div class="ui-selected" data-type="image" style="min-width:20%;min-height:30%;"><div class="mImage" onclick="imageActive(this)" style="position:absolute;background-image: url('+target+');width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div>').appendTo($('.isEdit')))($scope);
+							    $compile($('<div class="ui-selected imageElement" data-type="image" style="width:100%;height:100%;position:absolute"><div class="mImage" onclick="imageActive(this)" style="position:absolute;background-image: url('+target+');width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div>').appendTo($('.isEdit')))($scope);
 							    //initElement('.mImage','image',$mdToast,$document);
+							    showImageEditPanel($mdToast,$document);
 							    initSelectedAndDraggable();
-							    imageClickActive($mdToast,$document);
+							  	
 							    $("#imgpop").animate({left:"-99999px"},200);
 							    $('.md-dialog-backdrop').remove();
 								$('.md-scroll-mask').remove();

@@ -238,12 +238,9 @@ homeController.controller('homeController', function(
 
 // show radiobox edit panel if radiobox active
   function showBackgroundEditPanel($mdToast, $document) {
-    console.log('showBackgroundEditPanel')
     $mdToast.show({
       controller: function($scope) {
         //set FontColor
-
-        console.log('show panel')
         $scope.$watch("setPageBackgroundColor", function(newColor, oldColor) {
           $('.isEdit').css('backgroundColor', newColor);
         });
@@ -277,7 +274,6 @@ homeController.controller('homeController', function(
   projectFn.loadEditPage(projectIdInLeftNav).then(function(data) {
     var k = 0;
     k = data.pageLength;
-    console.log(k+":page length")
     var colLeftHeight = 140 * k;
     if (k > 1) {
       for (var i = 0; i < k - 1; i++) {

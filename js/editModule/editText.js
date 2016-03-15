@@ -1,7 +1,7 @@
 "use strict";
 
 var editText = angular.module('editText',[]);
-     
+
 editText.directive('edittext',function(
 	$sce,
 	$mdToast,
@@ -13,6 +13,23 @@ editText.directive('edittext',function(
 		templateUrl:'./template/edit.text.tmpl.html',
 		scope:{},
 		link:function($scope){
+
+			/*
+			*@ 点击元素显示编辑面板
+			*
+			***/
+			$(document).on('click','.textElement',function(){
+				$('.ui-selected').removeClass('ui-selected');
+				$('.mText').blur();
+				$('.ui-selected>.mText').focus();
+				$('.ui-selected').removeClass('ui-selected');
+				$(this).addClass('ui-selected');
+				showTextEditPanel($mdToast,$document);
+				//console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));	
+			})
+
+
+
             var loadingProjectById = projectFn.getProjectId();
 			if(loadingProjectById){
 				projectFn.loadEditPage(loadingProjectById).then(function(data){
@@ -22,7 +39,6 @@ editText.directive('edittext',function(
 					$scope.editcode = data.pages.editCode;
 					$("#pagesList").attr('data-projectid',loadingProjectById);
 				    $(document).on('click',' .isEdit > div ',function(e){
-
 				    	if($(e.target).hasClass('mText')){
 				    		// $(e.target).focus();
 			  	  			$(".rotate-rightTop").css('display','none');
@@ -44,26 +60,13 @@ editText.directive('edittext',function(
 			}
 
 			$scope.newText = function(){
+				//console.log('@editText.js DEC create new Text')
                 createNewText($mdToast,$document);
-				showTextEditPanel($mdToast,$document);
-				initSelectedAndDraggable();
-				textClickActive($mdToast,$document);
 			};
 		}
 	}
 })
 
-
-function textClickActive($mdToast,$document){
-	$('.mText').on('click',function(){
-		$('.ui-selected').removeClass('ui-selected');
-		$(this).parent().addClass('ui-selected');
-		$('.mText').blur();
-	    $('.ui-selected>.mText').focus();
-		initSelectedAndDraggable();
-		showTextEditPanel($mdToast,$document);
-	})
-}
 
 function projectIsNull(){
 	var status = typeof($("#pagesList").data('projectid')) == "undefined"?true:false;
@@ -78,14 +81,18 @@ function createNewText($mdToast,$document){
     //var iText = $('<div class="ui-selected" data-type="text" style="width:auto;height:auto;position:absolute;"><textarea  class="mText"  style=" width:100%;height:auto;position:relative;overflow-y:hidden;resize:none" onclick="textActive(this)">text placeholder</textarea></div>');
     // var iText = $('<div class="ui-selected" data-type="text" style="width:200px;height:60px;position:absolute;"><div class="mText" contentEditable="true" style="overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;">text placeholder</div></div>');
     
-var iText = $('<div class="ui-selected" data-type="text" ><div  class="mText"  style="min-width:50%;font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div>');
+var iText = $('<div class="ui-selected textElement" data-type="text" style="width:270px; height:140px;position:absolute;"><div  class="mText"  style="width:100%; height:100%;padding:5px;font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div>');
     var currentPage = $('.isEdit');
     iText.appendTo(currentPage);
+    showTextEditPanel($mdToast,$document);
+    initSelectedAndDraggable();
 }
 
 
-function showTextEditPanel($mdToast,$document)	{
-	$('#img-properties').remove();
+
+
+function showTextEditPanel($mdToast,$document){
+
 	$mdToast.show({
       controller: function($scope,$mdDialog){ 
          
@@ -96,12 +103,10 @@ function showTextEditPanel($mdToast,$document)	{
       	//get  FonttSize
       	$scope.getFontSize = function(){
 			$('.ui-selected > .mText').css('fontSize',$scope.fontSize.size);
-			 console.log($scope.fontSize.size)
 			 setFontSize($scope.fontSize.size)
 		}
 
 		function setFontSize(fontsize){
-			console.log(fontsize+":font-size")
 			$('#txtNumid').html(fontsize);
 		}
 	
@@ -109,7 +114,6 @@ function showTextEditPanel($mdToast,$document)	{
 		 	//get  FonttSize
       	$scope.getLineHeight = function(){
       		var lineHeightValue = $scope.lineHeight.size+"em";
-      		console.log('lineHeight:'+lineHeightValue)
 			$('.ui-selected > .mText').css('lineHeight',lineHeightValue);
 		}
 
@@ -308,7 +312,7 @@ function showTextEditPanel($mdToast,$document)	{
 		}
 	},
       templateUrl: './template/fontPropertyPanel.html',
-      parent : $document[0].querySelector('#editModulePosition'),
+      parent :$('#editModulePosition'),
       hideDelay: false
       // position: $scope.getToastPosition()
     });
@@ -347,66 +351,11 @@ function showBackgroundEditPanel($mdToast,$document){
 
 
 
-
-
-
-/*
-*Description:
-*/
-// function initElement(clickOnTargetElementName,panelType,$mdToast,$document){
-// 	$(document).ready(function(){
-		
-// 		$(clickOnTargetElementName).on('click',function(e){
-
-//  $('.mText').blur();
-// 	    $('.ui-selected>.mText').focus();
-
-// 		// showEditPanel($mdToast,$document,panelType);
-// 			e.stopPropagation();
-// 			if(clickOnTargetElementName == ".formElement"){
-// 				 if($(e.target).hasClass("ui-selected")){
-// 			  	  // $(e.target).focus();
-// 			  	  $(".rotate-rightTop").css('display','none');
-// 			  	  $(e.target).find(".rotate-rightTop").show();
-// 			  }else if(!$(e.target).hasClass("ui-selected")){
-// 			  	  // $(e.target).focus();
-// 			  	  $(".rotate-rightTop").css('display','none');
-// 			  	  $('.ui-selected').removeClass('ui-selected');
-// 			  	  $(e.target).addClass('ui-selected');
-// 			  	  $(e.target).find(".rotate-rightTop").show();
-// 			  }  
-// 			}else{
-// 			  if($(e.target).parent().hasClass("ui-selected")){
-// 			  	  // $(e.target).focus();
-// 			  	  $(".rotate-rightTop").css('display','none');
-// 			  	  $(e.target).parent().find(".rotate-rightTop").show();
-// 			  }else if(!$(e.target).parent().hasClass("ui-selected")){
-// 			  	  // $(e.target).focus();
-// 			  	  $(".rotate-rightTop").css('display','none');
-// 			  	  $('.ui-selected').removeClass('ui-selected');
-// 			  	  $(this).parent().addClass('ui-selected');
-// 			  	  $(e.target).parent().find(".rotate-rightTop").show();
-// 			  }  
-// 			}
-		 
-// 		});
-
-//    });}
-
-
-
-/*
-
-***********/
-
-
-
 function textActive(curText){
   	  	var reg = /\d+/g;
 	  	var fontSize =	$(curText).attr("style").indexOf("font-size")
 	 	if(fontSize>-1) {
 	 	 	var numFontSize = $(curText).css("fontSize").match(reg)[0];
-	 	 	console.log("fontSize:"+numFontSize)
 	 		$('#txtNumid').val(numFontSize) 
 	 	}else{$('#txtNumid').html("") } 
 
@@ -513,12 +462,6 @@ function textActive(curText){
 /*
 *Description:
 *****/
-// function initSelectedDraggable(){
-// 	$(document).ready(function(){
-// 		initDraggable();
-// 	});
-// }
-
 
 function initSelectedAndDraggable(){
 	$('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
