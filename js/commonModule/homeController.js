@@ -55,9 +55,9 @@ homeController.controller('homeController', function(
 //用户未登录状态点击我的项目
   $scope.myProject = function(){
         if(loginFn.islogged().status){
-           console.log('登录状态 进入dashboard')
+         //  console.log('登录状态 进入dashboard')
            $state.go('dashboard');
-           console.log('登录状态跳转结束')
+         //  console.log('登录状态跳转结束')
         }else{
               $mdToast.show({
                  controller: function($scope,$rootScope){
@@ -73,56 +73,59 @@ homeController.controller('homeController', function(
 
                           //$scope 作用于 user.login.tmpl.html
                           //$rootScope 作用于全局
-                          console.log(data.status+">>>>data.status")
+                          // console.log(data.status+">>>>data.status")
                            if(data.status){
                                 $rootScope.currentUser  = $rootScope.getCurrentUser();
                                 $rootScope.isAuthorized = loginFn.islogged().status;
                                 $("#loginOverLay").css('display','none');
                                 $("#pagesList").css('display','block');
-                                console.log('$("#pagesList").data("projectid")'+$("#pagesList").data("projectid"))
+                               // console.log('$("#pagesList").data("projectid")'+$("#pagesList").data("projectid"))
                                 if(!$("#pagesList").data("projectid")){
                                   $mdToast.show({
-          controller: function($scope, projectFn) {
-            $scope.savePageContentClose = function() {
-              $('#saveProjectOverLay').css('display', 'none');
-            }
-            $scope.savePageContent = function() {
-              var projectName = $("#projectName").val();           
-              var previewCode = $("#pagesList").html()
-                    .replace(/display/g, "!")
-                    .replace(/isEdit/g, "!")
-                    .replace(/icon-undo/g, "!")
-                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
 
-              var editCode    = $("#pagesList").html()
-                    .replace(/ui-selected/, '')
-                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
 
-              projectFn.addProject(projectName,previewCode,editCode)
-                .then(function(data) {
-     
-                    if (data.status) {
-                      $("#pagesList").attr('data-projectid', data.project.id);
-                      $('#saveProjectOverLay').css('display', 'none');
-                      $("#addBox").show();
-                      setTimeout(function() {
-                        $("#addBox").fadeTo(3000).hide();
-                      }, 1000);
+                                    
+                                        controller: function($scope, projectFn) {
+                                          $scope.savePageContentClose = function() {
+                                            $('#saveProjectOverLay').css('display', 'none');
+                                          }
+                                          $scope.savePageContent = function() {
+                                            var projectName = $("#projectName").val();           
+                                            var previewCode = $("#pagesList").html()
+                                                  .replace(/display/g, "!")
+                                                  .replace(/isEdit/g, "!")
+                                                  .replace(/icon-undo/g, "!")
+                                                  .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
 
-                       $state.go('dashboard');
-                    } else {
-                      view(data.msg);
-                    }
-              }, function() {
-              
-              });
-            }
+                                            var editCode    = $("#pagesList").html()
+                                                  .replace(/ui-selected/, '')
+                                                  .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
 
-          },
-          templateUrl: './template/page.save.tmpl.html',
-          parent: $document[0].querySelector('#editModulePosition'),
-          hideDelay: false
-        });
+                                            projectFn.addProject(projectName,previewCode,editCode)
+                                              .then(function(data) {
+                                   
+                                                  if (data.status) {
+                                                    $("#pagesList").attr('data-projectid', data.project.id);
+                                                    $('#saveProjectOverLay').css('display', 'none');
+                                                    $("#addBox").show();
+                                                    setTimeout(function() {
+                                                      $("#addBox").fadeTo(3000).hide();
+                                                    }, 1000);
+
+                                                     $state.go('dashboard');
+                                                  } else {
+                                                    view(data.msg);
+                                                  }
+                                            }, function() {
+                                            
+                                            });
+                                          }
+
+                                        },
+                                        templateUrl: './template/page.save.tmpl.html',
+                                        parent: $document[0].querySelector('#editModulePosition'),
+                                        hideDelay: false
+                                      });
            
 
 
@@ -133,7 +136,7 @@ homeController.controller('homeController', function(
                             }else{
                               // console.log('fail')
                               $scope.loading = false;
-                              console.log('error')
+                              //console.log('error')
                                 $scope.error = "用户名或密码错误";
                             }
                           
@@ -158,7 +161,7 @@ homeController.controller('homeController', function(
 //设置背景
   $scope.setBackground = function() {
     $(".bgAcitve").css('opacity', '1');
-    console.log('background click');
+    //console.log('background click');
     showBackgroundEditPanel($mdToast, $document);
   }
 
@@ -316,18 +319,13 @@ homeController.controller('homeController', function(
   }
 
   $scope.choosePage = function(i) {
-    $("#right_" + (i + 1)).animate({
-      opacity: 0
-    });
-    $("#right_" + (i + 1)).animate({
-      opacity: 1
-    });
-
+    $("#right_" + (i + 1)).fadeIn(300);
+    //console.log('@homeController.js DEC choosePage i is :'+i);
     $(".swiper-slide").hide();
-    $(".swiper-slide").removeClass("isEdit")
-
-    $("#right_" + (i + 1)).show()
-    $("#right_" + (i + 1)).addClass("isEdit")
+    $(".swiper-slide").removeClass("isEdit");
+    //console.log('@homeController.js DEC choosePage current i'+(i + 1))
+    $("#right_" + (i + 1)).show();
+    $("#right_" + (i + 1)).addClass("isEdit");
     $(".box>.page").hasClass('col-leftclick') ? $(".box>.page").removeClass('col-leftclick') : '';
     $("#ques_" + (i + 1)).addClass("col-leftclick");
 

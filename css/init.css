@@ -235,7 +235,7 @@ text edit panel
 }
 
 #inputValidation,#animationDelayId,#animationDurationId,#txtNumid,#txtHeightid,#txtOpacityid,#txtRadiusid,#fontFamilyid,
-#imageRadiusid{
+#imageRadiusid,#imageOpacityid{
    width: 100%;
    font-size: 12px;
 }

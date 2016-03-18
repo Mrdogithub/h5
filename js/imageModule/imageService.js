@@ -9,8 +9,7 @@ imageService.factory('imageActionService',function($http,$q,$compile,SERVER_URL,
 
 	var imageActionService = {
 		loadImage	:function(){
-			console.log('loadImage works')
-      var userName = loginFn.islogged().email;
+            var userName = loginFn.islogged().email;
 			var promise = $http({method:"GET",url:serverUrl+loadImage});
 	    		promise.success(function(data,status,headers){
 	    			return data;
@@ -20,7 +19,6 @@ imageService.factory('imageActionService',function($http,$q,$compile,SERVER_URL,
 		},
 		addImage:function(imageUrl,$scope){
 
-    console.log('@ imageService.js DEC addImage Fn works')
     $.ajax({
 
             beforeSend:function(xhr){
@@ -41,7 +39,7 @@ imageService.factory('imageActionService',function($http,$q,$compile,SERVER_URL,
             data: new FormData($('#uploadImageForm')[0]),
             success :function successFn(data){
                 $('.imageInProgress').empty();
-                $compile($('.imageInProgress').attr('id',data.image.id).html('<div class="imageContainer"><img class="myImageActive" src="'+data.image.url+'" ></div><div class="imageInfo"><span style="font-size:6px;color:#fff;float:left; padding:2px;">'+data.image.name.substring(-1,16)+'</span></div><div style="position:absolute;top:0px;left:0px;background-color:rgba(0,0,0,0.8);width:100%;height:100%;opacity:0;text-align:center;" class="imageOption"><a style="z-index:9999;color:#fff; margin-right:20px;display:inline-block;line-height:120px;" class="removeImageHover" ng-click="removeImage(item._id)"><i class=" icon-trash icon-2x" ></i></a><a style="z-index:9999;color:#fff;display:inline-block;line-height: 120px;" class="selectedImageHover" ng-click="'+"'"+data.image.url+"'"+'"><i class="icon-ok-sign icon-2x" ></i></a></div>'))($scope)
+                $compile($('.imageInProgress').attr('id',data.image.id).html('<div class="imageContainer"><img class="myImageActive" src="'+data.image.url+'" ></div><div class="imageInfo"><span style="font-size:6px;color:#fff;float:left; padding:2px;">'+data.image.name.substring(-1,16)+'</span></div><div style="position:absolute;top:0px;left:0px;background-color:rgba(0,0,0,0.8);width:100%;height:100%;opacity:0;text-align:center;" class="imageOption"><a style="z-index:9999;color:#fff; margin-right:20px;display:inline-block;line-height:120px;" class="removeImageHover" ng-click="removeImage('+"'"+data.image.id+"'"+')"><i class=" icon-trash icon-2x" ></i></a><a style="z-index:9999;color:#fff;display:inline-block;line-height: 120px;" class="selectedImageHover" ng-click="imageSelected('+"'"+data.image.url+"'"+')"><i class="icon-ok-sign icon-2x" ></i></a></div>'))($scope)
                 $('.imageInProgress').removeClass('imageInProgress');
             },
             enctype: 'multipart/form-data',

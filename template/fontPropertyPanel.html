@@ -1,5 +1,5 @@
 
-<div class="col-right text-properties">
+<div class="col-right " id="text-properties">
   <!--text-properties start-->
       <div class="title"><div class="active">文本设置</div></div>     
 <div class="btn-group module">
@@ -38,6 +38,7 @@
              <div class="size-input-wrapper">
                 <input type="number" 
                        id="txtNumid"
+                       value="" 
                        ng-model="fontSize.size"
                        ng-change="getFontSize()"/>
                 <span class="pxSpan">px</span>
@@ -228,7 +229,7 @@
                             max='5' 
                             min = '0' 
                             step='0.5' 
-                            ng-change="getImageAnimateDelay()" 
+                            ng-change="getAnimateSpeed()" 
                             aria-label="rating">
            </md-slider>
 

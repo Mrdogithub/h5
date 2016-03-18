@@ -4,7 +4,7 @@ var eidtToolDirective = angular.module('eidtToolDirective', ['ngMaterial', 'proj
 
 eidtToolDirective.directive('toolbar1', function($mdToast,
   $document, $rootScope,
-  projectFn,loginFn) {
+  projectFn,loginFn,$mdDialog) {
 
   return {
     restrict: "AE",
@@ -16,28 +16,44 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
       }
 
       $scope.previewPage = function() {
-        //$("#pagesList").css('display', 'none');
-        $mdToast.show({
+        $("#pagesList").css('display', 'none');
+        $("#popupContainer").addClass('filter');
+       $mdDialog.show({
           controller: function($scope, $compile, $sce) {
             $compile($("#previewContent").attr('ng-bind-html', 'page.preivewCode'))($scope)
             $scope.page = {
               "preivewCode": ""
             };
            //$("#pagesList").html()
-            $scope.page.preivewCode = $sce.trustAsHtml($("#pagesList").html()
-              .replace(/display/g, "!").replace(/isEdit/g, "!")
-              .replace(/icon-undo/g, "!").replace(/ui-selected/g, "")
-              .replace(/ui-selectable/g, ""));
-            
+           var previewOnce = $("#pagesList").html();
+           var strHtml = previewOnce.replace(/display/g, " ")
+                    .replace(/isEdit/g, " ")
+                    .replace(/icon-undo/g, " ")
+                    .replace(/ui-selectable/g,'')
+                    .replace(/textElement/g,'')
+                    .replace(/imageElement/g,'')
+                    .replace(/ui-draggable/g,'')
+                    .replace(/ui-resizable/g,'')
+                    .replace(/ui-selectee/g,'')
+                    .replace(/ui-selected/g,'')
+                    .replace(/right_/g,'')
+                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '') + '<script type="text/javascript"> var swiper = new Swiper(".swiper-container",{pagination:".swiper-pagination",paginationClickable:true,direction:"vertical",effect:"slide"})</script>';
+
+            $scope.page.preivewCode = $sce.trustAsHtml(strHtml);
+              
+            //console.log("@editToolDirective.js DEC print $scope.page.preivewCode is:"+$scope.page.preivewCode);
             $scope.close = function() {
-             $('#previewPageInEditStatus').css('display', 'none');
+             $mdDialog.hide();
+             // $('#previewPageInEditStatus').css('display', 'none');
+              $("#popupContainer").removeClass('filter');
               $("#pagesList").css('display', 'block');
+
               var i = $(".page.col-leftclick span").html();
               $("#right_" + (i)).show();
             }
           },
           templateUrl: "./template/page.previewPage.tmpl.html",
-          parent: $document[0].querySelector('#editModulePosition'),
+          parent: $('#main'),
           hideDelay: false
             // position: $scope.getToastPosition()
         });
@@ -142,10 +158,19 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace('defaultPage','defaultPage isEdit')
                     .replace('direction: ltr; display: none;','direction: ltr;display: block;')
 
-            var previewCode = $("#pagesList").html()
-                    .replace(/display/g, "!")
-                    .replace(/isEdit/g, "!")
-                    .replace(/icon-undo/g, "!")
+             var previewCode = $("#pagesList").html()
+                    .replace(/display/g, " ")
+                    .replace(/isEdit/g, " ")
+                    .replace(/icon-undo/g, " ")
+                    .replace(/ui-selectable/g,'')
+                    .replace(/textElement/g,'')
+                    .replace(/ui-draggable/g,'')
+                    .replace(/ui-resizable/g,'')
+                    .replace(/ui-selectee/g,'')
+                    .replace(/ui-selected/g,'')
+                    .replace(/right_/g,'')
+                    .replace(/textElement/g,'')
+                    .replace(/imageElement/g,'')
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
             // console.log('loginFn.islogged():'+loginFn.islogged().userName);
             // console.log('newLength')
@@ -192,9 +217,17 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
               // console.log('@addProject:current page length is:'+pageLength);
 
               var previewCode = $("#pagesList").html()
-                    .replace(/display/g, "!")
-                    .replace(/isEdit/g, "!")
-                    .replace(/icon-undo/g, "!")
+                    .replace(/display/g, " ")
+                    .replace(/isEdit/g, " ")
+                    .replace(/icon-undo/g, " ")
+                    .replace(/ui-selectable/g,'')
+                    .replace(/textElement/g,'')
+                    .replace(/imageElement/g,'')
+                    .replace(/ui-draggable/g,'')
+                    .replace(/ui-resizable/g,'')
+                    .replace(/ui-selectee/g,'')
+                    .replace(/ui-selected/g,'')
+                    .replace(/right_/g,'')
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
 
                var editCode = $("#pagesList").html()

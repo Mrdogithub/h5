@@ -1,0 +1,22 @@
+var rmtModule = angular.module('mainApp',['ui.router','ngMaterial','loginController','homeController',"kendo.directives",'dragDirective']);
+rmtModule.config(function($stateProvider,$urlRouterProvider){
+	$urlRouterProvider.otherwise('/');
+	$stateProvider.state('loginPage',{
+		url:'/',
+		views:{
+			'':{templateUrl:'./template/login.html',
+		        controller:'loginController'}
+		}
+	}).state('home',{
+		url:'/home',
+		views:{
+			'':{templateUrl:'./template/home.html',
+		 		controller:'homeController'}
+		}
+	}).state('project',{
+		url:'/project',
+		views:{
+			'':{templateUrl:'./template/project.html'}
+		}
+	})
+});

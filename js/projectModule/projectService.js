@@ -39,7 +39,7 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
         },
         addProject:function(projectName,previewCode,editCode,projectInfo,userName,pageLength){
            var previewCode = previewCode || '<div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%;"> </div>';
-           var editCode    = editCode    || '<i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i><div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%"> </div>';
+           var editCode    = editCode    || '<i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i><div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%;direction: ltr;"> </div>';
            var pageLength  = pageLength  || '1';
            var deffered    = $q.defer();
            var userName    = loginFn.islogged().email;
