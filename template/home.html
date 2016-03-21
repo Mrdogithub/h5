@@ -66,17 +66,67 @@
     
     <div class="mainbox" style="height: 100%;">
       <pageleft></pageleft>
+
+
         <div class="col-center" id="editModulePosition" style="height: 100%;">
               <div id="addBox" style="display:none;text-align:center;background:rgba(0,0,0,0.8);width:150px; height:50px;color:#fff;font-size:18px;padding:10px;border-radius:5px;position:absolute;top:50%;left:90%;z-index:9999999;">保存成功！</div>
+
+
+
+
+
+
+
+
                 <div id="pagesList" class="editContainer" style="height: 480px;">
-         <!--          <i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i> -->
                   <div class="swiper-slide isEdit defaultPage" data-type="page" id="right_1" style="height: 100%;  direction: ltr;"> </div>
                 </div>
-          <toolbar1></toolbar1>
+                <toolbar1></toolbar1>
         </div>
     </div>
   </div>
 </div>
 
+   
+ 
+  <div class="backgroundSeting" style=" width: 300px;position: absolute;right: 50%; top: 11%;">
+    背景颜色
+         <div  id="color-chooser-bg-1" style="margin-left: 10px;">
+         </div> <input type="color" id="hsv-picker-bg-1" ng-model="setFontBackgroundColor" style="display:inline-block;position: absolute;top:0%;" autocomplete="off">
+       
+  </div>
 
 
+<script>
+
+$(document).ready(function(){
+
+
+  $("#color-chooser-bg-1").kendoColorPalette({
+        palette: ["#ffffff", "#000000","#746153", "#3a4c8b", "#ffcc33", "#fb455f", "#ac120f" ],
+        tileSize: 20,
+        value: "#ffffff",
+        change: function() {
+            var colorId = "#"+this.value().substring(1);
+              console.log('works ' +colorId);
+              setTimeout(function(){
+
+                $('.isEdit').css('backgroundColor',colorId);
+              },100);
+
+
+            console.log('click works');
+        }
+});
+
+
+$("#hsv-picker-bg-1").kendoColorPicker({
+  toolIcon: false,
+  palette: "websafe",
+  tileSize: 20,
+  buttons:true,
+  opacity: true,
+});
+})
+
+</script>

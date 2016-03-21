@@ -1,4 +1,4 @@
-var homeController = angular.module('homeController', ['ngMaterial']);
+var homeController = angular.module('homeController', ['ngMaterial','ngMessages']);
 homeController.controller('homeController', function(
   $scope, 
   $rootScope, $mdSidenav, 
@@ -14,31 +14,36 @@ homeController.controller('homeController', function(
 
 //用户登录
   $scope.userLogin = function(){
-    $("#pagesList").css('display','none');
-        $mdToast.show({
+    $("#popupContainer").addClass('filter');
+        $mdDialog.show({
         controller: function($q,$scope,$rootScope,loginFn){
+            $scope.loadingLogin = false;
+            $scope.user = {
+              'firstName' : '',
+              'passWord'  : ''
+            }
             $scope.loginClose = function(){
-                $('#loginOverLay').css('display','none');
-                $("#pagesList").css('display','block');
+                  $mdDialog.hide();
+                  setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
             }
 
             $scope.loginBtn = function(){
-                 $scope.loading = true;
-                 $scope.error = '';
+                 $scope.loadingLogin = true;
                  $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
                  loginFn.login($scope.credentials).then(function(data){
 
                   //$scope 作用于 user.login.tmpl.html
                   //$rootScope 作用于全局
                    if(data.status){
+                        $scope.loadingLogin = false;
                         $rootScope.currentUser  = $rootScope.getCurrentUser();
                         $rootScope.isAuthorized = loginFn.islogged().status;
-                        $("#loginOverLay").css('display','none');
-                        $("#pagesList").css('display','block');
+                        $mdDialog.hide();
+                        setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
 
                     }else{
-                      $scope.loading = false;
-                        $scope.error = "用户名或密码错误";
+                      $scope.loadingLogin = false;
+                      $scope.userError = true;
                     }
                   
                    
@@ -47,7 +52,7 @@ homeController.controller('homeController', function(
 
         },
         templateUrl:'./template/user.login.tmpl.html',
-        parent : $document[0].querySelector('#editModulePosition'),
+        parent : $("#main"),
         hideDelay: false
     });
   }
@@ -59,10 +64,11 @@ homeController.controller('homeController', function(
            $state.go('dashboard');
          //  console.log('登录状态跳转结束')
         }else{
-              $mdToast.show({
+              $("#popupContainer").addClass('filter');
+              $mdDialog.show({
                  controller: function($scope,$rootScope){
                     $scope.loginClose = function(){
-                        $('#loginOverLay').css('display','none');
+                        $mdDialog.hide();
                     }
                 
                     $scope.loginBtn = function(){
@@ -77,17 +83,26 @@ homeController.controller('homeController', function(
                            if(data.status){
                                 $rootScope.currentUser  = $rootScope.getCurrentUser();
                                 $rootScope.isAuthorized = loginFn.islogged().status;
-                                $("#loginOverLay").css('display','none');
-                                $("#pagesList").css('display','block');
+                                $("#popupContainer").removeClass('filter');
+                                $mdDialog.hide();
                                // console.log('$("#pagesList").data("projectid")'+$("#pagesList").data("projectid"))
+                                
+                                console.log($("#pagesList").data("projectid")+"///////////////////")
                                 if(!$("#pagesList").data("projectid")){
-                                  $mdToast.show({
+
+                                   $("#popupContainer").removeClass('filter');
+                                            $mdDialog.hide();
 
 
-                                    
+                                            
+                                  $mdDialog.show({
+
+
+                                          
                                         controller: function($scope, projectFn) {
                                           $scope.savePageContentClose = function() {
-                                            $('#saveProjectOverLay').css('display', 'none');
+                                           $mdDialog.hide();
+                                            $("#popupContainer").removeClass('filter');
                                           }
                                           $scope.savePageContent = function() {
                                             var projectName = $("#projectName").val();           
@@ -106,7 +121,10 @@ homeController.controller('homeController', function(
                                    
                                                   if (data.status) {
                                                     $("#pagesList").attr('data-projectid', data.project.id);
-                                                    $('#saveProjectOverLay').css('display', 'none');
+                                                      $mdDialog.hide();
+                                                    $("#popupContainer").removeClass('filter');
+
+
                                                     $("#addBox").show();
                                                     setTimeout(function() {
                                                       $("#addBox").fadeTo(3000).hide();
@@ -123,7 +141,7 @@ homeController.controller('homeController', function(
 
                                         },
                                         templateUrl: './template/page.save.tmpl.html',
-                                        parent: $document[0].querySelector('#editModulePosition'),
+                                        parent: $("#main"),
                                         hideDelay: false
                                       });
            
@@ -145,7 +163,7 @@ homeController.controller('homeController', function(
                       }
                 },
                 templateUrl:'./template/user.login.tmpl.html',
-                parent : $document[0].querySelector('#editModulePosition'),
+                parent : $("#main"),
                 hideDelay: false
               });
 
@@ -158,13 +176,18 @@ homeController.controller('homeController', function(
     $(".ui-selected").remove();
   }
 
-//设置背景
+//'设置背景
   $scope.setBackground = function() {
-    $(".bgAcitve").css('opacity', '1');
-    //console.log('background click');
-    showBackgroundEditPanel($mdToast, $document);
+
+    var color = $("#hsv-picker-bg").val();
+
+    $(".isEdit").css('backgroundColor',color)
   }
 
+
+$scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
+      console.log(newValue)
+    })
 
   function saveProjectFn(){
     var pageLength = [];
@@ -302,7 +325,27 @@ homeController.controller('homeController', function(
       $("#right_" + index).hide();
       $("#right_" + index).removeClass('isEdit');
     });
-    
+
+
+    // setTimeout(function(){
+
+
+    //         var reg = /\d+/g;
+     
+    // console.log($('.isEdit').css("backgroundColor")+"//////////")
+    // var color = $('.isEdit').attr('style').indexOf('backgroundColor');
+    // // console.log('animateId:'+animateId)
+    // if(color>-1) {
+    //   setTimeout(function(){
+    //     var color = $('.isEdit').css("backgroundColor").match(reg)[0];
+    //      $("#hsv-picker-bg").val(color)
+    //   },100)
+    // }else{ $("#hsv-picker-bg").val("#ffffff")}
+    // },100)
+
+
+$("#hsv-picker-bg").val($('.isEdit').css("backgroundColor"))
+
     /**
     * @name savePageLength()
     * @path project/projectService.js
@@ -328,6 +371,52 @@ homeController.controller('homeController', function(
     $("#right_" + (i + 1)).addClass("isEdit");
     $(".box>.page").hasClass('col-leftclick') ? $(".box>.page").removeClass('col-leftclick') : '';
     $("#ques_" + (i + 1)).addClass("col-leftclick");
+
+
+
+
+
+//    setTimeout(function(){
+//      $("#hsv-picker-bg").val($('.isEdit').css("backgroundColor"))
+//    },100)
+
+
+// var sHexColor = sRgb.colorHex();//转换为十六进制方法<code></code>  
+// var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;  
+// /*RGB颜色转换为16进制*/  
+// String.prototype.colorHex = function(){  
+//     var that = this;  
+//     if(/^(rgb|RGB)/.test(that)){  
+//         var aColor = that.replace(/(?:||rgb|RGB)*/g,"").split(",");  
+//         var strHex = "#";  
+//         for(var i=0; i<aColor.length; i++){  
+//             var hex = Number(aColor[i]).toString(16);  
+//             if(hex === "0"){  
+//                 hex += hex;   
+//             }  
+//             strHex += hex;  
+//         }  
+//         if(strHex.length !== 7){  
+//             strHex = that;    
+//         }  
+//         return strHex;  
+//     }else if(reg.test(that)){  
+//         var aNum = that.replace(/#/,"").split("");  
+//         if(aNum.length === 6){  
+//             return that;      
+//         }else if(aNum.length === 3){  
+//             var numHex = "#";  
+//             for(var i=0; i<aNum.length; i+=1){  
+//                 numHex += (aNum[i]+aNum[i]);  
+//             }  
+//             return numHex;  
+//         }  
+//     }else{  
+//         return that;      
+//     }  
+// };  
+
+
 
   }
 });

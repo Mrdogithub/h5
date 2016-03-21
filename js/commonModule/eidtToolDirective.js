@@ -16,7 +16,6 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
       }
 
       $scope.previewPage = function() {
-        $("#pagesList").css('display', 'none');
         $("#popupContainer").addClass('filter');
        $mdDialog.show({
           controller: function($scope, $compile, $sce) {
