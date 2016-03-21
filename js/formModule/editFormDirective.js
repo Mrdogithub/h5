@@ -28,7 +28,7 @@ function showFormEditPanel($mdToast,$document){
 						$scope.formBorderStyle = [{"formBorderStyle":"none"},{"formBorderStyle":"solid"},{"formBorderStyle":"dotted"},{"formBorderStyle":"double"},{"formBorderStyle":"dashed"}];
 	    				//set FontFamily
 	    				$scope.setFormBorderStyle = function(newStyle){
-	    					console.log('set form style works'+newStyle);
+	    					//console.log('set form style works'+newStyle);
 	    					// $('#myForm').css('border','"1px red '+newStyle+'"');
 	    					$('#myForm').css('border','1px #eeeeee '+newStyle);
 	    					$('#formBorderStyle').html(newStyle);
@@ -45,7 +45,7 @@ function showFormEditPanel($mdToast,$document){
 
 						//set form animate
 	    				$scope.formAnimate = function(){
-	    					console.log('form works');
+	    					//console.log('form works');
 	    					function testAnimation(x){
 							    $('#myForm').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 							      // $(this).removeClass();

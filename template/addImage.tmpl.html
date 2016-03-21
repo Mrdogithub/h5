@@ -1,30 +1,9 @@
-<md-dialog aria-label="Mango (Fruit)"  ng-cloak style="padding:0;max-height: 100%; width:1000px;z-index:9999999" id="imageOverlay">
-<div class="modal-header c-modal-header" style="padding:5px;height:37px;">
-        <button ng-click="imageOverlayClose()"
-                style="display:inline-block"
-                class="close dialog-close" 
-                data-dismiss="modal" 
-                type="button" 
-                >
-            <span aria-hidden="True" class="c-span" >×</span>
-        </button>
-        <i class="fa fa-folder c-icon"></i>
-        <h5 class="modal-title c-heading" style="display:inline-block">
-          <i class=" icon-folder-close" style="margin-right:5px;"></i><span style="font-size:10px;">图库</span>
-        </h5>
-    
-        <div class="" style="display:inline-block;float:right;margin-right:50px;">
-          <input class="form-control" 
-                 name="image" 
-                 ng-model="query" 
-                 placeholder="搜索图片" 
-                 type="text" 
-                 style="height: 25px;padding: 6px 6px;font-size: 10px;">
-        </div>
-</div>
+<md-dialog aria-label="Mango (Fruit)"  tabindex="-1" id="loginOverLay"  style="position:fixed;width: 100%;position: fixed;z-index: 10110;height: 100%; background: rgba(0,0,0,0.8); top:0; left: 0;max-width: 100%;max-height: 100%;">
+
+  <a class="closeOverLay" ng-click="imageOverlayClose()"></a>
+    <md-dialog-content style="width:100%;height:100%;z-index: 999;position: absolute;top:45%;bottom: 0;left: 0;right: 0;margin:auto;">
 
 
-    <md-dialog-content style="padding:0;z-index:9999999;">
         <div class="piclaber" id="imgpop">
           <div class="leftTab">
             <ul>
@@ -37,6 +16,7 @@
                  <li class="myImg" style="width:140px; height:120px;" id="newImageTarget">
                     <form id='uploadImageForm' name="peter" enctype='multipart/form-data'>
                       <input type="file" name="uploadImage" ng-model="uploadImageFile" style="width:140px;height:120px;opacity:0; z-index:99999;position:absolute;"  onchange="angular.element(this).scope().uploadImage(this)" />
+                      <input name ="userName" type="hidden" value="{{userName}}"/>
                     </form>
                     <a type="button" class="btn btn-default" style="width: 140px;height: 120px;display: block;line-height: 100px;"><i class="icon-upload-alt icon-large"></i></a>
                  </li> 

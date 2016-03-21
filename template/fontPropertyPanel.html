@@ -50,7 +50,10 @@
           
              <span>行高</span>
              <div class="size-input-wrapper">
-                <input type="number" 
+                <input type="number"
+                       min="0"
+                       step="0.1" 
+                       max="10" 
                        id="txtHeightid"
                        ng-model="lineHeight.size"
                        ng-change="getLineHeight()" />
@@ -80,6 +83,9 @@
              <div class="size-input-wrapper">
                 <input type="number" 
                        id="txtOpacityid"
+                       step="0.1"
+                       min="0"
+                       max="1" 
                        ng-model="opacity.numberValue"
                        ng-change="getFontOpacity()"/>
               <!--   <span class="pxSpan">em</span> -->

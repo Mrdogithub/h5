@@ -24,6 +24,20 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
               "preivewCode": ""
             };
            //$("#pagesList").html()
+         // var previewOnce = $("#pagesList").html();
+         //    $scope.page.preivewCode = $sce.trustAsHtml(previewOnce.replace(/display/g, " ")
+         //      .replace(/isEdit/g, " ")
+         //            .replace(/icon-undo/g, " ")
+         //            .replace(/ui-selectable/g,'')
+         //            .replace(/textElement/g,'')
+         //            .replace(/imageElement/g,'')
+         //            .replace(/ui-draggable/g,'')
+         //            .replace(/ui-resizable/g,'')
+         //            .replace(/ui-selectee/g,'')
+         //            .replace(/ui-selected/g,'')
+         //            .replace(/right_/g,'') + '<script type="text/javascript"> $(document).ready(function(){var swiper = new Swiper(".swiper-container",{pagination:".swiper-pagination",paginationClickable:true,direction:"vertical",effect:"slide"})})</script>');
+
+                    
            var previewOnce = $("#pagesList").html();
            var strHtml = previewOnce.replace(/display/g, " ")
                     .replace(/isEdit/g, " ")
@@ -41,11 +55,11 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
             $scope.page.preivewCode = $sce.trustAsHtml(strHtml);
               
             //console.log("@editToolDirective.js DEC print $scope.page.preivewCode is:"+$scope.page.preivewCode);
-            $scope.close = function() {
-             $mdDialog.hide();
+            $scope.closePreview = function() {
+               $mdDialog.hide();
              // $('#previewPageInEditStatus').css('display', 'none');
               $("#popupContainer").removeClass('filter');
-              $("#pagesList").css('display', 'block');
+
 
               var i = $(".page.col-leftclick span").html();
               $("#right_" + (i)).show();
@@ -80,7 +94,7 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                 *  }
                 */
                 if(projectIdIsNull()){
-                    addProjectFn($mdToast, $document)  
+                    addProjectFn($mdDialog, $document)  
                 }else{
                     saveProjectFn();
                 }
@@ -88,24 +102,27 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
           }else{
 
 
-                $mdToast.show({
+                $mdDialog.show({
                   controller: function($scope, $rootScope,loginFn) {
+                     $("#popupContainer").addClass('filter');
+                     $scope.loadingLogin = false;
                       $scope.loginClose = function(){
-                         $('#loginOverLay').css('display','none');
+                          $mdDialog.hide();
+                          setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
                       }
 
                       $scope.loginBtn = function(){
-                         $scope.loading = true;
-                         $scope.error = '';
+                        $scope.loadingLogin = true;
                          $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
                          loginFn.login($scope.credentials).then(function(data){
 
                            if(data.status){
                                 $rootScope.currentUser  = $rootScope.getCurrentUser();
                                 $rootScope.isAuthorized = loginFn.islogged().status;
-                                $("#loginOverLay").css('display','none');
-                                $("#pagesList").css('display','block');
-                                addProjectFn($mdToast, $document) 
+                                $scope.loadingLogin = false;
+                                //$mdDialog.hide();
+                                //setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
+                                addProjectFn($mdDialog, $document) 
                             }else{
                                 // console.log('fail')
                                 $scope.loading = false;
@@ -118,7 +135,7 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
 
                   },
                   templateUrl: './template/user.login.tmpl.html',
-                  parent: $document[0].querySelector('#editModulePosition'),
+                  parent:$("#main"),
                   hideDelay: false
                 });         
           }
@@ -175,9 +192,9 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
             // console.log('newLength')
             projectFn.saveProject(newLength, projectid, editCode, previewCode)
               .then(function(data) {
-
+                  
                   if (data.status) {
-                    $('.md-dialog-container').css('display', 'none');
+                    setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
                     $("#addBox").show();
                     setTimeout(function() {
                       $("#addBox").fadeTo(3000).hide();
@@ -200,14 +217,16 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
 * 用于用户创建新项目
 */
 
-      function addProjectFn($mdToast, $document) {
-        //console.log('addProjectFn 执行')
-        $mdToast.show({
+      function addProjectFn($mdDialog, $document) {
+      $("#popupContainer").addClass('filter');
+        $mdDialog.show({
           controller: function($scope, projectFn) {
-            $scope.savePageContentClose = function() {
-              $('#saveProjectOverLay').css('display', 'none');
+            $scope.closeSavePage = function() {
+               $mdDialog.hide();
+               setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
             }
             $scope.savePageContent = function() {
+              $scope.loadingSave = false;
               var projectName = $("#projectName").val();
               var projectInfo = $('#projectInfo').val();     
               var pageLength  = projectFn.getPageLength();
@@ -236,21 +255,20 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace(/display: flex/, "display: none")
                     .replace('defaultPage','defaultPage isEdit')
                     .replace('direction: ltr; display: none;','direction: ltr;display: block;');
-              // console.log(projectName+":projectName");
-              // console.log(projectInfo+":projectInfo");
-              // console.log(pageLength+":pageLength");
-              // console.log(userName+":userName");
 
               projectFn.addProject(projectName,previewCode,editCode,projectInfo,userName,pageLength)
                 .then(function(data) {
                    // console.log(data.status+":data.status")
                     if (data.status) {
                       $("#pagesList").attr('data-projectid', data.project.id);
-                      $('#saveProjectOverLay').css('display', 'none');
-                      $("#addBox").show();
-                      setTimeout(function() {
-                        $("#addBox").fadeTo(3000).hide();
-                      }, 1000);
+                        $scope.loadingSave = true;
+                        $mdDialog.hide();
+                        setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
+                        $("#addBox").show();
+                        setTimeout(function() {
+                          $("#addBox").fadeTo(3000).hide();
+                        }, 1000);
+
                     } else {
                       // console.log('@editToolDirective.js  Fn: add project :'+data.name)
                     }
@@ -261,7 +279,7 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
 
           },
           templateUrl: './template/page.save.tmpl.html',
-          parent: $document[0].querySelector('#editModulePosition'),
+          parent: $('#main'),
           hideDelay: false
         });
       }

@@ -10,7 +10,7 @@ imageService.factory('imageActionService',function($http,$q,$compile,SERVER_URL,
 	var imageActionService = {
 		loadImage	:function(){
             var userName = loginFn.islogged().email;
-			var promise = $http({method:"GET",url:serverUrl+loadImage});
+			var promise = $http({method:"GET",url:serverUrl+loadImage,params:{userName:userName}});
 	    		promise.success(function(data,status,headers){
 	    			return data;
 	    		});
@@ -22,10 +22,10 @@ imageService.factory('imageActionService',function($http,$q,$compile,SERVER_URL,
     $.ajax({
 
             beforeSend:function(xhr){
-        var userName = loginFn.islogged().email;
-        var newUpload = $('<li class="myImg imageInProgress"><img src="images/imageplacholder.jpg" style="width:140px;"/><div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:0%;height:10px;"><span class="sr-only">60% Complete</span></div></li>');
-            newUpload.insertAfter($("#newImageTarget"));
-    },
+                var userName = loginFn.islogged().email;
+                var newUpload = $('<li class="myImg imageInProgress"><img src="images/imageplacholder.jpg" style="width:140px;"/><div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:0%;height:10px;"><span class="sr-only">60% Complete</span></div></li>');
+                    newUpload.insertAfter($("#newImageTarget"));
+            },
             xhrFields: {
                 onprogress: function (evt) {
                    if (evt.lengthComputable) {

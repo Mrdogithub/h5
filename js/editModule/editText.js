@@ -15,7 +15,7 @@ editText.directive('edittext',function(
 		link:function($scope){
 
 			/*
-			*@ 点击元素显示编辑面板
+			*@全局监听点击文本元素方法，点击元素并显示文本编辑面板
 			*
 			***/
 			$(document).on('click','.textElement',function(){
@@ -33,7 +33,10 @@ editText.directive('edittext',function(
 			})
 
 
-
+            /*
+            *@ 读取已保存的项目到编辑页面
+            *
+            ****/
             var loadingProjectById = projectFn.getProjectId();
 			if(loadingProjectById){
 				projectFn.loadEditPage(loadingProjectById).then(function(data){
@@ -43,7 +46,7 @@ editText.directive('edittext',function(
 					$scope.editcode = data.pages.editCode;
 					$("#pagesList").attr('data-projectid',loadingProjectById);
 				    $(document).on('click',' .isEdit > div ',function(e){
-				    	console.log('@editText.js DEC if click preview function?');
+				    	//console.log('@editText.js DEC if click preview function?');
 				    	if($(e.target).hasClass('mText')){
 				    		// $(e.target).focus();
 			  	  			$(".rotate-rightTop").css('display','none');
@@ -64,8 +67,9 @@ editText.directive('edittext',function(
 	           },function(){})
 			}
 
+
+			//创建新文本
 			$scope.newText = function(){
-				//console.log('@editText.js DEC create new Text')
                 createNewText($mdToast,$document);
 			};
 		}
@@ -73,12 +77,13 @@ editText.directive('edittext',function(
 })
 
 
+//判断当前是否存在项目
 function projectIsNull(){
 	var status = typeof($("#pagesList").data('projectid')) == "undefined"?true:false;
 	return status;
 }
 
-//Create new text
+//创建文本
 function createNewText($mdToast,$document){
 	$('.img-properties').remove();
 	$('.ui-selected').removeClass('ui-selected');
@@ -96,7 +101,7 @@ var iText = $('<div class="ui-selected textElement" data-type="text" style="posi
 
 
 
-
+//显示文本编辑面板
 function showTextEditPanel($mdToast,$document){
 
 	$mdToast.show({
@@ -106,7 +111,7 @@ function showTextEditPanel($mdToast,$document){
       		$('.ui-selected > .mText').html($scope.textContent);
       	}
 
-      	//get  FonttSize
+      	//设置字体大小
       	$scope.getFontSize = function(){
 			$('.ui-selected > .mText').css('fontSize',$scope.fontSize.size);
 			 setFontSize($scope.fontSize.size)
@@ -117,13 +122,13 @@ function showTextEditPanel($mdToast,$document){
 		}
 	
 
-		 	//get  FonttSize
+		//设置行高
       	$scope.getLineHeight = function(){
       		var lineHeightValue = $scope.lineHeight.size+"em";
 			$('.ui-selected > .mText').css('lineHeight',lineHeightValue);
 		}
 
-		//init FontFamily
+		//设置字体
 		$scope.fontFamily = [{"name":"Helvetica","value":"Helvetica"},{"name":"Arial","value":"Arial"},{"name":"Verdana","value":"Verdana"},{"name":"Tahoma","value":"Tahoma"},{"name":"Georgia","value":"Georgia"},{"name":"sans-serif","value":"sans-serif"},{"name":"monospace","value":"monospace"},{"name":"fantasy","value":"fantasy"},{"name":"cuisive","value":"cuisive"},{"name":"Helvetica, sans-serif","value":"Helvetica, sans-serif"},{"name":"Arial, sans-serif","value":"Arial, sans-serif"},{"name":"Lucida Grande', sans-serif","value":"Lucida Grande', sans-serif"},{"name":"Verdana,sans-serif","value":"Verdana,sans-serif"},{"name":" Tahoma, sans-serif","value":" Tahoma, sans-serif"},{"name":"'Trebuchet MS', sans-serif","value":"'Trebuchet MS', sans-serif"},{"name":"Georgia, serif","value":"Georgia, serif"},{"name":"Times, serif","value":"Times, serif"},{"name":"寰蒋闆呴粦","value":"Microsoft YaHei"},{"name":"鍗庢枃缁嗛粦","value":"STHeiti"},{"name":"榛戜綋","value":"SimHei"},{"name":"妤蜂綋_GB2312","value":"KaiTi_GB2312"}];
 		// $scope.fontFamily = [{"name":"Helvetica","value":"Helvetica"},{"name":"Arial":"value":"Arial"},{"name":"Verdana":"value":"Verdana"},{"name":"Tahoma":"value":"Tahoma"},{"name":"Georgia":"value":"Georgia"},{"name":"sans-serif":"value":"sans-serif"},{"name":"寰蒋闆呴粦","value":"Microsoft YaHei"},{"name":"妤蜂綋_GB2312","value":"KaiTi_GB2312"},{"name":"浠垮畫_GB2312","value":"FangSong_GB2312"},{"name":"妤蜂綋","value":"KaiTi"},{"name":"浠垮畫","value":"FangSong"},{"name":"鏂板畫浣?,"value":"NSimSun"},{"name":"瀹嬩綋","value":"SimSun"},{"name":"榛戜綋","value":"SimHei"},{"name":"鍗庢枃浠垮畫","value":"STFangsong "},{"name":"鍗庢枃瀹嬩綋","value":"STSong"},{"name":"鍗庢枃妤蜂綋","value":"STKaiti"},{"name":"鍗庢枃榛戜綋","value":"STHeiti"},{"name":"鍗庢枃缁嗛粦","value":"STHeiti Light"}];
 		//set FontFamily
@@ -132,17 +137,12 @@ function showTextEditPanel($mdToast,$document){
 			$('.ui-selected > .mText').css('fontFamily','"'+$scope.selected+'"');
 		}
 
-		//set FontColor
+		//设置字体颜色
 		$scope.$watch("setFontColor",function(newColor,oldColor){
 			$('.ui-selected > .mText').css('color',newColor);
 		});
 
-		//init line height
-		// $scope.setLineHeight = function(){
-		// 	$('.ui-selected > .mText').css('lineHeight',$scope.selected.lineHeight*100+"%");
-		// }
-
-		//setFontBold
+		//设置加粗
 		$scope.setFontBold = function(){
 			if($('.ui-selected  > .mText').css("fontWeight") != "bold"){
 				$('.ui-selected > .mText').css("fontWeight","bold");
@@ -153,7 +153,7 @@ function showTextEditPanel($mdToast,$document){
 			}
 		};
 
-		//set Italic
+		//设置斜体
 		$scope.setFontItalic = function(){
 			if($('.ui-selected  > .mText').css("fontStyle") != "italic"){
 				$('.ui-selected > .mText').css("fontStyle","italic");
@@ -164,7 +164,7 @@ function showTextEditPanel($mdToast,$document){
 			}
 		}
 		
-		//set Text Decoration
+		//设置下划线
 		$scope.setTextDecoration = function(){
 			if($('.ui-selected  > .mText').css("textDecoration") != "underline"){
 				$('.ui-selected > .mText').css("textDecoration","underline");
@@ -175,7 +175,7 @@ function showTextEditPanel($mdToast,$document){
 			}
 		}
 
-		//set TextAlignLeft
+		//设置元素对齐
 		$scope.setTextAlign = function(textPos){
 			if($('.ui-selected  > .mText').css("textAlign") != textPos){
 				$('.ui-selected > .mText').css("textAlign",textPos);
@@ -187,17 +187,17 @@ function showTextEditPanel($mdToast,$document){
 			}
 		}
 
-		//set Radius 
+		//设置圆角
 		$scope.getRadiusSize = function(){
 			$('.ui-selected').css("borderRadius",$scope.radius.size+"px");
 		}
 
-		//set FontBackgroundColor
+		//设置文本背景
 		$scope.$watch("setFontBackgroundColor",function(newValue,oldValue){
 			$('.ui-selected').css("backgroundColor",newValue);
 		});
 
-		//set FontOpacity
+		//设置透明度
 		$scope.getFontOpacity  = function(){
 			$('.ui-selected > .mText').css("opacity",$scope.opacity.numberValue);
 		};
@@ -208,38 +208,35 @@ function showTextEditPanel($mdToast,$document){
 		// }
 
 		//init border style
-		$scope.borderStyle = [{"borderStyle":"none"},{"borderStyle":"dotted"},{"borderStyle":"dashed"},{"borderStyle":"solid"},{"borderStyle":"double"},{"borderStyle":"groove"},{"borderStyle":"ridge"},{"borderStyle":"inset"},{"borderStyle":"outset"},{"borderStyle":"inherit"}]
+		//$scope.borderStyle = [{"borderStyle":"none"},{"borderStyle":"dotted"},{"borderStyle":"dashed"},{"borderStyle":"solid"},{"borderStyle":"double"},{"borderStyle":"groove"},{"borderStyle":"ridge"},{"borderStyle":"inset"},{"borderStyle":"outset"},{"borderStyle":"inherit"}]
 		//set  border style
-		$scope.setBorderStyle = function(){
-			$('.ui-selected > .mText').css('borderStyle',$scope.selected.borderStyle);	
-		};
+		// $scope.setBorderStyle = function(){
+		// 	$('.ui-selected > .mText').css('borderStyle',$scope.selected.borderStyle);	
+		// };
 		
-		//set font link
+		//监听文本链接是否有变化，有变化更新之
 		$scope.$watch("setFontLink",function(newValue,oldValue){
 			$('.ui-selected > .mText').attr("data-link",newValue);		    			
 		})
 
 		//set border color
-		$scope.$watch("setBorderColor",function(newValue,oldColor){
-			$('.ui-selected > .mText').css('borderColor',newValue);	
-		});
+		// $scope.$watch("setBorderColor",function(newValue,oldColor){
+		// 	$('.ui-selected > .mText').css('borderColor',newValue);	
+		// });
 
 
+		//选择动画效果
 		$scope.textAnimate = function(){
-			var speed = "1s";
-			var delay = "0s";
-			if($scope.AnimateSpeed){
-				speed = $scope.AnimateSpeed.size + "s";
-			}
-			if($scope.AnimateDelay){
-				delay = $scope.AnimateDelay.size + "s";
-			}
-		    testAnimation($scope.selected);
-			function testAnimation(x){
-				$('.ui-selected').removeClass().addClass(x + ' ui-selected ui-draggable ui-resizable textElement').css({"animation-name":x,"animation-duration":speed,"animation-delay":delay});
-			}
+			 testAnimation($scope.selected);
+    		 function testAnimation(x){
+			    $('.ui-selected').removeClass().addClass(x + ' animated ui-selected ui-draggable ui-resizable').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			      // $(this).removeClass();
+			    });
+			  }
 		}
-		//text animate speed
+		
+
+		//设置动画延时 / 时长
       	$scope.getAnimateSpeed = function(){
 			//$('#ani').prop('selectedIndex', -1);
 			var aniname = "bounceIn";
@@ -273,47 +270,27 @@ function showTextEditPanel($mdToast,$document){
 		}
 	
 
-		//text animate delay
-      	$scope.getFontAnimateDelay = function(){
-			//$('#ani').prop('selectedIndex', -1);
-			$('.ui-selected').css("display","none");
-			var aniname = "bounceIn";
-			var speed = "1s";
-			var delay = "0s";
-			if($scope.selected){
-				aniname = $scope.selected +"";
-			}
-			if($scope.AnimateSpeed){
-				speed = $scope.AnimateSpeed.size + "s";
-			}
-			if($scope.AnimateDelay){
-				delay = $scope.AnimateDelay.size + "s";
-			}
-			$('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
-			
-			function test(){
-				$('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay});
-			}
-			setTimeout(test,100);
-		}
-
-		//text link
+		//添加文本链接
 		$scope.setTextLink = function(){
+			$("#popupContainer").addClass('filter');
 			$mdDialog.show({
 				controller:function($scope,items){
 				  $scope.textlink="";
 				  $scope.textlink = $('.ui-selected').attr('data-link');
-				  $scope.saveTextLinkCancel = function(){
-	    			$mdDialog.cancel();
-	    			$('.md-dialog-container').css('display','none');
+				  $scope.linkClose = function(){
+	    			 $mdDialog.hide();
+               		 setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
 	    		  }
-				  $scope.saveTextLink = function(){
+				  $scope.saveLink = function(){
+				   $scope.loadingAdd = true;
 				   $('.ui-selected').attr('data-link','');
 				   $('.ui-selected').attr('data-link',$scope.textlink);
 
 				   $(".ui-selected").attr("onclick","window.open('"+$scope.textlink+"','target','param')");
-				   $mdDialog.cancel();
-				   $('.md-dialog-container').css('display','none');
+				  $scope.loadingAdd = false;
+				   $mdDialog.hide();
+               		setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
+
 				   	$("#addBox").show();
 					setTimeout(function(){$("#addBox").fadeTo(3000).hide();	},1000);
 				  }
@@ -322,7 +299,7 @@ function showTextEditPanel($mdToast,$document){
 				locals:{
 					    items:$('.ui-selected').data('link')     
 				},
-				parent:$document[0].querySelector("#main"),
+				parent:$("#main"),
 				hideDelay:false
 			});
 		}

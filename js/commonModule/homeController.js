@@ -7,9 +7,13 @@ homeController.controller('homeController', function(
 
 //用户退出
   $scope.loginOut = function(){
+    $("#popupContainer").addClass('filter');
     loginFn.logout();
     $rootScope.isAuthorized = loginFn.islogged().status;
-    $state.go('homePage');
+    //$state.go('homePage');
+
+    window.location.reload();
+    setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
   }
 
 //用户登录
@@ -61,18 +65,24 @@ homeController.controller('homeController', function(
   $scope.myProject = function(){
         if(loginFn.islogged().status){
          //  console.log('登录状态 进入dashboard')
-           $state.go('dashboard');
+          $state.go('dashboard');
          //  console.log('登录状态跳转结束')
+
+
+         
         }else{
               $("#popupContainer").addClass('filter');
               $mdDialog.show({
                  controller: function($scope,$rootScope){
                     $scope.loginClose = function(){
                         $mdDialog.hide();
+                        setTimeout(function(){
+                            $("#popupContainer").removeClass('filter');
+                        },250)
                     }
                 
                     $scope.loginBtn = function(){
-                         $scope.loading = true;
+                         $scope.loadingLogin = true;
                          $scope.error = '';
                          $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
                          loginFn.login($scope.credentials).then(function(data){
@@ -84,14 +94,12 @@ homeController.controller('homeController', function(
                                 $rootScope.currentUser  = $rootScope.getCurrentUser();
                                 $rootScope.isAuthorized = loginFn.islogged().status;
                                 $("#popupContainer").removeClass('filter');
-                                $mdDialog.hide();
-                               // console.log('$("#pagesList").data("projectid")'+$("#pagesList").data("projectid"))
-                                
-                                console.log($("#pagesList").data("projectid")+"///////////////////")
+                              //  $mdDialog.hide();
+                         
                                 if(!$("#pagesList").data("projectid")){
 
-                                   $("#popupContainer").removeClass('filter');
-                                            $mdDialog.hide();
+    
+                                
 
 
                                             
@@ -100,11 +108,14 @@ homeController.controller('homeController', function(
 
                                           
                                         controller: function($scope, projectFn) {
-                                          $scope.savePageContentClose = function() {
-                                           $mdDialog.hide();
+                                          $scope.loadingSave = false;
+                                          $scope.closeSavePage = function() {
+                                            console.log('close work');
+                                            $mdDialog.hide();
                                             $("#popupContainer").removeClass('filter');
                                           }
                                           $scope.savePageContent = function() {
+                                             $scope.loadingSave = true;
                                             var projectName = $("#projectName").val();           
                                             var previewCode = $("#pagesList").html()
                                                   .replace(/display/g, "!")
@@ -121,6 +132,7 @@ homeController.controller('homeController', function(
                                    
                                                   if (data.status) {
                                                     $("#pagesList").attr('data-projectid', data.project.id);
+                                                    $scope.loadingLogin = false;
                                                       $mdDialog.hide();
                                                     $("#popupContainer").removeClass('filter');
 
@@ -152,10 +164,8 @@ homeController.controller('homeController', function(
                                 }
 
                             }else{
-                              // console.log('fail')
-                              $scope.loading = false;
-                              //console.log('error')
-                                $scope.error = "用户名或密码错误";
+                                $scope.loadingLogin = false;
+                                $scope.userError = true;
                             }
                           
                            
@@ -167,7 +177,7 @@ homeController.controller('homeController', function(
                 hideDelay: false
               });
 
-          }
+        }
   }
       
 
@@ -325,8 +335,8 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
       $("#right_" + index).hide();
       $("#right_" + index).removeClass('isEdit');
     });
-
-
+$(".box>.page").hasClass('col-leftclick') ? $(".box>.page").removeClass('col-leftclick') : '';
+ //$("#ques_" + (n + 1)).addClass("col-leftclick");
     // setTimeout(function(){
 
 

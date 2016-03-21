@@ -23,17 +23,22 @@ projectController.controller('projectController', function($scope,
   var _scope = $scope;
 
   $scope.loginOut = function(){
+      $("#popupContainer").addClass('filter');
       loginFn.logout();
       $rootScope.isAuthorized = loginFn.islogged().status;
 
       //项目管理页面退出后，返回到主页
       $state.go('homePage');
+      setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
+     
   }
   $scope.createProject = function(ev, id) {
     $(".dashboardContainer").addClass('filter');
     $mdDialog.show({
       controller: function($scope, $compile, projectFn) {
+        $scope.loadingSave =false;
         $scope.copyProjectInProgress = function() {
+        $scope.loadingSave = true;
         $scope.projectInfo = {
           "id": "",
           "projectname": "",
@@ -53,7 +58,7 @@ projectController.controller('projectController', function($scope,
              //$compile($('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="' + $scope.projectInfo.id + '"><div class="thumbnail"  style="height: 334px; padding:0;" ><div class="projectInfo-projectName" style="position:absolute;width:100%;opacity:1;"><img  style="width:100%;height:auto;"  src="' + $scope.projectInfo.cover + '"><div style="width:100%;position:absolute;bottom:0px;text-align:center;height:40px;background:#fff;padding:10px 0px 10px 0px;">' + $scope.projectInfo.projectname + '</p></div></div><div class="dask" style="position:absolute;width:100%;opacity:0;"><p class="showMoreIcons"><span ng-click="deletePage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="projectInfoShowMoreIcons-remove" style="width:0px;opacity:0;"></span><span ng-click="copyProject($event,' + "'" + $scope.projectInfo.id + "'," + "'" + $scope.projectInfo.projectname + "'" + ')" class="projectInfoShowMoreIcons-copy" style="width:0px;opacity:0;"></span><span href="javascript:;" class="projectInfoShowMoreIcons"></span></p><img src="' + $scope.projectInfo.qrcode + '" style="width:100%;"><p class="projectInfoDownloadQRCode">下载二维码</p><p class="showMoreIconsBottom"><a ng-click="previewPage($event,' + "'" + $scope.projectInfo.url + "'," + "'" + $scope.projectInfo.qrcode + "'" + ')" class="projectInfoShowMoreIcons-preview"></a><a ng-click="editPage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="projectInfoShowMoreIcons-edit"></a></p></div></div></div></div></div>').prependTo($('.modlist')))(_scope);
               
 
-              
+               $scope.loadingSave = false;
               $mdDialog.hide();
               setTimeout(function(){ $(".dashboardContainer").removeClass('filter');},250)
        
