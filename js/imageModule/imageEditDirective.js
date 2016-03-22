@@ -30,7 +30,6 @@ imageEditDirective.directive('editimage',function(
 
 				$('.mText').blur();
 				$(this).addClass('ui-selected');
-				$('.ui-selected').disabled =false;
 				initSelectedAndDraggable();
 				showImageEditPanel($mdToast,$mdDialog,$document);	
 			})
@@ -50,6 +49,8 @@ imageEditDirective.directive('editimage',function(
 				 	showAddImageOverLay($mdToast,$mdDialog,$document,newImage)
 				 }else{
 
+				 	//console.log('@imageEditDirective.js DEC user not login ')
+
 				 	//如果哟过户未登陆，显示登录对话框
 		            $("#popupContainer").addClass('filter');
 		            $mdDialog.show({
@@ -65,27 +66,20 @@ imageEditDirective.directive('editimage',function(
 		                        $scope.loadingLogin = true;
 		                        $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
 		                        loginFn.login($scope.credentials).then(function(data){
+			                        //$scope 作用于 user.login.tmpl.html
+			                        //$rootScope 作用于全局
+			                        // console.log(data.status+">>>>data.status")
+			                        if(data.status){
+		                                $rootScope.currentUser  = $rootScope.getCurrentUser();
+		                                $rootScope.isAuthorized = loginFn.islogged().status;
 
-				                        //$scope 作用于 user.login.tmpl.html
-				                        //$rootScope 作用于全局
-				                        // console.log(data.status+">>>>data.status")
-				                        if(data.status){
-			                                $rootScope.currentUser  = $rootScope.getCurrentUser();
-			                                $rootScope.isAuthorized = loginFn.islogged().status;
-			                                $mdDialog.hide();
-
-			                                setTimeout(function(){
-			                                	$("#popupContainer").removeClass('filter');
-			                                },250)
-
-			                                setTimeout(function(){
-			                                	var newImage = true;
-					 							showAddImageOverLay($mdToast,$mdDialog,$document,newImage)
-			                                },250)
-										}else{
-			                            	$scope.loadingLogin = false;
-			                      			$scope.userError = true;
-			                            }
+		                                //显示添加图片overlay
+	                               		var newImage = true;
+			 							showAddImageOverLay($mdToast,$mdDialog,$document,newImage)
+									}else{
+		                            	$scope.loadingLogin = false;
+		                      			$scope.userError = true;
+		                            }
 			                    });//end loginFn.login(....)
 	                        }// end $scop.loginBtn
 		                },
@@ -153,8 +147,24 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 
 		    	imageAnimation($scope.selected);
 	    		function imageAnimation(x){
-				    $('.ui-selected').removeClass().addClass(x + ' animated ui-selected ui-draggable ui-resizable').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-				    });
+	    			$('.ui-selected').removeClass().addClass('   ani  ui-selected ui-draggable ui-resizable imageElement');
+	    			$('.ui-selected').attr('swiper-animate-effect',x);
+	
+					
+					// $('.ui-selected').attr('swiper-animate-duration',speed);
+					// $('.ui-selected').attr('swiper-animate-delay',delay);
+				    // $('.ui-selected').removeClass().addClass(x + ' animated ui-selected ui-draggable ui-resizable imageElement').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+				    // });
+				     
+				       	var mySwiper = new Swiper (".editContainer", {
+						  onInit: function(swiper){ //Swiper2.x的初始化是onFirstInit
+						    swiperAnimateCache(swiper); //隐藏动画元素 
+						    swiperAnimate(swiper); //初始化完成开始动画
+						  }, 
+						  onSlideChangeEnd: function(swiper){ 
+						    swiperAnimate(swiper); //每个slide切换结束时也运行当前slide动画
+						  } 
+						});
 				}
 		   }
 
@@ -166,31 +176,96 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 		
 	
 		   //设置动画延时 / 时长
+	   //     $scope.getImageAnimateSpeed = function(){
+				// var aniname = "bounceIn";
+				// var speed = "1s";
+				// var delay = "0s";
+				// $('.ui-selected').css("opacity",0);
+				// if($scope.selected){
+				// 	aniname = $scope.selected +"";
+				// }
+				// if($scope.AnimateSpeed){
+				// 	speed = $scope.AnimateSpeed.size + "s";
+				// }
+				// if($scope.AnimateDelay){
+				// 	delay = $scope.AnimateDelay.size + "s";
+				// }
+				// $('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
+				
+				// function test(){
+				// 	$('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay}).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+				// 	 	//$('.ui-selected').css("opacity",1);
+				// 	});
+				// } 
+				// setTimeout(test,100);
+		  //  }
+
+	
+		   //设置动画延时 / 时长
 	       $scope.getImageAnimateSpeed = function(){
-				var aniname = "bounceIn";
+
+				var aniname = "xxx";
 				var speed = "1s";
 				var delay = "0s";
-				$('.ui-selected').css("opacity",0);
-				if($scope.selected){
-					aniname = $scope.selected +"";
-				}
+
+				
 				if($scope.AnimateSpeed){
 					speed = $scope.AnimateSpeed.size + "s";
 				}
 				if($scope.AnimateDelay){
 					delay = $scope.AnimateDelay.size + "s";
 				}
-				$('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
-				
-				function test(){
-				$('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay}).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-				 	$('.ui-selected').css("opacity",1);
-				});
-			} 
-				setTimeout(test,100);
-		   }
-    		
+			//	$('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
+				function startAnimate(){
+			
+					if($scope.selected){
+						aniname = $scope.selected +"";
+						$('.ui-selected').removeClass().addClass(' ani animated ui-selected ui-draggable ui-resizable imageElement');
+						setTimeout(function(){
 
+							$('.ui-selected').removeClass().addClass(aniname+'ani animated ui-selected ui-draggable ui-resizable imageElement');
+						},1000)
+					}
+
+					$('.ui-selected').attr('swiper-animate-effect',aniname);
+					$('.ui-selected').attr('swiper-animate-duration',speed);
+					$('.ui-selected').attr('swiper-animate-delay',delay);
+
+
+					var mySwiper = new Swiper (".editContainer", {
+						  onInit: function(swiper){ //Swiper2.x的初始化是onFirstInit
+						    swiperAnimateCache(swiper); //隐藏动画元素 
+						    swiperAnimate(swiper); //初始化完成开始动画
+						  }, 
+						  onSlideChangeEnd: function(swiper){ 
+						    swiperAnimate(swiper); //每个slide切换结束时也运行当前slide动画
+						  } 
+					})
+				}
+
+
+				// function test(){
+				// 	$('.ui-selected').addClass('ani');
+				// 	$('.ui-selected').attr('swiper-animate-effect',$scope.selected);
+				// 	$('.ui-selected').attr('swiper-animate-duration',speed);
+				// 	$('.ui-selected').attr('swiper-animate-delay',delay);
+
+
+				// 	var mySwiper = new Swiper (".swiper-container", {
+				// 		  onInit: function(swiper){ //Swiper2.x的初始化是onFirstInit
+				// 		    swiperAnimateCache(swiper); //隐藏动画元素 
+				// 		    swiperAnimate(swiper); //初始化完成开始动画
+				// 		  }, 
+				// 		  onSlideChangeEnd: function(swiper){ 
+				// 		    swiperAnimate(swiper); //每个slide切换结束时也运行当前slide动画
+				// 		  } 
+				// 		}) 
+				// 	// $('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay}).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+				// 	//  	$('.ui-selected').css("opacity",1);
+				// 	// });
+				// } 
+				setTimeout(startAnimate,100);
+		   }
 
 		   $scope.setImageLink = function(){
 				$("#popupContainer").addClass('filter');
@@ -236,73 +311,73 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 *
 *****/
 function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
-$("#popupContainer").addClass('filter');
- $mdDialog.show({
-			      controller: function($scope,$compile,getImageList,imageActionService,loginFn){
-			      	       // getImageList 从app.js 传入 用来获取已上传数据，并渲染到添加图片页面
-			      	       // 
-			      	       // show all data from obj
-			      	       //for(var i in $scope.imageList){
-      				       // 		console.log(i+":"+$scope.imageList[i])
-      				       // 		for(var j in $scope.imageList[i]){
-      				       // 			console.log(j+":"+$scope.imageList[i][j])
-      				       // 		}
-      				       // }
-			      		   $scope.imageList = getImageList.data;	
-			      		   $scope.userName = loginFn.islogged().email;
-					       $scope.imageOverlayClose = function(){
-			    			 $mdDialog.hide();
-		               		 setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
-					       } 
+	$("#popupContainer").addClass('filter');
+
+ 	$mdDialog.show({
+		controller: function($scope,$compile,getImageList,imageActionService,loginFn){
+  	       // getImageList 从app.js 传入 用来获取已上传数据，并渲染到添加图片页面
+  	       // 
+  	       // show all data from obj
+  	       //for(var i in $scope.imageList){
+		       // 		console.log(i+":"+$scope.imageList[i])
+		       // 		for(var j in $scope.imageList[i]){
+		       // 			console.log(j+":"+$scope.imageList[i][j])
+		       // 		}
+		       // }
+  		   $scope.imageList = getImageList.data;	
+  		   $scope.userName = loginFn.islogged().email;
+	       
+	       $scope.imageOverlayClose = function(){
+			 $mdDialog.hide();
+       		 setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
+	       } 
 
 
-					       //从已上传列表中，选择图片
-						   $scope.imageSelected = function(target){
-								//$compile($('<div class="ui-selected" data-type="image" style="width:200px;height:200px;position:absolute;"><div class="rotate-location rotate-rightTop"><i class="icon-undo"></i></div><div class="mImage" ng-click="imageActive()" style="position: absolute; width: 100%; height:100%;overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;background-image: url('+target+');background-size:100% 100%;"></div></div>').appendTo($('.isEdit')))($scope);
-							    //$compile($('<div class="ui-selected imageElement" data-type="image" style="width:100%;height:100%;position:absolute"><div class="mImage" onclick="imageActive(this)" style="position:absolute;background-image: url('+target+');width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div>').appendTo($('.isEdit')))($scope);
-							    //initElement('.mImage','image',$mdToast,$document);
-							    $compile($('<div class="ui-selected imageElement" data-type="image" style="width:140px;height:170px;position:absolute">   <div style="text-align: center;margin-bottom: 5px;background-color: rgb(255, 255, 255);background-size: contain;background-position: 50% 50%;"><div class="mImage" onclick="imageActive(this)" style="position:absolute;left: 0px;right: 0px;top: 0px;bottom: 0px;display: inline-block;max-height: 100%;max-width: 100%;background-image: url('+target+');width:auto;height:auto;margin: auto;background-size:100% 100%;background-repeat:no-repeat"></div><div></div>').appendTo($('.isEdit')))($scope);
-							    showImageEditPanel($mdToast,$mdDialog,$document);
-							    initSelectedAndDraggable();
-							  	
-							 //    $("#imgpop").animate({left:"-99999px"},200);
-							 //    $('.md-dialog-backdrop').remove();
-								// $('.md-scroll-mask').remove();
-								// $('.md-scroll-mask-bar').remove();
-								// $('.md-dialog-container').remove();
-
-							 $mdDialog.hide();
-		               		 setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
-						   }
-
-                        //上传图片
-					    $scope.uploadImage = function(element){
-					    	//console.log('@ imageEditDirective.js DEC: uploadImage Fn works')
-					    	 $scope.$apply(function(scope) {
-						         var photofile = element.files[0];
-						         var reader = new FileReader();
-						         imageActionService.addImage(photofile,$scope);
-						         reader.onload = function(e) {
-						           $scope.prev_img = e.target.result;
-						           imageActionService.addImage(photofile,$scope);
-						         };
-						     });
-					    }
+	       //从已上传列表中，选择图片
+		   $scope.imageSelected = function(target){
+			    $compile($('<div class="ui-selected imageElement" data-type="image"> '+
+			    				'<div class="imageContainer">'+
+			    					'<div class="mImage" onclick="imageActive(this)" style="background-image: url('+target+');"></div>'+
+			    				'<div>'+
+			    			'</div>').appendTo($('.isEdit')))($scope);
 
 
-					    //删除已上传图片
-					    $scope.removeImage = function(imageId){
-					      	imageActionService.removeImage(imageId);
-					      	$("#"+imageId).remove();
-					    }
-	
-				  },
-			      resolve:{
-				      	getImageList :function(imageActionService){ return imageActionService.loadImage();}
-				  },
-	    		  templateUrl: './template/addImage.tmpl.html',
-	              parent: $('#main')
-				});
+			    showImageEditPanel($mdToast,$mdDialog,$document);
+			    initSelectedAndDraggable();
+
+			 $mdDialog.hide();
+			 //console.log('$mdDialog show');
+       		 setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
+		   }
+
+            //上传图片
+		    $scope.uploadImage = function(element){
+		    	//console.log('@ imageEditDirective.js DEC: uploadImage Fn works')
+		    	 $scope.$apply(function(scope) {
+			         var photofile = element.files[0];
+			         var reader = new FileReader();
+			         imageActionService.addImage(photofile,$scope);
+			         reader.onload = function(e) {
+			           $scope.prev_img = e.target.result;
+			           imageActionService.addImage(photofile,$scope);
+			         };
+			     });
+		    }
+
+
+		    //删除已上传图片
+		    $scope.removeImage = function(imageId){
+		      	imageActionService.removeImage(imageId);
+		      	$("#"+imageId).remove();
+		    }
+
+	  },
+      resolve:{
+	      	getImageList :function(imageActionService){ return imageActionService.loadImage();}
+	  },
+	  templateUrl: './template/addImage.tmpl.html',
+      parent: $('#main')
+	});
 
 
 }

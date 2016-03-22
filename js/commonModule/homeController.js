@@ -330,28 +330,13 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
       }),
     $rootScope.feedback = $scope.feedback;
     var n = $scope.feedback.leftpages.length
-    $('#pagesList').append('<div id=right_' + (n) + ' class="swiper-slide isEdit" ></div>');
+    $('#pagesList ').append('<div id=right_' + (n) + ' class="swiper-slide isEdit" ></div>');
     $(".swiper-slide").each(function(index, element) {
       $("#right_" + index).hide();
       $("#right_" + index).removeClass('isEdit');
     });
 $(".box>.page").hasClass('col-leftclick') ? $(".box>.page").removeClass('col-leftclick') : '';
- //$("#ques_" + (n + 1)).addClass("col-leftclick");
-    // setTimeout(function(){
 
-
-    //         var reg = /\d+/g;
-     
-    // console.log($('.isEdit').css("backgroundColor")+"//////////")
-    // var color = $('.isEdit').attr('style').indexOf('backgroundColor');
-    // // console.log('animateId:'+animateId)
-    // if(color>-1) {
-    //   setTimeout(function(){
-    //     var color = $('.isEdit').css("backgroundColor").match(reg)[0];
-    //      $("#hsv-picker-bg").val(color)
-    //   },100)
-    // }else{ $("#hsv-picker-bg").val("#ffffff")}
-    // },100)
 
 
 $("#hsv-picker-bg").val($('.isEdit').css("backgroundColor"))

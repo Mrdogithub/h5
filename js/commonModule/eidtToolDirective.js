@@ -23,34 +23,20 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
             $scope.page = {
               "preivewCode": ""
             };
-           //$("#pagesList").html()
-         // var previewOnce = $("#pagesList").html();
-         //    $scope.page.preivewCode = $sce.trustAsHtml(previewOnce.replace(/display/g, " ")
-         //      .replace(/isEdit/g, " ")
-         //            .replace(/icon-undo/g, " ")
-         //            .replace(/ui-selectable/g,'')
-         //            .replace(/textElement/g,'')
-         //            .replace(/imageElement/g,'')
-         //            .replace(/ui-draggable/g,'')
-         //            .replace(/ui-resizable/g,'')
-         //            .replace(/ui-selectee/g,'')
-         //            .replace(/ui-selected/g,'')
-         //            .replace(/right_/g,'') + '<script type="text/javascript"> $(document).ready(function(){var swiper = new Swiper(".swiper-container",{pagination:".swiper-pagination",paginationClickable:true,direction:"vertical",effect:"slide"})})</script>');
-
-                    
+   
            var previewOnce = $("#pagesList").html();
            var strHtml = previewOnce.replace(/display/g, " ")
                     .replace(/isEdit/g, " ")
                     .replace(/icon-undo/g, " ")
                     .replace(/ui-selectable/g,'')
                     .replace(/textElement/g,'')
-                    .replace(/imageElement/g,'')
+                    //.replace(/imageElement/g,'')
                     .replace(/ui-draggable/g,'')
-                    .replace(/ui-resizable/g,'')
                     .replace(/ui-selectee/g,'')
                     .replace(/ui-selected/g,'')
                     .replace(/right_/g,'')
-                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '') + '<script type="text/javascript"> var swiper = new Swiper(".swiper-container",{pagination:".swiper-pagination",paginationClickable:true,direction:"vertical",effect:"slide"})</script>';
+                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+                    .replace(/ui-resizable/g,'') + '<script type="text/javascript"> var mySwiper=new Swiper(".swiper-container",{onInit:function(swiper){swiperAnimateCache(swiper);swiperAnimate(swiper)},onSlideChangeEnd:function(swiper){swiperAnimate(swiper)}})</script>';
 
             $scope.page.preivewCode = $sce.trustAsHtml(strHtml);
               

@@ -45,25 +45,37 @@ editText.directive('edittext',function(
 					$scope.page.editCode = $sce.trustAsHtml(data.pages.editCode);
 					$scope.editcode = data.pages.editCode;
 					$("#pagesList").attr('data-projectid',loadingProjectById);
-				    $(document).on('click',' .isEdit > div ',function(e){
-				    	//console.log('@editText.js DEC if click preview function?');
-				    	if($(e.target).hasClass('mText')){
-				    		// $(e.target).focus();
-			  	  			$(".rotate-rightTop").css('display','none');
-			  	  			$('.ui-selected').removeClass('ui-selected');
-			  	  			$(e.target).parent().addClass('ui-selected');
-			  	  			$(e.target).parent().find(".rotate-rightTop").show();
-			  	  			initSelectedAndDraggable()
-				    	}else if($(e.target).hasClass('mImage')){
-				    		$('.mText').blur();
-				    		$(".rotate-rightTop").css('display','none');
-			  	  			$('.ui-selected').removeClass('ui-selected');
-			  	  			$(e.target).parent().addClass('ui-selected');
-			  	  			$(e.target).parent().find(".rotate-rightTop").show();
-			  	  			initSelectedAndDraggable()
-				    	}
 
-				    });		
+                //监听重新编辑后的文本点击事件
+				$(document).on('click','.textElement',function(){
+					$('.ui-selected').removeClass('ui-selected');
+				    $('#text-properties').remove();
+					$('.img-properties').remove();
+				    
+
+				    $('.mText').blur();
+					$(this).addClass('ui-selected');				
+					$('.ui-selected >.mText').focus();
+					initSelectedAndDraggable();
+					showTextEditPanel($mdToast,$document);
+					// console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));	
+				});
+				
+				//监听重新编辑后的图片点击事件
+				$(document).on('click','.imageElement',function(){
+
+					$('.ui-selected').removeClass('ui-selected');
+					$('#text-properties').remove();
+					$('.img-properties').remove();
+
+
+					$('.mText').blur();
+					$(this).addClass('ui-selected');
+					initSelectedAndDraggable();
+					showImageEditPanel($mdToast,$mdDialog,$document);	
+				});
+
+
 	           },function(){})
 			}
 
