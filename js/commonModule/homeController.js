@@ -314,7 +314,7 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
     if (k > 1) {
       for (var i = 0; i < k - 1; i++) {
         $scope.feedback.leftpages.push({
-          type: '1'
+          type: '2'
         })
       };
     }
@@ -330,16 +330,18 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
       }),
     $rootScope.feedback = $scope.feedback;
     var n = $scope.feedback.leftpages.length
-    $('#pagesList ').append('<div id=right_' + (n) + ' class="swiper-slide isEdit" ></div>');
+    $('#pagesList ').append('<div id=right_' + (n) + ' class="swiper-slide isEdit" stlye="display: flex"></div>');
     $(".swiper-slide").each(function(index, element) {
       $("#right_" + index).hide();
       $("#right_" + index).removeClass('isEdit');
+      $("#ques_" + index).removeClass('col-leftclick');
+      
     });
-$(".box>.page").hasClass('col-leftclick') ? $(".box>.page").removeClass('col-leftclick') : '';
 
 
+//$(".box>.page").hasClass('col-leftclick') ? $(".box>.page").removeClass('col-leftclick') : '';
 
-$("#hsv-picker-bg").val($('.isEdit').css("backgroundColor"))
+
 
     /**
     * @name savePageLength()
@@ -361,11 +363,17 @@ $("#hsv-picker-bg").val($('.isEdit').css("backgroundColor"))
     //console.log('@homeController.js DEC choosePage i is :'+i);
     $(".swiper-slide").hide();
     $(".swiper-slide").removeClass("isEdit");
+    $(".swiper-slide").removeClass('swiper-slide-next');
+    $(".swiper-slide").removeClass('swiper-slide-active');
     //console.log('@homeController.js DEC choosePage current i'+(i + 1))
     $("#right_" + (i + 1)).show();
     $("#right_" + (i + 1)).addClass("isEdit");
-    $(".box>.page").hasClass('col-leftclick') ? $(".box>.page").removeClass('col-leftclick') : '';
-    $("#ques_" + (i + 1)).addClass("col-leftclick");
+
+    $(".page.col-leftclick.ng-scope").removeClass('col-leftclick')
+    $("#ques_" + (i + 1)).addClass("col-leftclick"); 
+
+    //rmeove others div when current is active
+  
 
 
 

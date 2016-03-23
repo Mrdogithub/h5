@@ -119,25 +119,40 @@ function showTextEditPanel($mdToast,$document){
 	$mdToast.show({
       controller: function($scope,$mdDialog){ 
          
-      	$scope.getTextContent = function(){
-      		$('.ui-selected > .mText').html($scope.textContent);
-      	}
+        /*
+        *@ var activeFontSize = ............
+        *@ 用于用户第一次创建元素时，设置属性面板中的各项默认值
+        *@ 默认值通过 $('.ui-selected > .mText').data('xxxx')获取
+        ********/
+        var activeFontSize		= !$('.ui-selected > .mText').data('fontSize')?14:$('.ui-selected > .mText').data('fontSize');
+        var activelineHeight	= !$('.ui-selected > .mText').data('lineHeight')?0:$('.ui-selected > .mText').data('lineHeight');
+        var activeBorderRadius  = !$('.ui-selected > .mText').data('borderRadius')?0:$('.ui-selected > .mText').data('borderRadius');
+        var activeOpacity       = !$('.ui-selected > .mText').data('opacity')?1:$('.ui-selected > .mText').data('opacity');
+       
+        //初始化新建元素的属性值  
+        $scope.radius 	  = {"size" : activeBorderRadius}
+        $scope.opacity 	  = {"numberValue": activeOpacity}
+        $scope.fontSize   = {"size" : activeFontSize}
+        $scope.lineHeight = {"size" : activelineHeight}
+
 
       	//设置字体大小
       	$scope.getFontSize = function(){
 			$('.ui-selected > .mText').css('fontSize',$scope.fontSize.size);
-			 setFontSize($scope.fontSize.size)
+
+			//通过读取data-xxx 属性 设定创建元素时的默认值
+			$('.ui-selected > .mText').attr('data-fontSize',$scope.fontSize.size)
 		}
 
-		function setFontSize(fontsize){
-			$('#txtNumid').html(fontsize);
-		}
 	
 
 		//设置行高
       	$scope.getLineHeight = function(){
       		var lineHeightValue = $scope.lineHeight.size+"em";
 			$('.ui-selected > .mText').css('lineHeight',lineHeightValue);
+
+			//通过读取data-xxx 属性 设定创建元素时的默认值
+			$('.ui-selected > .mText').attr('data-lineHeight',$scope.lineHeight.size)
 		}
 
 		//设置字体
@@ -145,7 +160,6 @@ function showTextEditPanel($mdToast,$document){
 		// $scope.fontFamily = [{"name":"Helvetica","value":"Helvetica"},{"name":"Arial":"value":"Arial"},{"name":"Verdana":"value":"Verdana"},{"name":"Tahoma":"value":"Tahoma"},{"name":"Georgia":"value":"Georgia"},{"name":"sans-serif":"value":"sans-serif"},{"name":"寰蒋闆呴粦","value":"Microsoft YaHei"},{"name":"妤蜂綋_GB2312","value":"KaiTi_GB2312"},{"name":"浠垮畫_GB2312","value":"FangSong_GB2312"},{"name":"妤蜂綋","value":"KaiTi"},{"name":"浠垮畫","value":"FangSong"},{"name":"鏂板畫浣?,"value":"NSimSun"},{"name":"瀹嬩綋","value":"SimSun"},{"name":"榛戜綋","value":"SimHei"},{"name":"鍗庢枃浠垮畫","value":"STFangsong "},{"name":"鍗庢枃瀹嬩綋","value":"STSong"},{"name":"鍗庢枃妤蜂綋","value":"STKaiti"},{"name":"鍗庢枃榛戜綋","value":"STHeiti"},{"name":"鍗庢枃缁嗛粦","value":"STHeiti Light"}];
 		//set FontFamily
 		$scope.setFontFamily = function(){
-			
 			$('.ui-selected > .mText').css('fontFamily','"'+$scope.selected+'"');
 		}
 
@@ -202,6 +216,9 @@ function showTextEditPanel($mdToast,$document){
 		//设置圆角
 		$scope.getRadiusSize = function(){
 			$('.ui-selected').css("borderRadius",$scope.radius.size+"px");
+
+			//通过读取data-xxx 属性 设定创建元素时的默认值
+			$('.ui-selected > .mText').attr('data-borderRadius',$scope.radius.size)
 		}
 
 		//设置文本背景
@@ -212,73 +229,108 @@ function showTextEditPanel($mdToast,$document){
 		//设置透明度
 		$scope.getFontOpacity  = function(){
 			$('.ui-selected > .mText').css("opacity",$scope.opacity.numberValue);
+
+			//通过读取data-xxx 属性 设定创建元素时的默认值
+			$('.ui-selected > .mText').attr('data-opacity',$scope.opacity.numberValue)
 		};
 
-		// //set setFontTransform
-		// $scope.setFontTransform = function(){
-		// 	$('.ui-selected > .mText').css('transform','rotate('+$scope.transform.numberValue+'deg)');
-		// }
-
-		//init border style
-		//$scope.borderStyle = [{"borderStyle":"none"},{"borderStyle":"dotted"},{"borderStyle":"dashed"},{"borderStyle":"solid"},{"borderStyle":"double"},{"borderStyle":"groove"},{"borderStyle":"ridge"},{"borderStyle":"inset"},{"borderStyle":"outset"},{"borderStyle":"inherit"}]
-		//set  border style
-		// $scope.setBorderStyle = function(){
-		// 	$('.ui-selected > .mText').css('borderStyle',$scope.selected.borderStyle);	
-		// };
 		
 		//监听文本链接是否有变化，有变化更新之
 		$scope.$watch("setFontLink",function(newValue,oldValue){
 			$('.ui-selected > .mText').attr("data-link",newValue);		    			
 		})
 
-		//set border color
-		// $scope.$watch("setBorderColor",function(newValue,oldColor){
-		// 	$('.ui-selected > .mText').css('borderColor',newValue);	
-		// });
-
 
 		//选择动画效果
 		$scope.textAnimate = function(){
 			 testAnimation($scope.selected);
     		 function testAnimation(x){
-			    $('.ui-selected').removeClass().addClass(x + ' animated ui-selected ui-draggable ui-resizable').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-			      // $(this).removeClass();
-			    });
+			    // $('.ui-selected').removeClass().addClass(x + ' animated ui-selected ui-draggable ui-resizable').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			    // });
+
+			    	$('.ui-selected').attr('swiper-animate-effect',x);
+					var speed = $('.ui-selected').attr('swiper-animate-duration');
+					var delay = $('.ui-selected').attr('swiper-animate-delay');
+
+					/*
+					*@ $('.ui-selected').removeClass() ..........
+					*@ 这段代码满足两种情况
+					*@ a.用户先选择延时及时长后，再切换画效果的情况下，选中的动画效果会基于已设定的参数运行 
+					*@ b.用户未选择延时及时长后，选中的动画效果会运行
+ 					***********/	                
+				    $('.ui-selected').removeClass()
+				    				 .addClass(x + ' animated ui-selected ui-draggable ui-resizable imageElement')
+				    				 .css({"animation-name":x,"animation-duration":speed,"animation-delay":delay})
+				    				 .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+
+				    });
 			  }
 		}
 		
 
 		//设置动画延时 / 时长
       	$scope.getAnimateSpeed = function(){
+
+      		 /*
+                *@ var animate = = "bounceInLeft"
+                *@ 当用户未选择动画效果时，选择延时或时长，元素会根据默认动画效果执行
+                */
+				var aniname = "bounceInLeft";
+				var speed = "1s";
+				var delay = "0s";
+
+				
+				if($scope.AnimateSpeed){
+					speed = $scope.AnimateSpeed.size + "s";
+				}
+				if($scope.AnimateDelay){
+					delay = $scope.AnimateDelay.size + "s";
+				}
+				if($scope.selected){
+					aniname = $scope.selected +"";
+				}
+
+
+
+				$('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
+
+
+
+				function test(){
+					$('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay}).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+					 	//$('.ui-selected').css("opacity",1);
+					});
+
+					$('.ui-selected').attr('swiper-animate-duration',speed);
+					$('.ui-selected').attr('swiper-animate-delay',delay);
+				} 
+				setTimeout(test,100);
+
+				
 			//$('#ani').prop('selectedIndex', -1);
-			var aniname = "bounceIn";
-			var speed = "1s";
-			var delay = "0s";
-			//$('.ui-selected').css("opacity",0);
-			if($scope.selected){
-				aniname = $scope.selected +"";
-			}
-			if($scope.AnimateSpeed){
-				speed = $scope.AnimateSpeed.size + "s";
-			}
-			if($scope.AnimateDelay){
-				$('.ui-selected').css("opacity",0);
-				$('.ui-selected').addClass("animateDelayElement");
-				delay = $scope.AnimateDelay.size + "s";
-			}
-			$('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
+			// var aniname = "bounceIn";
+			// var speed = "1s";
+			// var delay = "0s";
+			// //$('.ui-selected').css("opacity",0);
+			// if($scope.selected){
+			// 	aniname = $scope.selected +"";
+			// }
+			// if($scope.AnimateSpeed){
+			// 	speed = $scope.AnimateSpeed.size + "s";
+			// }
+			// if($scope.AnimateDelay){
+			// 	$('.ui-selected').css("opacity",0);
+			// 	$('.ui-selected').addClass("animateDelayElement");
+			// 	delay = $scope.AnimateDelay.size + "s";
+			// }
+			// $('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
 			
-			function test(){
-				$('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay}).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-					$('.ui-selected').css("opacity",1);
-				});
-
-				// $('.ui-selected >.animateDelayElement').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay}).one('webkitAnimationStart mozAnimationStart MSAnimationStart oanimationstart animationstart', function(){
-				// 	$('.animateDelayElement').css("opacity",0);
-				// });
-
-			} 
-			setTimeout(test,100);
+			// function test(){
+			// 	$('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay}).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+			// 		$('.ui-selected').css("opacity",1);
+			// 	});
+			// } 
+			// setTimeout(test,100);
 		}
 	
 

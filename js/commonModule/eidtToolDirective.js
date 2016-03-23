@@ -30,11 +30,12 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace(/icon-undo/g, " ")
                     .replace(/ui-selectable/g,'')
                     .replace(/textElement/g,'')
-                    //.replace(/imageElement/g,'')
+                    // .replace(/imageElement/g,'')
                     .replace(/ui-draggable/g,'')
                     .replace(/ui-selectee/g,'')
                     .replace(/ui-selected/g,'')
                     .replace(/right_/g,'')
+                    .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
                     .replace(/ui-resizable/g,'') + '<script type="text/javascript"> var mySwiper=new Swiper(".swiper-container",{onInit:function(swiper){swiperAnimateCache(swiper);swiperAnimate(swiper)},onSlideChangeEnd:function(swiper){swiperAnimate(swiper)}})</script>';
 

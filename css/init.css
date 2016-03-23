@@ -22,7 +22,7 @@ font-size: 14px;}
 .navbar-blue li a{padding: 0; margin: 0;}
 .navbar-text-img{margin-left: 400px; width: 600px; }
 .imgbut{ float: left; margin-left: 20px;}
-a.imgbut{height: 50px; padding-top: 10px; display: inline-block;text-align: center;width: 50px;}
+a.imgbut{height: 50px; display: inline-block;text-align: center;width: 50px;cursor: pointer;}
 a.imgbut:hover{ background: #3383b1; text-decoration: none;}
 .imgbut img{width: 2.5pc;}
 .navbar-img{margin-left: 45rem;}
@@ -235,7 +235,7 @@ text edit panel
 }
 
 #inputValidation,#animationDelayId,#animationDurationId,#txtNumid,#txtHeightid,#txtOpacityid,#txtRadiusid,#fontFamilyid,
-#imageRadiusid,#imageOpacityid{
+#imageRadiusid,#imageOpacityid,#animationImageDurationId,#animationImageDelayId{
    width: 100%;
    font-size: 12px;
 }
@@ -275,4 +275,9 @@ input[type=number]::-webkit-outer-spin-button {
     margin: auto;
     background-size:100% 100%;
     background-repeat:no-repeat
+}
+
+.editContainer{
+    width: 320px;
+    height: 480px;
 }

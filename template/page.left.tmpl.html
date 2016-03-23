@@ -1,13 +1,19 @@
 <div class="col-left scrollspy-example" ng-controller="LeftCtrl" data-spy="scroll" data-target="#navbar-example"> 
-<div ng-repeat="ques in feedback.leftpages track by $index">
-<fieldset>
-<div class="box" ng-click="choosePage($index)">
-<div class="page" id="ques_{{$index + 1}}" >
-<span>{{$index+1}}</span>
-<a class="glyphicon glyphicon-menu-down"></a> 
-</div>		  	
-</div>
-</fieldset>
-</div>
+	<div ng-repeat="ques in feedback.leftpages track by $index">
+		<fieldset>
+			<div class="box" ng-click="choosePage($index)">
+				<span ng-switch on="ques.type">
+					<div ng-switch-when="1" class="page col-leftclick" id="ques_{{$index + 1}}">
+					<span>{{$index+1}}</span>
+					<a class="glyphicon glyphicon-menu-down"></a> 
+					</div>		
+					<div ng-switch-when="2" class="page" id="ques_{{$index + 1}}">  
+					<span>{{$index+1}}</span>
+					<a class="glyphicon glyphicon-menu-down"></a> 
+					</div>		
+				</span>
+			</div>
+		</fieldset>
+	</div>
 <div class="new-button" ng-click="addEmptyTemplate()"><i class="icon-plus 2x-icon" style="margin-right:10px;"></i>创建新页</div>
 </div>
