@@ -10,9 +10,9 @@ authService.factory('AuthService',function($http,$rootScope,Session,SERVER_URL){
 				.post(SERVER_URL.liveUrl+'login',credentials)
 				.then(function(res){
 					Session.create(res.data);
-					for(var i in res.data){
-						console.log(i+":"+res.data[i])
-					}
+					// for(var i in res.data){
+					// 	console.log(i+":"+res.data[i])
+					// }
 					
 					return res.data;
 				},function(data){

@@ -43,8 +43,8 @@
     <link rel="stylesheet" href="css/swiper.min.css">
     <link rel="stylesheet" href="css/animate.min.css">
     <script src="js/lib/swiper.min.js"></script>
-    <script src="js/lib/swiper.animate1.0.2.min.js"></script>
-<!--     <script type="text/javascript" src="js/lib/swiper.min.js"></script>
+    <script src="js/lib/animate.delay.js"></script>
+<!--<script type="text/javascript" src="js/lib/swiper.min.js"></script>
     <script type="text/javascript" src="swiper.animate1.0.2.min.js"></script> 
 	<link rel="stylesheet" type="text/css" href="css/swiper.min.css"/> -->
     
@@ -329,37 +329,12 @@ ul.h-images-list li img{
     to { transform: rotateY(0); }
 }
 
-    .ui-selected{
-    	outline: 1px solid #81a3ea;
-    /*
-    	-overflow: hidden;
-    
-    	position: relative;
-	    top: 0;
-	    right: 0;
-	    /*bottom: 0;*/
-	 /*   left: 0;*/
-/*	    min-width:50%;*/
+.ui-selected{
+	outline: 1px solid #81a3ea;
+    cursor: default;
+}
 
-	    cursor: default;*/
-	   /* position: absolute;
-	    font-size: 14px;
-	    -webket-transform-origin: 50% 50% 0px;
-	    width: 100%;
-	    height: 100%;*/
-
-    }
-/*	.ui-selected > [class^="m"], .ui-selecting > [class^="m"], .ui-draggable-dragging > [class^="m"],.active > [class^="m"]{
-		position: absolute;
-	    top: 0;
-	    right: 0;
-	    bottom: 0;
-	    left: 0;
-	    
-	    cursor: default;
-	    font-size: 14px;
-	   
-	}*/
+.ui-resizable-handle{display: none;}
 .ui-selected >.ui-resizable-handle {
     display: block;
     position: absolute;

@@ -21,7 +21,7 @@ imageEditDirective.directive('editimage',function(
 			*@ 监听全局点击图片事件，点击同时显示图片编辑面板
 			*
 			****/
-			$(document).on('click','.imageElement',function(){
+			$(document).on('click','.imageElementAcitve',function(){
 
 				$('.ui-selected').removeClass('ui-selected');
 				$('#text-properties').remove();
@@ -200,7 +200,7 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 					*@ b.用户未选择延时及时长后，选中的动画效果会运行
  					***********/	                
 				    $('.ui-selected').removeClass()
-				    				 .addClass(x + ' animated ui-selected ui-draggable ui-resizable imageElement')
+				    				 .addClass(x + ' animated ui-selected ui-draggable ui-resizable imageElement imageElementAcitve')
 				    				 .css({"animation-name":x,"animation-duration":speed,"animation-delay":delay})
 				    				 .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 
@@ -211,7 +211,7 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 
 		   //设置图片圆角
 		   $scope.setImageRadiusSize = function(){
-		   		console.log($scope.imageRadius.size+"// $scope.imageRadius.size")
+	
 				$('.ui-selected').attr('data-radius',$scope.imageRadius.size);
 				$(".ui-selected >.imageContainer >.mImage").css("borderRadius",$scope.imageRadius.size+"px");
 		   }
@@ -223,13 +223,12 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 	       $scope.getImageAnimateSpeed = function(){
                 /*
                 *@ var animate = = "bounceInLeft"
-                *@ 当用户未选择动画效果时，选择延时或时长，元素会根据默认动画效果执行
+                *@ 当用户未选择动画效果的情况下，选择延时或时长，元素会根据默认动画效果执行
                 */
 				var aniname = "bounceInLeft";
 				var speed = "1s";
 				var delay = "0s";
 
-				
 				if($scope.AnimateSpeed){
 					speed = $scope.AnimateSpeed.size + "s";
 				}
@@ -240,11 +239,7 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 					aniname = $scope.selected +"";
 				}
 
-
-
 				$('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
-
-
 
 				function test(){
 					$('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay}).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
@@ -308,12 +303,12 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
   	       // getImageList 从app.js 传入 用来获取已上传数据，并渲染到添加图片页面
   	       // 
   	       // show all data from obj
-  	       //for(var i in $scope.imageList){
-		       // 		console.log(i+":"+$scope.imageList[i])
-		       // 		for(var j in $scope.imageList[i]){
-		       // 			console.log(j+":"+$scope.imageList[i][j])
-		       // 		}
-		       // }
+  	       // for(var i in $scope.imageList){
+		   // 		console.log(i+":"+$scope.imageList[i])
+		   // 		for(var j in $scope.imageList[i]){
+		   // 			console.log(j+":"+$scope.imageList[i][j])
+		   // 		}
+		   // }
   		   $scope.imageList = getImageList.data;	
   		   $scope.userName = loginFn.islogged().email;
 	       
@@ -325,9 +320,9 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 
 	       //从已上传列表中，选择图片
 		   $scope.imageSelected = function(target){
-			    $compile($('<div class="ui-selected imageElement" data-type="image"> '+
+			    $compile($('<div class="ui-selected imageElement imageElementAcitve" style="width: 140px; height: 170px; position: absolute; left: 17.1875%; top: 12.5%;" data-type="image"> '+
 			    				'<div class="imageContainer">'+
-			    					'<div class="mImage" onclick="imageActive(this)" style="background-image: url('+target+');"></div>'+
+			    					'<div class="mImage" onclick="imageActive(this)" style="background-image: url('+target+');position:absolute;left: 0px;right: 0px;top: 0px;bottom: 0px;display: inline-block;max-height: 100%;max-width: 100%;width:auto;height:auto;margin: auto;background-size:100% 100%;background-repeat:no-repeat"></div>'+
 			    				'<div>'+
 			    			'</div>').appendTo($('.isEdit')))($scope);
 
@@ -335,9 +330,8 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 			    showImageEditPanel($mdToast,$mdDialog,$document);
 			    initSelectedAndDraggable();
 
-			 $mdDialog.hide();
-			 //console.log('$mdDialog show');
-       		 setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
+				$mdDialog.hide();
+	       		setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
 		   }
 
             //上传图片

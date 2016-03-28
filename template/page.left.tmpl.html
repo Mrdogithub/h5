@@ -1,19 +1,23 @@
 <div class="col-left scrollspy-example" ng-controller="LeftCtrl" data-spy="scroll" data-target="#navbar-example"> 
-	<div ng-repeat="ques in feedback.leftpages track by $index">
-		<fieldset>
-			<div class="box" ng-click="choosePage($index)">
+	<div ng-repeat="ques in feedback.leftpages" class="pageThumbItem" >
+			<div class="box" ng-click="choosePage(ques.thumbId)" data-activeid="{{ques.thumbId}}">
+			{{ques.thumbId}}
 				<span ng-switch on="ques.type">
-					<div ng-switch-when="1" class="page col-leftclick" id="ques_{{$index + 1}}">
-					<span>{{$index+1}}</span>
-					<a class="glyphicon glyphicon-menu-down"></a> 
+					<div ng-switch-when="1" class="page col-leftclick">
+							<div class="pageThumb"></div>
+							<div class="pageThumbMask">
+								<a href="#" ng-click="removePage(ques.thumbId)" class="removePage"><i class="icon-trash" style="margin-right: 5px;"></i>删除</a>
+							</div>
 					</div>		
-					<div ng-switch-when="2" class="page" id="ques_{{$index + 1}}">  
-					<span>{{$index+1}}</span>
-					<a class="glyphicon glyphicon-menu-down"></a> 
+					<div ng-switch-when="2" class="page" id="ques.thumbId">  
+								<div class="pageThumb"></div>
+							<div class="pageThumbMask">
+								<a href="#" ng-click="removePage(ques.thumbId)" class="removePage"><i class="icon-trash" style="margin-right: 5px;"></i>删除</a>
+							</div>
 					</div>		
 				</span>
 			</div>
-		</fieldset>
 	</div>
 <div class="new-button" ng-click="addEmptyTemplate()"><i class="icon-plus 2x-icon" style="margin-right:10px;"></i>创建新页</div>
 </div>
+

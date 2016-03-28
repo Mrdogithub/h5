@@ -13,23 +13,25 @@
 
 	      		$scope.loginBtn = function(){
       			$scope.loading = true;
-    		 	$scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
+    		   	$scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
   		     	AuthService.login($scope.credentials).then(function(user){
-  		     		console.log(user.userName+"////////////user.userName")
+  		     		//console.log(user.userName+"////////////user.userName")
   		     		if(typeof(user.userName)!=="undefined"){
   		     			$scope.loading = false;
 	  		     			$rootScope.userName = user.userName;
 		  		     		$rootScope.userPhoto = user.userPhoto;
-		                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-		                    // _parentScope.setCurrentUser(user);
+		              $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+		              $scope.$emit('setCurrentUser',user)
 
-		                    $scope.$emit('setCurrentUser',user)
+							   $('<span class="userImage">'+
+                      '<img id="uImage" src="'+user.userPhoto+'">'+
+                    '</span>'+
+                    '<span class="userName ng-binding" role="button" tabindex="0"> '+
+                      user.userName+
+                    ' </span>')
+                    .prependTo("#userProfile");
 
-							$('<span class="userImage"><img id="uImage" src="'+user.userPhoto+'"></span><span class="userName ng-binding" role="button" tabindex="0"> '+user.userName+' </span>').prependTo("#userProfile")
-        			 		$("#welcome").css('display','none')
-							$("#loginOverLay").css('display','none');
-							$("#pagesList").css('display','block');
-							AuthService.setUserInfo(user.userName,user.userPhoto);
+							     AuthService.setUserInfo(user.userName,user.userPhoto);
 	  		     		}else{
 	  		     			$scope.error ="用户名或密码错误";
 	  		     		}
@@ -39,10 +41,6 @@
 
 
   			},
-  			link:function(){
-  			
-      	
-
-  			}
+  			link:function(){}
   		}
   	})

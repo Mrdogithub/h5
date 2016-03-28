@@ -1,7 +1,11 @@
-﻿//本插件由www.swiper.com.cn提供
-function swiperAnimateCache() {
-    for (allBoxes = window.document.documentElement.querySelectorAll(".ani"), i = 0; i < allBoxes.length; i++) allBoxes[i].attributes["style"] ? allBoxes[i].setAttribute("swiper-animate-style-cache", allBoxes[i].attributes["style"].value) : allBoxes[i].setAttribute("swiper-animate-style-cache", " "),
-    allBoxes[i].style.visibility = "hidden"
+﻿function swiperAnimateCache() {
+    for (allBoxes = window.document.documentElement.querySelectorAll(".ani"), i = 0; i < allBoxes.length; i++) {
+          var str = allBoxes[i].attributes["style"].value;
+          allBoxes[i].attributes["style"] ? allBoxes[i].setAttribute("swiper-animate-style-cache",str.replace(/(animation-duration|animation-name|animation-delay)+:[^\:]*;/g,' ')) : allBoxes[i].setAttribute("swiper-animate-style-cache", " ");
+          allBoxes[i].style.visibility = "hidden";
+
+    }
+  
 }
 function swiperAnimate(a) {
     clearSwiperAnimate();
@@ -18,7 +22,6 @@ function swiperAnimate(a) {
 }
 function clearSwiperAnimate() {
     for (allBoxes = window.document.documentElement.querySelectorAll(".ani"), i = 0; i < allBoxes.length; i++) allBoxes[i].attributes["swiper-animate-style-cache"] && allBoxes[i].setAttribute("style", allBoxes[i].attributes["swiper-animate-style-cache"].value),
-    allBoxes[i].style = ' ', 
     allBoxes[i].style.visibility = "hidden",
     allBoxes[i].className = allBoxes[i].className.replace("animated", " "),
     allBoxes[i].attributes["swiper-animate-effect"] && (effect = allBoxes[i].attributes["swiper-animate-effect"].value, allBoxes[i].className = allBoxes[i].className.replace(effect, " "))

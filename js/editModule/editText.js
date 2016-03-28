@@ -18,7 +18,7 @@ editText.directive('edittext',function(
 			*@全局监听点击文本元素方法，点击元素并显示文本编辑面板
 			*
 			***/
-			$(document).on('click','.textElement',function(){
+			$(document).on('click','.textElementActive',function(){
 				$('.ui-selected').removeClass('ui-selected');
 			    $('#text-properties').remove();
 				$('.img-properties').remove();
@@ -46,13 +46,18 @@ editText.directive('edittext',function(
 					$scope.editcode = data.pages.editCode;
 					$("#pagesList").attr('data-projectid',loadingProjectById);
 
+				//设置第一页面为显示状态，其他页面暂时隐藏
+
+			    //console.log('$("#pagesList").children()[0].html();'+$("#pagesList").children()[0].html())
+
+
                 //监听重新编辑后的文本点击事件
-				$(document).on('click','.textElement',function(){
+				$(document).on('click','.textElementActive',function(){
 					$('.ui-selected').removeClass('ui-selected');
 				    $('#text-properties').remove();
 					$('.img-properties').remove();
 				    
-
+					$("#right_1").addClass('isEdit');
 				    $('.mText').blur();
 					$(this).addClass('ui-selected');				
 					$('.ui-selected >.mText').focus();
@@ -68,7 +73,7 @@ editText.directive('edittext',function(
 					$('#text-properties').remove();
 					$('.img-properties').remove();
 
-
+					$("#right_1").addClass('isEdit');
 					$('.mText').blur();
 					$(this).addClass('ui-selected');
 					initSelectedAndDraggable();
@@ -104,7 +109,7 @@ function createNewText($mdToast,$document){
     //var iText = $('<div class="ui-selected" data-type="text" style="width:auto;height:auto;position:absolute;"><textarea  class="mText"  style=" width:100%;height:auto;position:relative;overflow-y:hidden;resize:none" onclick="textActive(this)">text placeholder</textarea></div>');
     // var iText = $('<div class="ui-selected" data-type="text" style="width:200px;height:60px;position:absolute;"><div class="mText" contentEditable="true" style="overflow: hidden; border: 0px none rgb(0, 0, 0); border-radius: 0px;">text placeholder</div></div>');
     
-var iText = $('<div class="ui-selected textElement" data-type="text" style="position:absolute;"><div  class="mText"  style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div>');
+var iText = $('<div class="ui-selected textElement textElementActive" data-type="text" style="position:absolute;"><div  class="mText"  style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div>');
     var currentPage = $('.isEdit');
     iText.appendTo(currentPage);
     showTextEditPanel($mdToast,$document);
@@ -156,9 +161,7 @@ function showTextEditPanel($mdToast,$document){
 		}
 
 		//设置字体
-		$scope.fontFamily = [{"name":"Helvetica","value":"Helvetica"},{"name":"Arial","value":"Arial"},{"name":"Verdana","value":"Verdana"},{"name":"Tahoma","value":"Tahoma"},{"name":"Georgia","value":"Georgia"},{"name":"sans-serif","value":"sans-serif"},{"name":"monospace","value":"monospace"},{"name":"fantasy","value":"fantasy"},{"name":"cuisive","value":"cuisive"},{"name":"Helvetica, sans-serif","value":"Helvetica, sans-serif"},{"name":"Arial, sans-serif","value":"Arial, sans-serif"},{"name":"Lucida Grande', sans-serif","value":"Lucida Grande', sans-serif"},{"name":"Verdana,sans-serif","value":"Verdana,sans-serif"},{"name":" Tahoma, sans-serif","value":" Tahoma, sans-serif"},{"name":"'Trebuchet MS', sans-serif","value":"'Trebuchet MS', sans-serif"},{"name":"Georgia, serif","value":"Georgia, serif"},{"name":"Times, serif","value":"Times, serif"},{"name":"寰蒋闆呴粦","value":"Microsoft YaHei"},{"name":"鍗庢枃缁嗛粦","value":"STHeiti"},{"name":"榛戜綋","value":"SimHei"},{"name":"妤蜂綋_GB2312","value":"KaiTi_GB2312"}];
-		// $scope.fontFamily = [{"name":"Helvetica","value":"Helvetica"},{"name":"Arial":"value":"Arial"},{"name":"Verdana":"value":"Verdana"},{"name":"Tahoma":"value":"Tahoma"},{"name":"Georgia":"value":"Georgia"},{"name":"sans-serif":"value":"sans-serif"},{"name":"寰蒋闆呴粦","value":"Microsoft YaHei"},{"name":"妤蜂綋_GB2312","value":"KaiTi_GB2312"},{"name":"浠垮畫_GB2312","value":"FangSong_GB2312"},{"name":"妤蜂綋","value":"KaiTi"},{"name":"浠垮畫","value":"FangSong"},{"name":"鏂板畫浣?,"value":"NSimSun"},{"name":"瀹嬩綋","value":"SimSun"},{"name":"榛戜綋","value":"SimHei"},{"name":"鍗庢枃浠垮畫","value":"STFangsong "},{"name":"鍗庢枃瀹嬩綋","value":"STSong"},{"name":"鍗庢枃妤蜂綋","value":"STKaiti"},{"name":"鍗庢枃榛戜綋","value":"STHeiti"},{"name":"鍗庢枃缁嗛粦","value":"STHeiti Light"}];
-		//set FontFamily
+		$scope.fontFamily = [{"name":"Helvetica","value":"Helvetica"},{"name":"Arial","value":"Arial"},{"name":"Verdana","value":"Verdana"},{"name":"Tahoma","value":"Tahoma"},{"name":"Georgia","value":"Georgia"},{"name":"sans-serif","value":"sans-serif"},{"name":"monospace","value":"monospace"},{"name":"fantasy","value":"fantasy"},{"name":"cuisive","value":"cuisive"},{"name":"Helvetica, sans-serif","value":"Helvetica, sans-serif"},{"name":"Arial, sans-serif","value":"Arial, sans-serif"},{"name":"Lucida Grande', sans-serif","value":"Lucida Grande', sans-serif"},{"name":"Verdana,sans-serif","value":"Verdana,sans-serif"},{"name":" Tahoma, sans-serif","value":" Tahoma, sans-serif"},{"name":"'Trebuchet MS', sans-serif","value":"'Trebuchet MS', sans-serif"},{"name":"Georgia, serif","value":"Georgia, serif"},{"name":"Times, serif","value":"Times, serif"}];
 		$scope.setFontFamily = function(){
 			$('.ui-selected > .mText').css('fontFamily','"'+$scope.selected+'"');
 		}
@@ -259,7 +262,7 @@ function showTextEditPanel($mdToast,$document){
 					*@ b.用户未选择延时及时长后，选中的动画效果会运行
  					***********/	                
 				    $('.ui-selected').removeClass()
-				    				 .addClass(x + ' animated ui-selected ui-draggable ui-resizable imageElement')
+				    				 .addClass(x + ' animated ui-selected ui-draggable ui-resizable textElement textElementActive')
 				    				 .css({"animation-name":x,"animation-duration":speed,"animation-delay":delay})
 				    				 .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 
@@ -290,11 +293,7 @@ function showTextEditPanel($mdToast,$document){
 					aniname = $scope.selected +"";
 				}
 
-
-
 				$('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
-
-
 
 				function test(){
 					$('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay}).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
@@ -306,31 +305,6 @@ function showTextEditPanel($mdToast,$document){
 				} 
 				setTimeout(test,100);
 
-				
-			//$('#ani').prop('selectedIndex', -1);
-			// var aniname = "bounceIn";
-			// var speed = "1s";
-			// var delay = "0s";
-			// //$('.ui-selected').css("opacity",0);
-			// if($scope.selected){
-			// 	aniname = $scope.selected +"";
-			// }
-			// if($scope.AnimateSpeed){
-			// 	speed = $scope.AnimateSpeed.size + "s";
-			// }
-			// if($scope.AnimateDelay){
-			// 	$('.ui-selected').css("opacity",0);
-			// 	$('.ui-selected').addClass("animateDelayElement");
-			// 	delay = $scope.AnimateDelay.size + "s";
-			// }
-			// $('.ui-selected').css({"animation-name":"name","animation-duration":"s","animation-delay":"s"});
-			
-			// function test(){
-			// 	$('.ui-selected').css({"animation-name":aniname,"animation-duration":speed,"animation-delay":delay}).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-			// 		$('.ui-selected').css("opacity",1);
-			// 	});
-			// } 
-			// setTimeout(test,100);
 		}
 	
 

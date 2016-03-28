@@ -49,12 +49,12 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
            // console.log('@projectService.js add project Fn  projectInfo:'+projectInfo)
 
            $http.post(productUrl+saveProject,{
-                'pageLength':pageLength,
-                'projectId':'',
-                'projectName':projectName,
-                'userName':userName,
-                'projectInfo':projectInfo,
-                'pages':{'editCode':editCode,'previewCode':previewCode}
+                'projectName': projectName,
+                'projectInfo': projectInfo,
+                'pageLength' : pageLength,
+                'projectId'  : '',
+                'userName'   : userName,
+                'pages'      : {'editCode':editCode,'previewCode':previewCode}
             }).success(function(data){
                 
                 deffered.resolve(data)

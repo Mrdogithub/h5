@@ -29,14 +29,15 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace(/isEdit/g, " ")
                     .replace(/icon-undo/g, " ")
                     .replace(/ui-selectable/g,'')
-                    .replace(/textElement/g,'')
-                    // .replace(/imageElement/g,'')
                     .replace(/ui-draggable/g,'')
                     .replace(/ui-selectee/g,'')
                     .replace(/ui-selected/g,'')
                     .replace(/right_/g,'')
+                    .replace(/textElementActive/g,' ')
                     .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
+                    .replace(/class="[^\"]*(animated)[^\"]*(textElement)[^\"]*"/g,'class=" ani textElement"')
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+                    // .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,' ')
                     .replace(/ui-resizable/g,'') + '<script type="text/javascript"> var mySwiper=new Swiper(".swiper-container",{onInit:function(swiper){swiperAnimateCache(swiper);swiperAnimate(swiper)},onSlideChangeEnd:function(swiper){swiperAnimate(swiper)}})</script>';
 
             $scope.page.preivewCode = $sce.trustAsHtml(strHtml);
@@ -59,6 +60,13 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
         });
       }
 
+
+
+/*
+*@保存按钮
+*
+*
+***/
       $scope.savePage = function() {
         /*
         *projectFn.getPageLength()
@@ -166,15 +174,16 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace(/isEdit/g, " ")
                     .replace(/icon-undo/g, " ")
                     .replace(/ui-selectable/g,'')
-                    .replace(/textElement/g,'')
                     .replace(/ui-draggable/g,'')
-                    .replace(/ui-resizable/g,'')
                     .replace(/ui-selectee/g,'')
                     .replace(/ui-selected/g,'')
                     .replace(/right_/g,'')
-                    .replace(/textElement/g,'')
-                    .replace(/imageElement/g,'')
-                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
+                    .replace(/textElementActive/g,' ')
+                    .replace(/class="[^\"]*(animated)[^\"]*(textElement)[^\"]*"/g,'class=" ani textElement"')
+                    .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
+                    .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,' ')
+                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+                    .replace(/ui-resizable/g,'');
             // console.log('loginFn.islogged():'+loginFn.islogged().userName);
             // console.log('newLength')
             projectFn.saveProject(newLength, projectid, editCode, previewCode)
@@ -219,21 +228,23 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
               var pageLength  = projectFn.getPageLength();
               var userName    = loginFn.islogged().email;
 
-              // console.log('@addProject:current page length is:'+pageLength);
+              console.log('@addProject:current page length is:'+pageLength);
 
               var previewCode = $("#pagesList").html()
                     .replace(/display/g, " ")
                     .replace(/isEdit/g, " ")
                     .replace(/icon-undo/g, " ")
                     .replace(/ui-selectable/g,'')
-                    .replace(/textElement/g,'')
-                    .replace(/imageElement/g,'')
                     .replace(/ui-draggable/g,'')
-                    .replace(/ui-resizable/g,'')
                     .replace(/ui-selectee/g,'')
                     .replace(/ui-selected/g,'')
                     .replace(/right_/g,'')
-                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
+                    .replace(/textElementActive/g,' ')
+                    .replace(/class="[^\"]*(animated)[^\"]*(textElement)[^\"]*"/g,'class=" ani textElement"')
+                    .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
+                    .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,'')
+                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+                    .replace(/ui-resizable/g,'');
 
                var editCode = $("#pagesList").html()
                     .replace(/ui-selected/, '')

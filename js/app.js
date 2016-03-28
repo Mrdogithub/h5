@@ -56,6 +56,7 @@ var param = function(obj) {
   notAuthorized    : 'auth-not-authorized'
 }).constant('SERVER_URL',{
   testUrl:"",
+  //liveUrl:"http://9.112.70.78:3000/"
   liveUrl:"http://9.115.24.168:3000/"
   //liveUrl:"http://9.112.70.78:3000/"
 }).constant('USER_ROLES',{}).config(function($stateProvider,$urlRouterProvider){

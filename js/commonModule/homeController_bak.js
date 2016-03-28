@@ -280,7 +280,8 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
 
 
 }).controller('LeftCtrl', function($scope, $timeout, $mdSidenav, 
-  $log, $rootScope, $mdToast,$compile,$document, projectFn) { // 左侧导航栏位 start --
+  $log, $rootScope, $mdToast,
+   $document, projectFn) { // 左侧导航栏位 start --
   
   $scope.feedback = {
     title: '',
@@ -292,7 +293,6 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
   projectFn.loadEditPage(projectIdInLeftNav).then(function(data) {
     var k = 0;
     k = data.pageLength;
-    console.log('@homeController.js show pages length is:'+k)
     var colLeftHeight = 140 * k;
     if (k > 1) {
       for (var i = 0; i < k - 1; i++) {
@@ -305,55 +305,21 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
   })
 
 
-    $scope.addEmptyTemplate = function(index) {
-
-
-      //判断当前左侧导航是否有略缩图
-      var isEmpty = $('.new-button').siblings('.pageThumbItem').length;
-
-      console.log(isEmpty+" isEmpty")
-
-      if(isEmpty<1){
-        var n=1;
-        $scope.feedback.leftpages.length = 1;
-        var thumbId = makeid();
-        console.log('thumbId:'+thumbId);
-        $scope.feedback.leftpages.push({type: '1',page: '',thumbId:thumbId});
-        
-        $('#pagesList ').append('<div class="swiper-slide isEdit" data-pageId="'+thumbId+'" ></div>');
-      }else{
-
-        //生成唯一 hash值,作为略缩图和对应页面的标识符
-        var thumbId = makeid();
-        console.log('thumbId:'+thumbId);
-
-        //通过增加数组长度，记录当前页面个数，同时把生成的hash作为id记录在左侧元素中
-        $scope.feedback.leftpages.push({type: '1',page: '',thumbId:thumbId});
-
-
-        console.log('@homeController.js  show page length:'+$scope.feedback.leftpages.length);
-
-        //隐藏其他元素
-         $(".swiper-slide").removeClass("isEdit");
-
-        //相同的hash同时记录在对应的右侧元素，通过hash来保持两个元素之间的同步，并isEdit显示当前新创建元素
-        $('#pagesList ').append('<div class="swiper-slide isEdit" data-pageId="'+thumbId+'"></div>');
-
-
-      }
+  $scope.addEmptyTemplate = function(index) {
+    var n = 0
+    $scope.feedback.leftpages.push({
+        type: '1',
+        page: ''
+      }),
+    $rootScope.feedback = $scope.feedback;
+    var n = $scope.feedback.leftpages.length
+    $('#pagesList ').append('<div id=right_' + (n) + ' class="swiper-slide isEdit" stlye="display: flex"></div>');
+    $(".swiper-slide").each(function(index, element) {
+      $("#right_" + index).hide();
+      $("#right_" + index).removeClass('isEdit');
+      $("#ques_" + index).removeClass('col-leftclick');
       
-
-
-  function makeid()
-{
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for( var i=0; i < 10; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
-} 
+    });
 
 
 //$(".box>.page").hasClass('col-leftclick') ? $(".box>.page").removeClass('col-leftclick') : '';
@@ -365,55 +331,29 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
     * @path project/projectService.js
     * @description
     * 
-    * 用户每增加一页或删除一页，更新$scope.feedback.leftpages数组，并保存至projectFn.savePageLength
-    * projectFn.savePageLength 方法用于保存页面长度，在用户保存项目时，会从这个方法获取页面的长度
+    * 用户每增加一页，需要将当前总页数存储，在用户保存时，将当前页数传至后端
+    *
     **/
-    projectFn.savePageLength($scope.feedback.leftpages);
-    console.log('当前页数:'+$scope.feedback.leftpages);
-    $rootScope.pageLength = $scope.feedback.leftpages;
+    projectFn.savePageLength(n);
+    //console.log('当前页数:'+n);
+    $rootScope.pageLength = n;
     // $("#right_"+n).show()
     showBackgroundEditPanel($mdToast, $document)
   }
 
   $scope.choosePage = function(i) {
-
-
- $(".swiper-slide").hide();
- $(".swiper-slide").removeClass("isEdit");
- $(".col-left").removeClass('col-leftclick');
-
-
- $("#pagesList").find("div[data-pageid='"+i+"']")
-                .fadeIn(300)
-                .show()
-                .addClass('isEdit');
-
-
-    
- $(".col-left").find("div[data-activeid='"+i+"']").addClass('col-leftclick');
-
-// $("#pagesList").find("div[data-pageid='"+i+"']").filter(function() {
-//     if($(this).data('pageid') == i){
-//       console.log($(this).data('pageid')+".....")
-//       $(this).fadeIn(300);
-//       $(this).show();
-//       $(this).addClass('isEdit');
-//     }
-// });
-
-
-    
-
-  //  console.log('@homeController.js DEC choosePage i is :'+(i+1));
-   
-    // $(".swiper-slide").removeClass('swiper-slide-next');
-    // $(".swiper-slide").removeClass('swiper-slide-active');
+    $("#right_" + (i + 1)).fadeIn(300);
+    //console.log('@homeController.js DEC choosePage i is :'+i);
+    $(".swiper-slide").hide();
+    $(".swiper-slide").removeClass("isEdit");
+    $(".swiper-slide").removeClass('swiper-slide-next');
+    $(".swiper-slide").removeClass('swiper-slide-active');
     //console.log('@homeController.js DEC choosePage current i'+(i + 1))
-    // $("#right_" + (i + 1)).show();
-    // $("#right_" + (i + 1)).addClass("isEdit");
+    $("#right_" + (i + 1)).show();
+    $("#right_" + (i + 1)).addClass("isEdit");
 
-    // $(".page.col-leftclick.ng-scope").removeClass('col-leftclick')
-    // $("#ques_" + (i + 1)).addClass("col-leftclick"); 
+    $(".page.col-leftclick.ng-scope").removeClass('col-leftclick')
+    $("#ques_" + (i + 1)).addClass("col-leftclick"); 
 
     //rmeove others div when current is active
   
@@ -461,50 +401,8 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
 //         return that;      
 //     }  
 // };  
-}
-  
-/*
-*@删除页面 
-*@删除页面的同时更新存储页面长度的数组
-*
-*
-****/
-
-$scope.removePage = function(pageId){
 
 
-    var pageId = pageId;
- 
 
-// console.log(" $scope.feedback.leftpages.length"+ $scope.feedback.leftpages.length)
-
- $("#pagesList").find("div[data-pageid='"+pageId+"']").fadeOut(300).remove();
-
-
-    
- $(".col-left").find("div[data-activeid='"+pageId+"']").fadeOut(300).remove();
-
-// console.log(" $scope.feedback.leftpages.length"+ $scope.feedback.leftpages.length)
-
-for(var i =1;i<$scope.feedback.leftpages.length;i++){
-  //console.log("$scope.feedback.leftpages[i].thumbId:"+$scope.feedback.leftpages[i].thumbId)
-  if($scope.feedback.leftpages[i].thumbId == pageId){
-    $scope.feedback.leftpages.splice(i,1)
   }
-
-}
-
-
-    // console.log($scope.feedback.leftpages.length+":length")
-    // console.log('@homeController.js current index is:'+targetIndex)
-    // var targetPageId = '#right_'+targetIndex;
-    // var targetPageThumbId = '#ques_'+ targetIndex;
-    // console.log('@homeController.js remove page pageThumb is:'+targetPageThumbId)
-    // console.log('@homeController.js remove page page      is:'+targetPageId)
-    // var updateLength = $scope.feedback.leftpages.length;
-    // $scope.feedback.leftpages.length = updateLength -1;
-    // $(targetPageId).remove();
-
-}
-
 });
