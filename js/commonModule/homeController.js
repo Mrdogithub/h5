@@ -282,17 +282,45 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
 }).controller('LeftCtrl', function($scope, $timeout, $mdSidenav, 
   $log, $rootScope, $mdToast,$compile,$document, projectFn) { // 左侧导航栏位 start --
   
+
+$(document).on("mouseenter",".page",function(){
+  console.log('enter');
+    $(this).find(".pageThumbMask").css('display','block');
+
+});
+$(document).on("mouseleave",".page",function(){
+       $(this).find(".pageThumbMask").css('display','none');
+});
+
+
+
+
+  function makeid(){
+      var text = "";
+      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      for( var i=0; i < 10; i++ )
+          text += possible.charAt(Math.floor(Math.random() * possible.length));
+      return text;
+  } 
+
+  
+  var defaultThumb = makeid();
   $scope.feedback = {
     title: '',
     leftpages: [{
-      'type': '1'
+      'type': '1',
+      'thumbId':defaultThumb
     }]
   };
+
+$("#pagesList div.swiper-slide:eq(0)").attr('data-pageid',defaultThumb)
+
+
   var projectIdInLeftNav = projectFn.getProjectId();
   projectFn.loadEditPage(projectIdInLeftNav).then(function(data) {
     var k = 0;
     k = data.pageLength;
-    console.log('@homeController.js show pages length is:'+k)
+   // console.log('@homeController.js show pages length is:'+k)
     var colLeftHeight = 140 * k;
     if (k > 1) {
       for (var i = 0; i < k - 1; i++) {
@@ -308,32 +336,36 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
     $scope.addEmptyTemplate = function(index) {
 
 
+       //清除左侧略缩图选中状态
+      $('.page').removeClass('col-leftclick');
+
       //判断当前左侧导航是否有略缩图
       var isEmpty = $('.new-button').siblings('.pageThumbItem').length;
 
       console.log(isEmpty+" isEmpty")
-
+      //将全部页面删除后，再添加第一页，需要判断当前页面是否唯一
       if(isEmpty<1){
+        //如果当前页面为第一页，通过 n 设置默认索引
         var n=1;
-        $scope.feedback.leftpages.length = 1;
+
+        //生成唯一hash，作为左侧略缩图和对应右侧内容页的同步
         var thumbId = makeid();
-        console.log('thumbId:'+thumbId);
         $scope.feedback.leftpages.push({type: '1',page: '',thumbId:thumbId});
-        
         $('#pagesList ').append('<div class="swiper-slide isEdit" data-pageId="'+thumbId+'" ></div>');
       }else{
 
         //生成唯一 hash值,作为略缩图和对应页面的标识符
         var thumbId = makeid();
-        console.log('thumbId:'+thumbId);
+       // console.log('thumbId:'+thumbId);
 
         //通过增加数组长度，记录当前页面个数，同时把生成的hash作为id记录在左侧元素中
         $scope.feedback.leftpages.push({type: '1',page: '',thumbId:thumbId});
 
 
-        console.log('@homeController.js  show page length:'+$scope.feedback.leftpages.length);
+       // console.log('@homeController.js  show page length:'+$scope.feedback.leftpages.length);
 
         //隐藏其他元素
+         $(".swiper-slide").hide();
          $(".swiper-slide").removeClass("isEdit");
 
         //相同的hash同时记录在对应的右侧元素，通过hash来保持两个元素之间的同步，并isEdit显示当前新创建元素
@@ -344,16 +376,6 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
       
 
 
-  function makeid()
-{
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for( var i=0; i < 10; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
-} 
 
 
 //$(".box>.page").hasClass('col-leftclick') ? $(".box>.page").removeClass('col-leftclick') : '';
@@ -382,15 +404,17 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
  $(".swiper-slide").removeClass("isEdit");
  $(".col-left").removeClass('col-leftclick');
 
+ //清除左侧略缩图选中状态
+ $('.page').removeClass('col-leftclick');
 
  $("#pagesList").find("div[data-pageid='"+i+"']")
                 .fadeIn(300)
                 .show()
                 .addClass('isEdit');
-
-
-    
- $(".col-left").find("div[data-activeid='"+i+"']").addClass('col-leftclick');
+ 
+ //通过父级元素查找某个元素下的子元素
+ $(".col-left").find("div[data-activeid='"+i+"']").find('div[class="page ng-scope"]')
+               .addClass('col-leftclick');
 
 // $("#pagesList").find("div[data-pageid='"+i+"']").filter(function() {
 //     if($(this).data('pageid') == i){
@@ -473,7 +497,7 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
 $scope.removePage = function(pageId){
 
 
-    var pageId = pageId;
+var pageId = pageId;
  
 
 // console.log(" $scope.feedback.leftpages.length"+ $scope.feedback.leftpages.length)
@@ -486,14 +510,82 @@ $scope.removePage = function(pageId){
 
 // console.log(" $scope.feedback.leftpages.length"+ $scope.feedback.leftpages.length)
 
-for(var i =1;i<$scope.feedback.leftpages.length;i++){
-  //console.log("$scope.feedback.leftpages[i].thumbId:"+$scope.feedback.leftpages[i].thumbId)
-  if($scope.feedback.leftpages[i].thumbId == pageId){
-    $scope.feedback.leftpages.splice(i,1)
-  }
+//更新存储页面数组
+for(var i in $scope.feedback.leftpages){
 
+    console.log(i+".......i");
+
+  if($scope.feedback.leftpages[i].thumbId == pageId){
+    if(i==0){//判断要删除的元素是否是第一个元素
+      var showThumbId = $scope.feedback.leftpages[1].thumbId;
+       $(".swiper-slide").hide();
+       $(".swiper-slide").removeClass("isEdit");
+       $(".col-left").removeClass('col-leftclick');
+
+       $("#pagesList").find("div[data-pageid='"+showThumbId+"']")
+                      .fadeIn(300)
+                      .show()
+                      .addClass('isEdit');
+          
+       $(".col-left").find("div[data-activeid='"+showThumbId+"']")
+                     .addClass('col-leftclick');
+    }else if(i>0){//要删除元素不是第一个元素默认显示相邻元素
+      var showThumbId = $scope.feedback.leftpages[i-1].thumbId;
+       $(".swiper-slide").hide();
+       $(".swiper-slide").removeClass("isEdit");
+       $(".col-left").removeClass('col-leftclick');
+
+       $("#pagesList").find("div[data-pageid='"+showThumbId+"']")
+                      .fadeIn(300)
+                      .show()
+                      .addClass('isEdit');
+          
+       $(".col-left").find("div[data-activeid='"+showThumbId+"']")
+                     .find('div[class="page ng-scope"]')
+                     .addClass('col-leftclick');
+    }
+
+
+     $scope.feedback.leftpages.splice(i,1);
+
+  }
 }
 
+
+// for(var i =0;i<$scope.feedback.leftpages.length;i++){
+//   //console.log("$scope.feedback.leftpages[i].thumbId:"+$scope.feedback.leftpages[i].thumbId)
+//   if($scope.feedback.leftpages[i].thumbId == pageId){
+   
+//     var currentIndex = i;
+//     console.log('currentIndex:'+i+":"+$scope.feedback.leftpages[i].index)
+//     console.log(i+"current index")
+//     console.log($scope.feedback.leftpages.length+"update page length before")
+//     console.log('thumbId:'+$scope.feedback.leftpages[i].thumbId+"vs"+'pageId:'+pageId)
+
+//     console.log($(this).index()+":currentIndex by jquery")
+//     var isTop =(i-1);
+//     console.log(isTop+":isTop")
+//     if(isTop>0){
+//       var showThumbId = $scope.feedback.leftpages[i+1].thumbId;
+//       console.log('showThumbId:'+showThumbId)
+//     }
+
+
+//      $scope.feedback.leftpages.splice(i,1);
+//      console.log($scope.feedback.leftpages.length+"update page length after")
+//   }
+// }
+
+//删除当前页面，显示前一个兄弟节点
+ // $("#pagesList").find("div[data-pageid='"+i+"']")
+ //                .fadeIn(300)
+ //                .show()
+ //                .addClass('isEdit');
+    
+ // $(".col-left").find("div[data-activeid='"+i+"']")
+ //               .addClass('col-leftclick');
+
+//如果删除第一页，显示后一个兄弟节点
 
     // console.log($scope.feedback.leftpages.length+":length")
     // console.log('@homeController.js current index is:'+targetIndex)

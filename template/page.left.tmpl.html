@@ -5,11 +5,11 @@
 				<span ng-switch on="ques.type">
 					<div ng-switch-when="1" class="page col-leftclick">
 							<div class="pageThumb"></div>
-							<div class="pageThumbMask">
+							<div class="pageThumbMask" >
 								<a href="#" ng-click="removePage(ques.thumbId)" class="removePage"><i class="icon-trash" style="margin-right: 5px;"></i>删除</a>
 							</div>
 					</div>		
-					<div ng-switch-when="2" class="page" id="ques.thumbId">  
+					<div ng-switch-when="2" class="page col-leftclick" id="ques.thumbId">  
 								<div class="pageThumb"></div>
 							<div class="pageThumbMask">
 								<a href="#" ng-click="removePage(ques.thumbId)" class="removePage"><i class="icon-trash" style="margin-right: 5px;"></i>删除</a>
@@ -21,3 +21,7 @@
 <div class="new-button" ng-click="addEmptyTemplate()"><i class="icon-plus 2x-icon" style="margin-right:10px;"></i>创建新页</div>
 </div>
 
+<script type="text/javascript">
+		
+
+</script>

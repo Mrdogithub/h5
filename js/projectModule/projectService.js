@@ -43,10 +43,10 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
            var pageLength  = pageLength  || '1';
            var deffered    = $q.defer();
            var userName    = loginFn.islogged().email;
-           // console.log('@projectService.js add project Fn  pageLength:'+pageLength)
-           // console.log('@projectService.js add project Fn  previewCode:'+previewCode)
-           // console.log('@projectService.js add project Fn  userName:'+userName)
-           // console.log('@projectService.js add project Fn  projectInfo:'+projectInfo)
+           console.log('@projectService.js add project Fn  pageLength:'+pageLength)
+           console.log('@projectService.js add project Fn  previewCode:'+previewCode)
+           console.log('@projectService.js add project Fn  userName:'+userName)
+           console.log('@projectService.js add project Fn  projectInfo:'+projectInfo)
 
            $http.post(productUrl+saveProject,{
                 'projectName': projectName,

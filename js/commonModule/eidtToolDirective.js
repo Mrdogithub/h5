@@ -225,7 +225,7 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
               $scope.loadingSave = false;
               var projectName = $("#projectName").val();
               var projectInfo = $('#projectInfo').val();     
-              var pageLength  = projectFn.getPageLength();
+              var pageLength  = projectFn.getPageLength().length;
               var userName    = loginFn.islogged().email;
 
               console.log('@addProject:current page length is:'+pageLength);
@@ -256,7 +256,7 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
 
               projectFn.addProject(projectName,previewCode,editCode,projectInfo,userName,pageLength)
                 .then(function(data) {
-                   // console.log(data.status+":data.status")
+                   console.log(data.status+":data.status")
                     if (data.status) {
                       $("#pagesList").attr('data-projectid', data.project.id);
                         $scope.loadingSave = true;
