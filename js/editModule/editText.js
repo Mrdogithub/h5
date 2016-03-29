@@ -45,7 +45,9 @@ editText.directive('edittext',function(
 					$scope.page.editCode = $sce.trustAsHtml(data.pages.editCode);
 					$scope.editcode = data.pages.editCode;
 					$("#pagesList").attr('data-projectid',loadingProjectById);
-
+					// setTimeout(function(){
+					// 	$('.page').removeClass('col-leftclick');
+					// },100)
 				//设置第一页面为显示状态，其他页面暂时隐藏
 
 			    //console.log('$("#pagesList").children()[0].html();'+$("#pagesList").children()[0].html())

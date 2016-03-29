@@ -6,7 +6,7 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
 	var copyProject                  = 'copyProject';
 	var editProject                  = 'findProjectById';
     var saveProject                  = 'saveProject';
-	var pagelength                   = [];
+	var pageLeftNavObj               = [];
     var findMyProject                = 'findProjectByUser';
     var deletedProject               = 'delProject';
     var projectIdInDashboardService  = [];
@@ -19,8 +19,16 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
             projectIdInDashboardService.push(projectId);
         },  
         savePageLength:function(num){
-           pagelength.length = 0;
-           pagelength.push(num);
+           /*
+           *@ 描    述：添加新页面同时调用savePageLength，更新页面存储长度
+           *@ 调用位置：homeController.js
+           **/
+           pageLeftNavObj.length = 0;
+
+            for(var i in num){
+                pageLeftNavObj.push({'type':num[i].type,'thumbId':num[i].thumbId});
+            }
+
         },
         saveProject:function(pageLength,projectId,editCode,previewCode,projectName,userName){
             var deffered = $q.defer();
@@ -37,21 +45,55 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
             });
             return deffered.promise;
         },
-        addProject:function(projectName,previewCode,editCode,projectInfo,userName,pageLength){
-           var previewCode = previewCode || '<div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%;"> </div>';
-           var editCode    = editCode    || '<i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i><div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%;direction: ltr;"> </div>';
-           var pageLength  = pageLength  || '1';
-           var deffered    = $q.defer();
-           var userName    = loginFn.islogged().email;
-           console.log('@projectService.js add project Fn  pageLength:'+pageLength)
-           console.log('@projectService.js add project Fn  previewCode:'+previewCode)
-           console.log('@projectService.js add project Fn  userName:'+userName)
-           console.log('@projectService.js add project Fn  projectInfo:'+projectInfo)
+        addProject:function(projectName,previewCode,editCode,projectInfo,userName,pageLengthObj){
+
+          //生成hash
+            function makeid(){
+                  var text = "";
+                  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                  for( var i=0; i < 10; i++ )
+                      text += possible.charAt(Math.floor(Math.random() * possible.length));
+                  return text;
+            } 
+
+           console.log('pageLengthObj:'+ !pageLengthObj.length)
+           for(var i in pageLengthObj){
+            console.log(i+":"+pageLengthObj[i])
+           }
+           var pageLeftNavObj=[];
+           var defaultThumb = makeid();
+           var previewCode  = previewCode    || '<div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%;"> </div>';
+           var editCode     = editCode       || '<i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i><div class="swiper-slide isEdit" data-pageid="'+defaultThumb+'" data-type="page" id="right_1" style="height:100%;direction: ltr;"> </div>';
+           var deffered     = $q.defer();
+           var userName     = loginFn.islogged().email;
+           // console.log('@projectService.js add project Fn  pageLength:'+pageLengthObj)
+           // console.log('@projectService.js add project Fn  previewCode:'+previewCode)
+           // console.log('@projectService.js add project Fn  userName:'+userName)
+           // console.log('@projectService.js add project Fn  projectInfo:'+projectInfo)
+           //从dashboard中添加项目需要生成默认thumb id
+           if(!pageLengthObj){
+             console.log('fuck?')
+              pageLeftNavObj.push({'type': '1','thumbId':defaultThumb});
+           }else if(!pageLengthObj.length){
+            console.log('activeid:'+$('.box').data('activeid'));
+             pageLeftNavObj.push({'type': '1','thumbId':$('.box').data('activeid')})
+           }else if(pageLengthObj){
+
+            //描    述：重新处理pageLengthObj结构,默认数据结构在mongodb中报错
+            //默认结构：pageLengthObj =  $scope.feedback.leftpages
+               for(var i in pageLengthObj){
+                   pageLeftNavObj.push({'type':pageLengthObj[i].type,'thumbId':pageLengthObj[i].thumbId});
+                }
+
+
+           }
+
+           //console.log('@projectService.js pageLeftNavObj is:'+pageLeftNavObj.length)
 
            $http.post(productUrl+saveProject,{
                 'projectName': projectName,
                 'projectInfo': projectInfo,
-                'pageLength' : pageLength,
+                'pageLength' : pageLeftNavObj,
                 'projectId'  : '',
                 'userName'   : userName,
                 'pages'      : {'editCode':editCode,'previewCode':previewCode}
@@ -68,7 +110,7 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
         },
         getPageLength:function(){
 
-            return pagelength[0];
+            return pageLeftNavObj;
         },
     	getProjectList:function(userName){
             var deffered = $q.defer();
