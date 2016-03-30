@@ -56,9 +56,9 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
                   return text;
             } 
 
-           console.log('pageLengthObj:'+ !pageLengthObj.length)
+          // console.log('pageLengthObj:'+ !pageLengthObj.length)
            for(var i in pageLengthObj){
-            console.log(i+":"+pageLengthObj[i])
+            //console.log(i+":"+pageLengthObj[i])
            }
            var pageLeftNavObj=[];
            var defaultThumb = makeid();
@@ -72,10 +72,10 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
            // console.log('@projectService.js add project Fn  projectInfo:'+projectInfo)
            //从dashboard中添加项目需要生成默认thumb id
            if(!pageLengthObj){
-             console.log('fuck?')
+             
               pageLeftNavObj.push({'type': '1','thumbId':defaultThumb});
            }else if(!pageLengthObj.length){
-            console.log('activeid:'+$('.box').data('activeid'));
+           // console.log('activeid:'+$('.box').data('activeid'));
              pageLeftNavObj.push({'type': '1','thumbId':$('.box').data('activeid')})
            }else if(pageLengthObj){
 

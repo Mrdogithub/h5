@@ -1,8 +1,8 @@
 var homeController = angular.module('homeController', ['ngMaterial','ngMessages']);
 homeController.controller('homeController', function(
-  $scope, 
-  $rootScope, $mdSidenav, 
-  editPage, $mdToast, $compile, 
+  $scope,
+  $rootScope, $mdSidenav,
+  editPage, $mdToast, $compile,
   $sce, $state,$mdDialog, $document, SERVER_URL,loginFn) {
 
 //用户退出
@@ -49,8 +49,8 @@ homeController.controller('homeController', function(
                       $scope.loadingLogin = false;
                       $scope.userError = true;
                     }
-                  
-                   
+
+
                  });
             }
 
@@ -75,7 +75,7 @@ homeController.controller('homeController', function(
                             $("#popupContainer").removeClass('filter');
                         },250)
                     }
-                
+
                     $scope.loginBtn = function(){
                          $scope.loadingLogin = true;
                          $scope.error = '';
@@ -90,7 +90,7 @@ homeController.controller('homeController', function(
                                 $rootScope.isAuthorized = loginFn.islogged().status;
                                 $("#popupContainer").removeClass('filter');
                               //  $mdDialog.hide();
-                         
+
                                 if(!$("#pagesList").data("projectid")){
 
                                   $mdDialog.show({
@@ -105,10 +105,10 @@ homeController.controller('homeController', function(
                                              $scope.loadingSave = true;
                                              var projectName = $("#projectName").val();
                                              var projectName = $("#projectName").val();
-                                             var projectInfo = $('#projectInfo').val();     
+                                             var projectInfo = $('#projectInfo').val();
                                              var pageLength  = projectFn.getPageLength();
                                              console.log('only one page'+pageLength)
-                                             var userName    = loginFn.islogged().email;         
+                                             var userName    = loginFn.islogged().email;
                                              var previewCode = $("#pagesList").html()
                                                                               .replace(/display/g, " ")
                                                                               .replace(/isEdit/g, " ")
@@ -150,7 +150,7 @@ homeController.controller('homeController', function(
                                                           // console.log('@editToolDirective.js  Fn: add project :'+data.name)
                                                         }
                                                   }, function() {
-                                                  
+
                                                   });
                                           }
 
@@ -159,15 +159,15 @@ homeController.controller('homeController', function(
                                         parent: $("#main"),
                                         hideDelay: false
                                       });
- 
+
                                 }
 
                             }else{
                                 $scope.loadingLogin = false;
                                 $scope.userError = true;
                             }
-                          
-                           
+
+
                          });
                       }
                 },
@@ -178,7 +178,7 @@ homeController.controller('homeController', function(
 
         }
   }
-      
+
 
 //删除选中元素
   $scope.remove = function() {
@@ -194,9 +194,7 @@ homeController.controller('homeController', function(
   }
 
 
-$scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
-      console.log(newValue)
-    })
+
 
   // function saveProjectFn(){
   //   var pageLength = [];
@@ -216,8 +214,8 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
   //     } else if (pageLengthNotSave = data.pageLength) {
   //       newLength = data.pageLength;
   //     }
-   
-   
+
+
   //     var editCode = $("#pagesList").html()
   //             .replace(/ui-selected/, '')
   //             .replace(/isEdit/g, " ")
@@ -295,9 +293,9 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
   }
 
 
-}).controller('LeftCtrl', function($scope, $timeout, $mdSidenav, 
+}).controller('LeftCtrl', function($scope, $timeout, $mdSidenav,
   $log, $rootScope, $mdToast,$compile,$document, projectFn) { // 左侧导航栏位 start --
-  
+
 
 $(document).on("mouseenter",".page",function(){
     $(this).find(".pageThumbMask").css('display','block');
@@ -309,7 +307,7 @@ $(document).on("mouseleave",".page",function(){
 
 
 setTimeout(function(){
-  $(".page").addClass('col-leftclick')
+  $("div.page:eq(0)").addClass('col-leftclick')
 },100)
 
   function makeid(){
@@ -318,9 +316,9 @@ setTimeout(function(){
       for( var i=0; i < 10; i++ )
           text += possible.charAt(Math.floor(Math.random() * possible.length));
       return text;
-  } 
+  }
 
-console.log($('.box').data('activeid')+"$('.box').data('activeid')")
+//console.log($('.box').data('activeid')+"$('.box').data('activeid')")
   if(!$('.box').data('activeid')){
     var defaultThumb = makeid();
     $scope.feedback = {
@@ -330,10 +328,10 @@ console.log($('.box').data('activeid')+"$('.box').data('activeid')")
         'thumbId':defaultThumb
       }]
     };
-console.log($('.box').data('activeid')+"$('.box').data('activeid')")
+//console.log($('.box').data('activeid')+"$('.box').data('activeid')")
     $("#pagesList div.swiper-slide:eq(0)").attr('data-pageid',defaultThumb)
   }
-  
+
 
 
   var projectIdInLeftNav = projectFn.getProjectId();
@@ -341,12 +339,14 @@ console.log($('.box').data('activeid')+"$('.box').data('activeid')")
    console.log(data.pageLength+":@homeController.js")
 
    for(var i in data.pageLength){
-    console.log(data.pageLength[i]+":"+i)
+  console.log(data.pageLength[i]+":"+i)
    }
- 
-    $scope.feedback.leftpages = data.pageLength;
 
+    $scope.feedback.leftpages = data.pageLength;
     var colLeftHeight = 140 * $scope.feedback.leftpages.length;
+    setTimeout(function(){
+      $("div.page:eq(0)").addClass('col-leftclick')
+    },100)
   })
 
 
@@ -389,7 +389,7 @@ console.log($('.box').data('activeid')+"$('.box').data('activeid')")
          },100)
 
       }
-      
+
 
 
 
@@ -397,7 +397,7 @@ console.log($('.box').data('activeid')+"$('.box').data('activeid')")
     * @name savePageLength()
     * @path project/projectService.js
     * @description
-    * 
+    *
     * 用户每增加一页或删除一页，更新$scope.feedback.leftpages数组，并保存至projectFn.savePageLength
     * projectFn.savePageLength 方法用于保存页面长度，在用户保存项目时，会从这个方法获取页面的长度
     **/
@@ -416,14 +416,14 @@ console.log($('.box').data('activeid')+"$('.box').data('activeid')")
  $('.page').removeClass('col-leftclick');
 
  $("#pagesList").find("div[data-pageid='"+i+"']").fadeIn(300).show().addClass('isEdit');
- 
+
  //通过父级元素查找某个元素下的子元素
  $(".col-left").find("div[data-activeid='"+i+"']").find('div[class="page"]').addClass('col-leftclick');
 
 }
-  
+
 /*
-*@删除页面 
+*@删除页面
 *@删除页面的同时更新存储页面长度的数组
 *
 *
@@ -433,12 +433,12 @@ $scope.removePage = function(pageId){
 
 
 var pageId = pageId;
- 
+
 
 // console.log(" $scope.feedback.leftpages.length"+ $scope.feedback.leftpages.length)
 
  $("#pagesList").find("div[data-pageid='"+pageId+"']").fadeOut(300).remove();
-    
+
  $(".col-left").find("div[data-activeid='"+pageId+"']").fadeOut(300).remove();
 
 // console.log(" $scope.feedback.leftpages.length"+ $scope.feedback.leftpages.length)
@@ -454,7 +454,7 @@ for(var i in $scope.feedback.leftpages){
        $(".col-left").removeClass('col-leftclick');
        $(".swiper-slide").hide();
        $(".swiper-slide").removeClass("isEdit");
-       
+
        $("#pagesList").find("div[data-pageid='"+showThumbId+"']").fadeIn(300).show().addClass('isEdit');
        $(".col-left").find("div[data-activeid='"+showThumbId+"']").addClass('col-leftclick');
 
@@ -466,13 +466,13 @@ for(var i in $scope.feedback.leftpages){
        $(".swiper-slide").removeClass("isEdit");
        $(".col-left").removeClass('col-leftclick');
 
-       $("#pagesList").find("div[data-pageid='"+showThumbId+"']").fadeIn(300).show().addClass('isEdit'); 
+       $("#pagesList").find("div[data-pageid='"+showThumbId+"']").fadeIn(300).show().addClass('isEdit');
        $(".col-left").find("div[data-activeid='"+showThumbId+"']").find('div[class="page"]').addClass('col-leftclick');
        $scope.feedback.leftpages.splice(i,1);
     }
 
 
-    
+
   }
 }
 projectFn.savePageLength($scope.feedback.leftpages);

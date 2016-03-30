@@ -179,8 +179,9 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 
            //设置动画透明度
 		   $scope.getImageOpacity   = function(){
-					$('.ui-selected>.mImage').css('opacity',$scope.opacity.numberValue);
-					$('.ui-selected>.mImage').attr('data-opacity',$scope.opacity.numberValue);
+		   	        console.log('$scope.opacity.numberValue'+$scope.opacity.numberValue)
+					$('.ui-selected .mImage').css('opacity',$scope.opacity.numberValue);
+					$('.ui-selected .mImage').attr('data-opacity',$scope.opacity.numberValue);
 			   }
 
 			//选择动画效果
@@ -213,7 +214,7 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 		   $scope.setImageRadiusSize = function(){
 	
 				$('.ui-selected').attr('data-radius',$scope.imageRadius.size);
-				$(".ui-selected >.imageContainer >.mImage").css("borderRadius",$scope.imageRadius.size+"px");
+				$(".ui-selected .imageContainer .mImage").css("borderRadius",$scope.imageRadius.size+"px");
 		   }
 		
 	
@@ -257,8 +258,9 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
     			$mdDialog.show({
     				controller:function($scope){
     				  //再次点击添加链接,显示之前的value
-    				  $scope.imageLink="";
-				      $scope.imageLink = $('.ui-selected').attr('data-link');
+    				  $scope.textlink="";
+
+				      $scope.textlink = $('.ui-selected').data('link');
 
 
     				  $scope.linkClose = function(){
