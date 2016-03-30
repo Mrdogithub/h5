@@ -46,6 +46,7 @@ imageEditDirective.directive('editimage',function(
 
 				 	//如果用户登录，显示上传图片对话框
 	 				var newImage = true;
+
 				 	showAddImageOverLay($mdToast,$mdDialog,$document,newImage)
 				 }else{
 
@@ -126,7 +127,7 @@ function imageActive(curImage){
 	 	if(animateId>-1) {
 	 		setTimeout(function(){
 		 		var animateName = $(curImage).parent().parent().css("animationName");
-		 		console.log('animateName:'+animateName)
+		 		//console.log('animateName:'+animateName)
 		 	 	$("#js--imageAnimations option").each(function(){
 				    if( $(this).val() == animateName ){
 				      this.selected = true;
@@ -260,16 +261,24 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
     				  //再次点击添加链接,显示之前的value
     				  $scope.textlink="";
 
-				      $scope.textlink = $('.ui-selected').data('link');
+				      $scope.textlink = $('.ui-selected').attr('data-link');
 
+				      console.log('update link twice:'+$('.ui-selected').attr('data-link'))
 
     				  $scope.linkClose = function(){
 		    			 $mdDialog.hide();
 	               		 setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
 	    		  	  }
     				  $scope.saveLink = function(){
-    				 
-    				   $(".ui-selected").attr("onclick","window.open('"+$scope.textlink+"','target','param')");
+
+    				  	var linkText = $.trim($scope.textlink);
+    				  	if(linkText==""){
+    				  		$(".ui-selected").removeAttr('onclick');
+    				  	}else{
+    				  		$(".ui-selected").attr("onclick","window.open('"+$scope.textlink+"','target','param')");
+    				  	}
+    				   
+    				  
     				 	
 
     				 	$mdDialog.hide();
@@ -299,24 +308,18 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 *****/
 function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 	$("#popupContainer").addClass('filter');
-
+	
  	$mdDialog.show({
 		controller: function($scope,$compile,getImageList,imageActionService,loginFn){
   	       // getImageList 从app.js 传入 用来获取已上传数据，并渲染到添加图片页面
-  	       // 
-  	       // show all data from obj
-  	       // for(var i in $scope.imageList){
-		   // 		console.log(i+":"+$scope.imageList[i])
-		   // 		for(var j in $scope.imageList[i]){
-		   // 			console.log(j+":"+$scope.imageList[i][j])
-		   // 		}
-		   // }
   		   $scope.imageList = getImageList.data;	
-  		   $scope.userName = loginFn.islogged().email;
+  		   $scope.userName  = loginFn.islogged().email;
 	       
+  		   console.log('userName:'+$scope.userName)
+
 	       $scope.imageOverlayClose = function(){
-			 $mdDialog.hide();
-       		 setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
+		   		$mdDialog.hide();
+       			setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
 	       } 
 
 
@@ -357,15 +360,13 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 		      	$("#"+imageId).remove();
 		    }
 
-	  },
-      resolve:{
-	      	getImageList :function(imageActionService){ return imageActionService.loadImage();}
-	  },
-	  templateUrl: './template/addImage.tmpl.html',
-      parent: $('#main')
+		},
+	    resolve:{
+		      	getImageList :function(imageActionService){   return imageActionService.loadImage();}
+		},
+		templateUrl: './template/addImage.tmpl.html',
+	    parent: $('#main')
 	});
-
-
 }
 	    
 

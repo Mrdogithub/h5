@@ -3,7 +3,7 @@ homeController.controller('homeController', function(
   $scope,
   $rootScope, $mdSidenav,
   editPage, $mdToast, $compile,
-  $sce, $state,$mdDialog, $document, SERVER_URL,loginFn) {
+  $sce, $state,$mdDialog, $document, SERVER_URL,loginFn,projectFn) {
 
 //用户退出
   $scope.loginOut = function(){
@@ -63,120 +63,67 @@ homeController.controller('homeController', function(
 
 //用户未登录状态点击我的项目
   $scope.myProject = function(){
-        if(loginFn.islogged().status){
+    if(loginFn.islogged().status){
+
+      var textIsNull = $('.textElementActive').length<1;
+      var imageIsNull = $('.imageElementAcitve').length<1;
+
+
+        //1.登陆状态下，编辑已创建过的项目，但没有保存，点击我的项目会将项目保存到db
+        if($("#pagesList").data("projectid")){
+           saveProjectFn();
+         }else if(textIsNull&& imageIsNull &&!$("#pagesList").data("projectid")){
+        //2.登陆状态下，没有编辑行为，直接挑砖道dashboard
+
           $state.go('dashboard');
-        }else{
-              $("#popupContainer").addClass('filter');
-              $mdDialog.show({
-                 controller: function($scope,$rootScope){
-                    $scope.loginClose = function(){
-                        $mdDialog.hide();
-                        setTimeout(function(){
-                            $("#popupContainer").removeClass('filter');
-                        },250)
+         }else{
+          //3.登陆状态下创建新项目，没有点击保存，直接点击我的项目
+          addProject($mdDialog,$document);
+         }
+      
+      
+    }else{
+      $("#popupContainer").addClass('filter');
+      $mdDialog.show({
+         controller: function($scope,$rootScope){
+            $scope.loginClose = function(){
+              mdDialogHide($mdDialog)
+            }
+
+            $scope.loginBtn = function(){
+                 $scope.loadingLogin = true;
+                 $scope.error = '';
+                 $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
+                 loginFn.login($scope.credentials).then(function(data){
+
+                  //$scope 作用于 user.login.tmpl.html
+                  //$rootScope 作用于全局
+                  // console.log(data.status+">>>>data.status")
+                   if(data.status){
+                        $rootScope.currentUser  = $rootScope.getCurrentUser();
+                        $rootScope.isAuthorized = loginFn.islogged().status;
+                        $("#popupContainer").removeClass('filter');
+        
+                        if(!$("#pagesList").data("projectid")){
+
+                            addProject($mdDialog,$document);
+                        }
+
+                    }else{
+                        $scope.loadingLogin = false;
+                        $scope.userError = true;
                     }
 
-                    $scope.loginBtn = function(){
-                         $scope.loadingLogin = true;
-                         $scope.error = '';
-                         $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
-                         loginFn.login($scope.credentials).then(function(data){
 
-                          //$scope 作用于 user.login.tmpl.html
-                          //$rootScope 作用于全局
-                          // console.log(data.status+">>>>data.status")
-                           if(data.status){
-                                $rootScope.currentUser  = $rootScope.getCurrentUser();
-                                $rootScope.isAuthorized = loginFn.islogged().status;
-                                $("#popupContainer").removeClass('filter');
-                              //  $mdDialog.hide();
+                 });
+              }
+        },
+        templateUrl:'./template/user.login.tmpl.html',
+        parent : $("#main"),
+        hideDelay: false
+      });
 
-                                if(!$("#pagesList").data("projectid")){
-
-                                  $mdDialog.show({
-                                        controller: function($scope, projectFn) {
-                                          $scope.loadingSave = false;
-                                          $scope.closeSavePage = function() {
-                                           // console.log('close work');
-                                            $mdDialog.hide();
-                                            $("#popupContainer").removeClass('filter');
-                                          }
-                                          $scope.savePageContent = function() {
-                                             $scope.loadingSave = true;
-                                             var projectName = $("#projectName").val();
-                                             var projectName = $("#projectName").val();
-                                             var projectInfo = $('#projectInfo').val();
-                                             var pageLength  = projectFn.getPageLength();
-                                             console.log('only one page'+pageLength)
-                                             var userName    = loginFn.islogged().email;
-                                             var previewCode = $("#pagesList").html()
-                                                                              .replace(/display/g, " ")
-                                                                              .replace(/isEdit/g, " ")
-                                                                              .replace(/icon-undo/g, " ")
-                                                                              .replace(/ui-selectable/g,'')
-                                                                              .replace(/ui-draggable/g,'')
-                                                                              .replace(/ui-selectee/g,'')
-                                                                              .replace(/ui-selected/g,'')
-                                                                              .replace(/right_/g,'')
-                                                                              .replace(/textElementActive/g,' ')
-                                                                              .replace(/class="[^\"]*(animated)[^\"]*(textElement)[^\"]*"/g,'class=" ani textElement"')
-                                                                              .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
-                                                                              .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,'')
-                                                                              .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
-                                                                              .replace(/ui-resizable/g,'');
-
-                                            var editCode = $("#pagesList").html()
-                                                                          .replace(/ui-selected/, '')
-                                                                          .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
-                                                                          .replace(/isEdit/,'')
-                                                                          .replace(/display: flex/, "display: none")
-                                                                          .replace('defaultPage','defaultPage isEdit')
-                                                                          .replace('direction: ltr; display: none;','direction: ltr;display: block;');
-
-                                           projectFn.addProject(projectName,previewCode,editCode,projectInfo,userName,pageLength)
-                                                    .then(function(data) {
-                                                       console.log(data.status+":data.status")
-                                                        if (data.status) {
-                                                          $("#pagesList").attr('data-projectid', data.project.id);
-                                                            $scope.loadingSave = true;
-                                                            $mdDialog.hide();
-                                                            setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
-                                                            $("#addBox").show();
-                                                            setTimeout(function() {
-                                                              $("#addBox").fadeTo(3000).hide();
-                                                            }, 1000);
-
-                                                        } else {
-                                                          // console.log('@editToolDirective.js  Fn: add project :'+data.name)
-                                                        }
-                                                  }, function() {
-
-                                                  });
-                                          }
-
-                                        },
-                                        templateUrl: './template/page.save.tmpl.html',
-                                        parent: $("#main"),
-                                        hideDelay: false
-                                      });
-
-                                }
-
-                            }else{
-                                $scope.loadingLogin = false;
-                                $scope.userError = true;
-                            }
-
-
-                         });
-                      }
-                },
-                templateUrl:'./template/user.login.tmpl.html',
-                parent : $("#main"),
-                hideDelay: false
-              });
-
-        }
+    }
   }
 
 
@@ -193,59 +140,10 @@ homeController.controller('homeController', function(
     $(".isEdit").css('backgroundColor',color)
   }
 
+$scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
+      console.log(newValue)
+    })
 
-
-
-  // function saveProjectFn(){
-  //   var pageLength = [];
-  //   pageLength.length = 0;
-
-  //   //初始化页面个数
-  //   var projectid = $("#pagesList").data("projectid");
-  //   var pageLengthNotSave = projectFn.getPageLength();
-  //   projectFn.loadEditPage(projectid).then(function(data) {
-  //     var newLength = 0;
-  //     if (typeof(data.pageLength) == 'undefined') {
-  //       newLength = 1;
-  //     } else if (pageLengthNotSave > data.pageLength) {
-  //       newLength = pageLengthNotSave;
-  //     } else if (pageLengthNotSave < data.pageLength) {
-  //       newLength = data.pageLength;
-  //     } else if (pageLengthNotSave = data.pageLength) {
-  //       newLength = data.pageLength;
-  //     }
-
-
-  //     var editCode = $("#pagesList").html()
-  //             .replace(/ui-selected/, '')
-  //             .replace(/isEdit/g, " ")
-  //             .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
-
-  //     var previewCode = $("#pagesList").html()
-  //             .replace(/display/g, " ")
-  //             .replace(/isEdit/g, " ")
-  //             .replace(/icon-undo/g, " ")
-  //             .replace(/<div class="ui-resizable-handle(.)*?div>/g, '');
-
-  //     projectFn.saveProject(newLength, projectid, editCode, previewCode)
-  //       .then(function(data) {
-
-  //           if (data.status) {
-  //             $('.md-dialog-container').css('display', 'none');
-  //             $("#addBox").show();
-  //             setTimeout(function() {
-  //               $("#addBox").fadeTo(3000).hide();
-  //             }, 1000);
-  //           } else {
-  //             view(data.msg);
-  //           }
-  //       }, function() {
-
-  //           $scope.error = "用户名或密码错误"
-  //       });
-
-  //   })
-  // }
 
 
 //判断是否为chrome浏览器
@@ -269,32 +167,179 @@ homeController.controller('homeController', function(
   })
 
 
-// show radiobox edit panel if radiobox active
-  function showBackgroundEditPanel($mdToast, $document) {
-    $mdToast.show({
-      controller: function($scope) {
-        //set FontColor
-        $scope.$watch("setPageBackgroundColor", function(newColor, oldColor) {
-          $('.isEdit').css('backgroundColor', newColor);
+
+
+/////////////////////  common Function /////////////////////////////
+
+
+
+/*
+*@描述：saveProjectFn
+*@作用：非新建项目点击保存按钮出发此方法
+*@详情：.....
+**/
+function saveProjectFn(){
+
+  console.log('save project works')
+    /*
+    *@描述：pageLengthObj
+    *@作用：获取用户在当前编辑状态下的实际页面个数
+    **/          
+    var pageLengthObj = projectFn.getPageLength();
+    var projectid     = $("#pagesList").data("projectid");
+
+    /*
+    *@描述：将当前页面个数与存储个数比较，判断页面个数是否有变
+    **/
+    projectFn.loadEditPage(projectid).then(function(data) {
+
+
+      //如果实际pageLengthObj 与 从projectFn.loadEditPage 获取的页面长度不等
+      //返回实际pageLengthObj,如果相等，返回任意一个
+
+      // console.log('actual page length：'+pageLengthObj.length)
+      // console.log('page length from db:'+data.pageLength.length)
+
+    var newLengthObj = pageLengthObj.length !== data.pageLength.length?pageLengthObj:pageLengthObj;
+   
+      //console.log('newLengthObj:'+newLengthObj.length)
+    var editCode = $("#pagesList").html()
+              .replace(/ui-selected/, '')
+              .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+              .replace(/isEdit/,'')
+              .replace(/display: flex/, "display: none")
+              .replace('defaultPage','defaultPage isEdit')
+              .replace('direction: ltr; display: none;','direction: ltr;display: block;')
+
+    var previewCode = $("#pagesList").html()
+              .replace(/display/g, " ")
+              .replace(/isEdit/g, " ")
+              .replace(/icon-undo/g, " ")
+              .replace(/ui-selectable/g,'')
+              .replace(/ui-draggable/g,'')
+              .replace(/ui-selectee/g,'')
+              .replace(/ui-selected/g,'')
+              .replace(/right_/g,'')
+              .replace(/contenteditable="true"/g,' ')
+              .replace(/onclick="textActive(this)"/g,'')
+              .replace(/textElementActive/g,' ')
+              .replace(/class="[^\"]*(animated)[^\"]*(textElement)[^\"]*"/g,'class=" ani textElement"')
+              .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
+              // .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,' ')
+              .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+              .replace(/ui-resizable/g,'');
+
+      projectFn.saveProject(newLengthObj, projectid, editCode, previewCode)
+        .then(function(data) {
+            
+            if (data.status) {
+                 $state.go('dashboard');
+            } else {
+              console.log('error')
+            }
+        }, function() {
+
+            $scope.error = "用户名或密码错误"
         });
 
-        $(this).parent().attr('id', 'selectedFormItem');
-        $(this).parent().css({
-          'border': '#dedede 3px dashed',
-          'overflow': 'hidden'
+    })
+
+}
+
+
+
+/*
+*@描述：关闭overlay
+*
+***/
+function mdDialogHide($mdDialog){
+  $mdDialog.hide();
+  setTimeout(function(){
+      $("#popupContainer").removeClass('filter');
+  },250)
+}
+
+
+/*
+*@描述：添加新项目
+*
+****/
+function addProject($mdDialog,$document){
+
+$mdDialog.show({
+    controller: function($scope, projectFn) {
+      $scope.loadingSave = false;
+      $scope.closeSavePage = function() {
+        $mdDialog.hide();
+        $("#popupContainer").removeClass('filter');
+      }
+      $scope.savePageContent = function() {
+         $scope.loadingSave = true;
+         var projectName = $("#projectName").val();
+         var projectName = $("#projectName").val();
+         var projectInfo = $('#projectInfo').val();
+         var pageLength  = projectFn.getPageLength();
+         console.log('only one page'+pageLength)
+         var userName    = loginFn.islogged().email;
+         var previewCode = $("#pagesList").html()
+                          .replace(/display/g, " ")
+                          .replace(/isEdit/g, " ")
+                          .replace(/icon-undo/g, " ")
+                          .replace(/ui-selectable/g,'')
+                          .replace(/ui-draggable/g,'')
+                          .replace(/ui-selectee/g,'')
+                          .replace(/ui-selected/g,'')
+                          .replace(/right_/g,'')
+                          .replace(/textElementActive/g,' ')
+                          .replace(/class="[^\"]*(animated)[^\"]*(textElement)[^\"]*"/g,'class=" ani textElement"')
+                          .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
+                          .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,'')
+                          .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+                          .replace(/ui-resizable/g,'');
+
+        var editCode = $("#pagesList").html()
+                          .replace(/ui-selected/, '')
+                          .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+                          .replace(/isEdit/,'')
+                          .replace(/display: flex/, "display: none")
+                          .replace('defaultPage','defaultPage isEdit')
+                          .replace('direction: ltr; display: none;','direction: ltr;display: block;');
+
+        projectFn.addProject(projectName,previewCode,editCode,projectInfo,userName,pageLength)
+                 .then(function(data) {
+                   // console.log(data.status+":data.status")
+                    if (data.status) {
+                      $("#pagesList").attr('data-projectid', data.project.id);
+                        $scope.loadingSave = true;
+
+                        mdDialogHide($mdDialog);
+                        $("#addBox").show();
+                        setTimeout(function() {
+                          $("#addBox").fadeTo(3000).hide();
+                        }, 1000);
+
+
+                        $state.go('dashboard');
+
+                    } else {
+                      // console.log('@editToolDirective.js  Fn: add project :'+data.name)
+                    }
+              }, function() {
+          //....................
         });
+      }
+
+    },
+    templateUrl: './template/page.save.tmpl.html',
+    parent: $("#main"),
+    hideDelay: false
+  });
+}
 
 
-      },
-      templateUrl: './template/page.background.tmpl.html',
-      parent: $document[0].querySelector('#editModulePosition'),
-      hideDelay: false
-    });
-  }
-
-
+//////////////////////////////////////////////////////////////////
 }).controller('LeftCtrl', function($scope, $timeout, $mdSidenav,
-  $log, $rootScope, $mdToast,$compile,$document, projectFn) { // 左侧导航栏位 start --
+  $log, $rootScope, $mdToast,$compile,$document, $mdDialog,projectFn) { // 左侧导航栏位 start --
 
 
 $(document).on("mouseenter",".page",function(){
@@ -431,51 +476,105 @@ setTimeout(function(){
 
 $scope.removePage = function(pageId){
 
+      $("#popupContainer").addClass('filter');
+      var _scope = $scope;
+      var pageId = pageId;
 
-var pageId = pageId;
+      $mdDialog.show({
+      controller: function($scope) {
+        $scope.projectName = '';
+        $scope.deleteInProgress = function() {
+          $('#delProjectOverLay').css('display', 'none');
 
-
-// console.log(" $scope.feedback.leftpages.length"+ $scope.feedback.leftpages.length)
-
- $("#pagesList").find("div[data-pageid='"+pageId+"']").fadeOut(300).remove();
-
- $(".col-left").find("div[data-activeid='"+pageId+"']").fadeOut(300).remove();
-
-// console.log(" $scope.feedback.leftpages.length"+ $scope.feedback.leftpages.length)
-
-//更新存储页面数组
-for(var i in $scope.feedback.leftpages){
-
-  //从数组中匹配当前点击元素ID
-  if($scope.feedback.leftpages[i].thumbId == pageId){
-    if(i==0){//判断要删除的元素是否是第一个元素,删除第一个元素后，紧邻元素高亮
-      console.log(i+"iiiii")
-      var showThumbId = $scope.feedback.leftpages[1].thumbId;
-       $(".col-left").removeClass('col-leftclick');
-       $(".swiper-slide").hide();
-       $(".swiper-slide").removeClass("isEdit");
-
-       $("#pagesList").find("div[data-pageid='"+showThumbId+"']").fadeIn(300).show().addClass('isEdit');
-       $(".col-left").find("div[data-activeid='"+showThumbId+"']").addClass('col-leftclick');
-
-        $scope.feedback.leftpages.splice(i,1);
-
-    }else if(i>0){//要删除元素不是第一个元素默认显示相邻元素
-      var showThumbId = $scope.feedback.leftpages[i-1].thumbId !== 'undefined'?$scope.feedback.leftpages[i-1].thumbId:$scope.feedback.leftpages[i+1].thumbId;
-       $(".swiper-slide").hide();
-       $(".swiper-slide").removeClass("isEdit");
-       $(".col-left").removeClass('col-leftclick');
-
-       $("#pagesList").find("div[data-pageid='"+showThumbId+"']").fadeIn(300).show().addClass('isEdit');
-       $(".col-left").find("div[data-activeid='"+showThumbId+"']").find('div[class="page"]').addClass('col-leftclick');
-       $scope.feedback.leftpages.splice(i,1);
-    }
+          //更新存储页面数组
+          for(var i in _scope.feedback.leftpages){
 
 
 
-  }
-}
-projectFn.savePageLength($scope.feedback.leftpages);
+            //从数组中匹配当前点击元素ID
+            if(_scope.feedback.leftpages[i].thumbId == pageId){
+
+              if(i==0){
+
+               // console.log('works deleted');
+                //判断要删除的元素是否是第一个元素,删除第一个元素后，紧邻元素高亮
+
+
+                //console.log("_scope.feedback.leftpages[1]:"+_scope.feedback.leftpages[1]);
+
+        
+                var showThumbId = _scope.feedback.leftpages[1] == undefined ?' ': _scope.feedback.leftpages[1].thumbId ;
+
+                 //重置样式
+                 $(".col-left").removeClass('col-leftclick');
+                 $(".swiper-slide").hide();
+                 $(".swiper-slide").removeClass("isEdit");
+
+                 //当删除元素后，设置要显示那个元素
+                 $("#pagesList").find("div[data-pageid='"+showThumbId+"']").fadeIn(300).show().addClass('isEdit');
+                 $(".col-left").find("div[data-activeid='"+showThumbId+"']").addClass('col-leftclick');
+
+                 //更新存储页面数组
+                 _scope.feedback.leftpages.splice(i,1);
+
+                 //删除选中页面
+                 $("#pagesList").find("div[data-pageid='"+pageId+"']").fadeOut(300).remove();
+                 $(".col-left").find("div[data-activeid='"+pageId+"']").fadeOut(300).remove();
+
+
+                 //取消 删除确认框
+                 $mdDialog.hide();
+                 setTimeout(function(){ $("#popupContainer").removeClass('filter');},150)
+                 $("#removeBox").show();
+                 setTimeout(function() {$("#removeBox").fadeTo(3000).hide();}, 1000);
+
+
+              }else if(i>0){
+
+                //要删除元素不是第一个元素默认显示相邻元素
+                var showThumbId = _scope.feedback.leftpages[i-1].thumbId !== 'undefined'?_scope.feedback.leftpages[i-1].thumbId:_scope.feedback.leftpages[i+1].thumbId;
+                $(".swiper-slide").hide();
+                $(".swiper-slide").removeClass("isEdit");
+                $(".col-left").removeClass('col-leftclick');
+
+                $("#pagesList").find("div[data-pageid='"+showThumbId+"']").fadeIn(300).show().addClass('isEdit');
+                $(".col-left").find("div[data-activeid='"+showThumbId+"']").find('div[class="page"]').addClass('col-leftclick');
+                _scope.feedback.leftpages.splice(i,1);
+
+
+
+                $("#pagesList").find("div[data-pageid='"+pageId+"']").fadeOut(300).remove();
+                $(".col-left").find("div[data-activeid='"+pageId+"']").fadeOut(300).remove();
+
+
+                $mdDialog.hide();
+                setTimeout(function(){ $("#popupContainer").removeClass('filter');},150)
+                $("#removeBox").show();
+                setTimeout(function() {$("#removeBox").fadeTo(3000).hide();}, 1000);
+              }
+
+            }
+
+
+          }// end for loop
+          projectFn.savePageLength(_scope.feedback.leftpages);
+
+        } // end $scope.deleteInProgress
+
+        $scope.close = function() {
+          $mdDialog.hide();
+          setTimeout(function(){ $(".dashboardContainer").removeClass('filter');},150)
+        }
+
+      },
+      templateUrl: './template/page.dialog.tmpl.html',
+      parent: $("#main"),
+      hideDelay: false
+    });
+  
+
+
+
 
 }
 

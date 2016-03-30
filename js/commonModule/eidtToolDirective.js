@@ -33,6 +33,7 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace(/ui-selectee/g,'')
                     .replace(/ui-selected/g,'')
                     .replace(/right_/g,'')
+                    .replace(/contenteditable="true"/g,' ')
                     .replace(/onclick="textActive(this)"/g,'')
                     .replace(/textElementActive/g,' ')
                     .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
@@ -193,11 +194,12 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace(/ui-selectee/g,'')
                     .replace(/ui-selected/g,'')
                     .replace(/right_/g,'')
+                    .replace(/contenteditable="true"/g,' ')
                     .replace(/onclick="textActive(this)"/g,'')
                     .replace(/textElementActive/g,' ')
                     .replace(/class="[^\"]*(animated)[^\"]*(textElement)[^\"]*"/g,'class=" ani textElement"')
                     .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
-                    .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,' ')
+                    // .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,' ')
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
                     .replace(/ui-resizable/g,'');
 
@@ -272,9 +274,10 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace(/right_/g,'')
                     .replace(/onclick="textActive(this)"/g,'')  
                     .replace(/textElementActive/g,' ')
+                    .replace(/contenteditable="true"/g,' ')
                     .replace(/class="[^\"]*(animated)[^\"]*(textElement)[^\"]*"/g,'class=" ani textElement"')
                     .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
-                    .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,'')
+                   // .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,'')
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
                     .replace(/ui-resizable/g,'');
 

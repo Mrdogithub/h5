@@ -1,67 +1,48 @@
 function showFormEditPanel($mdToast,$document){
 	$mdToast.show({
-			      controller: function($scope){
+		controller: function($scope){
 
-			      		//common function
-			      		// initFormDraggable($mdToast,$document);
-					
+	  		$scope.$watch("setFormBackgroundColor",function(newValue,oldColor){$('#myForm').css('backgroundColor',newValue);});
 
-				  		$scope.$watch("setFormBackgroundColor",function(newValue,oldColor){
-							$('#myForm').css('backgroundColor',newValue);	
-						});
+			//set form Radius 
+			$scope.setFormRadiusSize   = function(){
+				$("#myForm").css("borderRadius",$scope.formRadius.size+"px");
+			}
 
-    					//set form Radius 
-	    				$scope.setFormRadiusSize   = function(){
-	    					console.log('image radius size works');
-	    					$("#myForm").css("borderRadius",$scope.formRadius.size+"px");
-	    				}
+			//set form border
+			$scope.setFormBorderWidthSize = function(){
+				$('#myForm').css('borderWidth',$scope.formBorderWidth.size+"px");
+			}
 
 
-
-	    				//set form border
-	    				$scope.setFormBorderWidthSize = function(){
-							$('#myForm').css('borderWidth',$scope.formBorderWidth.size+"px");
-						}
-
-
-						//set form border style
-						$scope.formBorderStyle = [{"formBorderStyle":"none"},{"formBorderStyle":"solid"},{"formBorderStyle":"dotted"},{"formBorderStyle":"double"},{"formBorderStyle":"dashed"}];
-	    				//set FontFamily
-	    				$scope.setFormBorderStyle = function(newStyle){
-	    					//console.log('set form style works'+newStyle);
-	    					// $('#myForm').css('border','"1px red '+newStyle+'"');
-	    					$('#myForm').css('border','1px #eeeeee '+newStyle);
-	    					$('#formBorderStyle').html(newStyle);
-	    				}
+			//set form border style
+			$scope.formBorderStyle = [{"formBorderStyle":"none"},{"formBorderStyle":"solid"},{"formBorderStyle":"dotted"},{"formBorderStyle":"double"},{"formBorderStyle":"dashed"}];
+			//set FontFamily
+			$scope.setFormBorderStyle = function(newStyle){
+				$('#myForm').css('border','1px #eeeeee '+newStyle);
+				$('#formBorderStyle').html(newStyle);
+			}
 
 
-
-	    				//set form border color
-	    				$scope.$watch("setFormBorderColor",function(newColor,oldColor){
-	    					$('#myForm').css('borderColor',newColor);
-	    				});
+			//set form border color
+			$scope.$watch("setFormBorderColor",function(newColor,oldColor){
+				$('#myForm').css('borderColor',newColor);
+			});
 
 						
-
-						//set form animate
-	    				$scope.formAnimate = function(){
-	    					//console.log('form works');
-	    					function testAnimation(x){
-							    $('#myForm').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-							      // $(this).removeClass();
-							    });
-							  }
-							  $('#js--formAnimations').change(function(){
-							    var anim = $(this).val()
-							    testAnimation(anim);
-							  }); 
-	    				}
-			      },
-			      templateUrl: './template/formPropertyPanel.html',
-			      parent : $document[0].querySelector('#editModulePosition'),
-			       hideDelay: false
-			      // position: $scope.getToastPosition()
-		});
+			//set form animate
+			$scope.formAnimate = function(){
+				//console.log('form works');
+				function testAnimation(x){
+				    $('#myForm').removeClass().addClass(x + ' animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){ });
+				}
+				$('#js--formAnimations').change(function(){ var anim = $(this).val()testAnimation(anim); }); 
+			}
+		},
+      	templateUrl: './template/formPropertyPanel.html',
+      	parent : $document[0].querySelector('#editModulePosition'),
+       	hideDelay: false
+	});
 }
 
 
