@@ -2,11 +2,11 @@ var project = angular.module('projectService',[]);
 
 project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,loginFn){
 
-	var productUrl                   = SERVER_URL.liveUrl;
-	var copyProject                  = 'copyProject';
-	var editProject                  = 'findProjectById';
+	  var productUrl                   = SERVER_URL.liveUrl;
+	  var copyProject                  = 'copyProject';
+	  var editProject                  = 'findProjectById';
     var saveProject                  = 'saveProject';
-	var pageLeftNavObj               = [];
+	  var pageLeftNavObj               = [];
     var findMyProject                = 'findProjectByUser';
     var deletedProject               = 'delProject';
     var projectIdInDashboardService  = [];
@@ -30,7 +30,9 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
             }
 
         },
-        saveProject:function(pageLength,projectId,editCode,previewCode,projectName,userName){
+        saveProject:function(pageLength,projectId,editCode,previewCode,projectName){
+        	  var userName = loginFn.islogged().email;
+            console.log(userName+':save project')
             var deffered = $q.defer();
             $http.post(productUrl+saveProject,{
                 'pageLength':pageLength,
@@ -39,6 +41,7 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
                 'projectName':projectName,
                 'pages':{'editCode':editCode,'previewCode':previewCode}
             }).success(function(data){
+                
                 deffered.resolve(data)
             }).error(function(data){
                 deffered.reject(data)
@@ -56,10 +59,7 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
                   return text;
             } 
 
-          // console.log('pageLengthObj:'+ !pageLengthObj.length)
-           for(var i in pageLengthObj){
-            //console.log(i+":"+pageLengthObj[i])
-           }
+
            var pageLeftNavObj=[];
            var defaultThumb = makeid();
            var previewCode  = previewCode    || '<div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%;"> </div>';
@@ -71,12 +71,19 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
            // console.log('@projectService.js add project Fn  userName:'+userName)
            // console.log('@projectService.js add project Fn  projectInfo:'+projectInfo)
            //从dashboard中添加项目需要生成默认thumb id
-           if(!pageLengthObj){
-             
+
+           console.log("@projectService.js 从我的项目 添加项目"+pageLengthObj)
+           if(!pageLengthObj || pageLengthObj ==  undefined ){
+              console.log("#### add project from dashboard")
+              pageLeftNavObj.length =0;
               pageLeftNavObj.push({'type': '1','thumbId':defaultThumb});
-           }else if(!pageLengthObj.length){
-           // console.log('activeid:'+$('.box').data('activeid'));
+              console.log(pageLeftNavObj.length)
+           }else if(pageLengthObj.length == 0){
+            //如果当前的page长度为0，进行数组初始化
+           // console.log(pageLengthObj.length+":pageLength is 0")
              pageLeftNavObj.push({'type': '1','thumbId':$('.box').data('activeid')})
+
+           //  console.log(pageLeftNavObj.length+":pageLength is 1")
            }else if(pageLengthObj){
 
             //描    述：重新处理pageLengthObj结构,默认数据结构在mongodb中报错
@@ -136,6 +143,11 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
         loadEditPage:function(id,$scope){
             var deffered = $q.defer()
             $http({method:"GET",url:productUrl+editProject,params:{pid:id}}).success(function(data){
+                console.log('loadEditPage:'+data);
+
+                for(var i in data){
+                  console.log(i+":"+data[i])
+                }
                 deffered.resolve(data);
             }).error(function(data){
                 deffered.reject(data);

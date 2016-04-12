@@ -57,8 +57,10 @@ var param = function(obj) {
 }).constant('SERVER_URL',{
   testUrl:"",
   //liveUrl:"http://9.112.70.78:3000/"
+
   liveUrl:"http://9.115.24.168:3000/"
   //liveUrl:"http://9.112.70.78:3000/"
+  //liveUrl:"http://170.225.225.31:85/"
 }).constant('USER_ROLES',{}).config(function($stateProvider,$urlRouterProvider){
 	$urlRouterProvider.otherwise('/');
 	$stateProvider.state('homePage',{
@@ -107,10 +109,10 @@ var param = function(obj) {
 
 app.run(function($rootScope,loginFn){
   $rootScope.$on('$stateChangeStart',function(event,next){
-      console.log('@app.js test refresh dashboard page');
-      console.log('@app.js Fn:loginFn.islogged().status:'+loginFn.islogged().status)
-      console.log('@app.js Fn:loginFn.islogged().userName:'+loginFn.islogged().userName)
-      console.log('@app.js Fn:loginFn.islogged().userPhoto:'+loginFn.islogged().userPhoto)
+      // console.log('@app.js test refresh dashboard page');
+      // console.log('@app.js Fn:loginFn.islogged().status:'+loginFn.islogged().status)
+      // console.log('@app.js Fn:loginFn.islogged().userName:'+loginFn.islogged().userName)
+      // console.log('@app.js Fn:loginFn.islogged().userPhoto:'+loginFn.islogged().userPhoto)
       if(loginFn.islogged().status){
           $rootScope.currentUser = {
             "userName":loginFn.islogged().userName,

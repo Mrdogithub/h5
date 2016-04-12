@@ -37,40 +37,47 @@ projectController.controller('projectController', function($scope,
     $mdDialog.show({
       controller: function($scope, $compile, projectFn) {
         $scope.loadingSave =false;
+        $scope.isSaved = true;
         $scope.copyProjectInProgress = function() {
         $scope.loadingSave = true;
+        $scope.isSaved = false;
         $scope.projectInfo = {
           "id": "",
           "projectname": "",
           "cover": "",
           "qrcode": ""
         }
-        var userName = loginFn.islogged().email;
-          projectFn.addProject($scope.projectName).then(function(data){
-            if(data.status){
-              $scope.projectInfo.id          = data.project.id;
-              $scope.projectInfo.url         = data.project.url;
-              $scope.projectInfo.cover       = data.project.cover;
-              $scope.projectInfo.qrcode      = data.project.qrcode;
-              $scope.projectInfo.projectname = data.project.projectname;
-         
-            $compile($('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="' + $scope.projectInfo.id + '"><div class="thumbnail"  style="height: 334px;padding:0px;" ><div class="projectInfo-projectName" style="position:absolute;width:100%;opacity:1;""><img  style="width:100%;height:auto;"  src="' + $scope.projectInfo.cover + '"><div style="width:100%; position:absolute;bottom:0px;text-align:center;height:40px; background:#fff;padding:10px 0px 10px 0px;"><p>' + $scope.projectInfo.projectname + '</p></div></div><div class="dask" style="position:absolute;width:100%;opacity:0;"><p class="showMoreIconsTop"><span ng-click="deletePage($event,' + "'" + $scope.projectInfo.id + "'" +",'" + $scope.projectInfo.projectname + "'" + ')" class="label label-default"><i class="icon-eye-open icon-1" style="margin-right: 5px;"></i>删除</span><span style="margin-left:5px;" ng-click="copyProject($event,' + "'" + $scope.projectInfo.id + "'," + "'" + $scope.projectInfo.projectname + "'" + ')"  class="label label-default"><i class="icon-edit" style="margin-right: 5px;"></i>复制</span></p><img src="' + $scope.projectInfo.qrcode + '" style="width:100%;"><p class="projectInfoDownloadQRCode">下载二维码</p><p class="showMoreIconsBottom"><span ng-click="previewPage($event,' + "'" + $scope.projectInfo.url + "'," + "'" + $scope.projectInfo.qrcode + "'" + ')"  class="label label-default"><i class="icon-eye-open icon-1" style="margin-right: 5px;"></i>预览</span><span style="margin-left:5px;" ng-click="editPage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="label label-default"><i class="icon-edit" style="margin-right: 5px;"></i>编辑</span></p></div></div></div>').prependTo($('.modlist')))(_scope);
-             //$compile($('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="' + $scope.projectInfo.id + '"><div class="thumbnail"  style="height: 334px; padding:0;" ><div class="projectInfo-projectName" style="position:absolute;width:100%;opacity:1;"><img  style="width:100%;height:auto;"  src="' + $scope.projectInfo.cover + '"><div style="width:100%;position:absolute;bottom:0px;text-align:center;height:40px;background:#fff;padding:10px 0px 10px 0px;">' + $scope.projectInfo.projectname + '</p></div></div><div class="dask" style="position:absolute;width:100%;opacity:0;"><p class="showMoreIcons"><span ng-click="deletePage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="projectInfoShowMoreIcons-remove" style="width:0px;opacity:0;"></span><span ng-click="copyProject($event,' + "'" + $scope.projectInfo.id + "'," + "'" + $scope.projectInfo.projectname + "'" + ')" class="projectInfoShowMoreIcons-copy" style="width:0px;opacity:0;"></span><span href="javascript:;" class="projectInfoShowMoreIcons"></span></p><img src="' + $scope.projectInfo.qrcode + '" style="width:100%;"><p class="projectInfoDownloadQRCode">下载二维码</p><p class="showMoreIconsBottom"><a ng-click="previewPage($event,' + "'" + $scope.projectInfo.url + "'," + "'" + $scope.projectInfo.qrcode + "'" + ')" class="projectInfoShowMoreIcons-preview"></a><a ng-click="editPage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="projectInfoShowMoreIcons-edit"></a></p></div></div></div></div></div>').prependTo($('.modlist')))(_scope);
-              
+          var userName = loginFn.islogged().email;
+          setTimeout(function(){
 
-              $scope.loadingSave = false;
-              $mdDialog.hide();
-              setTimeout(function(){ $(".dashboardContainer").removeClass('filter');},250)
-       
-              $("#addBox").show();
-              setTimeout(function() {
-                $("#addBox").fadeTo(3000).hide();
-              }, 1000);
-              
-              $('.modlist').css('display', 'block')
-            }
-            
-          });
+              projectFn.addProject($scope.projectName).then(function(data){
+                if(data.status){
+                  $scope.projectInfo.id          = data.project.id;
+                  $scope.projectInfo.url         = data.project.url;
+                  $scope.projectInfo.cover       = data.project.cover;
+                  $scope.projectInfo.qrcode      = data.project.qrcode;
+                  $scope.projectInfo.projectname = data.project.projectname;
+             
+                $compile($('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="' + $scope.projectInfo.id + '"><div class="thumbnail"  style="height: 334px;padding:0px;" ><div class="projectInfo-projectName" style="position:absolute;width:100%;opacity:1;""><img  style="width:100%;height:auto;"  src="' + $scope.projectInfo.cover + '"><div style="width:100%; position:absolute;bottom:0px;text-align:center;height:40px; background:#fff;padding:10px 0px 10px 0px;"><p>' + $scope.projectInfo.projectname + '</p></div></div><div class="dask" style="position:absolute;width:100%;opacity:0;"><p class="showMoreIconsTop"><span ng-click="deletePage($event,' + "'" + $scope.projectInfo.id + "'" +",'" + $scope.projectInfo.projectname + "'" + ')" class="label label-default"><i class="icon-eye-open icon-1" style="margin-right: 5px;"></i>删除</span><span style="margin-left:5px;" ng-click="copyProject($event,' + "'" + $scope.projectInfo.id + "'," + "'" + $scope.projectInfo.projectname + "'" + ')"  class="label label-default"><i class="icon-edit" style="margin-right: 5px;"></i>复制</span></p><img src="' + $scope.projectInfo.qrcode + '" style="width:100%;"><p class="projectInfoDownloadQRCode">下载二维码</p><p class="showMoreIconsBottom"><span ng-click="previewPage($event,' + "'" + $scope.projectInfo.url + "'," + "'" + $scope.projectInfo.qrcode + "'" + ')"  class="label label-default"><i class="icon-eye-open icon-1" style="margin-right: 5px;"></i>预览</span><span style="margin-left:5px;" ng-click="editPage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="label label-default"><i class="icon-edit" style="margin-right: 5px;"></i>编辑</span></p></div></div></div>').prependTo($('.modlist')))(_scope);
+                 //$compile($('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="' + $scope.projectInfo.id + '"><div class="thumbnail"  style="height: 334px; padding:0;" ><div class="projectInfo-projectName" style="position:absolute;width:100%;opacity:1;"><img  style="width:100%;height:auto;"  src="' + $scope.projectInfo.cover + '"><div style="width:100%;position:absolute;bottom:0px;text-align:center;height:40px;background:#fff;padding:10px 0px 10px 0px;">' + $scope.projectInfo.projectname + '</p></div></div><div class="dask" style="position:absolute;width:100%;opacity:0;"><p class="showMoreIcons"><span ng-click="deletePage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="projectInfoShowMoreIcons-remove" style="width:0px;opacity:0;"></span><span ng-click="copyProject($event,' + "'" + $scope.projectInfo.id + "'," + "'" + $scope.projectInfo.projectname + "'" + ')" class="projectInfoShowMoreIcons-copy" style="width:0px;opacity:0;"></span><span href="javascript:;" class="projectInfoShowMoreIcons"></span></p><img src="' + $scope.projectInfo.qrcode + '" style="width:100%;"><p class="projectInfoDownloadQRCode">下载二维码</p><p class="showMoreIconsBottom"><a ng-click="previewPage($event,' + "'" + $scope.projectInfo.url + "'," + "'" + $scope.projectInfo.qrcode + "'" + ')" class="projectInfoShowMoreIcons-preview"></a><a ng-click="editPage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="projectInfoShowMoreIcons-edit"></a></p></div></div></div></div></div>').prependTo($('.modlist')))(_scope);
+                  
+
+                  $scope.loadingSave = false;
+                  // $scope.isSaved = true;
+                  $mdDialog.hide();
+                  setTimeout(function(){ $(".dashboardContainer").removeClass('filter');},250)
+           
+                  $("#addBox").show();
+                  setTimeout(function() {
+                    $("#addBox").fadeTo(3000).hide();
+                  }, 1000);
+                  
+                  $('.modlist').css('display', 'block')
+                }
+                
+              });
+
+          },100)
 
         }
 
@@ -131,10 +138,11 @@ projectController.controller('projectController', function($scope,
               "url":url,
               "qrcode":qrcode
             }
+            
             $(document).on('click','.closeOverLay',function(){
                $mdDialog.hide();
              setTimeout(function(){ $(".dashboardContainer").removeClass('filter');},150)
-           })
+            })
 
 
              $compile($("#previewContent").attr('ng-bind-html', 'page.preivewCode'))($scope)
@@ -193,7 +201,11 @@ projectController.controller('projectController', function($scope,
       controller: function($scope, $compile, projectFn) {
         var pId = projectId;
         $scope.projectName = projectName;
+        $scope.loadingSave =false;
+        $scope.isSaved = true;
         $scope.copyProjectInProgress = function() {
+          $scope.loadingSave = true;
+          $scope.isSaved = false;
 
           $scope.projectInfo = {
             "id": "",
@@ -202,7 +214,8 @@ projectController.controller('projectController', function($scope,
             "qrcode": ""
           }
 
-          projectFn.copyProject($scope.projectName, pId).then(function(data){
+          setTimeout(function(){
+            projectFn.copyProject($scope.projectName, pId).then(function(data){
             // for(var i in data){
             //   console.log(i+":"+data[i])
             // }
@@ -217,7 +230,8 @@ projectController.controller('projectController', function($scope,
               $compile($('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="' + $scope.projectInfo.id + '"><div class="thumbnail"  style="height: 334px;padding:0px;" ><div class="projectInfo-projectName" style="position:absolute;width:100%;opacity:1;""><img  style="width:100%;height:auto;"  src="' + $scope.projectInfo.cover + '"><div style="width:100%; position:absolute;bottom:0px;text-align:center;height:40px; background:#fff;padding:10px 0px 10px 0px;"><p>' + $scope.projectInfo.projectname + '</p></div></div><div class="dask" style="position:absolute;width:100%;opacity:0;"><p class="showMoreIconsTop"><span ng-click="deletePage($event,' + "'" + $scope.projectInfo.id + "'" + ",'" + $scope.projectInfo.projectname + "'" +')" class="label label-default"><i class="icon-eye-open icon-1" style="margin-right: 5px;"></i>删除</span><span style="margin-left:5px;" ng-click="copyProject($event,' + "'" + $scope.projectInfo.id + "'," + "'" + $scope.projectInfo.projectname + "'" + ')"  class="label label-default"><i class="icon-edit" style="margin-right: 5px;"></i>复制</span></p><img src="' + $scope.projectInfo.qrcode + '" style="width:100%;"><p class="projectInfoDownloadQRCode">下载二维码</p><p class="showMoreIconsBottom"><span ng-click="previewPage($event,' + "'" + $scope.projectInfo.url + "'," + "'" + $scope.projectInfo.qrcode + "'" + ')"  class="label label-default"><i class="icon-eye-open icon-1" style="margin-right: 5px;"></i>预览</span><span style="margin-left:5px;" ng-click="editPage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="label label-default"><i class="icon-edit" style="margin-right: 5px;"></i>编辑</span></p></div></div></div>').prependTo($('.modlist')))(_scope);
               $mdDialog.hide();
               setTimeout(function(){ $(".dashboardContainer").removeClass('filter');},250)
-       
+              $scope.loadingSave = false;
+              // $scope.isSaved = true;
               $("#addBox").show();
               setTimeout(function() {
                 $("#addBox").fadeTo(3000).hide();
@@ -228,6 +242,7 @@ projectController.controller('projectController', function($scope,
             
           });
 
+          },200);
         }
 
         $scope.close = function() {

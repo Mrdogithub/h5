@@ -51,7 +51,7 @@
              <span>行高</span>
              <div class="size-input-wrapper">
                 <input type="number"
-                       min="0"
+                       min="1"
                        step="0.1" 
                        max="10" 
                        id="txtHeightid"
@@ -211,7 +211,7 @@
                         ng-model="AnimateSpeed.size"  
                         max='10' 
                         min = '1'
-                        tep='1' 
+                        step='1' 
                         ng-change="getAnimateSpeed()" 
                         aria-label="rating"></md-slider>
 
@@ -221,7 +221,7 @@
 
                        ng-model="AnimateSpeed.size"
                        ng-change="getImageAnimateSpeed()"
-                       value="{{AnimateSpeed.size}}" />
+               />
                 <span class="pxSpan">s</span>
           </div>
         </div>
@@ -244,7 +244,7 @@
                      id="animationDelayId"
                      ng-model="AnimateDelay.size"
                      ng-change="getAnimateSpeed()"
-                     value="{{AnimateDelay.size}}" />
+                      />
               <span class="pxSpan">s</span>
             </div>
 
@@ -254,6 +254,66 @@
 
 
   </div>
+<script>
+
+$("#color-chooser").kendoColorPalette({
+        palette: [ "#000000","#ffffff","#746153", "#3a4c8b", "#ffcc33", "#fb455f", "#ac120f" ],
+        tileSize: 20,
+        value: "#000000",
+        change: function() {
+            var colorId = "#"+this.value().substring(1);
+
+              $('.ui-selected > .mText').css('color',colorId);
+        }
+});
+var palette = $("#color-chooser").data("kendoColorPalette");
+if($('.ui-selected > .mText').css('color')=='rgb(0, 0, 0)'){
+    palette.value("rgb(0, 0, 0)");
+}
+else{
+    palette.value($('.ui-selected > .mText').css('color'));
+}
+
+
+$("#color-chooser-bg").kendoColorPalette({
+        palette: [ "#000000","#ffffff","#746153", "#3a4c8b", "#ffcc33", "#fb455f", "#ac120f" ],
+        tileSize: 20,
+        value: "#ffffff",
+        change: function() {
+            var colorId = "#"+this.value().substring(1);
+            $('.ui-selected').css('backgroundColor',colorId);
+        }
+});
+var palette_bg = $("#color-chooser-bg").data("kendoColorPalette");
+if($('.ui-selected > .mText').css('color')=='rgb(255, 255, 255)'){
+    palette_bg.value("rgb(255, 255, 255)");
+}
+else{
+    palette_bg.value($('.ui-selected').css('backgroundColor'));
+}
+
+
+
+$("#hsv-picker").kendoColorPicker({
+  toolIcon: false,
+  palette: "websafe",
+  tileSize: 20,
+  buttons:false,
+  opacity: true,
+});
+
+$("#hsv-picker-bg").kendoColorPicker({
+  toolIcon: false,
+  palette: "websafe",
+  tileSize: 20,
+  buttons:false,
+  opacity: true,
+});
+
+</script> 
+
+<!--
+
 
 <script>
 
@@ -297,6 +357,8 @@ $("#hsv-picker-bg").kendoColorPicker({
 });
 
 </script>
+
+-->
 </div>
 
    

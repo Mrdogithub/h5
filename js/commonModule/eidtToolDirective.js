@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 var eidtToolDirective = angular.module('eidtToolDirective', ['ngMaterial', 'projectService']);
 
@@ -14,6 +14,70 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
       $scope.remove = function() {
         $(".ui-selected").remove();
       }
+
+/////////////////// 用户第一次登陆 显示userguide ///////////////
+
+function setCookie(name,value){
+  var Days = 30;
+  var exp = new Date();
+  exp.setTime(exp.getTime() + Days*24*60*60*1000);
+  document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+}
+
+function getCookie(name){
+  var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+  if(arr=document.cookie.match(reg)){
+    return unescape(arr[2]);
+  }else{
+    return null;
+  }
+ 
+}
+var cookie = getCookie('userGuide');
+console.log(cookie+"...")
+//cookie是个字符串型的  判断其长度
+if(!cookie){
+
+  
+
+     $mdDialog.show({
+                controller: function($scope) {
+                    $("#popupContainer").addClass('filter');
+                    $scope.close = function(){
+                        $mdDialog.hide();
+                        setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
+                    }         
+
+                    setCookie('userGuide','true');          
+                },
+                templateUrl: './template/guide.tmpl.html',
+                parent:$("#main"),
+                hideDelay: false
+              });
+  
+}
+
+
+
+
+      //产品介绍
+      $scope.userGuide = function() {      
+             $mdDialog.show({
+                controller: function($scope) {
+                    $("#popupContainer").addClass('filter');
+                    $scope.close = function(){
+                        $mdDialog.hide();
+                        setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
+                    }                   
+                },
+                templateUrl: './template/guide.tmpl.html',
+                parent:$("#main"),
+                hideDelay: false
+              });         
+      }
+
+
+
 
       $scope.previewPage = function() {
         $("#popupContainer").addClass('filter');
@@ -34,8 +98,9 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace(/ui-selected/g,'')
                     .replace(/right_/g,'')
                     .replace(/contenteditable="true"/g,' ')
-                    .replace(/onclick="textActive(this)"/g,'')
+                    .replace(/textActive(this)/g,'')
                     .replace(/textElementActive/g,' ')
+                    .replace(/onclick="imageActive(this)"/g,'')
                     .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
                     .replace(/class="[^\"]*(animated)[^\"]*(textElement)[^\"]*"/g,'class=" ani textElement"')
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
@@ -154,7 +219,7 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
 **/
       function saveProjectFn(){
 
-
+          console.log('saveProjectFn')
           /*
           *@描述：pageLengthObj
           *@作用：获取用户在当前编辑状态下的实际页面个数
@@ -167,23 +232,39 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
           **/
           projectFn.loadEditPage(projectid).then(function(data) {
   
-
+            console.log()
             //如果实际pageLengthObj 与 从projectFn.loadEditPage 获取的页面长度不等
             //返回实际pageLengthObj,如果相等，返回任意一个
 
             // console.log('actual page length：'+pageLengthObj.length)
             // console.log('page length from db:'+data.pageLength.length)
+            //pageLengthObj.length !== data.pageLength.length?pageLengthObj:
+              var newLengthObj = []
+              for(var i in pageLengthObj){
+                console.log(i+":"+pageLengthObj[i])
+              }
+            console.log(pageLengthObj.length+"pageLength is null"+"///"+data.pageLength.length)
+            console.log( pageLengthObj == null +"pageLength is null"+"///"+data.pageLength.length)
+            if(pageLengthObj.length == null || pageLengthObj.length == 0){
+              newLengthObj = data.pageLength;
+            }else{
+              newLengthObj = pageLengthObj;
+            }
 
-            var newLengthObj = pageLengthObj.length !== data.pageLength.length?pageLengthObj:pageLengthObj;
+            for(var i in newLengthObj){
+              console.log(i+":"+newLengthObj[i])
+            }
+            
+            console.log(newLengthObj.length+" newLengthObj.length")
          
             //console.log('newLengthObj:'+newLengthObj.length)
            var editCode = $("#pagesList").html()
                     .replace(/ui-selected/, '')
-                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+                    //.replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
                     .replace(/isEdit/,'')
-                    .replace(/display: flex/, "display: none")
-                    .replace('defaultPage','defaultPage isEdit')
-                    .replace('direction: ltr; display: none;','direction: ltr;display: block;')
+                    .replace(/display: flex;/g, "display: none;")
+                    //.replace('defaultPage','defaultPage isEdit')
+                    //.replace('direction: ltr; display: none;','direction: ltr;display: block;')
 
            var previewCode = $("#pagesList").html()
                     .replace(/display/g, " ")
@@ -194,6 +275,7 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace(/ui-selectee/g,'')
                     .replace(/ui-selected/g,'')
                     .replace(/right_/g,'')
+                    .replace(/onclick="imageActive(this)"/g,'')
                     .replace(/contenteditable="true"/g,' ')
                     .replace(/onclick="textActive(this)"/g,'')
                     .replace(/textElementActive/g,' ')
@@ -202,11 +284,14 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     // .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,' ')
                     .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
                     .replace(/ui-resizable/g,'');
-
+             console.log('@eidtToolDirective.js ready save')
             projectFn.saveProject(newLengthObj, projectid, editCode, previewCode)
               .then(function(data) {
                   
+                 
+             
                   if (data.status) {
+                     console.log('@eidtToolDirective.js save project completed')
                     setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
                     $("#addBox").show();
                     setTimeout(function() {
@@ -272,7 +357,8 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
                     .replace(/ui-selectee/g,'')
                     .replace(/ui-selected/g,'')
                     .replace(/right_/g,'')
-                    .replace(/onclick="textActive(this)"/g,'')  
+                    .replace(/onclick="imageActive(this)"/g,' ')
+                    .replace(/onclick="textActive(this)"/g,' ' )  
                     .replace(/textElementActive/g,' ')
                     .replace(/contenteditable="true"/g,' ')
                     .replace(/class="[^\"]*(animated)[^\"]*(textElement)[^\"]*"/g,'class=" ani textElement"')
@@ -283,11 +369,11 @@ eidtToolDirective.directive('toolbar1', function($mdToast,
 
                var editCode = $("#pagesList").html()
                     .replace(/ui-selected/, '')
-                    .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+                   // .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
                     .replace(/isEdit/,'')
-                    .replace(/display: flex/, "display: none")
-                    .replace('defaultPage','defaultPage isEdit')
-                    .replace('direction: ltr; display: none;','direction: ltr;display: block;');
+                    .replace(/display: flex;/g, "display: none;")
+                   // .replace('defaultPage','defaultPage isEdit')
+                   // .replace('direction: ltr; display: none;','direction: ltr;display: block;');
 
               projectFn.addProject(projectName,previewCode,editCode,projectInfo,userName,pageLengthObj)
                 .then(function(data) {

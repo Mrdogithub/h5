@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+
+    #draggable {
+    width: 100px;
+    padding: 2px 5px;
+    cursor: pointer;
+    color: #fff;
+    position: absolute;
+}
+#droppable {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background: #999;
+    color: #fff;
+    padding: 10px;
+}
+
+
+</style>
+  </head>
+  <body>
+    <div id="droppable">
+    <div id="draggable">Element</div>
+</div>
+<script type="text/javascript" src="js/lib/jquery.js"></script>
+<script type="text/javascript" src='js/lib/jquery-ui.min.js"'></script>
+<script>
+$("#draggable").draggable();
+
+jQuery("#droppable").droppable({
+    drop: function (event, ui) {
+debugger;
+
+        var pos = ui.draggable.offset();
+        var dPos = $(this).offset();
+
+        // Pixxel value of positions
+        var elementTopPosition = pos.top - dPos.top;
+        var elementLeftPosition = pos.left - dPos.left;
+
+        // Getting parent element height and width
+        var parentWidth = jQuery("#droppable").outerWidth();   // <=== Here
+        var ParentHeight = jQuery("#droppable").outerHeight(); // <===
+
+        // Coverting to percentage
+        var topInPercentage = (100 * elementTopPosition) / ParentHeight;
+        var leftInPercentage = (100 * elementLeftPosition) / parentWidth;
+
+        $("#draggable").css({top: topInPercentage + '%', left: leftInPercentage + '%'});
+
+    }
+});
+</script >
+
+  </body>
+</html>

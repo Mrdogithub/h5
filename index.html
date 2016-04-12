@@ -4,22 +4,24 @@
 	<meta charset="UTF-8">
 	<title>H5</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
 <!--jquery resource-->
     <script type="text/javascript" src="js/lib/jquery.js"></script>
     <script type="text/javascript" src='js/lib/jquery-ui.min.js"'></script>
     <script type="text/javascript" src="js/lib/jquery-ui-1.9.2.custom.min.js"></script>
 
 	<!--angular rescource-->
-    <script type="text/javascript" src="js/lib/angular.js"></script>		
-	<script type="text/javascript" src="js/lib/angular-aria.js"></script> 
-    <script type="text/javascript" src="js/lib/angular-animate.js"></script>    
+    <script type="text/javascript" src="js/lib/angular.js"></script>
+	<script type="text/javascript" src="js/lib/angular-aria.js"></script>
+    <script type="text/javascript" src="js/lib/angular-animate.js"></script>
 	<script type="text/javascript" src="js/lib/angular-material.js"></script>
 	<script type="text/javascript" src="js/lib/angular-ui-router.js"></script>
 	<script type="text/javascript" src="js/lib/angular-messages.js"></script>
     <link rel="stylesheet" type="text/css" href="css/angular-material.css"/>
 
 
-	
+
 
   <!--color panel-->
     <script src="js/lib/kendo.all.min.js"></script>
@@ -34,10 +36,10 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
 	<script type="text/javascript" src="js/lib/bootstrap.js"></script>
     <script type="text/javascript" src="js/lib/ui-bootstrap-1.1.2.js"></script>
-	
 
 
-    
+
+
     <!--template resource-->
     <link rel="stylesheet" type="text/css" href="css/animate.css"/>
     <link rel="stylesheet" href="css/swiper.min.css">
@@ -45,9 +47,9 @@
     <script src="js/lib/swiper.min.js"></script>
     <script src="js/lib/animate.delay.js"></script>
 <!--<script type="text/javascript" src="js/lib/swiper.min.js"></script>
-    <script type="text/javascript" src="swiper.animate1.0.2.min.js"></script> 
+    <script type="text/javascript" src="swiper.animate1.0.2.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/swiper.min.css"/> -->
-    
+
     <!--icons resource-->
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/font-awesome-ie7.min.css">
@@ -60,11 +62,20 @@
 
 
 	<style type="text/css">
+    html{
+        font-size: 65%;
+    }
 	body{
+        position: relative;
+        height: 100%;
+        font-family: "Microsoft YaHei",微软雅黑,Helvetica Neue, Helvetica, Arial, sans-serif;
+        color:#000;
+        margin: 0;
+        padding: 0;
 		background: #fff;
 		height: 100%;
 		width: 100%;
-		background-image: url('./images/bg.png') no-repeat;
+		background-image: url('./images/imagebg.png') no-repeat;
 	}
 	.h-nav-bar{
 		background: #ffffff none repeat scroll 0 0 !important;
@@ -132,22 +143,11 @@
 	ul.h-slide-list li{
 		width: 90%;
 		height: 200px;
-		margin: 0 auto;
 		border: 1px solid #000;
 		margin-bottom: 5px;
 	}
-	    html, body {
-        position: relative;
-        height: 100%;
 
-    }
-    body {
-        font-family: "Microsoft YaHei",微软雅黑,Helvetica Neue, Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        color:#000;
-        margin: 0;
-        padding: 0;
-    }
+
     .md-toolbar-tools{
     	height: none;
     }
@@ -157,7 +157,7 @@
     }
     .swiper-slide {
         text-align: center;
-        font-size: 18px;
+     /*   font-size: 18px;*/
         background: #fff;
         /* Center slide text vertically */
         display: -webkit-box;
@@ -187,7 +187,7 @@ ul.h-images-list{
 	padding: 0;
 	width: 700px;
 	height: 400px;
-	
+
 }
 ul.h-images-list li{
 	list-style: none;
@@ -202,7 +202,7 @@ ul.h-images-list li img{
 }
 .pannel-title{
 	width:50px;font-weight:bold;
-	
+
 	margin-bottom: 10px;
 	margin-right: 10px;
 }
@@ -256,23 +256,22 @@ ul.h-images-list li img{
 #pagesList{
 	margin: auto;
 	position: absolute;
-	left: 0;
+	left: -33%;
 	right: 0;
 	bottom: 0;
-	top:10%;
+	top:0;
 }
-#pagesList,.isEdit{
+#pagesList{
 /*	width: 370px;*/
 	width: 320px;
 	height: 480px;
-	position: relative;
+/*	position: relative;*/
 /*	position: absolute;*/
 
 }
 
 .isEdit{
-/*	border: 1px #7ec8ed solid;*/
-	border:7px rgba(0,0,0,.3) solid;
+/*	border: 1px #7ec8ed solid;border:7px rgba(0,0,0,.3) solid;*/
 }
 
 .thumbnail{
@@ -335,7 +334,7 @@ ul.h-images-list li img{
 }
 
 .ui-resizable-handle{display: none;}
-.ui-selected >.ui-resizable-handle {
+.ui-selected .ui-resizable-handle {
     display: block;
     position: absolute;
     width: 8px;
@@ -425,7 +424,7 @@ a.selectedImageHover:hover,a.removeImageHover:hover{
 /*	background: #E0E0E0;*/
 	overflow: hidden;
 	position: relative;
-	background-image: url('./images/blueprint.png');
+	background-image: url('./images/imagebg.png');
 /*background-size: 100% 100%;*/
 	width: 100%;
 }
@@ -504,8 +503,8 @@ input,button,select,textarea{outline:none}
 
 /*user profile*/
 .btn-group.open .dropdown-toggle {
-     -webkit-box-shadow: none; 
-     box-shadow: none; 
+     -webkit-box-shadow: none;
+     box-shadow: none;
 }
 .dropdown-menu{
 	border-radius: 0px;
@@ -569,10 +568,12 @@ input,button,select,textarea{outline:none}
 
 .imageContainer{
     text-align: center;
-    margin-bottom: 5px;
-    background-color: rgb(255, 255, 255);
+/*    margin-bottom: 5px;*/
+ /*   background-color: rgb(255, 255, 255);*/
     background-size: contain;
     background-position: 50% 50%;
+    width: auto;
+    height: 100%;
 }
 md-input-container.md-default-theme, md-input-container label, md-input-container.md-default-theme, md-input-container .md-placeholder {
     text-shadow: ;
@@ -594,7 +595,7 @@ md-input-container.md-default-theme, md-input-container .md-input {
     text-shadow: ;
 }
 md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, md-input-container:not(.md-input-invalid).md-input-has-value label {
-   color: rgba(255,255,255,0.87);  	
+   color: rgba(255,255,255,0.87);
 }
     input:-webkit-autofill,
     textarea:-webkit-autofill,
@@ -637,7 +638,7 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
 <script type="text/javascript" src="js/userModule/sessionService.js"></script>
 <script type="text/javascript" src="js/userModule/loginService.js"></script>
 <script type="text/javascript" src="js/imageModule/imageService.js"></script>
-<script type="text/javascript" src="js/imageModule/imageEditDirective.js"></script>	 
+<script type="text/javascript" src="js/imageModule/imageEditDirective.js"></script>
 
 
 </html>

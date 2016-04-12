@@ -27,12 +27,35 @@ imageEditDirective.directive('editimage',function(
 				$('#text-properties').remove();
 				$('.img-properties').remove();
 
-
+                  console.log('image wroks')
 				$('.mText').blur();
 				$(this).addClass('ui-selected');
 				initSelectedAndDraggable();
-				showImageEditPanel($mdToast,$mdDialog,$document);	
+				showImageEditPanel($mdToast,$mdDialog,$document);
+					// $('.imageElementAcitve').unbind();
 			})
+
+
+
+	 		/*
+			*@全局监听点击文本元素方法，点击元素并显示文本编辑面板
+			*
+			***/
+			// $(document).on('click','.textElementActive',function(){
+			// 	$('.ui-selected').removeClass('ui-selected');
+			//     $('#text-properties').remove();
+			// 	$('.img-properties').remove();
+
+		
+
+			//     $('.mText').blur();
+			// 	$(this).addClass('ui-selected');
+			// 	$('.ui-selected >.mText').focus();
+			// 	initSelectedAndDraggable();
+			// 	showTextEditPanel($mdToast,$document);
+			// 	// console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));
+			// })
+
 
 			//创建新图片
 			$scope.newImages = function(){
@@ -62,7 +85,7 @@ imageEditDirective.directive('editimage',function(
 		                            $("#popupContainer").removeClass('filter');
 		                        },250)
 		                    }// end $scope.loginClose
-                
+
 		                    $scope.loginBtn = function(){
 		                        $scope.loadingLogin = true;
 		                        $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
@@ -95,7 +118,7 @@ imageEditDirective.directive('editimage',function(
 
 		} // end link:function(){.....}
 	}
-}); // end imageEditDirective.directive		            
+}); // end imageEditDirective.directive
 
 
 
@@ -110,14 +133,14 @@ function imageActive(curImage){
 	if(imageRadius>-1) {
 		var radiusSize = $(curImage).css("borderRadius").match(reg)[0];
 		$('#imageRadiusid').val(radiusSize);
-	}else{$('#imageRadiusid').val("") } 
+	}else{$('#imageRadiusid').val("") }
 
 
 	var vopacity =$(curImage).attr("style").indexOf("opacity")
 	 	if(vopacity>-1) {
  	 	var num = $(curImage).css("opacity");
  		$('#imageOpacityid').val(num)
-	} else{$('#imageOpacityid').val("")}	
+	} else{$('#imageOpacityid').val("")}
 
 
 
@@ -138,15 +161,15 @@ function imageActive(curImage){
 	 		},100)
 	 	}else{$('#js--imageAnimations').val("")}
 
-	 	
-			
+
+
 
 	 	var animationDurationId =	$(curImage).parent().parent().attr("style").indexOf("animation-duration");
 	 	if(animationDurationId>-1) {
 	 	 	var animationDurationNum = $(curImage).parent().parent().css("animationDuration").match(reg)[0];
 	 	 	console.log("fontSize:"+animationDurationNum)
-	 		$('#animationImageDurationId').val(animationDurationNum) 
-	 	}else{$('#animationImageDurationId').val("") }  	
+	 		$('#animationImageDurationId').val(animationDurationNum)
+	 	}else{$('#animationImageDurationId').val("") }
 
 
 
@@ -154,8 +177,8 @@ function imageActive(curImage){
 	 	if(animationDelayId>-1) {
 	 	 	var animationDelayNum = $(curImage).parent().parent().css("animationDelay").match(reg)[0];
 	 	 	console.log("fontSize:"+animationDelayNum)
-	 		$('#animationImageDelayId').val(animationDelayNum) 
-	 	}else{$('#animationImageDelayId').val("") }  	
+	 		$('#animationImageDelayId').val(animationDelayNum)
+	 	}else{$('#animationImageDelayId').val("") }
 }
 
 
@@ -163,14 +186,14 @@ function imageActive(curImage){
 /*
 * @showImageEditPanel
 * @ 用户点击图片显示图片编辑面板
-* 
+*
 *
 ********/
 function showImageEditPanel($mdToast,$mdDialog,$document){
 	$mdToast.show({
      	controller: function($scope){
 
-     	   //设置默认值 
+     	   //设置默认值
      	   // console.log($('.ui-selected').data('opacity')+"...$('.ui-selected').data('opacity')")
      	   var activeOpacity = !$('.ui-selected').data('opacity')? 1:$('.ui-selected').data('opacity') ;
      	   var activeRaius   = !$('.ui-selected').data('radius') ? 0:$('.ui-selected').data('radius') ;
@@ -198,29 +221,29 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 					/*
 					*@ $('.ui-selected').removeClass() ..........
 					*@ 这段代码满足两种情况
-					*@ a.用户先选择延时及时长后，再切换画效果的情况下，选中的动画效果会基于已设定的参数运行 
+					*@ a.用户先选择延时及时长后，再切换画效果的情况下，选中的动画效果会基于已设定的参数运行
 					*@ b.用户未选择延时及时长后，选中的动画效果会运行
- 					***********/	                
+ 					***********/
 				    $('.ui-selected').removeClass()
 				    				 .addClass(x + ' animated ui-selected ui-draggable ui-resizable imageElement imageElementAcitve')
 				    				 .css({"animation-name":x,"animation-duration":speed,"animation-delay":delay})
 				    				 .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
 
 				    });
-     
+
 				}
-		   }
+		    }
 
 		   //设置图片圆角
 		   $scope.setImageRadiusSize = function(){
-	
+
 				$('.ui-selected').attr('data-radius',$scope.imageRadius.size);
 				$(".ui-selected .imageContainer .mImage").css("borderRadius",$scope.imageRadius.size+"px");
-		   }
-		
-	
+		    }
 
-	
+
+
+
 		   //设置动画延时 / 时长
 	       $scope.getImageAnimateSpeed = function(){
                 /*
@@ -250,7 +273,7 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 
 					$('.ui-selected').attr('swiper-animate-duration',speed);
 					$('.ui-selected').attr('swiper-animate-delay',delay);
-				} 
+				}
 				setTimeout(test,100);
 		   }
 
@@ -262,14 +285,15 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
     				  $scope.textlink="";
 
 				      $scope.textlink = $('.ui-selected').attr('data-link');
-
-				      console.log('update link twice:'+$('.ui-selected').attr('data-link'))
-
+				      // console.log('update link twice:'+$('.ui-selected').attr('data-link'))
     				  $scope.linkClose = function(){
 		    			 $mdDialog.hide();
 	               		 setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
 	    		  	  }
+
     				  $scope.saveLink = function(){
+
+    				  	$scope.loadingAdd = true;
 
     				  	var linkText = $.trim($scope.textlink);
     				  	if(linkText==""){
@@ -277,10 +301,8 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
     				  	}else{
     				  		$(".ui-selected").attr("onclick","window.open('"+$scope.textlink+"','target','param')");
     				  	}
-    				   
-    				  
-    				 	
 
+    				  	$scope.loadingAdd = false;
     				 	$mdDialog.hide();
                		 	setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
     				   	$("#addBox").show();
@@ -308,33 +330,35 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 *****/
 function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 	$("#popupContainer").addClass('filter');
-	
+
  	$mdDialog.show({
 		controller: function($scope,$compile,getImageList,imageActionService,loginFn){
   	       // getImageList 从app.js 传入 用来获取已上传数据，并渲染到添加图片页面
-  		   $scope.imageList = getImageList.data;	
+  		   $scope.imageList = getImageList.data;
+
   		   $scope.userName  = loginFn.islogged().email;
-	       
+
   		   console.log('userName:'+$scope.userName)
 
 	       $scope.imageOverlayClose = function(){
 		   		$mdDialog.hide();
        			setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
-	       } 
+	       }
 
 
 	       //从已上传列表中，选择图片
 		   $scope.imageSelected = function(target){
-			    $compile($('<div class="ui-selected imageElement imageElementAcitve" style="width: 140px; height: 170px; position: absolute; left: 17.1875%; top: 12.5%;" data-type="image"> '+
-			    				'<div class="imageContainer">'+
-			    					'<div class="mImage" onclick="imageActive(this)" style="background-image: url('+target+');position:absolute;left: 0px;right: 0px;top: 0px;bottom: 0px;display: inline-block;max-height: 100%;max-width: 100%;width:auto;height:auto;margin: auto;background-size:100% 100%;background-repeat:no-repeat"></div>'+
+			    $compile($('<div class="ui-selected imageElement imageElementAcitve" style="" data-type="image"> '+
+			    				'<div class="imageContainer" style="overflow:hidden;">'+
+			    					'<img src="'+target+'" class="mImage" onclick="imageActive(this)"/>'+
 			    				'<div>'+
 			    			'</div>').appendTo($('.isEdit')))($scope);
 
 
 			    showImageEditPanel($mdToast,$mdDialog,$document);
 			    initSelectedAndDraggable();
-
+			    // console.log($('.ui-selected imageElement').filter('.mImage').width()+"xxxx")
+			    // $('ui-selected imageElement').css({'width':})
 				$mdDialog.hide();
 	       		setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
 		   }
@@ -356,8 +380,17 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 
 		    //删除已上传图片
 		    $scope.removeImage = function(imageId){
-		      	imageActionService.removeImage(imageId);
-		      	$("#"+imageId).remove();
+
+		    	if(confirm("确定删除吗")){
+			      	imageActionService.removeImage(imageId);
+			      	$("#"+imageId).remove();
+			      	 return true;
+			      }
+			      else{
+			      	  return false;
+		     	 }
+		      	// imageActionService.removeImage(imageId);
+		      	// $("#"+imageId).remove();
 		    }
 
 		},
@@ -368,7 +401,7 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 	    parent: $('#main')
 	});
 }
-	    
+
 
 
 /*
@@ -376,45 +409,53 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 *@初始化元素选中及拖拽功能
 *
 ********/
-function initSelectedAndDraggable(){
-	$('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
-		var selected = $([]), offset = {top:0, left:0}; 
-		$( ".isEdit > div" ).draggable({
-			stop:function (){
-			     var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
-			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
-			     $(this).css("left" , l);
-			     $(this).css("top" , t);
-			}
-		}).resizable({ handles: 'n, e, s, w,se,sw,ne,nw',stop:function (){
-		    var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
-			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
-			     $(this).css("left" , l);
-			     $(this).css("top" , t);
+// function initSelectedAndDraggable(){
+// 	$('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
+// 		var selected = $([]), offset = {top:0, left:0};
+// 		$( ".isEdit div.ui-selected" ).draggable({
+// 			// start:function (){
+// 			// 		 var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
+// 			// 		 var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
+// 			// 		 $(this).css("left" , l);
+// 			// 		 $(this).css("top" , t);
+// 			// },
+// 			// stop:function (){
+// 			// 		 var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
+// 			// 		 var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
+// 			// 		 $(this).css("left" , l);
+// 			// 		 $(this).css("top" , t);
+// 			// }
+// 		}).resizable({ handles: 'n, e, s, w,se,sw,ne,nw',stop:function (){
+// 		    // var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
+// 			  //    var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
+// 			  //    $(this).css("left" , l);
+// 			  //    $(this).css("top" , t);
+// 				//
+// 			  //     var w = ( 100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")) )+ "%" ;
+// 			  //    var h = ( 100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")) )+ "%" ;
+// 			  //    $(this).css("width" , w);
+// 			  //    $(this).css("height" , h);
 
-			      var w = ( 100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")) )+ "%" ;
-			     var h = ( 100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")) )+ "%" ;
-			     $(this).css("width" , w);
-			     $(this).css("height" , h);
+//     	}
 
-    	}});
+// 		});
 
 
-		$( ".isEdit " ).selectable();
+// 		$( ".isEdit " ).selectable();
 
-		//rotate function
-		applyRotation();
-		function applyRotation() {
-		    $('.rotate-rightTop').draggable({
-		        opacity: 0.01,
-		        helper: 'clone',
-		        drag: function (event, ui) {
-		            var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
-		            $(this).parent().css({
-		                '-moz-transform': rotateCSS,
-		                    '-webkit-transform': rotateCSS
-		            });
-		        }
-		    });
-		}//end of applyRotation
-}
+// 		//rotate function
+// 		applyRotation();
+// 		function applyRotation() {
+// 		    $('.rotate-rightTop').draggable({
+// 		        opacity: 0.01,
+// 		        helper: 'clone',
+// 		        drag: function (event, ui) {
+// 		            var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
+// 		            $(this).parent().css({
+// 		                '-moz-transform': rotateCSS,
+// 		                    '-webkit-transform': rotateCSS
+// 		            });
+// 		        }
+// 		    });
+// 		}//end of applyRotation
+// }

@@ -1,9 +1,14 @@
+
 var homeController = angular.module('homeController', ['ngMaterial','ngMessages']);
 homeController.controller('homeController', function(
   $scope,
   $rootScope, $mdSidenav,
   editPage, $mdToast, $compile,
   $sce, $state,$mdDialog, $document, SERVER_URL,loginFn,projectFn) {
+
+
+
+
 
 //用户退出
   $scope.loginOut = function(){
@@ -70,8 +75,45 @@ homeController.controller('homeController', function(
 
 
         //1.登陆状态下，编辑已创建过的项目，但没有保存，点击我的项目会将项目保存到db
+        //2.登陆状态下，用户编辑结束，已点击保存，无须提示是否保存
         if($("#pagesList").data("projectid")){
-           saveProjectFn();
+
+            saveProjectFn();
+
+          //   $("#popupContainer").addClass('filter');
+          //   $mdDialog.show({
+          //   controller: function($scope) {
+
+          //     $scope.saveInProgress = function() {
+          //       saveProjectFn();
+          //     }
+
+          //     $scope.closeInProgress = function() {
+
+          //       $mdDialog.hide();
+          //       setTimeout(function(){
+          //         $("#popupContainer").removeClass('filter');
+          //           $state.go('dashboard');
+          //       },150)
+          //     }
+
+
+          //     $scope.close = function() {
+          //       $mdDialog.hide();
+          //       $("#popupContainer").removeClass('filter');
+          //     }
+
+
+          //   },
+          //   templateUrl: './template/save.dialog.tmpl.html',
+          //   parent: $("#main"),
+          //   hideDelay: false
+          // });
+
+
+
+
+
          }else if(textIsNull&& imageIsNull &&!$("#pagesList").data("projectid")){
         //2.登陆状态下，没有编辑行为，直接挑砖道dashboard
 
@@ -80,8 +122,8 @@ homeController.controller('homeController', function(
           //3.登陆状态下创建新项目，没有点击保存，直接点击我的项目
           addProject($mdDialog,$document);
          }
-      
-      
+
+
     }else{
       $("#popupContainer").addClass('filter');
       $mdDialog.show({
@@ -103,7 +145,7 @@ homeController.controller('homeController', function(
                         $rootScope.currentUser  = $rootScope.getCurrentUser();
                         $rootScope.isAuthorized = loginFn.islogged().status;
                         $("#popupContainer").removeClass('filter');
-        
+
                         if(!$("#pagesList").data("projectid")){
 
                             addProject($mdDialog,$document);
@@ -166,6 +208,33 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
     $('rotate-rightTop').css('display', 'none')
   })
 
+// /////////////////// 用户第一次登陆 显示userguide ///////////////
+
+// function setCookie(name,value){
+//   var Days = 30;
+//   var exp = new Date();
+//   exp.setTime(exp.getTime() + Days*24*60*60*1000);
+//   document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+// }
+
+// function getCookie(name){
+//   var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+//   if(arr=document.cookie.match(reg)){
+//     return unescape(arr[2]);
+//   }else{
+//     return null;
+//   }
+
+// }
+// var cookie = getCookie('userGuide');
+// console.log(cookie+"...")
+// //cookie是个字符串型的  判断其长度
+// if(!cookie){
+
+//   setCookie('userGuide','true');
+
+// }
+
 
 
 
@@ -184,10 +253,11 @@ function saveProjectFn(){
     /*
     *@描述：pageLengthObj
     *@作用：获取用户在当前编辑状态下的实际页面个数
-    **/          
+    **/
     var pageLengthObj = projectFn.getPageLength();
+    var newLengthObj = [];
     var projectid     = $("#pagesList").data("projectid");
-
+    console.log(projectid+":projectid")
     /*
     *@描述：将当前页面个数与存储个数比较，判断页面个数是否有变
     **/
@@ -197,19 +267,32 @@ function saveProjectFn(){
       //如果实际pageLengthObj 与 从projectFn.loadEditPage 获取的页面长度不等
       //返回实际pageLengthObj,如果相等，返回任意一个
 
-      // console.log('actual page length：'+pageLengthObj.length)
+      //  console.log('actual page length：'+pageLengthObj.length)
       // console.log('page length from db:'+data.pageLength.length)
 
-    var newLengthObj = pageLengthObj.length !== data.pageLength.length?pageLengthObj:pageLengthObj;
-   
+    //如果判断
+console.log("****************** from edit to dashboard"+projectid+"***********************")
+    for(var i in data.pageLength){
+      console.log(i+":"+data.pageLength[i])
+    }
+
+
+          if(pageLengthObj.length == null || pageLengthObj.length == 0){
+              newLengthObj = data.pageLength;
+            }else{
+              newLengthObj = pageLengthObj;
+            }
+console.log(data.pageLength.length+":data.pageLength.length")
+    // var newLengthObj = data.pageLength;
+
       //console.log('newLengthObj:'+newLengthObj.length)
-    var editCode = $("#pagesList").html()
-              .replace(/ui-selected/, '')
-              .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
-              .replace(/isEdit/,'')
-              .replace(/display: flex/, "display: none")
-              .replace('defaultPage','defaultPage isEdit')
-              .replace('direction: ltr; display: none;','direction: ltr;display: block;')
+           var editCode = $("#pagesList").html()
+                    .replace(/ui-selected/, '')
+                    //.replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+                    .replace(/isEdit/,'')
+                    .replace(/display: flex;/g, "display: none;")
+                    //.replace('defaultPage','defaultPage isEdit')
+                    //.replace('direction: ltr; display: none;','direction: ltr;display: block;')
 
     var previewCode = $("#pagesList").html()
               .replace(/display/g, " ")
@@ -233,9 +316,13 @@ function saveProjectFn(){
         .then(function(data) {
             
             if (data.status) {
-                 $state.go('dashboard');
+                $mdDialog.hide();
+                setTimeout(function(){
+                  $(".dashboardContainer").removeClass('filter');
+                    $state.go('dashboard');
+                },150)
             } else {
-              console.log('error')
+              //console.log('error')
             }
         }, function() {
 
@@ -245,7 +332,6 @@ function saveProjectFn(){
     })
 
 }
-
 
 
 /*
@@ -279,7 +365,7 @@ $mdDialog.show({
          var projectName = $("#projectName").val();
          var projectInfo = $('#projectInfo').val();
          var pageLength  = projectFn.getPageLength();
-         console.log('only one page'+pageLength)
+          console.log('only one page'+pageLength.length)
          var userName    = loginFn.islogged().email;
          var previewCode = $("#pagesList").html()
                           .replace(/display/g, " ")
@@ -297,17 +383,17 @@ $mdDialog.show({
                           .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
                           .replace(/ui-resizable/g,'');
 
-        var editCode = $("#pagesList").html()
-                          .replace(/ui-selected/, '')
-                          .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
-                          .replace(/isEdit/,'')
-                          .replace(/display: flex/, "display: none")
-                          .replace('defaultPage','defaultPage isEdit')
-                          .replace('direction: ltr; display: none;','direction: ltr;display: block;');
+               var editCode = $("#pagesList").html()
+                    .replace(/ui-selected/, '')
+                    //.replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+                    .replace(/isEdit/,'')
+                    .replace(/display: flex;/g, "display: none;")
+                    //.replace('defaultPage','defaultPage isEdit')
+                    //.replace('direction: ltr; display: none;','direction: ltr;display: block;')
 
         projectFn.addProject(projectName,previewCode,editCode,projectInfo,userName,pageLength)
                  .then(function(data) {
-                   // console.log(data.status+":data.status")
+                 console.log(data.status+":data.status")
                     if (data.status) {
                       $("#pagesList").attr('data-projectid', data.project.id);
                         $scope.loadingSave = true;
@@ -380,18 +466,16 @@ setTimeout(function(){
 
 
   var projectIdInLeftNav = projectFn.getProjectId();
+console.log('################## from dashboard to edit'+projectIdInLeftNav+"##########################")
   projectFn.loadEditPage(projectIdInLeftNav).then(function(data) {
-   console.log(data.pageLength+":@homeController.js")
-
-   for(var i in data.pageLength){
-  console.log(data.pageLength[i]+":"+i)
-   }
-
+    console.log(' data.pageLength:'+ data.pageLength)
+    for(var i in data){
+      console.log(i+":"+data[i])
+    }
     $scope.feedback.leftpages = data.pageLength;
-    var colLeftHeight = 140 * $scope.feedback.leftpages.length;
-    setTimeout(function(){
-      $("div.page:eq(0)").addClass('col-leftclick')
-    },100)
+    var colLeftHeight         = 140 * $scope.feedback.leftpages.length;
+
+    setTimeout(function(){$("div.page:eq(0)").addClass('col-leftclick')},100)
   })
 
 
@@ -427,14 +511,14 @@ setTimeout(function(){
         $(".swiper-slide").removeClass("isEdit");
 
 //相同的hash同时记录在对应的右侧元素，通过hash来保持两个元素之间的同步，并isEdit显示当前新创建元素
-        $('#pagesList ').append('<div class="swiper-slide isEdit" data-pageId="'+thumbId+'"></div>');
+        $('#pagesList ').append('<div class="swiper-slide isEdit" data-pageId="'+thumbId+'" style="display: flex;"></div>');
 
         setTimeout(function(){
            $(".col-left").find("div[data-activeid='"+thumbId+"']").find('div[class="page"]').addClass('col-leftclick');
          },100)
 
       }
-
+//
 
 
 
@@ -460,7 +544,7 @@ setTimeout(function(){
  //清除左侧略缩图选中状态
  $('.page').removeClass('col-leftclick');
 
- $("#pagesList").find("div[data-pageid='"+i+"']").fadeIn(300).show().addClass('isEdit');
+ $("#pagesList").find("div[data-pageid='"+i+"']").fadeIn(300).show().addClass('isEdit').css('display','flex');
 
  //通过父级元素查找某个元素下的子元素
  $(".col-left").find("div[data-activeid='"+i+"']").find('div[class="page"]').addClass('col-leftclick');
@@ -502,7 +586,7 @@ $scope.removePage = function(pageId){
 
                 //console.log("_scope.feedback.leftpages[1]:"+_scope.feedback.leftpages[1]);
 
-        
+
                 var showThumbId = _scope.feedback.leftpages[1] == undefined ?' ': _scope.feedback.leftpages[1].thumbId ;
 
                  //重置样式
@@ -512,8 +596,7 @@ $scope.removePage = function(pageId){
 
                  //当删除元素后，设置要显示那个元素
                  $("#pagesList").find("div[data-pageid='"+showThumbId+"']").fadeIn(300).show().addClass('isEdit');
-                 $(".col-left").find("div[data-activeid='"+showThumbId+"']").addClass('col-leftclick');
-
+                 $(".col-left").find("div[data-activeid='"+showThumbId+"']").find('div[class="page"]').addClass('col-leftclick');
                  //更新存储页面数组
                  _scope.feedback.leftpages.splice(i,1);
 
@@ -563,7 +646,7 @@ $scope.removePage = function(pageId){
 
         $scope.close = function() {
           $mdDialog.hide();
-          setTimeout(function(){ $(".dashboardContainer").removeClass('filter');},150)
+          setTimeout(function(){ $("#popupContainer").removeClass('filter');},150)
         }
 
       },
@@ -571,7 +654,7 @@ $scope.removePage = function(pageId){
       parent: $("#main"),
       hideDelay: false
     });
-  
+
 
 
 
