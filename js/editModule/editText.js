@@ -1,15 +1,15 @@
 "use strict";
 /*
 *@ editText.js 负责处理文本编辑
-*@ 通过editText模板，实现了创建文本，对文本的拖拽，属性更改，以及点击文本的同时显示文本编辑面板
+-----------------------------------------------------------------------------------------------
+*@ editText模块，实现了创建文本，对文本的拖拽，属性更改，以及点击文本的同时显示文本编辑面板
+-----------------------------------------------------------------------------------------------
 *@ 创建新文本				 ：$scope.newText = function(){ createNewText($mdToast,$document);};
 *@ 初始化文本                ：createNewText()
 *@ 初始化对文本拖拽，改变尺寸：initSelectedAndDraggable()
 *@ 点击文本属性回显			 : textActive()
 *@ 文本属性面板              : showTextEditPanel()
-*
-*
-***********************************/
+**/
 
 
 
@@ -391,32 +391,6 @@ function showTextEditPanel($mdToast,$document){
 
 
 
-// // 文本编辑面板
-// function showBackgroundEditPanel($mdToast,$document){
-// 	$mdToast.show({
-//       controller:function($scope){
-// 		//set FontColor
-// 		$scope.$watch("setPageBackgroundColor",function(newColor,oldColor){
-// 			$('.isEdit').css('backgroundColor',newColor);
-// 		});
-
-// 		$(this).parent().attr('id','selectedFormItem');
-// 		$(this).parent().css({'border':'#dedede 3px dashed','overflow':'hidden'});
-
-
-// 	    $(function() {
-// 		    $( "#formContent" ).sortable({
-// 		      revert: true
-// 		    });
-// 		});
-
-//       },
-//       templateUrl: './template/page.background.tmpl.html',
-//       parent : $document[0].querySelector('#editModulePosition'),
-//        hideDelay: false
-//       // position: $scope.getToastPosition()
-// 	});
-// }
 
 
 function textActive(curText){
