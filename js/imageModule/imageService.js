@@ -8,7 +8,7 @@ imageService.factory('imageActionService',function($http,$q,$compile,SERVER_URL,
 	var addImage	 = 'uploadImage';
 
 	var imageActionService = {
-		loadImage	:function(){
+		loadImage:function(){
             var userName = loginFn.islogged().email;
 			var promise = $http({method:"GET",url:serverUrl+loadImage,params:{userName:userName}});
 	    		promise.success(function(data,status,headers){

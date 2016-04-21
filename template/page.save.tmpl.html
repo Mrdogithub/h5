@@ -52,7 +52,7 @@
             <textarea class="form-control" id="projectInfo" style=" min-height:120px;resize: none; font-size: 20px;border-radius: 0px;"></textarea>
           </div>
 
-        <button ng-disabled="saveProjectFrom.$invalid"  type="button" class="btn btn-primary" ng-click="savePageContent()" 
+<!--         <button ng-disabled="saveProjectFrom.$invalid"  type="button" class="btn btn-primary" ng-click="savePageContent()" 
         ng-disabled="all"
                 style="-moz-appearance: none;
                        background-color: transparent;
@@ -64,7 +64,32 @@
                         height: 60px;
                         margin: 30px 0;
                         width: 200px;">
-        <span ng-show="loadingSave" style="margin-right:10px;"><i class="icon-spinner icon-spin" ></i></span> 保存</button>
+        <span ng-show="loadingSave" style="margin-right:10px;"><i class="icon-spinner icon-spin" ></i></span> 保存</button> -->
+
+
+           <button ng-disabled="saveProjectFrom.$invalid" ng-show="isSaved" type="button" class="btn btn-primary" ng-click="savePageContent()" style="   -moz-appearance: none;
+          background-color: transparent;
+          border: 2px solid #198cbf;
+          border-radius: 0;
+          color: #198cbf;
+          display: block;
+          font-size: 22px;
+          height: 60px;
+          margin: 30px 0;
+          width: 200px;"> 保存</button>
+
+
+     <button   ng-show="!isSaved" class="btn btn-primary"  style="   -moz-appearance: none;
+          background-color: transparent;
+    border: 2px solid #198cbf;
+    border-radius: 0;
+    color: #198cbf;
+    display: block;
+    font-size: 22px;
+    height: 60px;
+    margin: 30px 0;
+    width: 200px;"><span ng-show="loadingSave" style="margin-right:10px;"><i class="icon-spinner icon-spin" ></i></span> 保存中</button>
+
 </form>
      
     </md-dialog-content>

@@ -1,5 +1,8 @@
 'use strict';
-
+/*
+* sessionFn  解决用户刷新页面后仍然是登录状态
+*
+***********/
 angular.module('loginService',[])
 	.factory('loginFn',function($http,$q,$rootScope,sessionFn,SERVER_URL){
 		return {

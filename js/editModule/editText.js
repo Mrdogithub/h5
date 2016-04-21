@@ -1,14 +1,33 @@
 "use strict";
+/*
+*@ editText.js 负责处理文本编辑
+*@ 通过editText模板，实现了创建文本，对文本的拖拽，属性更改，以及点击文本的同时显示文本编辑面板
+*@ 创建新文本				 ：$scope.newText = function(){ createNewText($mdToast,$document);};
+*@ 初始化文本                ：createNewText()
+*@ 初始化对文本拖拽，改变尺寸：initSelectedAndDraggable()
+*@ 点击文本属性回显			 : textActive()
+*@ 文本属性面板              : showTextEditPanel()
+*
+*
+***********************************/
+
+
+
 
 var editText = angular.module('editText',[]);
 
 editText.directive('edittext',function(
-	$sce,
-	$mdDialog,
-	$mdToast,
-	$compile,
-	$document,$rootScope,
-	projectFn,AuthService,SERVER_URL,loginFn){
+	$sce,      		//用于解析html的angularjs服务  			@angular.js
+	$mdDialog, 		//提供对话框的模块             			@angular-material.js
+	$mdToast,  		//提供文本/图片编辑面板        			@angular-material.js
+	$compile,  		//提供动态插入html的解析服务，解析有ng指令 
+	$document, 		//angularjs 内部服务 
+	$rootScope,		//angularjs 内部服务
+	projectFn, 		//提供项目接口                       	@projectService.js
+	AuthService,	//提供用户登陆验证                  	@AuthService.js
+	SERVER_URL, 	//提供全局常量
+	loginFn     	//提供登陆验证，登陆状态，退出方法  	@loginService.js
+){
 	return {
 		restrict:'AE',
 		templateUrl:'./template/edit.text.tmpl.html',
@@ -16,87 +35,80 @@ editText.directive('edittext',function(
 		link:function($scope){
 
 
-
 //监听重新编辑后的文本点击事件
-				$(document).on('click','.textElementActive',function(){
-					$('.ui-selected').removeClass('ui-selected');
-				    $('#text-properties').remove();
-					$('.img-properties').remove();
+	       $(document).on('click','.textElementActive',function(){
+				$('.ui-selected').removeClass('ui-selected');
+			    $('#text-properties').remove();
+				$('.img-properties').remove();
+			    
 
-					console.log('text ')
+			    $('.mText').blur();
+				$(this).addClass('ui-selected');				
+				$('.ui-selected >.mText').focus();
+				initSelectedAndDraggable();
+				showTextEditPanel($mdToast,$document);
+				// console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));	
+			})
 
-					//$("#right_1").addClass('isEdit');
-				    $('.mText').blur();
-					$(this).addClass('ui-selected');
-					$('.ui-selected >.mText').focus();
-					initSelectedAndDraggable();
-					showTextEditPanel($mdToast,$document);
-					// $('.textElementActive').unbind();
-					// console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));
-				});
+
 
             /*
             *@ 读取已保存的项目到编辑页面
             *
             ****/
             var loadingProjectById = projectFn.getProjectId();
+// console.log("loadingProjectById:"+loadingProjectById)
 			if(loadingProjectById){
+// console.log("works:"+loadingProjectById)
 				projectFn.loadEditPage(loadingProjectById).then(function(data){
+
+					//动态绑定ng-bind-html到 dom结点，通过$compile来解析 ng指令
 					$compile($("#pagesList").attr('ng-bind-html','page.editCode'))($scope)
+
 					$scope.page = { "editCode":""};
+
+					//通过$sce,格式化html。db存储的html是字符串，angularjs需要通过$sce来格式化
 					$scope.page.editCode = $sce.trustAsHtml(data.pages.editCode);
-					$scope.editcode = data.pages.editCode;
+
+					//将当前项目id绑定到dom结点，用于保存更新项目
 					$("#pagesList").attr('data-projectid',loadingProjectById);
+                    
+                    //设置默认显示页面
 					setTimeout(function(){
-				
 						$('.swiper-slide').eq(0).addClass('isEdit').show();
-                        
-
-
-
-
 					},100)
 
-
-					 console.log($('.swiper-slide').eq(0).filter('.textElementActive',function(index){
-					 	console.log(index+"x...")
-					 })+"////////////")
-				
-				//设置第一页面为显示状态，其他页面暂时隐藏
-
-			    //console.log('$("#pagesList").children()[0].html();'+$("#pagesList").children()[0].html())
+					//console.log('loading project')
 
 
-    //            //监听重新编辑后的文本点击事件
-				// $('.textElementActive').on('click',function(){
-				// 	$('.ui-selected').removeClass('ui-selected');
-				//     $('#text-properties').remove();
-				// 	$('.img-properties').remove();
+				$(document).on('click','.textElementActive',function(){
+					$('.ui-selected').removeClass('ui-selected');
+				    $('#text-properties').remove();
+					$('.img-properties').remove();
+				    
+					$("#right_1").addClass('isEdit');
+				    $('.mText').blur();
+					$(this).addClass('ui-selected');				
+					$('.ui-selected >.mText').focus();
+					initSelectedAndDraggable();
+					showTextEditPanel($mdToast,$document);
+					// console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));	
+				});
 
-				// 	console.log('text ')
 
-				// 	//$("#right_1").addClass('isEdit');
-				//     $('.mText').blur();
-				// 	$(this).addClass('ui-selected');
-				// 	$('.ui-selected >.mText').focus();
-				// 	initSelectedAndDraggable();
-				// 	showTextEditPanel($mdToast,$document);
-				// 	// console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));
-				// });
+				$(document).on('click','.imageElement',function(){
 
-				// //监听重新编辑后的图片点击事件
-				// $('.imageElementAcitve').on('click',function(){
+					$('.ui-selected').removeClass('ui-selected');
+					$('#text-properties').remove();
+					$('.img-properties').remove();
 
-				// 	$('.ui-selected').removeClass('ui-selected');
-				// 	$('#text-properties').remove();
-				// 	$('.img-properties').remove();
-				// 	console.log('xxx')
-				// 	//$("#right_1").addClass('isEdit');
-				// 	$('.mText').blur();
-				// 	$(this).addClass('ui-selected');
-				// 	initSelectedAndDraggable();
-				// 	showImageEditPanel($mdToast,$mdDialog,$document);
-				// });
+					$("#right_1").addClass('isEdit');
+					$('.mText').blur();
+					$(this).addClass('ui-selected');
+					initSelectedAndDraggable();
+					showImageEditPanel($mdToast,$mdDialog,$document);	
+				});
+
 
 
 	           },function(){})
@@ -112,19 +124,14 @@ editText.directive('edittext',function(
 })
 
 
-//判断当前是否存在项目
-function projectIsNull(){
-	var status = typeof($("#pagesList").data('projectid')) == "undefined"?true:false;
-	return status;
-}
 
 //创建文本
 function createNewText($mdToast,$document){
 	$('.img-properties').remove();
 	$('.ui-selected').removeClass('ui-selected');
-	$('.rotate-rightTop').css('display','none');
 
-var iText = $('<div class="ui-selected textElement textElementActive" data-type="text" style=" position:absolute;"><div  class="mText"  style="font-size:1em;min-width:80px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div>');
+	//var iText = $('<div class="ui-selected textElement textElementActive" data-type="text" style=" position:absolute;"><div  class="mText"  style="font-size:1.2em;min-width:100px;line-height:1.2em;opacity:1;border-radius:0px;font-family: Helvetica;" contenteditable="true">请输入文本</div></div>');
+    var iText = $('<div class="ui-selected textElement textElementActive" data-type="text" style=" position:absolute;"><div  class="mText"  style="font-size:1.2em;min-width:100px;line-height:1.2em;opacity:1;border-radius:0px;font-family: Helvetica;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div>');
     var currentPage = $('.isEdit');
     iText.appendTo(currentPage);
     showTextEditPanel($mdToast,$document);
@@ -141,27 +148,32 @@ function showTextEditPanel($mdToast,$document){
 
         /*
         *@ var activeFontSize = ............
-        *@ 用于用户第一次创建元素时，设置属性面板中的各项默认值
+        *@ 设置属性面板中的各项默认值
         *@ 默认值通过 $('.ui-selected > .mText').data('xxxx')获取
         ********/
-        var activeFontSize		= !$('.ui-selected > .mText').data('fontsize')?14:$('.ui-selected > .mText').data('fontsize');
-        var activelineHeight	= !$('.ui-selected > .mText').data('lineheight')?1:$('.ui-selected > .mText').data('lineheight');
-        var activeBorderRadius  = !$('.ui-selected > .mText').data('borderRadius')?0:$('.ui-selected > .mText').data('borderRadius');
-        var activeOpacity       = !$('.ui-selected > .mText').data('opacity')?1:$('.ui-selected > .mText').data('opacity');
+        var activeFontSize		= !$('.ui-selected > .mText').data('fontsize')		? 14 :$('.ui-selected > .mText').data('fontsize');
+        var activelineHeight	= !$('.ui-selected > .mText').data('lineheight')	? 1.2:$('.ui-selected > .mText').data('lineheight');
+        var activeBorderRadius  = !$('.ui-selected > .mText').data('borderRadius')	? 0  :$('.ui-selected > .mText').data('borderRadius');
+        var activeOpacity       = !$('.ui-selected > .mText').data('opacity')		? 1  :$('.ui-selected > .mText').data('opacity');
+        var activeDuration      = typeof($('.ui-selected').attr('swiper-animate-duration') == undefined)?0:$('.ui-selected').attr('swiper-animate-duration').replace('s','')
+        var activeDelay         = typeof($('.ui-selected').attr('swiper-animate-delay')    == undefined)?0:$('.ui-selected').attr('swiper-animate-delay').replace('s','')
+       
+       setTimeout(function(){
+       	$(".textAligncenterId").addClass("fontItemActive");
+       },200)
 
         //初始化新建元素的属性值 显示
         $scope.radius 	  = {"size" : activeBorderRadius}
         $scope.opacity 	  = {"numberValue": activeOpacity}
         $scope.fontSize   = {"size" : activeFontSize}
         $scope.lineHeight = {"size" : activelineHeight}
-
-
+        $scope.AnimateSpeed = {"size":activeDuration}
+        $scope.AnimateDelay = {"size":activeDelay}
+       // $scope.item.value   = "Helvetica";
       	//设置字体大小
       	$scope.getFontSize = function(){
 
-
 			$('.ui-selected > .mText').css('fontSize',($scope.fontSize.size/10)+"em");
-
 			//通过读取data-xxx 属性 设定创建元素时的默认值
 			$('.ui-selected > .mText').attr('data-fontSize',$scope.fontSize.size)
 		}
@@ -170,9 +182,9 @@ function showTextEditPanel($mdToast,$document){
 
 		//设置行高
       	$scope.getLineHeight = function(){
+
       		var lineHeightValue = $scope.lineHeight.size+"em";
 			$('.ui-selected > .mText').css('lineHeight',lineHeightValue);
-
 			//通过读取data-xxx 属性 设定创建元素时的默认值
 			$('.ui-selected > .mText').attr('data-lineHeight',$scope.lineHeight.size)
 		}
@@ -194,8 +206,9 @@ function showTextEditPanel($mdToast,$document){
 				$('.ui-selected > .mText').css("fontWeight","bold");
 				$("#fontBlodId").addClass("fontItemActive");
 			}else if($('.ui-selected > .mText').css("fontWeight") == "bold"){
+
 				$('.ui-selected > .mText').css("fontWeight","");
-				$("#fontBlodId").removeClass("fontItemActive");
+						  $("#fontBlodId").removeClass("fontItemActive");
 			}
 		};
 
@@ -203,34 +216,36 @@ function showTextEditPanel($mdToast,$document){
 		$scope.setFontItalic = function(){
 			if($('.ui-selected  > .mText').css("fontStyle") != "italic"){
 				$('.ui-selected > .mText').css("fontStyle","italic");
-				$("#fontItalicId").addClass("fontItemActive");
+						$("#fontItalicId").addClass("fontItemActive");
 			}else if($('.ui-selected > .mText').css("fontStyle") == "italic"){
-				$('.ui-selected > .mText').css("fontStyle","");
-				$("#fontItalicId").removeClass("fontItemActive");
+
+					 $('.ui-selected > .mText').css("fontStyle","");
+							 $("#fontItalicId").removeClass("fontItemActive");
 			}
 		}
 
 		//设置下划线
 		$scope.setTextDecoration = function(){
 			if($('.ui-selected  > .mText').css("textDecoration") != "underline"){
+
 				$('.ui-selected > .mText').css("textDecoration","underline");
-				$("#textDecorationId").addClass("fontItemActive");
+					$("#textDecorationId").addClass("fontItemActive");
+
 			}else if($('.ui-selected > .mText').css("textDecoration") == "underline"){
+
 				$('.ui-selected > .mText').css("textDecoration","");
-				$("#textDecorationId").removeClass("fontItemActive");
+					$("#textDecorationId").removeClass("fontItemActive");
 			}
 		}
 
 		//设置元素对齐
 		$scope.setTextAlign = function(textPos){
-			if($('.ui-selected  > .mText').css("textAlign") != textPos){
+			$(".fontFormat").removeClass('fontItemActive');
+			
+			setTimeout(function(){
 				$('.ui-selected > .mText').css("textAlign",textPos);
-				$('.textAlign').removeClass("fontItemActive");
 				$(".textAlign"+textPos+"Id").addClass("fontItemActive");
-			}else if($('.ui-selected > .mText').css("textAlign") == textPos){
-				$('.ui-selected > .mText').css("textAlign","");
-				$(".textAlign"+textPos+"Id").removeClass("fontItemActive");
-			}
+			},200)
 		}
 
 		//设置圆角
@@ -343,9 +358,9 @@ function showTextEditPanel($mdToast,$document){
 				    $scope.loadingAdd = true;
 				 	var linkText = $.trim($scope.textlink);
 				  	if(linkText==""){
-				  		$(".ui-selected").removeAttr('onclick');
+				  	   $(".ui-selected").removeAttr('onclick');
 				  	}else{
-				  		$(".ui-selected").attr("onclick","window.open('"+$scope.textlink+"','target','param')");
+				  	   $(".ui-selected").attr("onclick","window.open('"+$scope.textlink+"','target','param')");
 				  	}
 
 				   $scope.loadingAdd = false;
@@ -376,71 +391,93 @@ function showTextEditPanel($mdToast,$document){
 
 
 
-// show radiobox edit panel if radiobox active
-function showBackgroundEditPanel($mdToast,$document){
-	$mdToast.show({
-      controller:function($scope){
-		//set FontColor
-		$scope.$watch("setPageBackgroundColor",function(newColor,oldColor){
-			$('.isEdit').css('backgroundColor',newColor);
-		});
+// // 文本编辑面板
+// function showBackgroundEditPanel($mdToast,$document){
+// 	$mdToast.show({
+//       controller:function($scope){
+// 		//set FontColor
+// 		$scope.$watch("setPageBackgroundColor",function(newColor,oldColor){
+// 			$('.isEdit').css('backgroundColor',newColor);
+// 		});
 
-		$(this).parent().attr('id','selectedFormItem');
-		$(this).parent().css({'border':'#dedede 3px dashed','overflow':'hidden'});
+// 		$(this).parent().attr('id','selectedFormItem');
+// 		$(this).parent().css({'border':'#dedede 3px dashed','overflow':'hidden'});
 
 
-	    $(function() {
-		    $( "#formContent" ).sortable({
-		      revert: true
-		    });
-		});
+// 	    $(function() {
+// 		    $( "#formContent" ).sortable({
+// 		      revert: true
+// 		    });
+// 		});
 
-      },
-      templateUrl: './template/page.background.tmpl.html',
-      parent : $document[0].querySelector('#editModulePosition'),
-       hideDelay: false
-      // position: $scope.getToastPosition()
-	});
-}
+//       },
+//       templateUrl: './template/page.background.tmpl.html',
+//       parent : $document[0].querySelector('#editModulePosition'),
+//        hideDelay: false
+//       // position: $scope.getToastPosition()
+// 	});
+// }
 
 
 function textActive(curText){
 
-
-	// var reg = /\d+/g;
-
+	//console.log('text image works')
+    /*
+    * Demo
+    * $(curText).attr("style").indexOf("font-size")
+    * 判断当前点击元素是否存在内联样式属性:font-size，存在返回0
+    */
   	var fontSize =	$(curText).attr("style").indexOf("font-size");
+
  	if(fontSize>-1) {
+
+ 	/**
+    * $(curText).attr("data-fontsize");
+    * -如果用户对文本字体大小进行设置，会添加data-fontsize属性，具体方法在 $scope.getFontSize = function(){....} 中实现
+    * -通过获取元素上的data-fontsize属性里的值来实现属性值回显
+    *
+    */
 		var numFontSize = $(curText).attr("data-fontsize");
-		console.log(numFontSize+"reback")
-	    var fontS= numFontSize == undefined?14:numFontSize;
+
+		console.log(numFontSize+"////numFontSize")
+	    var fontS       = numFontSize == undefined?14:numFontSize;
  		setValue('#txtNumid',fontS)
  		
- 	}else{$('#txtNumid').html("") }
+ 	}else{
+ 	/*
+ 	* 设置默认属性值
+ 	*/
+ 		$('#txtNumid').html("14") 
+ 	}
 
-	var lineheight =$(curText).attr("style").indexOf("line-height");
-	 	if(lineheight>-1) {
- 	 	var numLineHeight = $(curText).attr("data-lineheight");
- 		setValue('#txtHeightid',numLineHeight)
- 	} else{$('#txtHeightid').val("")}
 
 
- 	var vopacity =$(curText).attr("style").indexOf("opacity")
-	 	if(vopacity>-1) {
- 	 	var num = $(curText).attr("data-opacity");
- 	 	var numP = num == undefined?0:numP
+
+
+	var lineheight = $(curText).attr("style").indexOf("line-height");
+	if(lineheight>-1) {
+ 	 	var numLineHeight  = $(curText).attr("data-lineheight");
+ 	 	var numLineHeightR = numLineHeight == undefined?1.2:numLineHeight;
+ 		setValue('#txtHeightid',numLineHeightR)
+ 	} else{$('#txtHeightid').val("0")}
+
+
+ 	var vopacity  = $(curText).attr("style").indexOf("opacity")
+	if(vopacity>-1) {
+ 	 	var num   = $(curText).attr("data-opacity");
+ 	 	var numP  =  num == undefined ? 1 : num;
  		setValue('#txtOpacityid',numP)
- 	} else{$('#txtOpacityid').val("")}
+ 	} else{$('#txtOpacityid').val("1");}
  	//border-radius
 
 	var borderradius =$(curText).parent().attr("style").indexOf("border-radius")
  	if(borderradius>-1) {
-	 	var num = $(curText).attr("data-borderradius");
-	 	var numB = num == undefined?0:numB
+	 	var num   = $(curText).attr("data-borderradius");
+	 	var numB  = num == undefined ? 0 : num;
 	 	setValue('#txtRadiusid',numB)
- 	}else{$('#txtRadiusid').val("")}
+ 	}else{$('#txtRadiusid').val("0");}
 
- 	var fontFamily =$(curText).attr("style").indexOf("font-family")
+ 	var fontFamily= $(curText).attr("style").indexOf("font-family")
  	if(fontFamily>-1) {
  		setTimeout(function(){
  			var lista = $(curText).css("fontFamily");
@@ -454,7 +491,7 @@ function textActive(curText){
  	}else{$('#fontFamilyid').val("")}
 
 
- 	var fontBlod =$(curText).attr("style").indexOf("font-weight")
+ 	var fontBlod = $(curText).attr("style").indexOf("font-weight")
  	if(fontBlod>-1) {
 
  		setTimeout(function(){
@@ -473,7 +510,7 @@ function textActive(curText){
 
 
 
- 	var fontItalicId =$(curText).attr("style").indexOf("font-style")
+ 	var fontItalicId = $(curText).attr("style").indexOf("font-style")
  	if(fontItalicId>-1) {
  		setTimeout(function(){
  			$("#fontItalicId").addClass('fontItemActive')
@@ -481,24 +518,23 @@ function textActive(curText){
  	}else{$("#fontItalicId").removeClass('fontItemActive')}
 
 
- 	var fontAlign =$(curText).attr("style").indexOf("text-align")
+ 	var fontAlign   = $(curText).attr("style").indexOf("text-align")
  	if(fontAlign>-1) {
  		setTimeout(function(){
 	 		$(".textAlign").removeClass('fontItemActive')
 	 	    var pos = $(curText).css('textAlign');
-	 	    // console.log(pos+":post")
 	 		$(".textAlign"+pos+"Id").addClass('fontItemActive')
  		},100)
 
- 	}else{$(".textAlign").removeClass('fontItemActive')}
+ 	}else{
+ 		$(".textAligncenterId").addClass('fontItemActive')
+ 	}
 
 
- 	var animateId = $(curText).parent().attr('style').indexOf('animation-name');
- 	// console.log('animateId:'+animateId)
+ 	var animateId  = $(curText).parent().attr('style').indexOf('animation-name');
  	if(animateId>-1) {
  		setTimeout(function(){
 	 		var animateName = $(curText).parent().css("animationName");
-	 		// console.log('animateName:'+animateName)
 	 	 	$("#animateTextId option").each(function(){
 			    if( $(this).val() == animateName ){
 			      this.selected = true;
@@ -507,34 +543,33 @@ function textActive(curText){
 			});
 
  		},100)
- 	}else{$('#animateTextId').val("")}
+ 	}else{$('#animateTextId').val("0")}
 
 
 
 
- 	var animationDurationId =	$(curText).parent().attr("style").indexOf("animation-duration");
+ 	var animationDurationId 	 =	$(curText).parent().attr("style").indexOf("animation-duration");
  	if(animationDurationId>-1) {
  	 	var animationDurationNum = $(curText).parent().attr('swiper-animate-duration')
- 	 	// console.log("fontSize:"+animationDurationNum)
- 		setValue('#animationDurationId',animationDurationNum)
- 	}else{$('#animationDurationId').val("") }
+ 	 	var newDuration 		 = animationDurationNum.replace('s','')
+ 		setValue('#animationDurationId',newDuration)
+ 	}else{$('#animationDurationId').val("0") }
 
 
 
- 	var animationDelayId = $(curText).parent().attr("style").indexOf("animation-delay");
+ 	var animationDelayId	    = $(curText).parent().attr("style").indexOf("animation-delay");
  	if(animationDelayId>-1) {
- 	 	var animationDelayNum = $(curText).parent().attr('swiper-animate-delay');
- 	 	// console.log("fontSize:"+animationDelayNum)
- 	
- 		setValue('#animationDelayId',animationDelayNum)
- 	}else{$('#animationDelayId').val("") }
+ 	 	var animationDelayNum   = $(curText).parent().attr('swiper-animate-delay');
+ 	 	var newDelay 			= animationDelayNum.replace('s','')
+ 		setValue('#animationDelayId',newDelay)
+ 	}else{$('#animationDelayId').val("0") }
 }
 
 
 function setValue(elementId,value){
-	var ele = elementId;
+	var ele    = elementId;
 	var eleVal = value;
-	console.log('font value:'+value)
+	// console.log('font value:'+value)
 	setTimeout(function(){
 		$(ele).val(eleVal)
 	},100);
@@ -545,70 +580,52 @@ function setValue(elementId,value){
 *****/
 
 function initSelectedAndDraggable(){
-	//$('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
-		//var selected = $([]), offset = {top:0, left:0};
-		$(".isEdit > div" ).draggable({
 
-
-			// containment:".mainbox"
-			// start:function (){
-			//      var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
-			//      var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
-			//      $(this).css("left" , l);
-			//      $(this).css("top" , t);
-			// },
-			// stop:function (){
-			//      var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
-			//      var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
-			//      $(this).css("left" , l);
-			//      $(this).css("top" , t);
-			// }
-		}).resizable({ handles: 'se,sw,ne,nw',
-		//n, e, s, w,
-		// drop: function (event, ui) {
-		// 			// debugger;
-
-		// 	        var posWidth = ui.draggable.outerWidth();
-		// 	        var dPosHeight = $(this).outerHeight();
-  //                   console.log('work');
-		// 	        // Pixxel value of positions
-		// 	        // var elementTopPosition = pos.top - dPos.top;
-		// 	        // var elementLeftPosition = pos.left - dPos.left;
-
-		// 	        // Getting parent element height and width
-		// 	        var parentWidth = jQuery(".isEdit").outerWidth();   // <=== Here
-		// 	        var ParentHeight = jQuery(".isEdit").outerHeight(); // <===
-
-		// 	        // Coverting to percentage
-		// 	        var topInPercentage = (100 * posWidth) / ParentHeight;
-		// 	        var leftInPercentage = (100 * dPosHeight) / parentWidth;
-
-		// 	        $(" .ui-selected").css({width: topInPercentage + '%', height: leftInPercentage + '%'});
-
-		// 	 }
+$( ".isEdit > div" ).draggable({
+    start: function(ev, ui) {
+     var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
+			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
+			     $(this).css("left" , l);
+			     $(this).css("top" , t);
+    },
+    drag: function(ev, ui) {
+     var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
+			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
+			     $(this).css("left" , l);
+			     $(this).css("top" , t);
+    }
+}).resizable({ handles: 'se,sw,ne,nw',
 		stop:function (event, ui){
-
-
-	
-
+                 
 	    		 var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
 			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
 			     $(this).css("left" , l);
 			     $(this).css("top" , t);
-    	
 			}
 		});
 
+$( ".isEdit > div" ).selectable();
 
-	 $('#pagesList').droppable(
+
+
+// manually trigger the "select" of clicked elements
+$( ".isEdit > div.imageElement" ).click( function(e){
+	$('.ui-selected').removeClass('ui-selected');
+	$(this).addClass('ui-selected')
+
+});
+
+
+	 $('.isEdit').droppable(
 
 			{
+				containment:".mainbox",
 				drop: function (event, ui) {
 					// debugger;
 
 			        var pos = ui.draggable.offset();
 			        var dPos = $(this).offset();
-                    console.log('work');
+                    // console.log('work');
 			        // Pixxel value of positions
 			        var elementTopPosition = pos.top - dPos.top;
 			        var elementLeftPosition = pos.left - dPos.left;
@@ -630,21 +647,5 @@ function initSelectedAndDraggable(){
 		)
 
 
-		$( "#pagesList" ).selectable();
 
-		//rotate function
-		applyRotation();
-		function applyRotation() {
-		    $('.rotate-rightTop').draggable({
-		        opacity: 0.01,
-		        helper: 'clone',
-		        drag: function (event, ui) {
-		            var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
-		            $(this).parent().css({
-		                '-moz-transform': rotateCSS,
-		                    '-webkit-transform': rotateCSS
-		            });
-		        }
-		    });
-		}//end of applyRotation
 }

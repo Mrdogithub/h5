@@ -6571,7 +6571,7 @@ MdDialogDirective.$inject = ["$$rAF", "$mdTheming", "$mdDialog"];
  *                     '     Hi There {{vm.employee}}' +
  *                     '  </md-dialog-content>' +
  *                     '</md-dialog>',
- *
+ *       
  *           controller: function DialogController($scope, $mdDialog) {
  *             $scope.closeDialog = function() {
  *               $mdDialog.hide();

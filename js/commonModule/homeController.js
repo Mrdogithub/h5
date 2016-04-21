@@ -1,12 +1,10 @@
 
-var homeController = angular.module('homeController', ['ngMaterial','ngMessages']);
+var homeController = angular.module('homeController', []);
 homeController.controller('homeController', function(
   $scope,
-  $rootScope, $mdSidenav,
+  $rootScope,
   editPage, $mdToast, $compile,
   $sce, $state,$mdDialog, $document, SERVER_URL,loginFn,projectFn) {
-
-
 
 
 
@@ -465,21 +463,79 @@ setTimeout(function(){
 
 
 
+//   var projectIdInLeftNav = projectFn.getProjectId();
+// console.log('################## from dashboard to edit'+projectIdInLeftNav+"##########################")
+//   projectFn.loadEditPage(projectIdInLeftNav).then(function(data) {
+//     console.log(' data.pageLength:'+ data.pageLength)
+//     for(var i in data){
+//       console.log(i+":"+data[i])
+//     }
+//     $scope.feedback.leftpages = data.pageLength;
+//     var colLeftHeight         = 140 * $scope.feedback.leftpages.length;
+
+//     setTimeout(function(){$("div.page:eq(0)").addClass('col-leftclick')},100)
+//   })
+
+
+/*
+*页面加载完毕后，左侧缩略图个数根据右侧页面个数自动生成
+*
+*
+*/
+
+
+//console.log($('.box').data('activeid')+"$('.box').data('activeid')")
+  if(!$('.box').data('activeid')){
+    var defaultThumb = makeid();
+    $scope.feedback = {
+      title: '',
+      leftpages: [{
+        'type': '1',
+        'thumbId':defaultThumb
+      }]
+    };
+//console.log($('.box').data('activeid')+"$('.box').data('activeid')")
+    $("#pagesList div.swiper-slide:eq(0)").attr('data-pageid',defaultThumb)
+  }
+
+
+
   var projectIdInLeftNav = projectFn.getProjectId();
-console.log('################## from dashboard to edit'+projectIdInLeftNav+"##########################")
+//console.log('################## from dashboard to edit'+projectIdInLeftNav+"##########################")
   projectFn.loadEditPage(projectIdInLeftNav).then(function(data) {
-    console.log(' data.pageLength:'+ data.pageLength)
-    for(var i in data){
-      console.log(i+":"+data[i])
-    }
+    // console.log(' data.pageLength:'+ data.pageLength)
+    // for(var i in data){
+    //   console.log(i+":"+data[i])
+    // }
     $scope.feedback.leftpages = data.pageLength;
     var colLeftHeight         = 140 * $scope.feedback.leftpages.length;
 
     setTimeout(function(){$("div.page:eq(0)").addClass('col-leftclick')},100)
   })
 
+  
+// var storePageLength = []
+// setTimeout(function(){
 
-  $scope.addEmptyTemplate = function(index) {
+//   $('.swiper-slide').each(function(index,element){
+//     console.log("page id ************************************:"+$(element).data('pageid'))
+//     storePageLength.push({"thumbId":$(element).data('pageid')});
+//   });
+
+// console.log(storePageLength.length+": storePageLength")
+//     $scope.feedback.leftpages = storePageLength;
+//     var colLeftHeight         = 140 * $scope.feedback.leftpages.length;
+
+//     $("div.page:eq(0)").addClass('col-leftclick');
+//     //setTimeout(function(){$("div.page:eq(0)").addClass('col-leftclick')},100)
+
+// },200)
+
+
+$scope.addEmptyTemplate = function(index) {
+//清除背景颜色面板选中
+$('.k-selected-color').css('box-shadow','none');
+$("#color-chooser-bg-1").data("kendoColorPalette").value('#ffffff'); 
 
 
 //清除左侧略缩图选中状态
@@ -548,7 +604,38 @@ console.log('################## from dashboard to edit'+projectIdInLeftNav+"####
 
  //通过父级元素查找某个元素下的子元素
  $(".col-left").find("div[data-activeid='"+i+"']").find('div[class="page"]').addClass('col-leftclick');
+ 
+ //背景颜色回显（customized）
+    var bgcol = ["rgb(255, 255, 255)", "rgb(0, 0, 0)","rgb(116, 97, 83)", "rgb(58, 76, 139)", "rgb(255, 204, 51)", "rgb(251, 69, 95)", "rgb(172, 18, 15)" ];
+    var cuscolor = $('.isEdit').css('backgroundColor');
 
+
+    if(bgcol.indexOf(cuscolor)>-1){
+      //initialize
+      $('.k-colorpicker').css('overflow','visible');
+      $('.k-selected-color').css('box-shadow','none');
+      $('.k-state-selected').removeClass('k-state-selected');
+
+      var palette_bg = $("#color-chooser-bg-1").data("kendoColorPalette");
+      if(cuscolor=='rgb(255, 255, 255)'){
+          palette_bg.value("rgb(255, 255, 255)");
+      }
+      else{
+          palette_bg.value(cuscolor);
+      }
+    }
+    else{
+      $('.k-colorpicker').css('overflow','visible');
+      $('.k-state-selected').removeClass('k-state-selected');
+      $('.k-selected-color').css({
+        'height': '15px',
+        'box-shadow': '0 1px 3px 1px rgba(0,0,0,0.7),inset 0 0 0 1px rgba(255,255,255,0.45)',
+        'z-index' : '100',
+        'position': 'relative',
+        'background-color': cuscolor,
+      })
+    } 
+    
 }
 
 /*

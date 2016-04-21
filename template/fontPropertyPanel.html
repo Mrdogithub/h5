@@ -285,12 +285,12 @@ $("#color-chooser-bg").kendoColorPalette({
         }
 });
 var palette_bg = $("#color-chooser-bg").data("kendoColorPalette");
-if($('.ui-selected > .mText').css('color')=='rgb(255, 255, 255)'){
+if($('.ui-selected').css('backgroundColor')=='rgba(0, 0, 0, 0)'){
     palette_bg.value("rgb(255, 255, 255)");
 }
 else{
     palette_bg.value($('.ui-selected').css('backgroundColor'));
-}
+} 
 
 
 

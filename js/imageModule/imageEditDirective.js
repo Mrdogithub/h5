@@ -4,12 +4,18 @@ var imageEditDirective = angular.module('imageEditDirective',[]);
 
 
 imageEditDirective.directive('editimage',function(
-	$sce,
-	$mdToast,
-	$compile,
-	$mdDialog,
-	$document,$rootScope,
-	projectFn,AuthService,SERVER_URL,loginFn,imageActionService){
+	$sce,     /*把从db读取到的html字符串解析成html，渲染到dom中*/
+	$mdToast, /*mdToast 负责问题面板显示 以及图片面板显示*/
+	$compile, /*解析动态加入dom中的html*/
+	$mdDialog,/*mdDialog 负责 全局 overlay 方法*/
+	$document,
+	$rootScope,
+	projectFn,/*提供关于project与后台交互的方法集 projectSerivce.js*/
+	AuthService,/*提供用户登录状态方法*/
+	SERVER_URL,/*定义全局常量*/
+	loginFn,   /*提供登录，退出，刷新页面保证用户登录状态方法  loginService.js*/
+	imageActionService /* 提供上传，删除图片方法集  imageDirective.js*/
+	){
 
 	return{
 		restrict:'AE',
@@ -21,41 +27,19 @@ imageEditDirective.directive('editimage',function(
 			*@ 监听全局点击图片事件，点击同时显示图片编辑面板
 			*
 			****/
-			$(document).on('click','.imageElementAcitve',function(){
+		$(document).on('click','.imageElementAcitve',function(){
 
 				$('.ui-selected').removeClass('ui-selected');
 				$('#text-properties').remove();
 				$('.img-properties').remove();
 
-                  console.log('image wroks')
+
 				$('.mText').blur();
 				$(this).addClass('ui-selected');
 				initSelectedAndDraggable();
-				showImageEditPanel($mdToast,$mdDialog,$document);
-					// $('.imageElementAcitve').unbind();
+				showImageEditPanel($mdToast,$mdDialog,$document);	
+
 			})
-
-
-
-	 		/*
-			*@全局监听点击文本元素方法，点击元素并显示文本编辑面板
-			*
-			***/
-			// $(document).on('click','.textElementActive',function(){
-			// 	$('.ui-selected').removeClass('ui-selected');
-			//     $('#text-properties').remove();
-			// 	$('.img-properties').remove();
-
-		
-
-			//     $('.mText').blur();
-			// 	$(this).addClass('ui-selected');
-			// 	$('.ui-selected >.mText').focus();
-			// 	initSelectedAndDraggable();
-			// 	showTextEditPanel($mdToast,$document);
-			// 	// console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));
-			// })
-
 
 			//创建新图片
 			$scope.newImages = function(){
@@ -122,64 +106,7 @@ imageEditDirective.directive('editimage',function(
 
 
 
-/*
-*@ imageActive
-*@ 用户点击图片触发，回显属性值到编辑面板
-*
-********/
-function imageActive(curImage){
-	var reg = /\d+/g;
-	var imageRadius = $(curImage).attr("style").indexOf("border-radius")
-	if(imageRadius>-1) {
-		var radiusSize = $(curImage).css("borderRadius").match(reg)[0];
-		$('#imageRadiusid').val(radiusSize);
-	}else{$('#imageRadiusid').val("") }
 
-
-	var vopacity =$(curImage).attr("style").indexOf("opacity")
-	 	if(vopacity>-1) {
- 	 	var num = $(curImage).css("opacity");
- 		$('#imageOpacityid').val(num)
-	} else{$('#imageOpacityid').val("")}
-
-
-
-
-	 	var animateId = $(curImage).parent().parent().attr('style').indexOf('animation-name');
-	 	// console.log('animateId:'+animateId)
-	 	if(animateId>-1) {
-	 		setTimeout(function(){
-		 		var animateName = $(curImage).parent().parent().css("animationName");
-		 		//console.log('animateName:'+animateName)
-		 	 	$("#js--imageAnimations option").each(function(){
-				    if( $(this).val() == animateName ){
-				      this.selected = true;
-				      return false;
-				    }
-				});
-
-	 		},100)
-	 	}else{$('#js--imageAnimations').val("")}
-
-
-
-
-	 	var animationDurationId =	$(curImage).parent().parent().attr("style").indexOf("animation-duration");
-	 	if(animationDurationId>-1) {
-	 	 	var animationDurationNum = $(curImage).parent().parent().css("animationDuration").match(reg)[0];
-	 	 	console.log("fontSize:"+animationDurationNum)
-	 		$('#animationImageDurationId').val(animationDurationNum)
-	 	}else{$('#animationImageDurationId').val("") }
-
-
-
-	 	var animationDelayId = $(curImage).parent().parent().attr("style").indexOf("animation-delay");
-	 	if(animationDelayId>-1) {
-	 	 	var animationDelayNum = $(curImage).parent().parent().css("animationDelay").match(reg)[0];
-	 	 	console.log("fontSize:"+animationDelayNum)
-	 		$('#animationImageDelayId').val(animationDelayNum)
-	 	}else{$('#animationImageDelayId').val("") }
-}
 
 
 
@@ -195,18 +122,25 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 
      	   //设置默认值
      	   // console.log($('.ui-selected').data('opacity')+"...$('.ui-selected').data('opacity')")
-     	   var activeOpacity = !$('.ui-selected').data('opacity')? 1:$('.ui-selected').data('opacity') ;
-     	   var activeRaius   = !$('.ui-selected').data('radius') ? 0:$('.ui-selected').data('radius') ;
+     	  
+     	   var activeRaius    = !$('.ui-selected').data('radius') ? 0:$('.ui-selected').data('radius') ;
+     	   var activeDelay    = typeof($('.ui-selected').attr('swiper-animate-delay')    == undefined)?0:$('.ui-selected').attr('swiper-animate-delay').replace('s','')
+     	   var activeOpacity  = !$('.ui-selected').data('opacity')? 1:$('.ui-selected').data('opacity') ;
+     	   var activeDuration = typeof($('.ui-selected').attr('swiper-animate-duration') == undefined)?0:$('.ui-selected').attr('swiper-animate-duration').replace('s','')
+           
+ 
+           $scope.AnimateSpeed = {"size":activeDuration}
+           $scope.AnimateDelay = {"size":activeDelay}
 	       $scope.imageRadius  = {"size":activeRaius};
 	       $scope.selected     = $(".ui-selected").data('animate');
            $scope.opacity      = {"numberValue":activeOpacity};
 
            //设置动画透明度
-		   $scope.getImageOpacity   = function(){
-		   	        console.log('$scope.opacity.numberValue'+$scope.opacity.numberValue)
-					$('.ui-selected .mImage').css('opacity',$scope.opacity.numberValue);
-					$('.ui-selected .mImage').attr('data-opacity',$scope.opacity.numberValue);
-			   }
+		    $scope.getImageOpacity   = function(){
+	   	      //  console.log('$scope.opacity.numberValue'+$scope.opacity.numberValue)
+				$('.ui-selected .imageContainer .mImage').css('opacity',$scope.opacity.numberValue);
+				$('.ui-selected .imageContainer .mImage').attr('data-opacity',$scope.opacity.numberValue);
+			}
 
 			//选择动画效果
 			$scope.imageAnimate 	= function(){
@@ -237,7 +171,7 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
 		   //设置图片圆角
 		   $scope.setImageRadiusSize = function(){
 
-				$('.ui-selected').attr('data-radius',$scope.imageRadius.size);
+				$('.ui-selected .imageContainer .mImage').attr('data-radius',$scope.imageRadius.size);
 				$(".ui-selected .imageContainer .mImage").css("borderRadius",$scope.imageRadius.size+"px");
 		    }
 
@@ -338,7 +272,7 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 
   		   $scope.userName  = loginFn.islogged().email;
 
-  		   console.log('userName:'+$scope.userName)
+  		  // console.log('userName:'+$scope.userName)
 
 	       $scope.imageOverlayClose = function(){
 		   		$mdDialog.hide();
@@ -350,30 +284,33 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 		   $scope.imageSelected = function(target){
 			    $compile($('<div class="ui-selected imageElement imageElementAcitve" style="" data-type="image"> '+
 			    				'<div class="imageContainer" style="overflow:hidden;">'+
-			    					'<img src="'+target+'" class="mImage" onclick="imageActive(this)"/>'+
+			    					'<img src="'+target+'" class="mImage" style="border-radius:0px;opacity:1;" onclick="imageActive(this)"/>'+
 			    				'<div>'+
 			    			'</div>').appendTo($('.isEdit')))($scope);
 
 
 			    showImageEditPanel($mdToast,$mdDialog,$document);
 			    initSelectedAndDraggable();
-			    // console.log($('.ui-selected imageElement').filter('.mImage').width()+"xxxx")
-			    // $('ui-selected imageElement').css({'width':})
+
 				$mdDialog.hide();
 	       		setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
 		   }
 
             //上传图片
 		    $scope.uploadImage = function(element){
-		    	//console.log('@ imageEditDirective.js DEC: uploadImage Fn works')
+	
 		    	 $scope.$apply(function(scope) {
 			         var photofile = element.files[0];
 			         var reader = new FileReader();
 			         imageActionService.addImage(photofile,$scope);
+                     
+                     //read.onload 没有用？你试试看
 			         reader.onload = function(e) {
 			           $scope.prev_img = e.target.result;
+			         
 			           imageActionService.addImage(photofile,$scope);
 			         };
+
 			     });
 		    }
 
@@ -405,57 +342,85 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 
 
 /*
-*@initSelectedAndDraggable
-*@初始化元素选中及拖拽功能
+*@ imageActive
+*@ 用户点击图片触发，回显属性值到编辑面板
 *
 ********/
-// function initSelectedAndDraggable(){
-// 	$('.rotate-rightTop').on('mouseover',function(){ $(this).css('display','block');});
-// 		var selected = $([]), offset = {top:0, left:0};
-// 		$( ".isEdit div.ui-selected" ).draggable({
-// 			// start:function (){
-// 			// 		 var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
-// 			// 		 var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
-// 			// 		 $(this).css("left" , l);
-// 			// 		 $(this).css("top" , t);
-// 			// },
-// 			// stop:function (){
-// 			// 		 var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
-// 			// 		 var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
-// 			// 		 $(this).css("left" , l);
-// 			// 		 $(this).css("top" , t);
-// 			// }
-// 		}).resizable({ handles: 'n, e, s, w,se,sw,ne,nw',stop:function (){
-// 		    // var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
-// 			  //    var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
-// 			  //    $(this).css("left" , l);
-// 			  //    $(this).css("top" , t);
-// 				//
-// 			  //     var w = ( 100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")) )+ "%" ;
-// 			  //    var h = ( 100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")) )+ "%" ;
-// 			  //    $(this).css("width" , w);
-// 			  //    $(this).css("height" , h);
-
-//     	}
-
-// 		});
+function imageActive(curImage){
 
 
-// 		$( ".isEdit " ).selectable();
+	var imageRadius = $(curImage).attr("style").indexOf("border-radius")
+	console.log('imageRadius:'+imageRadius)
+	if(imageRadius>-1) {
+		var radiusSize  = $(curImage).attr('data-radius');
+		//console.log('radiusSize:'+radiusSize)
+		var radiusSizeR =  radiusSize == undefined ? 0 :radiusSize;
+		//console.log('radiusSizeR:'+radiusSizeR)
+		//console.log('image:'+radiusSizeR+"||"+(typeof (radiusSize) == undefined))
+		setImageValue('#imageRadiusid',radiusSizeR)
+	}else{$('#imageRadiusid').val("0")}
 
-// 		//rotate function
-// 		applyRotation();
-// 		function applyRotation() {
-// 		    $('.rotate-rightTop').draggable({
-// 		        opacity: 0.01,
-// 		        helper: 'clone',
-// 		        drag: function (event, ui) {
-// 		            var rotateCSS = 'rotate(' + ui.position.left + 'deg)';
-// 		            $(this).parent().css({
-// 		                '-moz-transform': rotateCSS,
-// 		                    '-webkit-transform': rotateCSS
-// 		            });
-// 		        }
-// 		    });
-// 		}//end of applyRotation
-// }
+
+	var vopacity =$(curImage).attr("style").indexOf("opacity")
+	 	if(vopacity>-1) {
+ 	 	var num  = $(curImage).attr('data-opacity');
+ 	 	var numR = num == undefined ? 1 :num;
+ 	 	//console.log('image opacity:'+numR)
+ 		setImageValue('#imageOpacityid',numR)
+	} else{$('#imageOpacityid').val("1")}
+
+
+
+
+ 	var animateId = $(curImage).parent().parent().attr('style').indexOf('animation-name');
+ 	// console.log('animateId:'+animateId)
+ 	if(animateId>-1) {
+ 		setTimeout(function(){
+	 		var animateName = $(curImage).parent().parent().css("animationName");
+	 		//console.log('animateName:'+animateName)
+	 	 	$("#js--imageAnimations option").each(function(){
+			    if( $(this).val() == animateName ){
+			      this.selected = true;
+			      return false;
+			    }
+			});
+
+ 		},100)
+ 	}else{$('#js--imageAnimations').val("")}
+
+
+
+ 	var animationDurationId =	$(curImage).parent().parent().attr("style").indexOf("animation-duration");
+ 	if(animationDurationId>-1) {
+ 	 	var animationDurationNum = $(curImage).parent().parent().attr('swiper-animate-duration')
+ 	 	var newDuration 		 = animationDurationNum.replace('s','')
+ 	 //	console.log(newDuration+":animationImageDelayId")
+ 		setImageValue('#animationImageDurationId',newDuration)
+ 	}else{
+ 		setImageValue('#animationImageDurationId',0)
+ 	 }
+
+
+
+ 	var animationDelayId = $(curImage).parent().parent().attr("style").indexOf("animation-delay");
+ 	if(animationDelayId>-1) {
+ 	 	var animationDelayNum = $(curImage).parent().parent().attr('swiper-animate-delay');
+ 	 	var newDelay 	      = animationDelayNum.replace('s','')
+ 	 //	console.log(newDelay+":animationDelayNum")
+ 		setImageValue('#animationImageDelayId',newDelay)
+ 	}else{
+ 		setImageValue('#animationImageDelayId',0)
+ 	}
+
+}
+
+function setImageValue(elementId,value){
+		
+		//console.log(ele+":"+value);
+	
+		 //console.log('eleVal:'+value)
+		setTimeout(function(){
+			$(elementId).val(value)
+			console.log(elementId+":"+value);
+		},100);
+}

@@ -34,6 +34,7 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
         	  var userName = loginFn.islogged().email;
             console.log(userName+':save project')
             var deffered = $q.defer();
+    
             $http.post(productUrl+saveProject,{
                 'pageLength':pageLength,
                 'userName':userName,
@@ -72,12 +73,12 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
            // console.log('@projectService.js add project Fn  projectInfo:'+projectInfo)
            //从dashboard中添加项目需要生成默认thumb id
 
-           console.log("@projectService.js 从我的项目 添加项目"+pageLengthObj)
+          // console.log("@projectService.js 从我的项目 添加项目"+pageLengthObj)
            if(!pageLengthObj || pageLengthObj ==  undefined ){
-              console.log("#### add project from dashboard")
+             // console.log("#### add project from dashboard")
               pageLeftNavObj.length =0;
               pageLeftNavObj.push({'type': '1','thumbId':defaultThumb});
-              console.log(pageLeftNavObj.length)
+             // console.log(pageLeftNavObj.length)
            }else if(pageLengthObj.length == 0){
             //如果当前的page长度为0，进行数组初始化
            // console.log(pageLengthObj.length+":pageLength is 0")
@@ -143,7 +144,7 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
         loadEditPage:function(id,$scope){
             var deffered = $q.defer()
             $http({method:"GET",url:productUrl+editProject,params:{pid:id}}).success(function(data){
-                console.log('loadEditPage:'+data);
+               console.log('loadEditPage:'+data);
 
                 for(var i in data){
                   console.log(i+":"+data[i])
@@ -155,15 +156,15 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
             return deffered.promise;
         },
     	copyProject:function(projectName,projectId){
-            console.log('@projectService.js DEC: projectName:'+projectName+"projectId:"+projectId)
+           // console.log('@projectService.js DEC: projectName:'+projectName+"projectId:"+projectId)
             var deffered = $q.defer()
     	    $http({method:"POST",url:productUrl+copyProject,params:{'pid':projectId,'projectname':projectName}}).success(function(data){
-                for(var i in data){
-                    console.log(i+":"+data[i])
-                    for(var j  in data[i]){
-                        console.log(j+":"+data[j])
-                    }
-                }
+                // for(var i in data){
+                //     console.log(i+":"+data[i])
+                //     for(var j  in data[i]){
+                //         console.log(j+":"+data[j])
+                //     }
+                // }
                 deffered.resolve(data);
     		}).error(function(data){
                 deffered.reject(data);

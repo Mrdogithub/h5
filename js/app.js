@@ -1,19 +1,35 @@
 "use strict";
 
 
-var app = angular.module('mainApp',['ui.bootstrap',
-  'eidtToolDirective','editText','imageEditDirective',
-  'homeController','applicationController',
-  "kendo.directives",'projectController',
-  'leftNav','ui.router','ngMaterial','ngMessages',
-	'projectService','AuthService',
-  'loginDirectiveModule','sessionService','loginService','imageService'],function($httpProvider) {
+var app = angular.module('mainApp',[
+  'ui.bootstrap',
+  // 'eidtToolDirective',
+  'editText',
+  'imageEditDirective',
+  'homeController',
+  'applicationController',
+  "kendo.directives",
+  'projectController',
+  'leftNav',
+  'ui.router',
+  'ngMaterial',
+  'ngMessages',
+	'projectService',
+  'AuthService',
+  'loginDirectiveModule',
+  'sessionService',
+  'loginService',
+  'imageService'],function($httpProvider) {
+
+
+
+
 
 $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
+//解析数据传输格式
 var param = function(obj) {
     var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
-      
     for(name in obj) {
       value = obj[name];
     //    console.log(value+"///value")
@@ -55,6 +71,15 @@ var param = function(obj) {
   notAuthenticated : 'auth-not-authenticated',
   notAuthorized    : 'auth-not-authorized'
 }).constant('SERVER_URL',{
+  /*
+    
+    声明常量，用于全局变量值更换，可以注到其他方法中
+    demo path projectService.js
+    project.factory('projectFn',function($http,$q,$timeout,$compile, SERVER_URL ,loginFn){
+    .....
+    })
+
+  */
   testUrl:"",
   //liveUrl:"http://9.112.70.78:3000/"
 
@@ -70,14 +95,14 @@ var param = function(obj) {
 		 		controller:'homeController',
 		 		resolve:{
 		 			editPage:function(projectFn){
-		 			    var projectIdCallBack = projectFn.getProjectId();
+		 			    // var projectIdCallBack = projectFn.getProjectId();
 
-		 			    if(projectIdCallBack){
-		 			    	return projectFn.loadEditPage(projectIdCallBack);	
-		 			    }
+		 			    // if(projectIdCallBack){
+		 			    // 	return projectFn.loadEditPage(projectIdCallBack);	
+		 			    // }
 		 			},
 					getPageLength:function(projectFn){
-						 	return projectFn.getPageLength();
+						 	// return projectFn.getPageLength();
 					}
 		 		}
 			}
@@ -90,10 +115,9 @@ var param = function(obj) {
              controller:'projectController',
              resolve:{
                 getMyProjectsList:function(projectFn,loginFn){
-                     var userName = loginFn.islogged().email;
+                       var userName = loginFn.islogged().email;
                      //console.log('@app.js dec:loading project by userName:'+userName)
-                     return projectFn.getProjectList(userName).then(function(data){
-
+                      return projectFn.getProjectList(userName).then(function(data){
                         return data;
                      });
                 },

@@ -1,6 +1,13 @@
 "use strict";
 
+/**
+projectController 主要负责 在dashboard页面内对项目的 添加，删除，复制，预览操作
+通过projectService.js提供的服务接口，实现数据交互，实时显示。
 
+$scope是视图和controller/directive之间的桥梁
+
+controller是视图和service的粘合剂
+***/
 var projectController = angular.module('projectController', ['ngMaterial', 
   'AuthService', 
   'projectService', 
@@ -19,9 +26,8 @@ projectController.controller('projectController', function($scope,
 */
   $rootScope.isAuthorized = loginFn.islogged().status;
   
-
+  
   var _scope = $scope;
-
   $scope.loginOut = function(){
       $("#popupContainer").addClass('filter');
       loginFn.logout();
@@ -58,7 +64,7 @@ projectController.controller('projectController', function($scope,
                   $scope.projectInfo.qrcode      = data.project.qrcode;
                   $scope.projectInfo.projectname = data.project.projectname;
              
-                $compile($('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="' + $scope.projectInfo.id + '"><div class="thumbnail"  style="height: 334px;padding:0px;" ><div class="projectInfo-projectName" style="position:absolute;width:100%;opacity:1;""><img  style="width:100%;height:auto;"  src="' + $scope.projectInfo.cover + '"><div style="width:100%; position:absolute;bottom:0px;text-align:center;height:40px; background:#fff;padding:10px 0px 10px 0px;"><p>' + $scope.projectInfo.projectname + '</p></div></div><div class="dask" style="position:absolute;width:100%;opacity:0;"><p class="showMoreIconsTop"><span ng-click="deletePage($event,' + "'" + $scope.projectInfo.id + "'" +",'" + $scope.projectInfo.projectname + "'" + ')" class="label label-default"><i class="icon-eye-open icon-1" style="margin-right: 5px;"></i>删除</span><span style="margin-left:5px;" ng-click="copyProject($event,' + "'" + $scope.projectInfo.id + "'," + "'" + $scope.projectInfo.projectname + "'" + ')"  class="label label-default"><i class="icon-edit" style="margin-right: 5px;"></i>复制</span></p><img src="' + $scope.projectInfo.qrcode + '" style="width:100%;"><p class="projectInfoDownloadQRCode">下载二维码</p><p class="showMoreIconsBottom"><span ng-click="previewPage($event,' + "'" + $scope.projectInfo.url + "'," + "'" + $scope.projectInfo.qrcode + "'" + ')"  class="label label-default"><i class="icon-eye-open icon-1" style="margin-right: 5px;"></i>预览</span><span style="margin-left:5px;" ng-click="editPage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="label label-default"><i class="icon-edit" style="margin-right: 5px;"></i>编辑</span></p></div></div></div>').prependTo($('.modlist')))(_scope);
+                 $compile($('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="' + $scope.projectInfo.id + '"><div class="thumbnail"  style="height: 334px;padding:0px;" ><div class="projectInfo-projectName" style="position:absolute;width:100%;opacity:1;""><img  style="width:100%;height:auto;"  src="' + $scope.projectInfo.cover + '"><div style="width:100%; position:absolute;bottom:0px;text-align:center;height:40px; background:#fff;padding:10px 0px 10px 0px;"><p>' + $scope.projectInfo.projectname + '</p></div></div><div class="dask" style="position:absolute;width:100%;opacity:0;"><p class="showMoreIconsTop"><span ng-click="deletePage($event,' + "'" + $scope.projectInfo.id + "'" +",'" + $scope.projectInfo.projectname + "'" + ')" class="label label-default"><i class="icon-eye-open icon-1" style="margin-right: 5px;"></i>删除</span><span style="margin-left:5px;" ng-click="copyProject($event,' + "'" + $scope.projectInfo.id + "'," + "'" + $scope.projectInfo.projectname + "'" + ')"  class="label label-default"><i class="icon-edit" style="margin-right: 5px;"></i>复制</span></p><img src="' + $scope.projectInfo.qrcode + '" style="width:100%;"><p class="projectInfoDownloadQRCode">下载二维码</p><p class="showMoreIconsBottom"><span ng-click="previewPage($event,' + "'" + $scope.projectInfo.url + "'," + "'" + $scope.projectInfo.qrcode + "'" + ')"  class="label label-default"><i class="icon-eye-open icon-1" style="margin-right: 5px;"></i>预览</span><span style="margin-left:5px;" ng-click="editPage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="label label-default"><i class="icon-edit" style="margin-right: 5px;"></i>编辑</span></p></div></div></div>').prependTo($('.modlist')))(_scope);
                  //$compile($('<div class="col-sm-6 col-md-4 col-lg-3 modmore" id="' + $scope.projectInfo.id + '"><div class="thumbnail"  style="height: 334px; padding:0;" ><div class="projectInfo-projectName" style="position:absolute;width:100%;opacity:1;"><img  style="width:100%;height:auto;"  src="' + $scope.projectInfo.cover + '"><div style="width:100%;position:absolute;bottom:0px;text-align:center;height:40px;background:#fff;padding:10px 0px 10px 0px;">' + $scope.projectInfo.projectname + '</p></div></div><div class="dask" style="position:absolute;width:100%;opacity:0;"><p class="showMoreIcons"><span ng-click="deletePage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="projectInfoShowMoreIcons-remove" style="width:0px;opacity:0;"></span><span ng-click="copyProject($event,' + "'" + $scope.projectInfo.id + "'," + "'" + $scope.projectInfo.projectname + "'" + ')" class="projectInfoShowMoreIcons-copy" style="width:0px;opacity:0;"></span><span href="javascript:;" class="projectInfoShowMoreIcons"></span></p><img src="' + $scope.projectInfo.qrcode + '" style="width:100%;"><p class="projectInfoDownloadQRCode">下载二维码</p><p class="showMoreIconsBottom"><a ng-click="previewPage($event,' + "'" + $scope.projectInfo.url + "'," + "'" + $scope.projectInfo.qrcode + "'" + ')" class="projectInfoShowMoreIcons-preview"></a><a ng-click="editPage($event,' + "'" + $scope.projectInfo.id + "'" + ')" class="projectInfoShowMoreIcons-edit"></a></p></div></div></div></div></div>').prependTo($('.modlist')))(_scope);
                   
 
@@ -102,6 +108,8 @@ projectController.controller('projectController', function($scope,
     }, 200);
     $('#container').css('filter', 'blur(5px)');
   };
+
+
   $scope.downLoadQrCode = function(qrUrl) {
     window.open('http://9.115.24.168:3000/downloadQRCode?url=' + qrUrl, 'target');
   }
@@ -147,7 +155,8 @@ projectController.controller('projectController', function($scope,
 
              $compile($("#previewContent").attr('ng-bind-html', 'page.preivewCode'))($scope)
           },
-          template: '<md-dialog aria-label="Mango (Fruit)" class="dashBoardPreview"  tabindex="-1" id="previewPageInEditStatus"  style="position:fixed;width: 100%;position: fixed;z-index: 10110;height: 100%; background: rgba(0,0,0,0.8); top:0; left: 0;max-width: 100%;max-height: 100%;">  <a class="closeOverLay" ng-click="close()"></a><md-dialog-content style="width:100%;height:100%;z-index: 999;position: absolute;top:45%;bottom: 0;left: 0;right: 0;margin:auto; text-align: center;" ><div style="width:320px;height:480px;display:inline-block"><iframe src="' + url + '" style="width:320px;height:480px; border: 0;" scrolling="no"></iframe></div><div style=" text-align:center;display: inline-block;vertical-align: top;width: 500px;margin-left: 40px;">  <img src="' + qrcode + '" style="width:200px;height:200px;margin-top:30px;" /><div class="input-group" style="margin-top: 30px;"><span class="input-group-addon" style="border-radius: 0px;">链接</span><input readonly style="border-radius: 0px;" type="text" class="form-control" value="' + url + '"></div></div></md-dialog-content></md-dialog>',
+          template: '<script>$(function () {$("#copy_btnid").zclip({path:"./swf/ZeroClipboard.swf", copy: function () { return $("#copy_value").val(); } });});</script><md-dialog aria-label="Mango (Fruit)" class="dashBoardPreview"  tabindex="-1" id="previewPageInEditStatus"  style="position:fixed;width: 100%;position: fixed;z-index: 10110;height: 100%; background: rgba(0,0,0,0.8); top:0; left: 0;max-width: 100%;max-height: 100%;">  <a class="closeOverLay" ng-click="close()"></a><md-dialog-content style="width:100%;height:100%;z-index: 999;position: absolute;top:45%;bottom: 0;left: 0;right: 0;margin:auto; text-align: center;" ><div style="width:320px;height:480px;display:inline-block"><iframe src="' + url + '" style="width:320px;height:480px; border: 0;" scrolling="no"></iframe></div><div style=" text-align:center;display: inline-block;vertical-align: top;width: 500px;margin-left: 40px;">  <img src="' + qrcode + '" style="width:200px;height:200px;margin-top:30px;" /><div class="input-group" style="margin-top: 30px;"> <input id="copy_btnid" class="copy_btn" type="button" value="涓€閿鍒?/> <input readonly id ="copy_value" style="border-radius: 0px;" type="text" value="' + url + '"></div></div></md-dialog-content></md-dialog>',
+        //template: '<md-dialog aria-label="Mango (Fruit)" class="dashBoardPreview"  tabindex="-1" id="previewPageInEditStatus"  style="position:fixed;width: 100%;position: fixed;z-index: 10110;height: 100%; background: rgba(0,0,0,0.8); top:0; left: 0;max-width: 100%;max-height: 100%;">  <a class="closeOverLay" ng-click="close()"></a><md-dialog-content style="width:100%;height:100%;z-index: 999;position: absolute;top:45%;bottom: 0;left: 0;right: 0;margin:auto; text-align: center;" ><div style="width:320px;height:480px;display:inline-block"><iframe src="' + url + '" style="width:320px;height:480px; border: 0;" scrolling="no"></iframe></div><div style=" text-align:center;display: inline-block;vertical-align: top;width: 500px;margin-left: 40px;">  <img src="' + qrcode + '" style="width:200px;height:200px;margin-top:30px;" /><div class="input-group" style="margin-top: 30px;"><span class="input-group-addon" style="border-radius: 0px;">链接</span><input readonly style="border-radius: 0px;" type="text" class="form-control" value="' + url + '"></div></div></md-dialog-content></md-dialog>',
           parent:  $("#main"),   
           hideDelay: false
             // position: $scope.getToastPosition()

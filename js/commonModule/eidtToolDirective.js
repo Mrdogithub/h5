@@ -1,10 +1,15 @@
 // 'use strict';
 
-var eidtToolDirective = angular.module('eidtToolDirective', ['ngMaterial', 'projectService']);
+var eidtToolDirective = angular.module('eidtToolDirective', []);
 
-eidtToolDirective.directive('toolbar1', function($mdToast,
-  $document, $rootScope,
-  projectFn,loginFn,$mdDialog) {
+eidtToolDirective.directive('toolbar1', function(
+  $mdDialog,//angular-material.js
+  $mdToast, //angular-material.js
+  $document, 
+  $rootScope,
+  projectFn,//projectService.js
+  loginFn   //loginService.js
+  ) {
 
   return {
     restrict: "AE",
@@ -62,18 +67,18 @@ if(!cookie){
 
       //产品介绍
       $scope.userGuide = function() {      
-             $mdDialog.show({
-                controller: function($scope) {
-                    $("#popupContainer").addClass('filter');
-                    $scope.close = function(){
-                        $mdDialog.hide();
-                        setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
-                    }                   
-                },
-                templateUrl: './template/guide.tmpl.html',
-                parent:$("#main"),
-                hideDelay: false
-              });         
+         $mdDialog.show({
+            controller: function($scope) {
+                $("#popupContainer").addClass('filter');
+                $scope.close = function(){
+                    $mdDialog.hide();
+                    setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
+                }                   
+            },
+            templateUrl: './template/guide.tmpl.html',
+            parent:$("#main"),
+            hideDelay: false
+          });         
       }
 
 
@@ -288,10 +293,9 @@ if(!cookie){
             projectFn.saveProject(newLengthObj, projectid, editCode, previewCode)
               .then(function(data) {
                   
-                 
+                  console.log('@eidtToolDirective.js save project completed')
              
                   if (data.status) {
-                     console.log('@eidtToolDirective.js save project completed')
                     setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
                     $("#addBox").show();
                     setTimeout(function() {
@@ -320,12 +324,16 @@ if(!cookie){
       $("#popupContainer").addClass('filter');
         $mdDialog.show({
           controller: function($scope, projectFn) {
+            $scope.loadingSave =false;
+            $scope.isSaved = true;
+            
             $scope.closeSavePage = function() {
-               $mdDialog.hide();
-               setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
+              $mdDialog.hide();
+              setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
             }
             $scope.savePageContent = function() {
-              $scope.loadingSave = false;
+              $scope.loadingSave = true;
+              $scope.isSaved = false;
               var pageLengthObj  = []
               var projectName    = $("#projectName").val();
               var projectInfo    = $('#projectInfo').val();     
@@ -380,7 +388,7 @@ if(!cookie){
                    // console.log(data.status+":data.status")
                     if (data.status) {
                       $("#pagesList").attr('data-projectid', data.project.id);
-                        $scope.loadingSave = true;
+                        $scope.loadingSave = false;
                         $mdDialog.hide();
                         setTimeout(function(){$("#popupContainer").removeClass('filter');},250)
                         $("#addBox").show();

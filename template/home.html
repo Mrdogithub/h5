@@ -98,7 +98,7 @@
          <div  id="color-chooser-bg-1" style="margin-left: 10px;"></div> 
          <input type="color" id="hsv-picker-bg-1" 
                 ng-model="setFontBackgroundColor" 
-                style="display:inline-block;position: absolute;top:0%;" autocomplete="off">
+                style="display:inline-block;position: absolute;top:0%; right: 0px;" autocomplete="off" style="">
     </div>
 
     <!--setbg-->
@@ -115,17 +115,18 @@ $(document).ready(function(){
       $("#color-chooser-bg-1").kendoColorPalette({
             palette: ["#ffffff", "#000000","#746153", "#3a4c8b", "#ffcc33", "#fb455f", "#ac120f" ],
             tileSize: 20,
-            value: "#ffffff",
+            value: "rgb(255, 255, 255)",
             change: function() {
+              $('.k-selected-color').css('box-shadow','none');
                 var colorId = "#"+this.value().substring(1);
-
-                  setTimeout(function(){
+                setTimeout(function(){
 
                     $('.isEdit').css('backgroundColor',colorId);
                   },100);
 
             }
     });
+
 
 
     $("#hsv-picker-bg-1").kendoColorPicker({
@@ -138,9 +139,18 @@ $(document).ready(function(){
                 var colorId = this.value();
 
                   setTimeout(function(){
-         
+
                     $('.isEdit').css('backgroundColor',colorId);
                   },100);
+
+                $('.k-colorpicker').css('overflow','visible');
+                $('.k-state-selected').removeClass('k-state-selected');
+                $('.k-selected-color').css({
+                  'height': '15px',
+                  'box-shadow': '0 1px 3px 1px rgba(0,0,0,0.7),inset 0 0 0 1px rgba(255,255,255,0.45)',
+                  'z-index' : '100',
+                  'position': 'relative',
+                })
 
             }
     });
@@ -154,4 +164,4 @@ $(document).ready(function(){
 
 })
 
-</script>
+</script> 
