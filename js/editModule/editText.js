@@ -34,14 +34,17 @@ editText.directive('edittext',function(
 		scope:{},
 		link:function($scope){
 
-
+           // $(document).on('click','.editContainer',function(){
+           // 	$('.ui-selected').removeClass('ui-selected');
+           // })
 //监听重新编辑后的文本点击事件
-	       $(document).on('click','.textElementActive',function(){
+			$(document).on('click','.textElementActive',function(e){
+				e.stopPropagation();
 				$('.ui-selected').removeClass('ui-selected');
 			    $('#text-properties').remove();
 				$('.img-properties').remove();
 			    
-
+                console.log('test works works')
 			    $('.mText').blur();
 				$(this).addClass('ui-selected');				
 				$('.ui-selected >.mText').focus();
@@ -49,6 +52,7 @@ editText.directive('edittext',function(
 				showTextEditPanel($mdToast,$document);
 				// console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));	
 			})
+
 
 
 
@@ -86,17 +90,17 @@ editText.directive('edittext',function(
 				    $('#text-properties').remove();
 					$('.img-properties').remove();
 				    
-					$("#right_1").addClass('isEdit');
+
 				    $('.mText').blur();
 					$(this).addClass('ui-selected');				
 					$('.ui-selected >.mText').focus();
 					initSelectedAndDraggable();
 					showTextEditPanel($mdToast,$document);
-					// console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));	
+				console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));	
 				});
 
-
-				$(document).on('click','.imageElement',function(){
+				$(document).on('click','.imageElement',function(e){
+					e.stopPropagation();
 
 					$('.ui-selected').removeClass('ui-selected');
 					$('#text-properties').remove();
@@ -108,6 +112,7 @@ editText.directive('edittext',function(
 					initSelectedAndDraggable();
 					showImageEditPanel($mdToast,$mdDialog,$document);	
 				});
+
 
 
 
@@ -160,7 +165,7 @@ function showTextEditPanel($mdToast,$document){
        
        setTimeout(function(){
        	$(".textAligncenterId").addClass("fontItemActive");
-       },200)
+       },100)
 
         //初始化新建元素的属性值 显示
         $scope.radius 	  = {"size" : activeBorderRadius}
@@ -395,7 +400,7 @@ function showTextEditPanel($mdToast,$document){
 
 function textActive(curText){
 
-	//console.log('text image works')
+
     /*
     * Demo
     * $(curText).attr("style").indexOf("font-size")
@@ -498,7 +503,7 @@ function textActive(curText){
 	 		$(".textAlign").removeClass('fontItemActive')
 	 	    var pos = $(curText).css('textAlign');
 	 		$(".textAlign"+pos+"Id").addClass('fontItemActive')
- 		},100)
+ 		},200)
 
  	}else{
  		$(".textAligncenterId").addClass('fontItemActive')
@@ -555,14 +560,19 @@ function setValue(elementId,value){
 
 function initSelectedAndDraggable(){
 
+
+
+
 $( ".isEdit > div" ).draggable({
     start: function(ev, ui) {
+    	ev.stopPropagation();
      var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
 			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
 			     $(this).css("left" , l);
 			     $(this).css("top" , t);
     },
     drag: function(ev, ui) {
+    	ev.stopPropagation();
      var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
 			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
 			     $(this).css("left" , l);
@@ -570,24 +580,25 @@ $( ".isEdit > div" ).draggable({
     }
 }).resizable({ handles: 'se,sw,ne,nw',
 		stop:function (event, ui){
-                 
+                 event.stopPropagation();
 	    		 var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
 			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
 			     $(this).css("left" , l);
 			     $(this).css("top" , t);
 			}
-		});
-
-$( ".isEdit > div" ).selectable();
-
-
-
-// manually trigger the "select" of clicked elements
-$( ".isEdit > div.imageElement" ).click( function(e){
-	$('.ui-selected').removeClass('ui-selected');
-	$(this).addClass('ui-selected')
-
 });
+
+
+$( ".isEdit " ).selectable();
+
+
+
+// // manually trigger the "select" of clicked elements
+// $( ".isEdit > div.imageElement" ).click( function(e){
+// 	$('.ui-selected').removeClass('ui-selected');
+// 	$(this).addClass('ui-selected')
+
+// });
 
 
 	 $('.isEdit').droppable(
@@ -596,6 +607,9 @@ $( ".isEdit > div.imageElement" ).click( function(e){
 				containment:".mainbox",
 				drop: function (event, ui) {
 					// debugger;
+					event.stopPropagation();
+
+					console.log(' draggable works')
 
 			        var pos = ui.draggable.offset();
 			        var dPos = $(this).offset();

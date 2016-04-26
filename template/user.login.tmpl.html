@@ -15,7 +15,7 @@
             您的用户名或密码错误
           </div>
         </div>
-  <md-input-container class="md-block">
+      <md-input-container class="md-block">
         <label>您的IBM邮箱地址 (e.g. jdoe@cn.ibm.com)</label>
         <input  name="clientName" ng-model="user.firstName" style=" height: 60px;" required />
 
@@ -33,21 +33,25 @@
         </div>
       </md-input-container>
   
-          <button ng-disabled="projectForm.$invalid"  type="button" class="btn btn-primary" ng-click="loginBtn()" style="   -moz-appearance: none;
-          background-color: transparent;
-    border: 2px solid #198cbf;
-    border-radius: 0;
-    color: #198cbf;
-    display: block;
-    font-size: 22px;
-    height: 60px;
-    margin: 30px 0;
-    width: 200px;"><span ng-show="loadingLogin" style="margin-right:10px;"><i class="icon-spinner icon-spin" ></i></span>登录</button>
 
+     <button ng-disabled="projectForm.$invalid || button_clicked"  type="button" class="btn btn-primary" 
+           ng-click="loginBtn()" 
+     
+          style="
+          -moz-appearance: none;
+          background-color: transparent;
+          border: 2px solid #198cbf;
+          border-radius: 0;
+          color: #198cbf;
+          display: block;
+          font-size: 22px;
+          height: 60px;
+          margin: 60px 0;
+          width: 200px;"><span ng-show="loadingLogin" style="margin-right:10px;"><i class="icon-spinner icon-spin" ></i></span>登录</button>
        
        </form>
 
-     
+          
     </md-dialog-content>
 </md-dialog>
 

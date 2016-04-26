@@ -39,13 +39,14 @@ imageEditDirective.directive('editimage',function(
 			*@ 监听全局点击图片事件，点击同时显示图片编辑面板
 			*
 			****/
-		$(document).on('click','.imageElementAcitve',function(){
-
+		$(document).on('click','.imageElementAcitve',function(e){
+				e.stopPropagation();
 				$('.ui-selected').removeClass('ui-selected');
 				$('#text-properties').remove();
 				$('.img-properties').remove();
 
 
+                console.log('image works')
 				$('.mText').blur();
 				$(this).addClass('ui-selected');
 				initSelectedAndDraggable();
@@ -288,7 +289,7 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 	       //从已上传列表中，选择图片
 		   $scope.imageSelected = function(target){
 			    $compile(
-			    	     $('<div class="ui-selected imageElement imageElementAcitve" style="" data-type="image"> '+
+			    	     $('<div class="ui-selected imageElement imageElementAcitve" style="position:absolute;" data-type="image"> '+
 			    				'<div class="imageContainer" style="overflow:hidden;">'+
 			    					'<img src="'+target+'" class="mImage" style="border-radius:0px;opacity:1;" onclick="imageActive(this)"/>'+
 			    				'<div>'+
@@ -353,6 +354,7 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 *
 ********/
 function imageActive(curImage){
+
 
 
 	var imageRadius = $(curImage).attr("style").indexOf("border-radius")
