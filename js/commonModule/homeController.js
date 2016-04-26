@@ -1,4 +1,18 @@
 
+/*
+*@ homeController.js 负责监听用户在home.html页面里的操作，根据用户操作请求，调用service方法
+-----------------------------------------------------------------------------------------------
+*@ homeController 模块实现了用户登录，退出，进入dashboard页面前的一些逻辑判断以及缩略图与对应编
+*  辑页面的联动操作
+-----------------------------------------------------------------------------------------------
+*@ 用户登录                      ：$scope.userLogin            = function(){....}
+*@ 用户退出                      : $scope.loginOut()           = function(){....}
+*@ 用户进入到dashboard           ：$scope.myProject()          = function(){....} 
+*@ 用户添加新页面                : $scope.addEmptyTemplate()   = function(){....}
+*@ 用户选择不同页面              : $scope.choosePage           = function(){....}
+*/
+
+
 var homeController = angular.module('homeController', []);
 homeController.controller('homeController', function(
   $scope,
@@ -24,6 +38,7 @@ homeController.controller('homeController', function(
     $("#popupContainer").addClass('filter');
         $mdDialog.show({
         controller: function($q,$scope,$rootScope,loginFn){
+            $scope.button_clicked = false;
             $scope.loadingLogin = false;
             $scope.user = {
               'firstName' : '',
@@ -35,7 +50,9 @@ homeController.controller('homeController', function(
             }
 
             $scope.loginBtn = function(){
+                 $scope.button_clicked = true;
                  $scope.loadingLogin = true;
+                 console.log('$scope.button_clicked:'+$scope.button_clicked);
                  $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
                  loginFn.login($scope.credentials).then(function(data){
 
@@ -78,40 +95,6 @@ homeController.controller('homeController', function(
 
             saveProjectFn();
 
-          //   $("#popupContainer").addClass('filter');
-          //   $mdDialog.show({
-          //   controller: function($scope) {
-
-          //     $scope.saveInProgress = function() {
-          //       saveProjectFn();
-          //     }
-
-          //     $scope.closeInProgress = function() {
-
-          //       $mdDialog.hide();
-          //       setTimeout(function(){
-          //         $("#popupContainer").removeClass('filter');
-          //           $state.go('dashboard');
-          //       },150)
-          //     }
-
-
-          //     $scope.close = function() {
-          //       $mdDialog.hide();
-          //       $("#popupContainer").removeClass('filter');
-          //     }
-
-
-          //   },
-          //   templateUrl: './template/save.dialog.tmpl.html',
-          //   parent: $("#main"),
-          //   hideDelay: false
-          // });
-
-
-
-
-
          }else if(textIsNull&& imageIsNull &&!$("#pagesList").data("projectid")){
         //2.登陆状态下，没有编辑行为，直接挑砖道dashboard
 
@@ -126,19 +109,19 @@ homeController.controller('homeController', function(
       $("#popupContainer").addClass('filter');
       $mdDialog.show({
          controller: function($scope,$rootScope){
+           $scope.button_clicked = false;
+             $scope.loadingLogin = false;
             $scope.loginClose = function(){
               mdDialogHide($mdDialog)
             }
 
             $scope.loginBtn = function(){
                  $scope.loadingLogin = true;
-                 $scope.error = '';
+                 $scope.button_clicked = true;
+
                  $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
                  loginFn.login($scope.credentials).then(function(data){
 
-                  //$scope 作用于 user.login.tmpl.html
-                  //$rootScope 作用于全局
-                  // console.log(data.status+">>>>data.status")
                    if(data.status){
                         $rootScope.currentUser  = $rootScope.getCurrentUser();
                         $rootScope.isAuthorized = loginFn.islogged().status;
@@ -167,22 +150,6 @@ homeController.controller('homeController', function(
   }
 
 
-//删除选中元素
-  $scope.remove = function() {
-    $(".ui-selected").remove();
-  }
-
-//'设置背景
-  $scope.setBackground = function() {
-
-    var color = $("#hsv-picker-bg").val();
-
-    $(".isEdit").css('backgroundColor',color)
-  }
-
-$scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
-      console.log(newValue)
-    })
 
 
 
@@ -206,38 +173,6 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
     $('rotate-rightTop').css('display', 'none')
   })
 
-// /////////////////// 用户第一次登陆 显示userguide ///////////////
-
-// function setCookie(name,value){
-//   var Days = 30;
-//   var exp = new Date();
-//   exp.setTime(exp.getTime() + Days*24*60*60*1000);
-//   document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
-// }
-
-// function getCookie(name){
-//   var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-//   if(arr=document.cookie.match(reg)){
-//     return unescape(arr[2]);
-//   }else{
-//     return null;
-//   }
-
-// }
-// var cookie = getCookie('userGuide');
-// console.log(cookie+"...")
-// //cookie是个字符串型的  判断其长度
-// if(!cookie){
-
-//   setCookie('userGuide','true');
-
-// }
-
-
-
-
-/////////////////////  common Function /////////////////////////////
-
 
 
 /*
@@ -247,7 +182,6 @@ $scope.$watch('setFontBackgroundColor',function(newValue,oldValue){
 **/
 function saveProjectFn(){
 
-  console.log('save project works')
     /*
     *@描述：pageLengthObj
     *@作用：获取用户在当前编辑状态下的实际页面个数
@@ -255,79 +189,68 @@ function saveProjectFn(){
     var pageLengthObj = projectFn.getPageLength();
     var newLengthObj = [];
     var projectid     = $("#pagesList").data("projectid");
-    console.log(projectid+":projectid")
+
     /*
     *@描述：将当前页面个数与存储个数比较，判断页面个数是否有变
     **/
     projectFn.loadEditPage(projectid).then(function(data) {
 
 
-      //如果实际pageLengthObj 与 从projectFn.loadEditPage 获取的页面长度不等
-      //返回实际pageLengthObj,如果相等，返回任意一个
+            //如果实际pageLengthObj 与 从projectFn.loadEditPage 获取的页面长度不等
+            //返回实际pageLengthObj,如果相等，返回任意一个
 
-      //  console.log('actual page length：'+pageLengthObj.length)
-      // console.log('page length from db:'+data.pageLength.length)
-
-    //如果判断
-console.log("****************** from edit to dashboard"+projectid+"***********************")
-    for(var i in data.pageLength){
-      console.log(i+":"+data.pageLength[i])
-    }
-
-
-          if(pageLengthObj.length == null || pageLengthObj.length == 0){
+           if(pageLengthObj.length == null || pageLengthObj.length == 0){
               newLengthObj = data.pageLength;
             }else{
               newLengthObj = pageLengthObj;
             }
-console.log(data.pageLength.length+":data.pageLength.length")
-    // var newLengthObj = data.pageLength;
 
-      //console.log('newLengthObj:'+newLengthObj.length)
-           var editCode = $("#pagesList").html()
-                    .replace(/ui-selected/, '')
-                    //.replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
-                    .replace(/isEdit/,'')
-                    .replace(/display: flex;/g, "display: none;")
-                    //.replace('defaultPage','defaultPage isEdit')
-                    //.replace('direction: ltr; display: none;','direction: ltr;display: block;')
+            var editCode = $("#pagesList").html()
+                  .replace(/ui-selected/, '')
+                  .replace(/isEdit/,'')
+                  .replace(/display: flex;/g, "display: none;")
+                  .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
 
-    var previewCode = $("#pagesList").html()
-              .replace(/display/g, " ")
-              .replace(/isEdit/g, " ")
-              .replace(/icon-undo/g, " ")
-              .replace(/ui-selectable/g,'')
-              .replace(/ui-draggable/g,'')
-              .replace(/ui-selectee/g,'')
-              .replace(/ui-selected/g,'')
-              .replace(/right_/g,'')
-              .replace(/contenteditable="true"/g,' ')
-              .replace(/onclick="textActive(this)"/g,'')
-              .replace(/textElementActive/g,' ')
-              .replace(/class="[^\"]*(animated)[^\"]*(textElement)[^\"]*"/g,'class=" ani textElement"')
-              .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
-              // .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,' ')
-              .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
-              .replace(/ui-resizable/g,'');
 
-      projectFn.saveProject(newLengthObj, projectid, editCode, previewCode)
-        .then(function(data) {
-            
-            if (data.status) {
-                $mdDialog.hide();
-                setTimeout(function(){
-                  $(".dashboardContainer").removeClass('filter');
-                    $state.go('dashboard');
-                },150)
-            } else {
-              //console.log('error')
-            }
-        }, function() {
+            var previewCode = $("#pagesList").html()
+                          .replace(/display/g, " ")
+                          .replace(/isEdit/g, " ")
+                          .replace(/icon-undo/g, " ")
+                          .replace(/ui-selectable/g,'')
+                          .replace(/ui-draggable/g,'')
+                          .replace(/ui-selectee/g,'')
+                          .replace(/ui-selected/g,'')
+                          .replace(/right_/g,'')
+                          .replace(/display: flex;/g,' ')
+                          .replace(/onclick="imageActive(this)"/g,'')
+                          .replace(/contenteditable="true"/g,' ')
+                          .replace(/onclick="textActive(this)"/g,'')
+                          .replace(/textElementActive/g,' ')
+                          .replace(/imageElementAcitve/g,'')
+                          .replace(/class="[^\"]*(animated)[^\"]*(textElement)[^\"]*"/g,'class=" ani textElement"')
+                          .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
+                          // .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,' ')
+                          .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
+                          .replace(/ui-resizable/g,'')
 
-            $scope.error = "用户名或密码错误"
-        });
+          projectFn.saveProject(newLengthObj, projectid, editCode, previewCode)
+            .then(function(data) {
+                
+                if (data.status) {
+                    $mdDialog.hide();
+                    setTimeout(function(){
+                      $(".dashboardContainer").removeClass('filter');
+                        $state.go('dashboard');
+                    },150)
+                } else {
+                  //console.log('error')
+                }
+            }, function() {
 
-    })
+                $scope.error = "用户名或密码错误"
+            });
+
+     })
 
 }
 
@@ -353,17 +276,19 @@ function addProject($mdDialog,$document){
 $mdDialog.show({
     controller: function($scope, projectFn) {
       $scope.loadingSave = false;
+      $scope.button_clicked = false;
       $scope.closeSavePage = function() {
         $mdDialog.hide();
         $("#popupContainer").removeClass('filter');
       }
       $scope.savePageContent = function() {
          $scope.loadingSave = true;
+           $scope.button_clicked = true;
          var projectName = $("#projectName").val();
          var projectName = $("#projectName").val();
          var projectInfo = $('#projectInfo').val();
          var pageLength  = projectFn.getPageLength();
-          console.log('only one page'+pageLength.length)
+         // console.log('only one page'+pageLength.length)
          var userName    = loginFn.islogged().email;
          var previewCode = $("#pagesList").html()
                           .replace(/display/g, " ")
@@ -374,12 +299,17 @@ $mdDialog.show({
                           .replace(/ui-selectee/g,'')
                           .replace(/ui-selected/g,'')
                           .replace(/right_/g,'')
+                          .replace(/display: flex;/g,' ')
+                          .replace(/onclick="imageActive(this)"/g,'')
+                          .replace(/contenteditable="true"/g,' ')
+                          .replace(/onclick="textActive(this)"/g,'')
                           .replace(/textElementActive/g,' ')
+                          .replace(/imageElementAcitve/g,'')
                           .replace(/class="[^\"]*(animated)[^\"]*(textElement)[^\"]*"/g,'class=" ani textElement"')
                           .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
-                          .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,'')
+                          // .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,' ')
                           .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
-                          .replace(/ui-resizable/g,'');
+                          .replace(/ui-resizable/g,'')
 
                var editCode = $("#pagesList").html()
                     .replace(/ui-selected/, '')
@@ -391,7 +321,7 @@ $mdDialog.show({
 
         projectFn.addProject(projectName,previewCode,editCode,projectInfo,userName,pageLength)
                  .then(function(data) {
-                 console.log(data.status+":data.status")
+                // console.log(data.status+":data.status")
                     if (data.status) {
                       $("#pagesList").attr('data-projectid', data.project.id);
                         $scope.loadingSave = true;
@@ -421,7 +351,7 @@ $mdDialog.show({
 }
 
 
-//////////////////////////////////////////////////////////////////
+
 }).controller('LeftCtrl', function($scope, $timeout, $mdSidenav,
   $log, $rootScope, $mdToast,$compile,$document, $mdDialog,projectFn) { // 左侧导航栏位 start --
 
@@ -463,18 +393,6 @@ setTimeout(function(){
 
 
 
-//   var projectIdInLeftNav = projectFn.getProjectId();
-// console.log('################## from dashboard to edit'+projectIdInLeftNav+"##########################")
-//   projectFn.loadEditPage(projectIdInLeftNav).then(function(data) {
-//     console.log(' data.pageLength:'+ data.pageLength)
-//     for(var i in data){
-//       console.log(i+":"+data[i])
-//     }
-//     $scope.feedback.leftpages = data.pageLength;
-//     var colLeftHeight         = 140 * $scope.feedback.leftpages.length;
-
-//     setTimeout(function(){$("div.page:eq(0)").addClass('col-leftclick')},100)
-//   })
 
 
 /*
@@ -484,7 +402,6 @@ setTimeout(function(){
 */
 
 
-//console.log($('.box').data('activeid')+"$('.box').data('activeid')")
   if(!$('.box').data('activeid')){
     var defaultThumb = makeid();
     $scope.feedback = {
@@ -494,42 +411,23 @@ setTimeout(function(){
         'thumbId':defaultThumb
       }]
     };
-//console.log($('.box').data('activeid')+"$('.box').data('activeid')")
+
     $("#pagesList div.swiper-slide:eq(0)").attr('data-pageid',defaultThumb)
   }
 
 
 
   var projectIdInLeftNav = projectFn.getProjectId();
-//console.log('################## from dashboard to edit'+projectIdInLeftNav+"##########################")
+
   projectFn.loadEditPage(projectIdInLeftNav).then(function(data) {
-    // console.log(' data.pageLength:'+ data.pageLength)
-    // for(var i in data){
-    //   console.log(i+":"+data[i])
-    // }
+
     $scope.feedback.leftpages = data.pageLength;
     var colLeftHeight         = 140 * $scope.feedback.leftpages.length;
 
     setTimeout(function(){$("div.page:eq(0)").addClass('col-leftclick')},100)
   })
 
-  
-// var storePageLength = []
-// setTimeout(function(){
 
-//   $('.swiper-slide').each(function(index,element){
-//     console.log("page id ************************************:"+$(element).data('pageid'))
-//     storePageLength.push({"thumbId":$(element).data('pageid')});
-//   });
-
-// console.log(storePageLength.length+": storePageLength")
-//     $scope.feedback.leftpages = storePageLength;
-//     var colLeftHeight         = 140 * $scope.feedback.leftpages.length;
-
-//     $("div.page:eq(0)").addClass('col-leftclick');
-//     //setTimeout(function(){$("div.page:eq(0)").addClass('col-leftclick')},100)
-
-// },200)
 
 
 $scope.addEmptyTemplate = function(index) {

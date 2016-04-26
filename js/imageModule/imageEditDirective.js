@@ -1,21 +1,33 @@
 'use strict'
+/*
+*@ imageEditDirective.js 负责处理图片操作
+-----------------------------------------------------------------------------------------------
+*@ imageEditDirective模块，实现了上传图片，插入图片，删除图片，编辑图片属性以及点击图片的同时显示文本编辑面板
+-----------------------------------------------------------------------------------------------
+*@ 上传图片				     ：showAddImageoverLay(){ $scope.uploadImage   = function(){...} }
+*@ 插入图片                  ：showAddImageOverLay(){ $scope.imageSelected = function(target){....}}
+*@ 删除图片                  ：showAddImageoverLay(){ $scope.removeImage   = function(){....} }
+*@ 点击图片属性回显			 : imageActive()
+*@ 图片属性面板              : showImageEditPanel()
+*@ 对图片拖拽，改变尺寸      ：initSelectedAndDraggable()   @editText.js
+**/
 
 var imageEditDirective = angular.module('imageEditDirective',[]);
 
 
 imageEditDirective.directive('editimage',function(
-	$sce,     /*把从db读取到的html字符串解析成html，渲染到dom中*/
-	$mdToast, /*mdToast 负责问题面板显示 以及图片面板显示*/
-	$compile, /*解析动态加入dom中的html*/
-	$mdDialog,/*mdDialog 负责 全局 overlay 方法*/
+	$sce,     			/*把从db读取到的html字符串解析成html，渲染到dom中*/
+	$mdToast, 			/*mdToast 负责问题面板显示 以及图片面板显示*/
+	$compile, 			/*解析动态加入dom中的html*/
+	$mdDialog,			/*mdDialog 负责 全局 overlay 方法*/
 	$document,
 	$rootScope,
-	projectFn,/*提供关于project与后台交互的方法集 projectSerivce.js*/
-	AuthService,/*提供用户登录状态方法*/
-	SERVER_URL,/*定义全局常量*/
-	loginFn,   /*提供登录，退出，刷新页面保证用户登录状态方法  loginService.js*/
-	imageActionService /* 提供上传，删除图片方法集  imageDirective.js*/
-	){
+	projectFn,			/*提供关于project与后台交互的方法集 projectSerivce.js*/
+	AuthService,		/*提供用户登录状态方法*/
+	SERVER_URL,			/*定义全局常量*/
+	loginFn,   			/*提供登录，退出，刷新页面保证用户登录状态方法  loginService.js*/
+	imageActionService  /* 提供上传，删除图片方法集  imageDirective.js*/
+){
 
 	return{
 		restrict:'AE',
@@ -27,13 +39,14 @@ imageEditDirective.directive('editimage',function(
 			*@ 监听全局点击图片事件，点击同时显示图片编辑面板
 			*
 			****/
-		$(document).on('click','.imageElementAcitve',function(){
-
+		$(document).on('click','.imageElementAcitve',function(e){
+				e.stopPropagation();
 				$('.ui-selected').removeClass('ui-selected');
 				$('#text-properties').remove();
 				$('.img-properties').remove();
 
 
+                console.log('image works')
 				$('.mText').blur();
 				$(this).addClass('ui-selected');
 				initSelectedAndDraggable();
@@ -44,9 +57,6 @@ imageEditDirective.directive('editimage',function(
 			//创建新图片
 			$scope.newImages = function(){
 				$('.ui-selected').removeClass('ui-selected');
-				$('.rotate-rightTop').css('display','none');
-				 // var newImage = true;
-				 // showAddImageOverLay($mdToast,$mdDialog,$document,newImage)
 
 				 //判断用户是否登陆，只有在登陆状态才可上传图片
 				 if(loginFn.islogged().status){
@@ -57,9 +67,7 @@ imageEditDirective.directive('editimage',function(
 				 	showAddImageOverLay($mdToast,$mdDialog,$document,newImage)
 				 }else{
 
-				 	//console.log('@imageEditDirective.js DEC user not login ')
-
-				 	//如果哟过户未登陆，显示登录对话框
+				 	//如果用户未登陆，显示登录对话框
 		            $("#popupContainer").addClass('filter');
 		            $mdDialog.show({
 		                controller: function($scope,$rootScope){
@@ -74,9 +82,7 @@ imageEditDirective.directive('editimage',function(
 		                        $scope.loadingLogin = true;
 		                        $scope.credentials = { "username":$scope.user.firstName,"password":$scope.user.passWord};
 		                        loginFn.login($scope.credentials).then(function(data){
-			                        //$scope 作用于 user.login.tmpl.html
-			                        //$rootScope 作用于全局
-			                        // console.log(data.status+">>>>data.status")
+
 			                        if(data.status){
 		                                $rootScope.currentUser  = $rootScope.getCurrentUser();
 		                                $rootScope.isAuthorized = loginFn.islogged().status;
@@ -282,11 +288,14 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 
 	       //从已上传列表中，选择图片
 		   $scope.imageSelected = function(target){
-			    $compile($('<div class="ui-selected imageElement imageElementAcitve" style="" data-type="image"> '+
+			    $compile(
+			    	     $('<div class="ui-selected imageElement imageElementAcitve" style="position:absolute;" data-type="image"> '+
 			    				'<div class="imageContainer" style="overflow:hidden;">'+
 			    					'<img src="'+target+'" class="mImage" style="border-radius:0px;opacity:1;" onclick="imageActive(this)"/>'+
 			    				'<div>'+
-			    			'</div>').appendTo($('.isEdit')))($scope);
+			    			'</div>').appendTo($('.isEdit')
+			    		  )
+			    		)($scope);
 
 
 			    showImageEditPanel($mdToast,$mdDialog,$document);
@@ -326,8 +335,6 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 			      else{
 			      	  return false;
 		     	 }
-		      	// imageActionService.removeImage(imageId);
-		      	// $("#"+imageId).remove();
 		    }
 
 		},
@@ -349,14 +356,12 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 function imageActive(curImage){
 
 
+
 	var imageRadius = $(curImage).attr("style").indexOf("border-radius")
 	console.log('imageRadius:'+imageRadius)
 	if(imageRadius>-1) {
 		var radiusSize  = $(curImage).attr('data-radius');
-		//console.log('radiusSize:'+radiusSize)
 		var radiusSizeR =  radiusSize == undefined ? 0 :radiusSize;
-		//console.log('radiusSizeR:'+radiusSizeR)
-		//console.log('image:'+radiusSizeR+"||"+(typeof (radiusSize) == undefined))
 		setImageValue('#imageRadiusid',radiusSizeR)
 	}else{$('#imageRadiusid').val("0")}
 
@@ -365,7 +370,6 @@ function imageActive(curImage){
 	 	if(vopacity>-1) {
  	 	var num  = $(curImage).attr('data-opacity');
  	 	var numR = num == undefined ? 1 :num;
- 	 	//console.log('image opacity:'+numR)
  		setImageValue('#imageOpacityid',numR)
 	} else{$('#imageOpacityid').val("1")}
 
@@ -415,12 +419,8 @@ function imageActive(curImage){
 }
 
 function setImageValue(elementId,value){
-		
-		//console.log(ele+":"+value);
-	
-		 //console.log('eleVal:'+value)
 		setTimeout(function(){
-			$(elementId).val(value)
+			$(elementId).html(value)
 			console.log(elementId+":"+value);
 		},100);
 }

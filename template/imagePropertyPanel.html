@@ -1,7 +1,6 @@
 <div class="col-right img-properties">
-		  <div class="title"><div class="active">图片设置</div></div>
-      <div class="btn-group module">
-
+	<div class="title"><div class="active">图片设置</div></div>
+<div class="btn-group module">
    <div layout style="margin-top: 10px;">
       <div flex="50" layout layout-align="start start">
       
@@ -32,35 +31,22 @@
               </div>
         </div>
    </div>
-
-
-
-
-<div class="Separation"></div>   
+    <div class="Separation"></div>   
     <div layout>  
       <div class="textright-active fontFormat" ng-click="setImageLink()"><i class="icon-link"></i></div>
-    </div>      
-		  <div class="Separation"></div>
-
-
-     <div layout layout-align="start start">
+    </div>
+    <div class="Separation"></div>
+    <div layout layout-align="start start">
         <div flex="15"  style="margin-right:5px; line-height: 2em;">
           <span>动效</span>
         </div>
 
-          <select id="js--imageAnimations" 
-                  ng-change="imageAnimate()" 
-                  ng-model="selected"
-                  style="width:100%;height: 25px;">
-    <!--     <optgroup label="弹入效果"> -->
+          <select id="js--imageAnimations" ng-change="imageAnimate()" ng-model="selected" style="width:100%;height: 25px;">
           <option value="bounceIn">弹入</option>
           <option value="bounceInDown">向下弹入</option>
           <option value="bounceInLeft">向左弹入</option>
           <option value="bounceInRight">向右弹入</option>
           <option value="bounceInUp">向上弹入</option>
-      <!--   </optgroup> -->
-
-  <!--       <optgroup label="渐入效果"> -->
           <option value="fadeIn">渐入</option>
           <option value="fadeInDown">向下渐入</option>
           <option value="fadeInDownBig">向下渐入放大</option>
@@ -70,40 +56,20 @@
           <option value="fadeInRightBig">向右渐入放大</option>
           <option value="fadeInUp">向上渐入</option>
           <option value="fadeInUpBig">向上渐入放大</option>
-<!--         </optgroup> -->
-
-
-<!-- 
-        <optgroup label="翻转效果"> -->
           <option value="flip">翻转</option>
           <option value="flipInX">水平翻转</option>
           <option value="flipInY">垂直翻转</option>
-
-  <!--       </optgroup> -->
-<!-- 
-        <optgroup label="旋转效果"> -->
           <option value="rotateIn">旋转进入</option>
           <option value="rotateInDownLeft">向左旋转进入</option>
           <option value="rotateInDownRight">向右旋转进入</option>
           <option value="rotateInUpLeft">向左上旋转进入</option>
           <option value="rotateInUpRight">向右上旋转进入</option>
-      <!--   </optgroup>
-
-
-        <optgroup label="滑入效果"> -->
           <option value="slideInUp">向上上滑入</option>
           <option value="slideInDown">向下滑入</option>
           <option value="slideInLeft">向左滑入</option>
           <option value="slideInRight">向右滑入</option>
-    <!--     </optgroup> -->
-  
          </select>
-       
-      </div>
-
-
-
-
+    </div>
     <!--rk start-->
     <div layout layout-align="center center">
         <div flex="15" layout layout-align="center center" style="margin-right:10px;"><span>时长</span></div>
@@ -125,7 +91,7 @@
                        value="{{AnimateSpeed.size}}" />
                 <span class="pxSpan">s</span>
           </div>
-        </div>
+    </div>
     <div layout layout-align="center center">
           <div flex="15" layout layout-align="center center" style="margin-right:10px;">
               <span>延迟</span>
@@ -148,9 +114,7 @@
                      value="{{AnimateDelay.size}}" />
               <span class="pxSpan">s</span>
             </div>
-
-    
+    </div>
     <!--rk end-->
-	
-	
+  </div>
 </div>

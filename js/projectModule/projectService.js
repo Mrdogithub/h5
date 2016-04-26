@@ -1,3 +1,21 @@
+'use strict'
+/*
+*@ projectService.js 负责提供对项目操作的所有数据接口
+-----------------------------------------------------------------------------------------------
+*@ projectService.js 提供了与后台交互的数据接口，以及记录当前页面个数动态变化。
+-----------------------------------------------------------------------------------------------
+*@ 加载图片                  ：var imageActionService = {loadImage:function(){.....}}
+*@ 描述                      ：当用户点击新建图片按钮，会从后台db读取当前用户下的所有图片
+
+*@ 添加图片                  ：var imageActionService = {addImage:function(){.....}}
+*@ 描述                      ：
+
+*@ 删除图片                  ：var imageActionService = {removeImage:function(){.....}}
+*@ 描述                      ：
+**/
+
+
+
 var project = angular.module('projectService',[]);
 
 project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,loginFn){
@@ -32,7 +50,7 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
         },
         saveProject:function(pageLength,projectId,editCode,previewCode,projectName){
         	  var userName = loginFn.islogged().email;
-            console.log(userName+':save project')
+           // console.log(userName+':save project')
             var deffered = $q.defer();
     
             $http.post(productUrl+saveProject,{

@@ -1,15 +1,15 @@
 "use strict";
 /*
 *@ editText.js 负责处理文本编辑
-*@ 通过editText模板，实现了创建文本，对文本的拖拽，属性更改，以及点击文本的同时显示文本编辑面板
+-----------------------------------------------------------------------------------------------
+*@ editText模块，实现了创建文本，对文本的拖拽，属性更改，以及点击文本的同时显示文本编辑面板
+-----------------------------------------------------------------------------------------------
 *@ 创建新文本				 ：$scope.newText = function(){ createNewText($mdToast,$document);};
 *@ 初始化文本                ：createNewText()
 *@ 初始化对文本拖拽，改变尺寸：initSelectedAndDraggable()
 *@ 点击文本属性回显			 : textActive()
 *@ 文本属性面板              : showTextEditPanel()
-*
-*
-***********************************/
+**/
 
 
 
@@ -34,14 +34,17 @@ editText.directive('edittext',function(
 		scope:{},
 		link:function($scope){
 
-
+           // $(document).on('click','.editContainer',function(){
+           // 	$('.ui-selected').removeClass('ui-selected');
+           // })
 //监听重新编辑后的文本点击事件
-	       $(document).on('click','.textElementActive',function(){
+			$(document).on('click','.textElementActive',function(e){
+				e.stopPropagation();
 				$('.ui-selected').removeClass('ui-selected');
 			    $('#text-properties').remove();
 				$('.img-properties').remove();
 			    
-
+                console.log('test works works')
 			    $('.mText').blur();
 				$(this).addClass('ui-selected');				
 				$('.ui-selected >.mText').focus();
@@ -49,6 +52,7 @@ editText.directive('edittext',function(
 				showTextEditPanel($mdToast,$document);
 				// console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));	
 			})
+
 
 
 
@@ -86,17 +90,17 @@ editText.directive('edittext',function(
 				    $('#text-properties').remove();
 					$('.img-properties').remove();
 				    
-					$("#right_1").addClass('isEdit');
+
 				    $('.mText').blur();
 					$(this).addClass('ui-selected');				
 					$('.ui-selected >.mText').focus();
 					initSelectedAndDraggable();
 					showTextEditPanel($mdToast,$document);
-					// console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));	
+				console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));	
 				});
 
-
-				$(document).on('click','.imageElement',function(){
+				$(document).on('click','.imageElement',function(e){
+					e.stopPropagation();
 
 					$('.ui-selected').removeClass('ui-selected');
 					$('#text-properties').remove();
@@ -108,6 +112,7 @@ editText.directive('edittext',function(
 					initSelectedAndDraggable();
 					showImageEditPanel($mdToast,$mdDialog,$document);	
 				});
+
 
 
 
@@ -160,7 +165,7 @@ function showTextEditPanel($mdToast,$document){
        
        setTimeout(function(){
        	$(".textAligncenterId").addClass("fontItemActive");
-       },200)
+       },100)
 
         //初始化新建元素的属性值 显示
         $scope.radius 	  = {"size" : activeBorderRadius}
@@ -391,37 +396,11 @@ function showTextEditPanel($mdToast,$document){
 
 
 
-// // 文本编辑面板
-// function showBackgroundEditPanel($mdToast,$document){
-// 	$mdToast.show({
-//       controller:function($scope){
-// 		//set FontColor
-// 		$scope.$watch("setPageBackgroundColor",function(newColor,oldColor){
-// 			$('.isEdit').css('backgroundColor',newColor);
-// 		});
-
-// 		$(this).parent().attr('id','selectedFormItem');
-// 		$(this).parent().css({'border':'#dedede 3px dashed','overflow':'hidden'});
-
-
-// 	    $(function() {
-// 		    $( "#formContent" ).sortable({
-// 		      revert: true
-// 		    });
-// 		});
-
-//       },
-//       templateUrl: './template/page.background.tmpl.html',
-//       parent : $document[0].querySelector('#editModulePosition'),
-//        hideDelay: false
-//       // position: $scope.getToastPosition()
-// 	});
-// }
 
 
 function textActive(curText){
 
-	//console.log('text image works')
+
     /*
     * Demo
     * $(curText).attr("style").indexOf("font-size")
@@ -524,7 +503,7 @@ function textActive(curText){
 	 		$(".textAlign").removeClass('fontItemActive')
 	 	    var pos = $(curText).css('textAlign');
 	 		$(".textAlign"+pos+"Id").addClass('fontItemActive')
- 		},100)
+ 		},200)
 
  	}else{
  		$(".textAligncenterId").addClass('fontItemActive')
@@ -581,14 +560,19 @@ function setValue(elementId,value){
 
 function initSelectedAndDraggable(){
 
+
+
+
 $( ".isEdit > div" ).draggable({
     start: function(ev, ui) {
+    	ev.stopPropagation();
      var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
 			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
 			     $(this).css("left" , l);
 			     $(this).css("top" , t);
     },
     drag: function(ev, ui) {
+    	ev.stopPropagation();
      var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
 			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
 			     $(this).css("left" , l);
@@ -596,24 +580,25 @@ $( ".isEdit > div" ).draggable({
     }
 }).resizable({ handles: 'se,sw,ne,nw',
 		stop:function (event, ui){
-                 
+                 event.stopPropagation();
 	    		 var l = ( 100 * parseFloat($(this).css("left")) / parseFloat($(this).parent().css("width")) )+ "%" ;
 			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
 			     $(this).css("left" , l);
 			     $(this).css("top" , t);
 			}
-		});
-
-$( ".isEdit > div" ).selectable();
-
-
-
-// manually trigger the "select" of clicked elements
-$( ".isEdit > div.imageElement" ).click( function(e){
-	$('.ui-selected').removeClass('ui-selected');
-	$(this).addClass('ui-selected')
-
 });
+
+
+$( ".isEdit " ).selectable();
+
+
+
+// // manually trigger the "select" of clicked elements
+// $( ".isEdit > div.imageElement" ).click( function(e){
+// 	$('.ui-selected').removeClass('ui-selected');
+// 	$(this).addClass('ui-selected')
+
+// });
 
 
 	 $('.isEdit').droppable(
@@ -622,6 +607,9 @@ $( ".isEdit > div.imageElement" ).click( function(e){
 				containment:".mainbox",
 				drop: function (event, ui) {
 					// debugger;
+					event.stopPropagation();
+
+					console.log(' draggable works')
 
 			        var pos = ui.draggable.offset();
 			        var dPos = $(this).offset();

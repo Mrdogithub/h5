@@ -26,7 +26,7 @@ font-size: 14px;}*/
 a.imgbut{height: 50px; display: inline-block;text-align: center;width: 50px;cursor: pointer;}
 a.imgbut:hover{ background: #3383b1; text-decoration: none;}
 .imgbut img{width: 2.5pc;}
-.navbar-img{margin-left: 45rem;}
+.navbar-img{margin-left: 38%;}
 
 .navbar .popbox{position: absolute; width:50%; background: #FFF; left: 20%; top: 50px; text-align: center; display: none;}
 .navbar .popbox .buttons{margin-top: 10px;}
@@ -108,7 +108,7 @@ a.imgbut:hover{ background: #3383b1; text-decoration: none;}
 
     background: rgba(255,255,255,0.94);
     box-sizing: border-box;
-    right: 10%;
+    right: 18%;
     padding-bottom: 10px;
     position: fixed;
     /* text-align: center; */

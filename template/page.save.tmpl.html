@@ -67,7 +67,7 @@
         <span ng-show="loadingSave" style="margin-right:10px;"><i class="icon-spinner icon-spin" ></i></span> 保存</button> -->
 
 
-           <button ng-disabled="saveProjectFrom.$invalid" ng-show="isSaved" type="button" class="btn btn-primary" ng-click="savePageContent()" style="   -moz-appearance: none;
+           <button ng-disabled="saveProjectFrom.$invalid || button_clicked"  type="button" class="btn btn-primary" ng-click="savePageContent()" style="   -moz-appearance: none;
           background-color: transparent;
           border: 2px solid #198cbf;
           border-radius: 0;
@@ -79,16 +79,6 @@
           width: 200px;"> 保存</button>
 
 
-     <button   ng-show="!isSaved" class="btn btn-primary"  style="   -moz-appearance: none;
-          background-color: transparent;
-    border: 2px solid #198cbf;
-    border-radius: 0;
-    color: #198cbf;
-    display: block;
-    font-size: 22px;
-    height: 60px;
-    margin: 30px 0;
-    width: 200px;"><span ng-show="loadingSave" style="margin-right:10px;"><i class="icon-spinner icon-spin" ></i></span> 保存中</button>
 
 </form>
      
