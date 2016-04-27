@@ -20,8 +20,8 @@ editText.directive('edittext',function(
 	$sce,      		//用于解析html的angularjs服务  			@angular.js
 	$mdDialog, 		//提供对话框的模块             			@angular-material.js
 	$mdToast,  		//提供文本/图片编辑面板        			@angular-material.js
-	$compile,  		//提供动态插入html的解析服务，解析有ng指令 
-	$document, 		//angularjs 内部服务 
+	$compile,  		//提供动态插入html的解析服务，解析有ng指令
+	$document, 		//angularjs 内部服务
 	$rootScope,		//angularjs 内部服务
 	projectFn, 		//提供项目接口                       	@projectService.js
 	AuthService,	//提供用户登陆验证                  	@AuthService.js
@@ -43,14 +43,14 @@ editText.directive('edittext',function(
 				$('.ui-selected').removeClass('ui-selected');
 			    $('#text-properties').remove();
 				$('.img-properties').remove();
-			    
+
                 console.log('test works works')
 			    $('.mText').blur();
-				$(this).addClass('ui-selected');				
+				$(this).addClass('ui-selected');
 				$('.ui-selected >.mText').focus();
 				initSelectedAndDraggable();
 				showTextEditPanel($mdToast,$document);
-				// console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));	
+				// console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));
 			})
 
 
@@ -76,7 +76,7 @@ editText.directive('edittext',function(
 
 					//将当前项目id绑定到dom结点，用于保存更新项目
 					$("#pagesList").attr('data-projectid',loadingProjectById);
-                    
+
                     //设置默认显示页面
 					setTimeout(function(){
 						$('.swiper-slide').eq(0).addClass('isEdit').show();
@@ -89,14 +89,14 @@ editText.directive('edittext',function(
 					$('.ui-selected').removeClass('ui-selected');
 				    $('#text-properties').remove();
 					$('.img-properties').remove();
-				    
+
 
 				    $('.mText').blur();
-					$(this).addClass('ui-selected');				
+					$(this).addClass('ui-selected');
 					$('.ui-selected >.mText').focus();
 					initSelectedAndDraggable();
 					showTextEditPanel($mdToast,$document);
-				console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));	
+				console.log("@editText.js line 83 Dec UPDATE"+$(this).parent().attr('class'));
 				});
 
 				$(document).on('click','.imageElement',function(e){
@@ -110,7 +110,7 @@ editText.directive('edittext',function(
 					$('.mText').blur();
 					$(this).addClass('ui-selected');
 					initSelectedAndDraggable();
-					showImageEditPanel($mdToast,$mdDialog,$document);	
+					showImageEditPanel($mdToast,$mdDialog,$document);
 				});
 
 
@@ -158,13 +158,36 @@ function showTextEditPanel($mdToast,$document){
         ********/
         var activeFontSize		= !$('.ui-selected > .mText').data('fontsize')		? 14 :$('.ui-selected > .mText').data('fontsize');
         var activelineHeight	= !$('.ui-selected > .mText').data('lineheight')	? 1.2:$('.ui-selected > .mText').data('lineheight');
-        var activeBorderRadius  = !$('.ui-selected > .mText').data('borderRadius')	? 0  :$('.ui-selected > .mText').data('borderRadius');
+        var activeBorderRadius  = !$('.ui-selected > .mText').data('borderradius')	? 0  :$('.ui-selected > .mText').data('borderradius');
         var activeOpacity       = !$('.ui-selected > .mText').data('opacity')		? 1  :$('.ui-selected > .mText').data('opacity');
-        var activeDuration      = typeof($('.ui-selected').attr('swiper-animate-duration') == undefined)?0:$('.ui-selected').attr('swiper-animate-duration').replace('s','')
-        var activeDelay         = typeof($('.ui-selected').attr('swiper-animate-delay')    == undefined)?0:$('.ui-selected').attr('swiper-animate-delay').replace('s','')
-       
+				var activeAnimation      = (typeof($('.ui-selected').attr('swiper-animate-effect')) == 'undefined')?0:$('.ui-selected').attr('swiper-animate-effect')
+        var activeDuration      = (typeof($('.ui-selected').attr('swiper-animate-duration')) == 'undefined')?0:$('.ui-selected').attr('swiper-animate-duration').replace('s','')
+        var activeDelay         = (typeof($('.ui-selected').attr('swiper-animate-delay'))    == 'undefined')?0:$('.ui-selected').attr('swiper-animate-delay').replace('s','')
+        var activeFamily        =  !$('.ui-selected > .mText').css('fontFamily') ? '': $('.ui-selected > .mText').css('fontFamily')
        setTimeout(function(){
-       	$(".textAligncenterId").addClass("fontItemActive");
+				 if($('.ui-selected > .mText').attr('style').indexOf("text-align")<0){
+					 $(".textAlign").removeClass('fontItemActive')
+					 	$(".textAligncenterId").addClass("fontItemActive");
+				 }else{
+					 $(".textAlign").removeClass('fontItemActive')
+					 	var pos = $('.ui-selected > .mText').css('textAlign');
+					 	$(".textAlign"+pos+"Id").addClass('fontItemActive')
+				 }
+				 if($('.ui-selected > .mText').css('font-weight')=="bold"){
+					 $(".B-but").addClass("fontItemActive");
+				 }else{
+					 $(".B-but").remove("fontItemActive");
+				 }
+				 if($('.ui-selected > .mText').css('font-style')=="italic"){
+					 $(".B-I").addClass("fontItemActive");
+				 }else{
+					 $(".B-I").remove("fontItemActive");
+				 }
+				 if($('.ui-selected > .mText').css('text-decoration')=="underline"){
+					 $(".B-U").addClass("fontItemActive");
+				 }else{
+					 $(".B-U").remove("fontItemActive");
+				 }
        },100)
 
         //初始化新建元素的属性值 显示
@@ -172,8 +195,10 @@ function showTextEditPanel($mdToast,$document){
         $scope.opacity 	  = {"numberValue": activeOpacity}
         $scope.fontSize   = {"size" : activeFontSize}
         $scope.lineHeight = {"size" : activelineHeight}
-        $scope.AnimateSpeed = {"size":activeDuration}
-        $scope.AnimateDelay = {"size":activeDelay}
+				$scope.selectedAnimation = activeAnimation
+        $scope.AnimateSpeed = {"size":Number(activeDuration)}
+        $scope.AnimateDelay = {"size":Number(activeDelay)}
+				$scope.selected     = activeFamily
        // $scope.item.value   = "Helvetica";
       	//设置字体大小
       	$scope.getFontSize = function(){
@@ -209,11 +234,11 @@ function showTextEditPanel($mdToast,$document){
 		$scope.setFontBold = function(){
 			if($('.ui-selected  > .mText').css("fontWeight") != "bold"){
 				$('.ui-selected > .mText').css("fontWeight","bold");
-				$("#fontBlodId").addClass("fontItemActive");
+				$(".B-but").addClass("fontItemActive");
 			}else if($('.ui-selected > .mText').css("fontWeight") == "bold"){
 
 				$('.ui-selected > .mText').css("fontWeight","");
-						  $("#fontBlodId").removeClass("fontItemActive");
+						  $(".B-but").removeClass("fontItemActive");
 			}
 		};
 
@@ -221,11 +246,11 @@ function showTextEditPanel($mdToast,$document){
 		$scope.setFontItalic = function(){
 			if($('.ui-selected  > .mText').css("fontStyle") != "italic"){
 				$('.ui-selected > .mText').css("fontStyle","italic");
-						$("#fontItalicId").addClass("fontItemActive");
+						$(".B-I").addClass("fontItemActive");
 			}else if($('.ui-selected > .mText').css("fontStyle") == "italic"){
 
 					 $('.ui-selected > .mText').css("fontStyle","");
-							 $("#fontItalicId").removeClass("fontItemActive");
+							 $(".B-I").removeClass("fontItemActive");
 			}
 		}
 
@@ -234,23 +259,23 @@ function showTextEditPanel($mdToast,$document){
 			if($('.ui-selected  > .mText').css("textDecoration") != "underline"){
 
 				$('.ui-selected > .mText').css("textDecoration","underline");
-					$("#textDecorationId").addClass("fontItemActive");
+					$(".B-U").addClass("fontItemActive");
 
 			}else if($('.ui-selected > .mText').css("textDecoration") == "underline"){
 
 				$('.ui-selected > .mText').css("textDecoration","");
-					$("#textDecorationId").removeClass("fontItemActive");
+					$(".B-U").removeClass("fontItemActive");
 			}
 		}
-
+		console.log($scope.setTextDecoration);
 		//设置元素对齐
 		$scope.setTextAlign = function(textPos){
 			$(".fontFormat").removeClass('fontItemActive');
-			
+			console.log("1");
 			setTimeout(function(){
 				$('.ui-selected > .mText').css("textAlign",textPos);
 				$(".textAlign"+textPos+"Id").addClass("fontItemActive");
-			},200)
+			},100)
 		}
 
 		//设置圆角
@@ -421,12 +446,12 @@ function textActive(curText){
 		console.log(numFontSize+"////numFontSize")
 	    var fontS       = numFontSize == undefined?14:numFontSize;
  		setValue('#txtNumid',fontS)
- 		
+
  	}else{
  	/*
  	* 设置默认属性值
  	*/
- 		$('#txtNumid').html("14") 
+ 		$('#txtNumid').html("14")
  	}
 
 
@@ -497,17 +522,20 @@ function textActive(curText){
  	}else{$("#fontItalicId").removeClass('fontItemActive')}
 
 
- 	var fontAlign   = $(curText).attr("style").indexOf("text-align")
- 	if(fontAlign>-1) {
- 		setTimeout(function(){
-	 		$(".textAlign").removeClass('fontItemActive')
-	 	    var pos = $(curText).css('textAlign');
-	 		$(".textAlign"+pos+"Id").addClass('fontItemActive')
- 		},200)
-
- 	}else{
- 		$(".textAligncenterId").addClass('fontItemActive')
- 	}
+ // 	var fontAlign   = $(curText).attr("style").indexOf("text-align")
+	// console.log(fontAlign);
+ // 	if(fontAlign>-1) {
+	// 	$(".textAlign").removeClass('fontItemActive')
+ // 		setTimeout(function(){
+	//
+	// 		console.log('2');
+	//  	    var pos = $(curText).css('textAlign');
+	//  		$(".textAlign"+pos+"Id").addClass('fontItemActive')
+ // 		},200)
+	//
+ // 	}else{
+ // 		$(".textAligncenterId").addClass('fontItemActive')
+ // 	}
 
 
  	var animateId  = $(curText).parent().attr('style').indexOf('animation-name');
