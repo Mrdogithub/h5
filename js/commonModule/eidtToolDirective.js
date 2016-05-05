@@ -17,7 +17,8 @@ eidtToolDirective.directive('toolbar1', function(
   $document, //angularjs 内部服务
   $rootScope,//angularjs 内部服务
   projectFn, //提供对项目操作的restful接口      @projectService.js
-  loginFn    //管理用户登录状态的restful接口    @loginService.js
+  loginFn,    //管理用户登录状态的restful接口   @loginService.js
+pageSettingService //提供页面设置属性接口     @pageSettingService.js
   ) {
 
   return {
@@ -82,17 +83,37 @@ eidtToolDirective.directive('toolbar1', function(
         });         
     }
 
+    $scope.userSlider = function(){
+     if($("#sliderDirection").attr('data-direction') == ''){
+         $("#sliderDirection").attr('data-direction','horizontal');
+         pageSettingService.setPageSetting('horizontal');
+         
+         $("#sliderDirection").attr('src','./images/slider-horizontal.png');
+
+     }else if ($("#sliderDirection").attr('data-direction') == 'horizontal'){
+        $("#sliderDirection").attr('data-direction','vertical')
+        pageSettingService.setPageSetting('vertical')
+        $("#sliderDirection").attr('src','./images/slider-vertical.png');
+     }else if ($("#sliderDirection").attr('data-direction') == 'vertical'){
+        $("#sliderDirection").attr('data-direction','horizontal')
+        pageSettingService.setPageSetting('horizontal')
+        $("#sliderDirection").attr('src','./images/slider-horizontal.png');
+     }
+
+    }
     
     $scope.previewPage = function() {
       
        $("#popupContainer").addClass('filter');
        $mdDialog.show({
-          controller: function($scope, $compile, $sce) {
+          controller: function($scope, $compile, $sce,pageSettingService) {
             $compile($("#previewContent").attr('ng-bind-html', 'page.preivewCode'))($scope)
             $scope.page = {
               "preivewCode": ""
             };
-   
+            
+           var direction = pageSettingService.getPageSetting();
+           console.log(direction+"///direction")
            var previewOnce = $("#pagesList").html();
            var strHtml = previewOnce.replace(/display/g, " ")
                           .replace(/isEdit/g, " ")
@@ -112,8 +133,8 @@ eidtToolDirective.directive('toolbar1', function(
                           .replace(/class="[^\"]*(animated)[^\"]*(imageElement)[^\"]*"/g,'class=" ani imageElement"')
                           // .replace(/style="[^\"]*(animation-name|animation-duration|animation-delay)+:[^\:]*;[^\"]*"/g,' ')
                           .replace(/<div class="ui-resizable-handle(.)*?div>/g, '')
-                          .replace(/ui-resizable/g,'') + '<script type="text/javascript"> var mySwiper=new Swiper(".swiper-container",{onInit:function(swiper){swiperAnimateCache(swiper);swiperAnimate(swiper)},onSlideChangeEnd:function(swiper){swiperAnimate(swiper)}})</script>';
-
+                          .replace(/ui-resizable/g,'') + direction;
+                          // '<script type="text/javascript"> var mySwiper=new Swiper(".swiper-container",{ prevButton:".swiper-button-prev",nextButton:".swiper-button-next",direction:"'++'",onInit:function(swiper){swiperAnimateCache(swiper);swiperAnimate(swiper)},onSlideChangeEnd:function(swiper){swiperAnimate(swiper)}})</script>';
             $scope.page.preivewCode = $sce.trustAsHtml(strHtml);
               
             //console.log("@editToolDirective.js DEC print $scope.page.preivewCode is:"+$scope.page.preivewCode);

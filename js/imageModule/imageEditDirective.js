@@ -129,17 +129,43 @@ function showImageEditPanel($mdToast,$mdDialog,$document){
      	   //设置默认值
      	   // console.log($('.ui-selected').data('opacity')+"...$('.ui-selected').data('opacity')")
      	  
-     	   var activeRaius    = !$('.ui-selected').data('radius') ? 0:$('.ui-selected').data('radius') ;
-     	   var activeDelay    = typeof($('.ui-selected').attr('swiper-animate-delay')    == undefined)?0:$('.ui-selected').attr('swiper-animate-delay').replace('s','')
-     	   var activeOpacity  = !$('.ui-selected').data('opacity')? 1:$('.ui-selected').data('opacity') ;
-     	   var activeDuration = typeof($('.ui-selected').attr('swiper-animate-duration') == undefined)?0:$('.ui-selected').attr('swiper-animate-duration').replace('s','')
+     	  //  var activeRaius    = !$('.ui-selected').data('radius') ? 0:$('.ui-selected').data('radius') ;
+     	  //  var activeDelay    = typeof($('.ui-selected').attr('swiper-animate-delay')    == undefined)?0:$('.ui-selected').attr('swiper-animate-delay').replace('s','')
+     	  //  var activeOpacity  = !$('.ui-selected').data('opacity')? 1:$('.ui-selected').data('opacity') ;
+     	  //  var activeDuration = typeof($('.ui-selected').attr('swiper-animate-duration') == undefined)?0:$('.ui-selected').attr('swiper-animate-duration').replace('s','')
            
  
-           $scope.AnimateSpeed = {"size":activeDuration}
-           $scope.AnimateDelay = {"size":activeDelay}
-	       $scope.imageRadius  = {"size":activeRaius};
-	       $scope.selected     = $(".ui-selected").data('animate');
-           $scope.opacity      = {"numberValue":activeOpacity};
+        //    $scope.AnimateSpeed = {"size":activeDuration}
+        //    $scope.AnimateDelay = {"size":activeDelay}
+	       // $scope.imageRadius  = {"size":activeRaius};
+	       // $scope.selected     = $(".ui-selected").data('animate');
+        //    $scope.opacity      = {"numberValue":activeOpacity};
+
+
+
+     	  //  var activeRaius    = !$('.ui-selected').data('radius') ? 0:$('.ui-selected').data('radius') ;
+     	  //  var activeDelay    = typeof($('.ui-selected').attr('swiper-animate-delay')    == undefined)?0:$('.ui-selected').attr('swiper-animate-delay').replace('s','')
+     	  //  var activeOpacity  = !$('.ui-selected').data('opacity')? 1:$('.ui-selected').data('opacity') ;
+     	  //  var activeDuration = typeof($('.ui-selected').attr('swiper-animate-duration') == undefined)?0:$('.ui-selected').attr('swiper-animate-duration').replace('s','')
+           
+ 
+        //    $scope.AnimateSpeed = {"size":activeDuration};
+        //    $scope.AnimateDelay = {"size":activeDelay};
+	       // $scope.imageRadius  = {"size":activeRaius};
+	       // $scope.selected     = $(".ui-selected").data('animate');
+        //    $scope.opacity      = {"numberValue":activeOpacity};
+
+
+         	  var activeRaius    = !$('.ui-selected .imageContainer .mImage').data('radius') ? 0:$('.ui-selected .imageContainer .mImage').data('radius') ;
+  			  var activeDelay    = (typeof($('.ui-selected').attr('swiper-animate-delay'))  == 'undefined')?0:$('.ui-selected').attr('swiper-animate-delay').replace('s','');
+  			  var activeOpacity  = !$('.ui-selected .imageContainer .mImage').data('opacity')? 1:$('.ui-selected .imageContainer .mImage').data('opacity') ;
+  			  var activeDuration = (typeof($('.ui-selected').attr('swiper-animate-duration')) == 'undefined')?0:$('.ui-selected').attr('swiper-animate-duration').replace('s','')
+ 
+  		      $scope.AnimateSpeed = {"size":Number(activeDuration)}
+  			  $scope.AnimateDelay = {"size":Number(activeDelay)};
+  			  $scope.imageRadius  = {"size":Number(activeRaius)};
+  			  $scope.selected     = $('.ui-selected').attr('swiper-animate-effect');
+  			  $scope.opacity      = {"numberValue":Number(activeOpacity)};
 
            //设置动画透明度
 		    $scope.getImageOpacity   = function(){
@@ -291,7 +317,7 @@ function showAddImageOverLay($mdToast,$mdDialog,$document,newImage){
 			    $compile(
 			    	     $('<div class="ui-selected imageElement imageElementAcitve" style="position:absolute;" data-type="image"> '+
 			    				'<div class="imageContainer" style="overflow:hidden;">'+
-			    					'<img src="'+target+'" class="mImage" style="border-radius:0px;opacity:1;" onclick="imageActive(this)"/>'+
+			    					'<img src="'+target+'" class="mImage" style="border-radius:0px;opacity:1;width:100%;height:100%;" onclick="imageActive(this)"/>'+
 			    				'<div>'+
 			    			'</div>').appendTo($('.isEdit')
 			    		  )

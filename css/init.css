@@ -307,7 +307,7 @@ input[type=number]::-webkit-outer-spin-button {
     top: 0px;
     bottom: 0px;
     width: 100%;
-    height: auto;
+    height: 100%;
 /*    position:absolute;
     left: 0px;
     right: 0px;
@@ -374,14 +374,21 @@ input[type=number]::-webkit-outer-spin-button {
 
 /*jessy user guide 20160329 start*/
 .col-center .user-guide{
-    text-align: center; width: 40px; position: absolute; left:770px; top:490px; background:#fff; box-shadow:0 1px 3px 0px rgba(0, 0, 0, .3);
-}
-.col-center .user-guide a{text-decoration:none; width: 40px; height:40px; display:inline-block; line-height: 48px;}
+    text-align: center; width: 80px; position: absolute; left:770px; top:490px; /*background:#fff; box-shadow:0 1px 3px 0px rgba(0, 0, 0, .3);
+*/}
+.col-center .user-guide a{text-decoration:none; width: 80px; height:40px; display:inline-block; line-height: 48px;}
 .col-center .user-guide a:hover{color: #fcc10e;}
 .col-center .user-guide img{width: 2pc;}
 .md-dialog-container .guideImg{
     width: 100%; top: 30px; 
 }
+
+.col-center .user-slider{
+    text-align: center; width: 80px; position: absolute; left:770px; top:550px; /*background:#fff; box-shadow:0 1px 3px 0px rgba(0, 0, 0, .3);
+*/}
+.col-center .user-slider a{ cursor: pointer; text-decoration:none; width: 80px; height:40px; display:inline-block; line-height: 48px;}
+
+
 .fullSlide{width:100%;height: 100%;position:relative;background:#0f0f0f;}
 .fullSlide .hd{ position: absolute; bottom: 30px; z-index: 2; width: 100%; height: 50px;}
 .fullSlide .hd ul{text-align:center;}

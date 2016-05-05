@@ -3,7 +3,7 @@
 
 var app = angular.module('mainApp',[
   'ui.bootstrap',
-  // 'eidtToolDirective',
+  //'eidtToolDirective',
   'editText',
   'imageEditDirective',
   'homeController',
@@ -19,6 +19,7 @@ var app = angular.module('mainApp',[
   'loginDirectiveModule',
   'sessionService',
   'loginService',
+  'pageSettingService',
   'imageService'],function($httpProvider) {
 
 

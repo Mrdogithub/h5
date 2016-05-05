@@ -26,7 +26,8 @@ editText.directive('edittext',function(
 	projectFn, 		//提供项目接口                       	@projectService.js
 	AuthService,	//提供用户登陆验证                  	@AuthService.js
 	SERVER_URL, 	//提供全局常量
-	loginFn     	//提供登陆验证，登陆状态，退出方法  	@loginService.js
+	loginFn,     	//提供登陆验证，登陆状态，退出方法  	@loginService.js
+	pageSettingService
 ){
 	return {
 		restrict:'AE',
@@ -73,14 +74,33 @@ editText.directive('edittext',function(
 
 					//通过$sce,格式化html。db存储的html是字符串，angularjs需要通过$sce来格式化
 					$scope.page.editCode = $sce.trustAsHtml(data.pages.editCode);
-
+					console.log('data.pages.pageSetting.direction:'+data.pages.pageSetting.direction)
+					$('#sliderDirection').attr('data-direction',data.pages.pageSetting.direction)
+					pageSettingService.setPageSetting(data.pages.pageSetting.direction)
 					//将当前项目id绑定到dom结点，用于保存更新项目
 					$("#pagesList").attr('data-projectid',loadingProjectById);
                     
                     //设置默认显示页面
 					setTimeout(function(){
 						$('.swiper-slide').eq(0).addClass('isEdit').show();
-					},100)
+
+						if($("#sliderDirection").attr('data-direction') == ''){
+					         $("#sliderDirection").attr('data-direction','horizontal');
+					         pageSettingService.setPageSetting('horizontal');
+					         
+					         $("#sliderDirection").attr('src','./images/slider-horizontal.png');
+
+					     }else if ($("#sliderDirection").attr('data-direction') == 'horizontal'){
+					        $("#sliderDirection").attr('data-direction','vertical')
+					        pageSettingService.setPageSetting('vertical')
+					        $("#sliderDirection").attr('src','./images/slider-vertical.png');
+					     }else if ($("#sliderDirection").attr('data-direction') == 'vertical'){
+					        $("#sliderDirection").attr('data-direction','horizontal')
+					        pageSettingService.setPageSetting('horizontal')
+					        $("#sliderDirection").attr('src','./images/slider-horizontal.png');
+					     }
+
+					},150)
 
 					//console.log('loading project')
 
@@ -158,23 +178,56 @@ function showTextEditPanel($mdToast,$document){
         ********/
         var activeFontSize		= !$('.ui-selected > .mText').data('fontsize')		? 14 :$('.ui-selected > .mText').data('fontsize');
         var activelineHeight	= !$('.ui-selected > .mText').data('lineheight')	? 1.2:$('.ui-selected > .mText').data('lineheight');
-        var activeBorderRadius  = !$('.ui-selected > .mText').data('borderRadius')	? 0  :$('.ui-selected > .mText').data('borderRadius');
+        var activeBorderRadius  = !$('.ui-selected > .mText').data('borderradius')	? 0  :$('.ui-selected > .mText').data('borderradius');
         var activeOpacity       = !$('.ui-selected > .mText').data('opacity')		? 1  :$('.ui-selected > .mText').data('opacity');
-        var activeDuration      = typeof($('.ui-selected').attr('swiper-animate-duration') == undefined)?0:$('.ui-selected').attr('swiper-animate-duration').replace('s','')
-        var activeDelay         = typeof($('.ui-selected').attr('swiper-animate-delay')    == undefined)?0:$('.ui-selected').attr('swiper-animate-delay').replace('s','')
+        // var activeDuration      = typeof($('.ui-selected').attr('swiper-animate-duration')   == undefined)?0:$('.ui-selected').attr('swiper-animate-duration').replace('s','')
+        // var activeDelay         = typeof($('.ui-selected').attr('swiper-animate-delay')      == undefined)?0:$('.ui-selected').attr('swiper-animate-delay').replace('s','')
+        var activeAnimation     = (typeof($('.ui-selected').attr('swiper-animate-effect'))   == 'undefined')?0:$('.ui-selected').attr('swiper-animate-effect')
+        var activeDuration      = (typeof($('.ui-selected').attr('swiper-animate-duration')) == 'undefined')?0:$('.ui-selected').attr('swiper-animate-duration').replace('s','')
+        var activeDelay         = (typeof($('.ui-selected').attr('swiper-animate-delay'))    == 'undefined')?0:$('.ui-selected').attr('swiper-animate-delay').replace('s','')
+        var activeFamily        = !$('.ui-selected > .mText').css('fontFamily') ? '': $('.ui-selected > .mText').css('fontFamily')
        
        setTimeout(function(){
-       	$(".textAligncenterId").addClass("fontItemActive");
+	       	 if($('.ui-selected > .mText').attr('style').indexOf("text-align")<0){
+	 			 $(".textAlign").removeClass('fontItemActive')
+	 			 $(".textAligncenterId").addClass("fontItemActive");
+			 }else{
+				 $(".textAlign").removeClass('fontItemActive')
+				 	var pos = $('.ui-selected > .mText').css('textAlign');
+				 	$(".textAlign"+pos+"Id").addClass('fontItemActive')
+			 }
+			 if($('.ui-selected > .mText').css('font-weight')=="bold"){
+				 $(".B-but").addClass("fontItemActive");
+			 }else{
+				 $(".B-but").remove("fontItemActive");
+			 }
+			 if($('.ui-selected > .mText').css('font-style')=="italic"){
+				 $(".B-I").addClass("fontItemActive");
+			 }else{
+				 $(".B-I").remove("fontItemActive");
+			 }
+			 if($('.ui-selected > .mText').css('text-decoration')=="underline"){
+				 $(".B-U").addClass("fontItemActive");
+			 }else{
+				 $(".B-U").remove("fontItemActive");
+			 }
        },100)
 
         //初始化新建元素的属性值 显示
-        $scope.radius 	  = {"size" : activeBorderRadius}
-        $scope.opacity 	  = {"numberValue": activeOpacity}
-        $scope.fontSize   = {"size" : activeFontSize}
-        $scope.lineHeight = {"size" : activelineHeight}
-        $scope.AnimateSpeed = {"size":activeDuration}
-        $scope.AnimateDelay = {"size":activeDelay}
-       // $scope.item.value   = "Helvetica";
+        $scope.radius 	  = {"size" : activeBorderRadius};
+        $scope.opacity 	  = {"numberValue": activeOpacity};
+        $scope.fontSize   = {"size" : activeFontSize};
+        $scope.lineHeight = {"size" : activelineHeight};
+        // $scope.AnimateSpeed = {"size":activeDuration}
+        // $scope.AnimateDelay = {"size":activeDelay}
+
+         $scope.selectedAnimation = activeAnimation;
+         $scope.AnimateSpeed      = {"size":Number(activeDuration)};
+         $scope.AnimateDelay      = {"size":Number(activeDelay)};
+ 		 $scope.selected          = activeFamily;
+        
+
+        // $scope.item.value   = "Helvetica";
       	//设置字体大小
       	$scope.getFontSize = function(){
 
@@ -209,11 +262,13 @@ function showTextEditPanel($mdToast,$document){
 		$scope.setFontBold = function(){
 			if($('.ui-selected  > .mText').css("fontWeight") != "bold"){
 				$('.ui-selected > .mText').css("fontWeight","bold");
-				$("#fontBlodId").addClass("fontItemActive");
+				// $("#fontBlodId").addClass("fontItemActive");
+				$(".B-but").addClass("fontItemActive");
 			}else if($('.ui-selected > .mText').css("fontWeight") == "bold"){
 
 				$('.ui-selected > .mText').css("fontWeight","");
-						  $("#fontBlodId").removeClass("fontItemActive");
+				// $("#fontBlodId").removeClass("fontItemActive");
+				$(".B-but").removeClass("fontItemActive");
 			}
 		};
 
@@ -221,11 +276,13 @@ function showTextEditPanel($mdToast,$document){
 		$scope.setFontItalic = function(){
 			if($('.ui-selected  > .mText').css("fontStyle") != "italic"){
 				$('.ui-selected > .mText').css("fontStyle","italic");
-						$("#fontItalicId").addClass("fontItemActive");
+						// $("#fontItalicId").addClass("fontItemActive");
+					$(".B-I").addClass("fontItemActive");
 			}else if($('.ui-selected > .mText').css("fontStyle") == "italic"){
 
 					 $('.ui-selected > .mText').css("fontStyle","");
-							 $("#fontItalicId").removeClass("fontItemActive");
+						// $("#fontItalicId").removeClass("fontItemActive");
+						$(".B-I").removeClass("fontItemActive");
 			}
 		}
 
@@ -234,12 +291,14 @@ function showTextEditPanel($mdToast,$document){
 			if($('.ui-selected  > .mText').css("textDecoration") != "underline"){
 
 				$('.ui-selected > .mText').css("textDecoration","underline");
-					$("#textDecorationId").addClass("fontItemActive");
+					// $("#textDecorationId").addClass("fontItemActive");
+				$(".B-U").addClass("fontItemActive");
 
 			}else if($('.ui-selected > .mText').css("textDecoration") == "underline"){
 
 				$('.ui-selected > .mText').css("textDecoration","");
-					$("#textDecorationId").removeClass("fontItemActive");
+					// $("#textDecorationId").removeClass("fontItemActive");
+				$(".B-U").removeClass("fontItemActive");
 			}
 		}
 
@@ -250,7 +309,7 @@ function showTextEditPanel($mdToast,$document){
 			setTimeout(function(){
 				$('.ui-selected > .mText').css("textAlign",textPos);
 				$(".textAlign"+textPos+"Id").addClass("fontItemActive");
-			},200)
+			},100)
 		}
 
 		//设置圆角
@@ -258,7 +317,7 @@ function showTextEditPanel($mdToast,$document){
 			$('.ui-selected').css("borderRadius",$scope.radius.size+"px");
 
 			//通过读取data-xxx 属性 设定创建元素时的默认值
-			$('.ui-selected > .mText').attr('data-borderRadius',$scope.radius.size)
+			$('.ui-selected > .mText').attr('data-borderradius',$scope.radius.size)
 		}
 
 		//设置文本背景
@@ -426,7 +485,7 @@ function textActive(curText){
  	/*
  	* 设置默认属性值
  	*/
- 		$('#txtNumid').html("14") 
+ 		$('#txtNumid').html("14")
  	}
 
 
@@ -497,17 +556,17 @@ function textActive(curText){
  	}else{$("#fontItalicId").removeClass('fontItemActive')}
 
 
- 	var fontAlign   = $(curText).attr("style").indexOf("text-align")
- 	if(fontAlign>-1) {
- 		setTimeout(function(){
-	 		$(".textAlign").removeClass('fontItemActive')
-	 	    var pos = $(curText).css('textAlign');
-	 		$(".textAlign"+pos+"Id").addClass('fontItemActive')
- 		},200)
+ 	// var fontAlign   = $(curText).attr("style").indexOf("text-align")
+ 	// if(fontAlign>-1) {
+ 	// 	setTimeout(function(){
+	 // 		$(".textAlign").removeClass('fontItemActive')
+	 // 	    var pos = $(curText).css('textAlign');
+	 // 		$(".textAlign"+pos+"Id").addClass('fontItemActive')
+ 	// 	},200)
 
- 	}else{
- 		$(".textAligncenterId").addClass('fontItemActive')
- 	}
+ 	// }else{
+ 	// 	$(".textAligncenterId").addClass('fontItemActive')
+ 	// }
 
 
  	var animateId  = $(curText).parent().attr('style').indexOf('animation-name');
@@ -585,6 +644,15 @@ $( ".isEdit > div" ).draggable({
 			     var t = ( 100 * parseFloat($(this).css("top")) / parseFloat($(this).parent().css("height")) )+ "%" ;
 			     $(this).css("left" , l);
 			     $(this).css("top" , t);
+
+                        
+	
+			     var w = ( 100 * parseFloat($(this).css("width")) / parseFloat($(this).parent().css("width")) )+ "%" ;
+			     var h = ( 100 * parseFloat($(this).css("height")) / parseFloat($(this).parent().css("height")) )+ "%" ;
+			     
+			     console.log('width:'+w+"-height:"+h);
+			     $(this).css("width" , w);
+			     $(this).css("height" ,'auto');
 			}
 });
 

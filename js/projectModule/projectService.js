@@ -18,7 +18,7 @@
 
 var project = angular.module('projectService',[]);
 
-project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,loginFn){
+project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,loginFn,pageSettingService){
 
 	  var productUrl                   = SERVER_URL.liveUrl;
 	  var copyProject                  = 'copyProject';
@@ -52,13 +52,21 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
         	  var userName = loginFn.islogged().email;
            // console.log(userName+':save project')
             var deffered = $q.defer();
+
+            var pageSettingContent   = pageSettingService.getPageSetting();
+            var pageSettingDirection = pageSettingService.direction || 'vertical';
+
+            console.log('pageSettingContent:'+pageSettingContent)
+            console.log('pageSettingDirection:'+pageSettingDirection)
+
+            // console.log('xxxxxxxxxxxx')
     
             $http.post(productUrl+saveProject,{
                 'pageLength':pageLength,
                 'userName':userName,
                 'projectId':projectId,
                 'projectName':projectName,
-                'pages':{'editCode':editCode,'previewCode':previewCode}
+                'pages':{'editCode':editCode,'previewCode':previewCode,'pageSetting':{"content":pageSettingContent,"direction":pageSettingDirection}}
             }).success(function(data){
                 
                 deffered.resolve(data)
@@ -85,6 +93,12 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
            var editCode     = editCode       || '<i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i><div class="swiper-slide isEdit" data-pageid="'+defaultThumb+'" data-type="page" id="right_1" style="height:100%;direction: ltr;"> </div>';
            var deffered     = $q.defer();
            var userName     = loginFn.islogged().email;
+
+
+
+           var pageSettingContent   = pageSettingService.getPageSetting();
+           var pageSettingDirection = pageSettingService.direction || 'vertical';
+
            // console.log('@projectService.js add project Fn  pageLength:'+pageLengthObj)
            // console.log('@projectService.js add project Fn  previewCode:'+previewCode)
            // console.log('@projectService.js add project Fn  userName:'+userName)
@@ -122,7 +136,7 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
                 'pageLength' : pageLeftNavObj,
                 'projectId'  : '',
                 'userName'   : userName,
-                'pages'      : {'editCode':editCode,'previewCode':previewCode}
+                'pages'      : {'editCode':editCode,'previewCode':previewCode,'pageSetting':{"content":pageSettingContent,"direction":pageSettingDirection}}
             }).success(function(data){
                 
                 deffered.resolve(data)
@@ -163,10 +177,11 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
             var deffered = $q.defer()
             $http({method:"GET",url:productUrl+editProject,params:{pid:id}}).success(function(data){
                console.log('loadEditPage:'+data);
-
-                for(var i in data){
-                  console.log(i+":"+data[i])
-                }
+               $('#sliderDirection').attr('data-direction',data.pages.pageSetting.direction);
+                pageSettingService.setPageSetting(data.pages.pageSetting.direction);
+                // for(var i in data){
+                //   console.log(i+":"+data[i])
+                // }
                 deffered.resolve(data);
             }).error(function(data){
                 deffered.reject(data);
