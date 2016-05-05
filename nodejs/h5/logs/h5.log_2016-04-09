@@ -1,0 +1,4 @@
+[2016-04-11 09:51:55.959] [INFO] logger - GET /public/upload/1459495232375.png 200
+[2016-04-11 09:54:58.270] [INFO] logger - GET /public/upload/1459495314799.png 200
+[2016-04-11 09:54:58.337] [INFO] logger - GET /public/upload/1459500581973.png 200
+[2016-04-11 13:27:44.394] [WARN] logger - GET /public/upload/1459495264277.png 304

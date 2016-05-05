@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>H5 Maker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    <!-- Link Swiper's CSS -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/swiper.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/animate.css"/>
+        <link rel="stylesheet" type="text/css" href="css/swiper.min.css"/>
+
+    <!-- Demo styles -->
+    <style>
+    html, body {
+        position: relative;
+        height: 100%;
+    }
+    body {
+        background: #eee;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color:#000;
+        margin: 0;
+        padding: 0;
+    }
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+        
+    }
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+   
+    </style>
+</head>
+<body>
+    <!-- Swiper -->
+<div class="swiper-container" >
+<div class="swiper-wrapper">
+         <!--          <i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i> -->
+                  <div class="swiper-slide  defaultPage    ui-selectable" data-type="page" id="right_1" style="height: 100%; direction: ltr; !: none;"> <div class="imageElement ng-scope ui-draggable ui-resizable ui-selectee" data-type="image" style="width: 102.188%; height: 102.292%; position: absolute; left: -0.63965%; top: -0.833333%;"><div class="mImage ui-selectee" onclick="imageActive(this)" style="position:absolute;background-image: url(http://9.115.24.168:3000/public/upload/1456816416976.jpeg);width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div><div class="textElement ui-draggable ui-resizable ui-selectee" data-type="text" style="position: absolute; left: 3.49122%; top: 68.4862%; width: 95.3125%; height: 27.0833%; background-color: rgb(255, 204, 51);"><div class="mText ui-selectee" style="font-size: 100px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)">IBM</div></div></div>
+                <div id="right_2" class="swiper-slide ui-selectable" style="!: none;"><div class="fadeInLeftBig ui-draggable ui-resizable" data-type="image" style="width: 69.6875%; height: 42.5%; position: absolute; top: 23.9583%; left: 9.78028%; animation-name: fadeInLeftBig; animation-duration: 1s; animation-delay: 0.5s; opacity: 1;"><div class="mImage ui-selectee" onclick="imageActive(this)" style="position:absolute;background-image: url(http://9.115.24.168:3000/public/upload/1457949970812.jpeg);width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div></div><div id="right_3" class="swiper-slide  ui-selectable !" style="!: flex;"><div class="imageElement ng-scope ui-draggable ui-resizable ui-selectee ui-selected" data-type="image" style="width: 96.875%; height: 99.375%; position: absolute; left: 1.9043%; top: 0.208333%;"><div class="mImage ui-selectee" onclick="imageActive(this)" style="position:absolute;background-image: url(http://9.115.24.168:3000/public/upload/1453731521561.jpeg);width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div><div class="textElement ui-draggable ui-resizable ui-selectee" data-type="text" style="position: absolute; left: 56.6356%; top: -1.99544%;"><div class="mText ui-selectee" style="font-size: 60px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)">IBM</div></div></div></div>
+</div>
+    <!-- Swiper JS -->
+   
+
+    <!-- Initialize Swiper -->
+    <script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        direction: 'vertical'
+    });
+    </script>
+</body>
+</html>

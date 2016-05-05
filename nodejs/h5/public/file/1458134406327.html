@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>H5 Maker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    <!-- Link Swiper's CSS -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/swiper.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/animate.css"/>
+        <link rel="stylesheet" type="text/css" href="css/swiper.min.css"/>
+
+    <!-- Demo styles -->
+    <style>
+    html, body {
+        position: relative;
+        height: 100%;
+    }
+    body {
+        background: #eee;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color:#000;
+        margin: 0;
+        padding: 0;
+    }
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+        
+    }
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+   
+    </style>
+</head>
+<body>
+    <!-- Swiper -->
+<div class="swiper-container" >
+<div class="swiper-wrapper"><i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i><div class="swiper-slide ui-selectable" data-type="page" id="right_1" style="height: 100%; !: none;"> <div class="imageElement ng-scope ui-draggable ui-resizable ui-selectee" data-type="image" style="width: 100%; height: 100%; position: absolute; left: 0%; top: -0.208333%;"><div class="mImage ui-selectee" onclick="imageActive(this)" style="position:absolute;background-image: url(http://9.115.24.168:3000/public/upload/1457949363457.jpeg);width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div><div class="imageElement ng-scope ui-draggable ui-resizable " data-type="image" style="width: 100%; height: 100%; position: absolute; left: 0.625%; top: 0%;"><div class="mImage" onclick="imageActive(this)" style="position:absolute;background-image: url(http://9.115.24.168:3000/public/upload/1453792314434.png);width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div><div class="textElement ui-draggable ui-resizable" data-type="text" style="position: absolute; left: 37.5%; top: 10.4167%;"><div class="mText" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div></div><div id="right_2" class="swiper-slide ui-selectable" style="!: none;"><div class="textElement ui-draggable ui-resizable ui-selectee" data-type="text" style="position: absolute; left: 35%; top: 5.83333%;"><div class="mText ui-selectee" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">this is a test</div></div><div class="imageElement ng-scope ui-draggable ui-resizable" data-type="image" style="width: 100%; height: 100%; position: absolute; left: 0.625%; top: -0.208333%;"><div class="mImage" onclick="imageActive(this)" style="position:absolute;background-image: url(http://9.115.24.168:3000/public/upload/1457949376385.jpeg);width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div></div><div id="right_3" class="swiper-slide ui-selectable" style="!: none;"><div class="imageElement ng-scope ui-draggable ui-resizable ui-selectee" data-type="image" style="width: 100%; height: 100%; position: absolute; left: 0%; top: -0.208333%;"><div class="mImage ui-selectee" onclick="imageActive(this)" style="position:absolute;background-image: url(http://9.115.24.168:3000/public/upload/1457949363457.jpeg);width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div></div><div id="right_4" class="swiper-slide ui-selectable" style="!: none;"><div class="textElement ui-draggable ui-resizable ui-selectee" data-type="text" style="position: absolute; left: 33.125%; top: 10.2083%;"><div class="mText ui-selectee" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div></div><div id="right_5" class="swiper-slide ui-selectable" style="!: none;"><div class="imageElement ng-scope ui-draggable ui-resizable ui-selectee" data-type="image" style="width: 100%; height: 100%; position: absolute; left: 0.625%; top: 0%;"><div class="mImage ui-selectee" onclick="imageActive(this)" style="position:absolute;background-image: url(http://9.115.24.168:3000/public/upload/1457422244383.gif);width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div><div class="imageElement ng-scope ui-draggable ui-resizable" data-type="image" style="width: 95.625%; height: 98.9583%; position: absolute; left: 0%; top: -0.416667%;"><div class="mImage" onclick="imageActive(this)" style="position:absolute;background-image: url(http://9.115.24.168:3000/public/upload/1453792325242.png);width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div></div><div id="right_6" class="swiper-slide ui-selectable" style="!: none;"><div class="textElement ui-draggable ui-resizable ui-selectee" data-type="text" style="position: absolute; left: 22.1875%; top: 10.2083%;"><div class="mText ui-selectee" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div><div class="textElement ui-draggable ui-resizable ui-selectee" data-type="text" style="position: absolute; left: 54.375%; top: 11.25%;"><div class="mText ui-selectee" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div><div class="imageElement ng-scope ui-draggable ui-resizable ui-selectee" data-type="image" style="width: 95.625%; height: 11.25%; position: absolute; left: 1.55273%; top: 39.9706%;"><div class="mImage ui-selectee" onclick="imageActive(this)" style="position:absolute;background-image: url(http://9.115.24.168:3000/public/upload/1457949363457.jpeg);width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div><div class="textElement ui-draggable ui-resizable ui-selectee" data-type="text" style="position: absolute; left: 13.7305%; top: 21.6406%;"><div class="mText ui-selectee" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div><div class="imageElement ng-scope ui-draggable ui-resizable" data-type="image" style="width: 8.75%; height: 26.875%; position: absolute; top: 54.0267%; left: 14.0967%;"><div class="mImage" onclick="imageActive(this)" style="position:absolute;background-image: url(http://9.115.24.168:3000/public/upload/1457949351450.jpeg);width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div><div class="textElement ui-draggable ui-resizable" data-type="text" style="position: absolute; left: 57.1875%; top: 66.6667%;"><div class="mText" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div><div class="textElement ui-draggable ui-resizable" data-type="text" style="position: absolute; left: 49.375%; top: 23.9583%;"><div class="mText" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div></div><div id="right_7" class="swiper-slide ui-selectable" style="!: none;"><div class="textElement ui-draggable ui-resizable ui-selectee" data-type="text" style="position: absolute; left: 16.25%; top: 7.08333%;"><div class="mText ui-selectee" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div><div class="textElement ui-draggable ui-resizable" data-type="text" style="position: absolute; left: 26.6211%; top: 21.3933%;"><div class="mText" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div><div class="textElement ui-draggable ui-resizable" data-type="text" style="position: absolute; left: 46.25%; top: 13.3333%;"><div class="mText" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div><div class="textElement ui-draggable ui-resizable" data-type="text" style="position: absolute; left: 57.1875%; top: 33.75%;"><div class="mText" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div></div><div id="right_8" class="swiper-slide ui-selectable" style="!: none;"><div class="textElement ui-draggable ui-resizable ui-selectee" data-type="text" style="position: absolute; left: 20.9375%; top: 3.95833%;"><div class="mText ui-selectee" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div><div class="textElement ui-draggable ui-resizable" data-type="text" style="position: absolute; left: 31.5625%; top: 23.125%;"><div class="mText" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div><div class="imageElement ng-scope ui-draggable ui-resizable" data-type="image" style="width: 95.625%; height: 33.125%; position: absolute; left: 2.4707%; top: 3.94531%;"><div class="mImage" onclick="imageActive(this)" style="position:absolute;background-image: url(http://9.115.24.168:3000/public/upload/1457949376385.jpeg);width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div><div class="textElement ui-draggable ui-resizable" data-type="text" style="position:absolute;"><div class="mText" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div><div class="textElement ui-draggable ui-resizable" data-type="text" style="position:absolute;"><div class="mText" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div></div><div id="right_9" class="swiper-slide ! ui-selectable" style="!: flex;"><div class="fadeInUpBig ui-draggable ui-resizable" data-type="image" style="width: 100%; height: 100%; position: absolute; left: -0.0585938%; top: -0.0260417%; animation-name: fadeInUpBig; animation-duration: 1s; animation-delay: 0s;"><div class="mImage ui-selectee" onclick="imageActive(this)" style="position:absolute;background-image: url(http://9.115.24.168:3000/public/upload/1457949376385.jpeg);width:100%;height:100%;background-size:100% 100%;background-repeat:no-repeat"></div></div><div class="textElement ui-draggable ui-resizable ui-selected" data-type="text" style="position: absolute; left: 46.5625%; top: 12.5%;"><div class="mText" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div><div class="textElement ui-draggable ui-resizable" data-type="text" style="position: absolute; left: 12.5%; top: 27.0833%;"><div class="mText" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div><div class="textElement ui-draggable ui-resizable" data-type="text" style="position: absolute; left: 50.625%; top: 34.375%;"><div class="mText" style="font-size:14px;" contenteditable="true" onclick="textActive(this)">请输入文本</div></div></div></div>
+</div>
+    <!-- Swiper JS -->
+   
+
+    <!-- Initialize Swiper -->
+    <script>
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        direction: 'vertical'
+    });
+    </script>
+</body>
+</html>

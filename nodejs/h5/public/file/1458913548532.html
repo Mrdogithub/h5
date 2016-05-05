@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>H5 Maker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    <!-- Link Swiper's CSS -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/swiper.min.js"></script>
+		<script type="text/javascript" src="js/animate.delay.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/animate.css"/>
+        <link rel="stylesheet" type="text/css" href="css/swiper.min.css"/>
+
+    <!-- Demo styles -->
+    <style>
+    html, body {
+        position: relative;
+        height: 100%;
+    }
+    body {
+        background: #eee;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color:#000;
+        margin: 0;
+        padding: 0;
+    }
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+        
+    }
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+   
+    </style>
+</head>
+<body>
+    <!-- Swiper -->
+<div class="swiper-container" >
+<div class="swiper-wrapper"><i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i><div class="swiper-slide   " data-type="page" id="1" style="height: 100%; direction: ltr;  : flex; background-color: rgb(0, 51, 153);"> <div class=" ani imageElement" data-type="image"   swiper-animate-effect="fadeIn" swiper-animate-duration="1s" swiper-animate-delay="0s"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458913599334.jpeg);"></div><div class=""></div></div></div><div class=" ani imageElement" data-type="image"   swiper-animate-effect="bounceInDown" swiper-animate-duration="1s" swiper-animate-delay="1s"> <div class="imageContainer"><div class="mImage" onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458804978670.png);"></div><div></div></div></div><div class=" ani textElement" data-type="text"   swiper-animate-effect="bounceInDown" swiper-animate-duration="1s" swiper-animate-delay="1s"><div class="mText" style="font-size: 24px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)" data-fontsize="24">2004 - 2015<div>GT&amp;I China Center<br></div></div></div><div class=" ani textElement" data-type="text"   swiper-animate-effect="bounceInDown" swiper-animate-duration="1s" swiper-animate-delay="1s"><div class="mText" style="font-size: 28px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)" data-fontsize="28"><div>十年</div>环球旅行记</div></div><div class=" ani textElement" data-type="text"   swiper-animate-duration="1s" swiper-animate-delay="2s" swiper-animate-effect="fadeIn"><div class="mText" style="font-size: 16px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)" data-fontsize="16">2004</div></div><div class=" ani textElement" data-type="text"   swiper-animate-effect="fadeIn" swiper-animate-duration="1s" swiper-animate-delay="3s"><div class="mText" style="font-size: 16px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)" data-fontsize="16">2006</div></div><div class=" ani textElement" data-type="text"   swiper-animate-effect="fadeIn" swiper-animate-duration="1s" swiper-animate-delay="4s"><div class="mText" style="font-size: 16px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)" data-fontsize="16">2010</div></div><div class=" ani textElement" data-type="text"   swiper-animate-duration="1s" swiper-animate-delay="4.5s" swiper-animate-effect="fadeIn"><div class="mText" style="font-size: 14px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)">2012</div></div><div class=" ani textElement" data-type="text"   swiper-animate-effect="fadeIn" swiper-animate-duration="1s" swiper-animate-delay="5s"><div class="mText" style="font-size: 16px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)" data-fontsize="16">2015</div></div><div class=" ani textElement" data-type="image" swiper-animate-effect="fadeInLeft" swiper-animate-duration="1s" swiper-animate-delay="2s"  > <div class="imageContainer"><div class="mImage" onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458914396731.png);"></div><div></div></div></div></div><div id="2" class="swiper-slide " stlye=" : flex" style=" : none; background-color: rgb(58, 76, 139);"><div class=" ani textElement" data-type="image"   swiper-animate-duration="1s" swiper-animate-delay="1s" swiper-animate-effect="bounceInRight"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458804978670.png);"></div><div class=""></div></div></div><div class=" ani textElement" data-type="text"   swiper-animate-duration="1s" swiper-animate-delay="1.5s" swiper-animate-effect="bounceInRight"><div class="mText " style="font-size: 24px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)" data-fontsize="24">十年，只是一个开始</div></div><div class=" ani imageElement" data-type="image"   swiper-animate-duration="1s" swiper-animate-delay="2.5s" swiper-animate-effect="fadeInRight"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458914412532.png);"></div><div class=""></div></div></div><div class=" ani textElement" data-type="image"   swiper-animate-duration="1s" swiper-animate-delay="2.5s" swiper-animate-effect="fadeInRight"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458914399270.png);"></div><div class=""></div></div></div><div class=" ani imageElement" data-type="image"   swiper-animate-effect="fadeInRight" swiper-animate-duration="1s" swiper-animate-delay="3s"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458914416520.png);"></div><div class=""></div></div></div><div class=" ani imageElement" data-type="image"   swiper-animate-duration="1s" swiper-animate-delay="3s" swiper-animate-effect="fadeInRight"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458914402074.png);"></div><div class=""></div></div></div><div class=" ani imageElement" data-type="image"   swiper-animate-duration="1s" swiper-animate-delay="3.5s" swiper-animate-effect="fadeInRight"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458914416520.png);"></div><div class=""></div></div></div><div class=" ani imageElement" data-type="image"   swiper-animate-effect="fadeInRight" swiper-animate-duration="1s" swiper-animate-delay="3.5s"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458914403303.png);"></div><div class=""></div></div></div><div class=" ani imageElement" data-type="image"   swiper-animate-duration="1s" swiper-animate-delay="4s" swiper-animate-effect="fadeInRight"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458914857788.png);"></div><div class=""></div></div></div><div class=" ani imageElement" data-type="image"   swiper-animate-duration="1s" swiper-animate-delay="4s" swiper-animate-effect="fadeInRight"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458914405704.png);"></div><div class=""></div></div></div><div class=" ani imageElement" data-type="image"   swiper-animate-duration="1s" swiper-animate-delay="2s" swiper-animate-effect="fadeInLeft"> <div class="imageContainer"><div class="mImage" onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458914396731.png);"></div><div></div></div></div></div><div id="3" class="swiper-slide " stlye=" : flex" style=" : none; background-color: rgb(153, 102, 204);"><div class="imageElement imageElementAcitve ng-scope   " data-type="image"   swiper-animate-duration="1s" swiper-animate-delay="3s"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458915974174.png);"></div><div class=""></div></div></div><div class="imageElement imageElementAcitve ng-scope   " data-type="image"   swiper-animate-duration="1s" swiper-animate-delay="1s"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458804978670.png);"></div><div class=""></div></div></div><div class="textElement     " data-type="text"   swiper-animate-duration="1s" swiper-animate-delay="1s"><div class="mText " style="font-size: 28px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)" data-fontsize="28">2004</div></div><div class="textElement     " data-type="text"   swiper-animate-duration="1s" swiper-animate-delay="1.5s"><div class="mText " style="font-size: 18px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)" data-fontsize="18">切始于12位Web Developers</div></div><div class="textElement     " data-type="text"   swiper-animate-duration="1s" swiper-animate-delay="2s"><div class="mText " style="font-size: 11px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)" data-fontsize="11">12位Web Developers，结缘于亚太网页制作服务项目。他们鼎力协助GBS大连中心，精心维护ibm.com亚太版块。其中，Bill、KK、Nick、Spobia、Wendy、Nicho六人，至今仍在浴血奋战。</div></div><div class=" ani textElement" data-type="text"   swiper-animate-duration="1s" swiper-animate-delay="3.5s" swiper-animate-effect="fadeInLeft"><div class="mText " style="font-size: 14px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)">2004年8月</div></div><div class=" ani imageElement" data-type="image"   swiper-animate-duration="1s" swiper-animate-delay="4s" swiper-animate-effect="fadeInRight"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458916415106.png);"></div><div class=""></div></div></div><div class=" ani textElement" data-type="text"   swiper-animate-effect="fadeInRight" swiper-animate-duration="1s" swiper-animate-delay="4s"><div class="mText " style="font-size: 14px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)">2005年2月</div></div><div class=" ani textElement" data-type="text"   swiper-animate-effect="fadeInRight" swiper-animate-duration="1s" swiper-animate-delay="4s"><div class="mText " style="font-size: 11px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)" data-fontsize="11">第一位网页QA猛将入伙</div></div><div class=" ani imageElement" data-type="image"   swiper-animate-duration="1s" swiper-animate-delay="4.5s" swiper-animate-effect="fadeInLeft"> <div class="imageContainer "><div class="mImage " onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1458916566268.png);"></div><div class=""></div></div></div><div class="textElement     " data-type="text"   swiper-animate-duration="1s" swiper-animate-delay="4.5s"><div class="mText " style="font-size: 14px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)">2005年4月</div></div><div class=" ani textElement" data-type="text"   swiper-animate-duration="1s" swiper-animate-delay="4.5s" swiper-animate-effect="fadeInLeft"><div class="mText " style="font-size: 12px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)" data-fontsize="12">第一位WSE Modeler<div class="">强势加盟</div></div></div><div class=" ani textElement" data-type="text"   swiper-animate-duration="1s" swiper-animate-delay="5s" swiper-animate-effect="bounceInUp"><div class="mText " style="font-size: 14px; color: rgb(255, 255, 255);" contenteditable="true" onclick="textActive(this)">然而，大连<div class="">无法装下他们的雄韬武略、勃勃野心</div></div></div></div></div>
+</div>
+    <!-- Swiper JS -->
+   
+
+    <!-- Initialize Swiper -->
+    <script>
+	    var swiper = new Swiper('.swiper-container', {
+	        pagination: '.swiper-pagination',
+	        paginationClickable: true,
+	        direction: 'vertical',
+			 onInit: function(swiper) {
+	            swiperAnimateCache(swiper);
+	            swiperAnimate(swiper)
+	        },
+	        onSlideChangeEnd: function(swiper) {
+	            swiperAnimate(swiper)
+	        }
+	    }); 
+    </script>
+</body>
+</html>

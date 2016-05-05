@@ -1,0 +1,4 @@
+[2016-05-05 15:19:21.668] [INFO] logger - GET /public/qr/1461739489948.png 200
+[2016-05-05 15:19:21.872] [WARN] logger - GET /public/qr/1460642448891.png 304
+[2016-05-05 15:31:03.310] [INFO] logger - GET /findProjectById?pid=5720b428c24d4dd52d55b792 200
+[2016-05-05 15:31:03.650] [WARN] logger - GET /findProjectById?pid=5720b428c24d4dd52d55b792 304

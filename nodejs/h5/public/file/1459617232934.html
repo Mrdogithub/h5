@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>H5 Maker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
+    <!-- Link Swiper's CSS -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/swiper.min.js"></script>
+		<script type="text/javascript" src="js/animate.delay.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/animate.css"/>
+        <link rel="stylesheet" type="text/css" href="css/swiper.min.css"/>
+
+    <!-- Demo styles -->
+    <style>
+    html, body {
+        position: relative;
+        height: 100%;
+    }
+    body {
+        background: #eee;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color:#000;
+        margin: 0;
+        padding: 0;
+    }
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+        
+    }
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+   
+    </style>
+</head>
+<body>
+    <!-- Swiper -->
+<div class="swiper-container" >
+<div class="swiper-wrapper">
+                        <div class="swiper-slide  defaultPage ui-droppable " data-type="page" id="1" style="height: 100%; direction: ltr;  : none;" data-pageid="YHtQ7aB9eW"> 
+                        <div class="textElement     " data-type="text" style="position: absolute; left: 29.6875%; top: 12.9167%;"><div class="mText " style="font-size:14px;"   onclick="textActive(this)">请输入文本</div></div><div class="textElement     " data-type="text" style="position: absolute; left: 51.875%; top: 36.4583%;"><div class="mText " style="font-size:14px;"   onclick="textActive(this)">请输入文本</div></div></div> 
+                    <div class="swiper-slide ui-droppable   " data-pageid="tdJe6iK9j0" style=" : flex;"><div class="textElement     " data-type="text" style="position: absolute; left: 60.625%; top: 81.6667%;"><div class="mText " style="font-size:14px;"   onclick="textActive(this)">请输入文本</div></div><div class=" imageElement imageElementAcitve ng-scope  " style="width: 78.75%; height: 45.8333%; left: 5.3125%; top: 8.75%; position: absolute;" data-type="image"> <div class="imageContainer"><div class="mImage" onclick="imageActive(this)" style="background-image: url(http://9.115.24.168:3000/public/upload/1459323489948.png);position:absolute;left: 0px;right: 0px;top: 0px;bottom: 0px; : inline-block;max-height: 100%;max-width: 100%;width:auto;height:auto;margin: auto;background-size:100% 100%;background-repeat:no-repeat"></div><div></div></div></div></div></div>
+</div>
+    <!-- Swiper JS -->
+   
+
+    <!-- Initialize Swiper -->
+    <script>
+	    var swiper = new Swiper('.swiper-container', {
+	        pagination: '.swiper-pagination',
+	        paginationClickable: true,
+	        direction: 'vertical',
+			 onInit: function(swiper) {
+	            swiperAnimateCache(swiper);
+	            swiperAnimate(swiper)
+	        },
+	        onSlideChangeEnd: function(swiper) {
+	            swiperAnimate(swiper)
+	        }
+	    }); 
+    </script>
+</body>
+</html>

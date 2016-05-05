@@ -1,0 +1,188 @@
+[2016-04-12 14:06:45.851] [INFO] logger - GET /public/upload/1458630621408.jpeg 200
+[2016-04-12 14:10:57.813] [WARN] logger - GET /public/upload/1459495314799.png 304
+[2016-04-12 14:11:00.718] [WARN] logger - GET /public/upload/1459499984096.png 304
+[2016-04-12 14:18:58.295] [WARN] logger - GET /findProjectById?pid=570b6aaee0de57ba49897ed7 304
+[2016-04-12 14:18:58.407] [INFO] logger - POST /saveProject 200
+[2016-04-12 14:18:58.570] [INFO] logger - webtools
+[2016-04-12 14:18:58.623] [INFO] logger - GET /findProjectByUser?userName=webtools 200
+[2016-04-12 14:32:10.270] [WARN] logger - GET /public/upload/1458630621408.jpeg 304
+[2016-04-12 14:34:47.337] [INFO] logger - POST /login 200
+[2016-04-12 14:34:49.928] [INFO] logger - webtools
+[2016-04-12 14:34:49.956] [INFO] logger - GET /findProjectByUser?userName=webtools 200
+[2016-04-12 14:34:50.029] [ERROR] logger - GET /public/qr/1460354755869.png 404
+[2016-04-12 14:34:55.170] [INFO] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 200
+[2016-04-12 14:34:55.228] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 14:34:55.240] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 14:34:55.319] [INFO] logger - GET /public/upload/1460353531015.png 200
+[2016-04-12 14:34:55.374] [INFO] logger - GET /public/upload/1460354943004.png 200
+[2016-04-12 14:34:55.406] [INFO] logger - GET /public/upload/1460355703694.png 200
+[2016-04-12 14:34:55.446] [INFO] logger - GET /public/upload/1460356636003.png 200
+[2016-04-12 14:35:19.014] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 14:35:19.090] [ERROR] logger - { [Error: EACCES: permission denied, open '/var/www/html/h5/dev/pages/webtools/1460354755847.html']
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'open',
+  path: '/var/www/html/h5/dev/pages/webtools/1460354755847.html' }
+Error: EACCES: permission denied, open '/var/www/html/h5/dev/pages/webtools/1460354755847.html'
+    at Error (native)
+[2016-04-12 14:35:28.769] [WARN] logger - GET /public/qr/1459945128688.png 304
+[2016-04-12 14:35:47.641] [WARN] logger - GET /public/qr/1459945128688.png 304
+[2016-04-12 14:36:05.765] [ERROR] logger - { [Error: EACCES: permission denied, open '/var/www/html/h5/dev/pages/webtools/1460354755847.html']
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'open',
+  path: '/var/www/html/h5/dev/pages/webtools/1460354755847.html' }
+Error: EACCES: permission denied, open '/var/www/html/h5/dev/pages/webtools/1460354755847.html'
+    at Error (native)
+[2016-04-12 14:36:19.097] [WARN] logger - GET /public/upload/1459944977019.jpeg 304
+[2016-04-12 14:37:28.990] [ERROR] logger - { [Error: EACCES: permission denied, open '/var/www/html/h5/dev/pages/webtools/1460354755847.html']
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'open',
+  path: '/var/www/html/h5/dev/pages/webtools/1460354755847.html' }
+Error: EACCES: permission denied, open '/var/www/html/h5/dev/pages/webtools/1460354755847.html'
+    at Error (native)
+[2016-04-12 14:42:22.681] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 14:42:22.710] [ERROR] logger - { [Error: EACCES: permission denied, open '/var/www/html/h5/dev/pages/webtools/1460354755847.html']
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'open',
+  path: '/var/www/html/h5/dev/pages/webtools/1460354755847.html' }
+Error: EACCES: permission denied, open '/var/www/html/h5/dev/pages/webtools/1460354755847.html'
+    at Error (native)
+[2016-04-12 14:42:39.856] [INFO] logger - webtools
+[2016-04-12 14:42:39.876] [INFO] logger - GET /findProjectByUser?userName=webtools 200
+[2016-04-12 14:46:33.262] [INFO] logger - webtools
+[2016-04-12 14:46:33.288] [WARN] logger - GET /findProjectByUser?userName=webtools 304
+[2016-04-12 14:46:34.583] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 14:46:34.627] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 14:46:34.639] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 14:48:17.704] [WARN] logger - GET /public/upload/1459944970779.jpeg 304
+[2016-04-12 14:52:27.394] [WARN] logger - GET /public/upload/1458630621408.jpeg 304
+[2016-04-12 14:52:27.420] [WARN] logger - GET /public/upload/1458630607511.jpeg 304
+[2016-04-12 14:53:01.609] [WARN] logger - GET /public/upload/1459323578420.png 304
+[2016-04-12 14:54:00.732] [INFO] logger - GET /public/upload/1459323484707.png 200
+[2016-04-12 14:57:07.075] [WARN] logger - GET /public/upload/1459323489948.png 304
+[2016-04-12 14:57:59.431] [WARN] logger - GET /public/upload/1458630621408.jpeg 304
+[2016-04-12 14:57:59.441] [WARN] logger - GET /public/upload/1458630607511.jpeg 304
+[2016-04-12 14:58:32.620] [WARN] logger - GET /public/upload/1459323493135.png 304
+[2016-04-12 15:00:30.499] [WARN] logger - GET /public/upload/1459323484707.png 304
+[2016-04-12 15:21:58.534] [WARN] logger - GET /public/upload/1459323489948.png 304
+[2016-04-12 15:21:58.562] [WARN] logger - GET /public/upload/1458627647838.jpeg 304
+[2016-04-12 15:23:36.677] [WARN] logger - GET /public/upload/1459323493135.png 304
+[2016-04-12 15:25:05.096] [WARN] logger - GET /public/upload/1459323484707.png 304
+[2016-04-12 15:25:05.103] [WARN] logger - GET /public/upload/1458627647838.jpeg 304
+[2016-04-12 15:26:35.139] [WARN] logger - GET /public/upload/1459323578420.png 304
+[2016-04-12 15:26:35.163] [WARN] logger - GET /public/upload/1458630607511.jpeg 304
+[2016-04-12 15:30:07.852] [WARN] logger - GET /public/upload/1458630621408.jpeg 304
+[2016-04-12 15:34:19.471] [WARN] logger - GET /public/qr/1460132824154.png 304
+[2016-04-12 15:34:27.745] [INFO] logger - GET /public/qr/1460446467424.png 200
+[2016-04-12 15:43:25.916] [INFO] logger - GET /findImageByUser?userName=webtools 200
+[2016-04-12 15:43:29.830] [INFO] logger - GET /delImage?id=570ca492de2f4f9f49e3c1b2 200
+[2016-04-12 15:43:37.706] [INFO] logger - POST /uploadImage 200
+[2016-04-12 15:43:40.756] [INFO] logger - POST /uploadImage 200
+[2016-04-12 15:43:43.316] [INFO] logger - POST /uploadImage 200
+[2016-04-12 15:43:45.210] [INFO] logger - POST /uploadImage 200
+[2016-04-12 15:45:16.258] [INFO] logger - GET /findImageByUser?userName=webtools 200
+[2016-04-12 15:46:17.871] [WARN] logger - GET /findImageByUser?userName=webtools 304
+[2016-04-12 15:46:44.887] [WARN] logger - GET /findImageByUser?userName=webtools 304
+[2016-04-12 15:47:26.917] [INFO] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 200
+[2016-04-12 15:47:26.986] [INFO] logger - POST /saveProject 200
+[2016-04-12 15:47:56.171] [INFO] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 200
+[2016-04-12 15:47:56.227] [INFO] logger - POST /saveProject 200
+[2016-04-12 15:47:57.345] [WARN] logger - GET /findImageByUser?userName=webtools 304
+[2016-04-12 15:48:46.035] [WARN] logger - GET /findImageByUser?userName=webtools 304
+[2016-04-12 15:48:48.778] [INFO] logger - GET /public/upload/1460447020752.png 200
+[2016-04-12 15:49:03.659] [ERROR] logger - GET /public/qr/1460354755869.png 404
+[2016-04-12 15:49:06.421] [WARN] logger - GET /public/upload/1460353270364.png 304
+[2016-04-12 15:49:06.469] [WARN] logger - GET /public/upload/1460354943004.png 304
+[2016-04-12 15:49:06.510] [WARN] logger - GET /public/upload/1460355040474.png 304
+[2016-04-12 15:49:06.551] [WARN] logger - GET /public/upload/1460356177456.png 304
+[2016-04-12 15:49:27.895] [WARN] logger - GET /findImageByUser?userName=webtools 304
+[2016-04-12 15:49:50.844] [WARN] logger - GET /findImageByUser?userName=webtools 304
+[2016-04-12 15:50:45.035] [INFO] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 200
+[2016-04-12 15:50:45.307] [INFO] logger - POST /saveProject 200
+[2016-04-12 15:50:49.265] [WARN] logger - GET /findImageByUser?userName=webtools 304
+[2016-04-12 15:51:11.693] [WARN] logger - GET /findImageByUser?userName=webtools 304
+[2016-04-12 15:51:28.373] [INFO] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 200
+[2016-04-12 15:51:28.436] [INFO] logger - POST /saveProject 200
+[2016-04-12 15:51:39.964] [WARN] logger - GET /findImageByUser?userName=webtools 304
+[2016-04-12 15:51:45.927] [INFO] logger - POST /uploadImage 200
+[2016-04-12 15:52:51.078] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 15:52:51.173] [ERROR] logger - { [Error: EACCES: permission denied, open '/var/www/html/h5/dev/pages/webtools/1460354755847.html']
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'open',
+  path: '/var/www/html/h5/dev/pages/webtools/1460354755847.html' }
+Error: EACCES: permission denied, open '/var/www/html/h5/dev/pages/webtools/1460354755847.html'
+    at Error (native)
+[2016-04-12 15:53:22.138] [INFO] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 200
+[2016-04-12 15:53:22.217] [INFO] logger - POST /saveProject 200
+[2016-04-12 15:54:12.431] [INFO] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 200
+[2016-04-12 15:54:12.509] [INFO] logger - POST /saveProject 200
+[2016-04-12 15:54:28.142] [WARN] logger - GET /public/upload/1460354099944.png 304
+[2016-04-12 15:54:28.156] [WARN] logger - GET /public/upload/1460354107077.png 304
+[2016-04-12 15:54:28.183] [WARN] logger - GET /public/upload/1460355958334.png 304
+[2016-04-12 15:54:28.209] [WARN] logger - GET /public/upload/1460356636003.png 304
+[2016-04-12 15:55:25.313] [INFO] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 200
+[2016-04-12 15:55:25.395] [INFO] logger - POST /saveProject 200
+[2016-04-12 15:55:36.491] [INFO] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 200
+[2016-04-12 15:55:36.556] [INFO] logger - POST /saveProject 200
+[2016-04-12 15:57:33.620] [INFO] logger - GET /findImageByUser?userName=webtools 200
+[2016-04-12 15:57:37.588] [INFO] logger - POST /uploadImage 200
+[2016-04-12 15:57:37.901] [INFO] logger - GET /public/upload/1460447857585.png 200
+[2016-04-12 16:05:55.789] [WARN] logger - GET /public/upload/1459944970779.jpeg 304
+[2016-04-12 16:07:29.016] [INFO] logger - POST /login 200
+[2016-04-12 16:07:31.646] [INFO] logger - webtools
+[2016-04-12 16:07:31.656] [INFO] logger - GET /findProjectByUser?userName=webtools 200
+[2016-04-12 16:07:35.017] [INFO] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 200
+[2016-04-12 16:07:35.053] [WARN] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 304
+[2016-04-12 16:07:35.059] [WARN] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 304
+[2016-04-12 16:09:16.794] [WARN] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 304
+[2016-04-12 16:09:16.848] [INFO] logger - POST /saveProject 200
+[2016-04-12 16:09:17.017] [INFO] logger - webtools
+[2016-04-12 16:09:17.027] [INFO] logger - GET /findProjectByUser?userName=webtools 200
+[2016-04-12 16:09:19.015] [INFO] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 200
+[2016-04-12 16:09:19.061] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 16:09:19.068] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 16:09:24.438] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 16:09:24.478] [INFO] logger - POST /saveProject 200
+[2016-04-12 16:09:24.639] [INFO] logger - webtools
+[2016-04-12 16:09:24.648] [INFO] logger - GET /findProjectByUser?userName=webtools 200
+[2016-04-12 16:09:26.815] [INFO] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 200
+[2016-04-12 16:09:26.884] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 16:09:26.891] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 16:11:01.321] [WARN] logger - GET /public/img/cover1.jpg 304
+[2016-04-12 16:11:06.278] [WARN] logger - GET /public/upload/1459944975232.jpeg 304
+[2016-04-12 16:11:12.610] [WARN] logger - GET /public/qr/1459945128688.png 304
+[2016-04-12 16:11:15.105] [WARN] logger - GET /public/upload/1459944975232.jpeg 304
+[2016-04-12 16:12:07.285] [WARN] logger - GET /public/qr/1458736105109.png 304
+[2016-04-12 16:12:09.874] [WARN] logger - GET /public/upload/1459944977019.jpeg 304
+[2016-04-12 16:13:44.492] [INFO] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 200
+[2016-04-12 16:13:44.570] [INFO] logger - POST /saveProject 200
+[2016-04-12 16:13:47.674] [INFO] logger - GET /findImageByUser?userName=webtools 200
+[2016-04-12 16:13:55.668] [INFO] logger - POST /uploadImage 200
+[2016-04-12 16:14:49.741] [INFO] logger - GET /findImageByUser?userName=webtools 200
+[2016-04-12 16:14:55.564] [INFO] logger - POST /uploadImage 200
+[2016-04-12 16:15:42.028] [INFO] logger - GET /findImageByUser?userName=webtools 200
+[2016-04-12 16:15:48.254] [INFO] logger - POST /uploadImage 200
+[2016-04-12 16:16:16.180] [INFO] logger - GET /findImageByUser?userName=webtools 200
+[2016-04-12 16:16:20.546] [INFO] logger - POST /uploadImage 200
+[2016-04-12 16:16:45.675] [WARN] logger - GET /findProjectById?pid=570ca47bde2f4f9f49e3c1b1 304
+[2016-04-12 16:16:45.766] [INFO] logger - POST /saveProject 200
+[2016-04-12 16:23:52.431] [INFO] logger - webtools
+[2016-04-12 16:23:52.442] [INFO] logger - GET /findProjectByUser?userName=webtools 200
+[2016-04-12 16:23:54.818] [INFO] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 200
+[2016-04-12 16:23:54.866] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 16:23:54.879] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 16:23:56.409] [WARN] logger - GET /findProjectById?pid=570c93750527b1cef28c03bd 304
+[2016-04-12 16:23:56.500] [INFO] logger - POST /saveProject 200
+[2016-04-12 16:26:12.156] [INFO] logger - liyndl@cn.ibm.com
+[2016-04-12 16:26:12.177] [INFO] logger - GET /findProjectByUser?userName=liyndl@cn.ibm.com 200
+[2016-04-12 16:26:54.558] [INFO] logger - GET /public/qr/1460446331755.png 200
+[2016-04-12 16:33:03.845] [WARN] logger - GET /public/qr/1458736105109.png 304
+[2016-04-12 16:33:07.590] [WARN] logger - GET /public/upload/1459944979210.jpeg 304
+[2016-04-12 16:39:29.886] [INFO] logger - GET /public/upload/1460450369570.png 200
+[2016-04-12 16:39:43.940] [INFO] logger - GET /public/upload/1460450383727.png 200
+[2016-04-12 16:39:47.385] [INFO] logger - GET /public/upload/1460450387140.png 200
+[2016-04-12 16:40:30.498] [WARN] logger - GET /public/upload/1460450387140.png 304
