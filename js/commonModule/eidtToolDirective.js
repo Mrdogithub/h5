@@ -362,7 +362,7 @@ pageSettingService //提供页面设置属性接口     @pageSettingService.js
             }
             $scope.savePageContent = function() {
               $scope.loadingSave = true;
-              $scope.isSaved = false;
+              $scope.isSaved     = false;
               var pageLengthObj  = []
               var projectName    = $("#projectName").val();
               var projectInfo    = $('#projectInfo').val();     

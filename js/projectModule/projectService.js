@@ -54,7 +54,7 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
             var deffered = $q.defer();
 
             var pageSettingContent   = pageSettingService.getPageSetting();
-            var pageSettingDirection = pageSettingService.direction || 'vertical';
+            var pageSettingDirection = pageSettingService.direction;
 
             console.log('pageSettingContent:'+pageSettingContent)
             console.log('pageSettingDirection:'+pageSettingDirection)
@@ -88,16 +88,16 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
 
 
            var pageLeftNavObj=[];
-           var defaultThumb = makeid();
-           var previewCode  = previewCode    || '<div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%;"> </div>';
-           var editCode     = editCode       || '<i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i><div class="swiper-slide isEdit" data-pageid="'+defaultThumb+'" data-type="page" id="right_1" style="height:100%;direction: ltr;"> </div>';
-           var deffered     = $q.defer();
-           var userName     = loginFn.islogged().email;
+           var defaultThumb  = makeid();
+           var previewCode   = previewCode    || '<div class="swiper-slide isEdit" data-type="page" id="right_1" style="height:100%;"> </div>';
+           var editCode      = editCode       || '<i class="icon-move bgAcitve" style="position: absolute;left: 100%;top: 0px;background-color: #eee;width: 20px;height: 20px;padding: 2px;opacity:0;" ng-click="setBackground()"></i><div class="swiper-slide isEdit" data-pageid="'+defaultThumb+'" data-type="page" id="right_1" style="height:100%;direction: ltr;"> </div>';
+           var deffered      = $q.defer();
+           var userName      = loginFn.islogged().email;
 
 
 
            var pageSettingContent   = pageSettingService.getPageSetting();
-           var pageSettingDirection = pageSettingService.direction || 'vertical';
+           var pageSettingDirection = pageSettingService.direction;
 
            // console.log('@projectService.js add project Fn  pageLength:'+pageLengthObj)
            // console.log('@projectService.js add project Fn  previewCode:'+previewCode)
@@ -177,11 +177,32 @@ project.factory('projectFn',function($http,$q,$timeout,$compile,SERVER_URL,login
             var deffered = $q.defer()
             $http({method:"GET",url:productUrl+editProject,params:{pid:id}}).success(function(data){
                console.log('loadEditPage:'+data);
-               $('#sliderDirection').attr('data-direction',data.pages.pageSetting.direction);
-                pageSettingService.setPageSetting(data.pages.pageSetting.direction);
+             //  $('#sliderDirection').attr('data-direction',data.pages.pageSetting.direction);
+               // pageSettingService.setPageSetting(data.pages.pageSetting.direction);
                 // for(var i in data){
                 //   console.log(i+":"+data[i])
                 // }
+                //console.log('data.pages.pageSetting.direction:'+data.pages.pageSetting.direction)
+              setTimeout(function(){
+          
+
+              // if (  data.pages.pageSetting.direction  == 'horizontal'){
+              //     $("#sliderDirection").attr('data-direction','horizontal')
+              //     // pageSettingService.setPageSetting('horizontal')
+              //     $("#sliderDirection").attr('src','./images/slider-horizontal.png');
+              //  }else if (data.pages.pageSetting.direction    == 'vertical'){
+
+
+              //     $("#sliderDirection").attr('data-direction','vertical')
+              //     // pageSettingService.setPageSetting('vertical')
+              //     $("#sliderDirection").attr('src','./images/slider-vertical.png');
+                  
+
+              //  }
+
+          },150)
+
+
                 deffered.resolve(data);
             }).error(function(data){
                 deffered.reject(data);
